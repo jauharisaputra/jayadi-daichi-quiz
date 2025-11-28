@@ -1,697 +1,707 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Fukushū Bab 9–11</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --primary: #3678c7;
-      --primary-dark: #225a8a;
-      --success: #24ba63;
-      --danger: #ee3054;
-      --accent: #fecd57;
-      --bg: #f0f4fa;
-      --header-bg: #b4c7e7;
-      --question-bg: #fff;
-      --card-shadow: 0 6px 32px 0 #2b90d91a;
-    }
-    body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg,#b4c,#b4c7e7 80%);
-      color: #222;
-      font-size: 20px;
-    }
-    .quiz-container {
-      background: var(--question-bg);
-      border-radius: 22px;
-      box-shadow: var(--card-shadow);
-      max-width: 520px;
-      width: 95vw;
-      margin: 40px auto 20px auto;
-      padding: 2.8em 1.5em 2.2em 1.5em;
-      position: relative;
-      border: 2.5px solid #b4c;
-    }
-    h1 {
-      text-align: center;
-      background: var(--header-bg);
-      color: #1a3e6e;
-      font-size: 2rem;
-      letter-spacing: 1px;
-      margin: -32px -20px 22px -20px;
-      padding: 18px 6px 16px 6px;
-      font-weight: bold;
-      border-radius: 16px 16px 0 0;
-      border-bottom: 3px dotted #fff;
-      box-shadow: 0 5px 15px #b4c7e73a;
-    }
-    .input-group label {
-      font-size: 1.2rem;
-      margin-bottom: 6px;
-      color: var(--primary-dark);
-      margin-top: 16px;
-      font-weight: 600;
-      display: block;
-    }
-    .input-group input[type="text"] {
-      width: 100%;
-      font-size: 1.15rem;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1.8px solid #acd6ed;
-      background: #eef7ff;
-      margin-bottom: 14px;
-      box-sizing: border-box;
-    }
-    #startBtn, #nextBtn {
-      width: 100%;
-      background: linear-gradient(90deg, var(--primary), #1869c2 82%);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 16px 0;
-      margin-top: 16px;
-      font-size: 1.15rem;
-      font-weight: bold;
-      letter-spacing: .6px;
-      cursor: pointer;
-      transition: background .17s, transform .1s;
-      box-shadow: 0 3px 12px rgba(43,144,217,0.11);
-    }
-    #startBtn:hover, #nextBtn:hover {
-      background: var(--primary-dark);
-      box-shadow: 0 4px 14px #225a8a2b;
-      transform: scale(1.04);
-    }
-    #nextBtn { display: none; }
-    #backHomeBtn {
-      margin-top: 8px;
-      width: 100%;
-      background: #5a89cc;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 0;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      cursor: pointer;
-      transition: background 0.2s ease-in-out;
-      box-shadow: 0 3px 10px rgba(33, 80, 179, 0.4);
-      text-align: center;
-      text-decoration: none;
-      display: none;
-    }
-    #backHomeBtn:hover { background: #2e4a9d; }
-    #questionHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    #questionCounter {
-      font-size: 0.95rem;
-      color: var(--primary-dark);
-      font-weight: 600;
-    }
-    #timer {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--danger);
-      background: var(--accent);
-      border-radius: 999px;
-      padding: 4px 14px;
-      min-width: 88px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    }
-    .question {
-      background: var(--accent);
-      color: var(--primary-dark);
-      border-radius: 15px;
-      font-size: 1.3rem;
-      font-weight: 600;
-      padding: 1.3em 1.1em;
-      margin-bottom: 20px;
-      min-height: 70px;
-      box-shadow: 0 3px 16px rgba(200,200,0,.11);
-      white-space: pre-line;
-      user-select: none;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-bottom: 20px;
-      user-select: none;
-    }
-    .option-btn {
-      background: #e9f1fa;
-      color: var(--primary-dark);
-      border: 2px solid #b9dafe;
-      padding: 14px 16px;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 2px 7px rgba(20,90,200,0.05);
-      text-align: left;
-      transition: all .2s, background .22s;
-      user-select: none;
-    }
-    .option-btn:hover, .option-btn.selected {
-      background: linear-gradient(90deg, #85baff 50%, #3678c7 90%);
-      color: #fff;
-      border: 2px solid var(--primary-dark);
-      box-shadow: 0 4px 12px #3678c780;
-    }
-    #result {
-      text-align: left;
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin: 24px 0 10px 0;
-      padding: 1.3em;
-      border-radius: 15px;
-      background: #f3faf5;
-      color: var(--primary-dark);
-      border: 2px dashed #c8e9ec;
-      box-shadow: 0 1px 7px #c6dff54a;
-      white-space: pre-line;
-    }
-    #result.passed {
-      background: #eafbe9;
-      color: var(--success);
-      border: 2px solid #24ba63;
-    }
-    #result.remedial {
-      background: #fff1f5;
-      color: var(--danger);
-      border: 2px solid #ee3054;
-    }
-    #history {
-      margin-top: 16px;
-      background: #f6fafe;
-      border-radius: 12px;
-      padding: 1em;
-      font-size: 0.9rem;
-      color: #333;
-      max-height: 220px;
-      overflow-y: auto;
-      box-shadow: 0 1px 8px #3678c71f;
-    }
-    @media (max-width: 750px) {
-      .quiz-container { max-width: 98vw; padding: 1.2em .5em 1.4em .5em; }
-      h1 { font-size: 1.55rem; }
-      .question { font-size: 1.05rem; }
-      .option-btn { font-size: 1rem; }
-      #timer { font-size: 1.15rem; padding: 3px 10px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="quiz-container">
-    <h1>Fukushū Bab 9–11</h1>
-
-    <a href="index.html" id="backHomeBtn">🏠 Kembali ke Beranda</a>
-
-    <div id="student-info">
-      <div class="input-group">
-        <label for="studentName">Nama:</label>
-        <input type="text" id="studentName" autocomplete="name" />
-      </div>
-      <div class="input-group">
-        <label for="studentClass">Kelas:</label>
-        <input type="text" id="studentClass" value="Suginami" autocomplete="class" />
-      </div>
-      <button id="startBtn">Mulai Ujian</button>
-    </div>
-
-    <div id="quizArea" class="hidden">
-      <div id="questionHeader">
-        <div id="questionCounter"></div>
-        <span id="timer">60:00</span>
-      </div>
-      <div id="questionText" class="question"></div>
-      <div id="options" class="options"></div>
-      <button id="nextBtn">Soal berikutnya</button>
-    </div>
-
-    <div id="result" class="hidden"></div>
-    <div id="history"></div>
-  </div>
-
-  <script>
-    // 40 SOAL FUKUSHŪ BAB 9–11 (campuran pola suka, がわかります, からです,
-    // に・で・を・へ, どちら, いちばん, いつ・どこ・だれ・なに・いくつ, dll.)
-    const questions = [
-      // Bab 9 – 好き・わかります・から
-      {
-        text: "わたしは________が好きです。",
-        options: ["映画", "行きます", "にぎやか", "学校"],
-        answer: 0
-      },
-      {
-        text: "母は________があまり好きじゃありません。",
-        options: ["宿題", "野菜", "国", "駅"],
-        answer: 1
-      },
-      {
-        text: "田中さんは日本語が________。",
-        options: ["あります", "できます", "わかります", "つかれます"],
-        answer: 2
-      },
-      {
-        text: "Ａ：どうして毎日日本語を勉強しますか。\nＢ：日本の会社で働きたい________。",
-        options: ["とき", "からです", "ところです", "までです"],
-        answer: 1
-      },
-      {
-        text: "Ａ：どうして昨日早く寝ましたか。\nＢ：あしたテストがあった________。",
-        options: ["ですから", "からです", "でしたから", "ですからです"],
-        answer: 1
-      },
-      {
-        text: "Ａ：何が好きですか。\nＢ：________が好きです。",
-        options: ["勉強", "図書館", "にぎやか", "きれい"],
-        answer: 0
-      },
-      {
-        text: "Ａ：誰の説明がいちばんよくわかりますか。\nＢ：________の説明がいちばんわかります。",
-        options: ["先生", "学校", "本", "日本"],
-        answer: 0
-      },
-      {
-        text: "Ａ：英語はわかりますか。\nＢ：いいえ、あまり________。",
-        options: ["できません", "わかりません", "好きじゃありません", "ありません"],
-        answer: 1
-      },
-      {
-        text: "「かんたんですから、わかります。」この文の意味にいちばん近いものはどれですか。",
-        options: [
-          "かんたんですが、わかりません。",
-          "かんたんじゃありませんから、わかりません。",
-          "かんたんだから、わかります。",
-          "かんたんじゃないですから、わかります。"
-        ],
-        answer: 2
-      },
-      {
-        text: "Ａ：どうしてそんなに大きいケーキを買いましたか。\nＢ：友だちのたんじょうび________。",
-        options: ["ときです", "からです", "までです", "あとです"],
-        answer: 1
-      },
-
-      // Bab 10 – に・で・を・へ・にあげます
-      {
-        text: "わたしは友達________本を貸しました。",
-        options: ["を", "に", "で", "へ"],
-        answer: 1
-      },
-      {
-        text: "Ａ：リンさんはだれに本を貸しましたか。\nＢ：________に貸しました。",
-        options: ["先生", "学校", "机", "図書館"],
-        answer: 0
-      },
-      {
-        text: "わたしは弟________お金をあげました。",
-        options: ["を", "が", "に", "で"],
-        answer: 2
-      },
-      {
-        text: "駅で友達________会いました。",
-        options: ["を", "が", "へ", "に"],
-        answer: 3
-      },
-      {
-        text: "きのうスーパー________りんごを買いました。",
-        options: ["に", "で", "へ", "を"],
-        answer: 1
-      },
-      {
-        text: "Ａ：りんごをいくつ買いましたか。\nＢ：________買いました。",
-        options: ["２つ", "２人", "２冊", "２本"],
-        answer: 0
-      },
-      {
-        text: "手紙を日本語________書きます。",
-        options: ["に", "で", "と", "を"],
-        answer: 1
-      },
-      {
-        text: "はし________すしを食べます。",
-        options: ["で", "を", "に", "へ"],
-        answer: 0
-      },
-      {
-        text: "Ａ：なんで学校へ行きますか。\nＢ：バス________行きます。",
-        options: ["を", "で", "が", "に"],
-        answer: 1
-      },
-      {
-        text: "わたしはコーヒーとケーキ________します。",
-        options: ["を", "に", "で", "と"],
-        answer: 0
-      },
-
-      // Bab 11 – 比較・どちら・いちばん
-      {
-        text: "東京は大阪________人が多いです。",
-        options: ["と", "より", "のほうが", "が"],
-        answer: 1
-      },
-      {
-        text: "ソウルは東京________寒いです。",
-        options: ["が", "より", "と", "のほうが"],
-        answer: 1
-      },
-      {
-        text: "肉と魚と、________が好きですか。",
-        options: ["どれ", "どちら", "どこ", "いつ"],
-        answer: 1
-      },
-      {
-        text: "コーヒーと紅茶と、どちらが好きですか。\nＢ：________のほうが好きです。",
-        options: ["コーヒー", "紅茶", "どちらも", "どれでも"],
-        answer: 0
-      },
-      {
-        text: "スポーツでなにがいちばん人気がありますか。\nＢ：________がいちばん人気があります。",
-        options: ["だれ", "どこ", "サッカー", "いつ"],
-        answer: 2
-      },
-      {
-        text: "スポーツでサッカーがいちばん好きです。下線部「サッカーがいちばん好きです」と同じ意味はどれですか。",
-        options: [
-          "サッカーがあまり好きじゃありません。",
-          "サッカーがとてもきらいです。",
-          "スポーツの中でサッカーが一番好きです。",
-          "サッカーよりテニスのほうが好きです。"
-        ],
-        answer: 2
-      },
-      {
-        text: "この部屋はあたらしくて、きれいで、________。",
-        options: ["にぎやかです", "しずかです", "さむいです", "あついです"],
-        answer: 1
-      },
-      {
-        text: "日本は韓国より人が多いです。下線部と同じ意味の文はどれですか。",
-        options: [
-          "韓国のほうが人が多いです。",
-          "日本のほうが人が少ないです。",
-          "日本のほうが人が多いです。",
-          "日本も韓国も人が多いです。"
-        ],
-        answer: 2
-      },
-      {
-        text: "A：どちらも好きです。いちばん自然な返事はどれですか。",
-        options: ["そうですか。", "どうも。", "すみません。", "よろしくお願いします。"],
-        answer: 0
-      },
-      {
-        text: "このクラスで、山田さんが________まじめです。",
-        options: ["より", "どちら", "いちばん", "すこし"],
-        answer: 2
-      },
-
-      // Kombinasi dan variasi
-      {
-        text: "Ａ：スポーツでなにが一番好きですか。\nＢ：サッカー________一番好きです。",
-        options: ["と", "を", "が", "は"],
-        answer: 3
-      },
-      {
-        text: "バスより電車のほうが________です。",
-        options: ["しずか", "にぎやか", "べんり", "きらい"],
-        answer: 2
-      },
-      {
-        text: "Ａ：映画と音楽と、どちらが好きですか。\nＢ：映画のほうが________。",
-        options: ["きれいです", "すきです", "にぎやかです", "あついです"],
-        answer: 1
-      },
-      {
-        text: "Ａ：パンとごはんと、どちらをよく食べますか。\nＢ：________をよく食べます。",
-        options: ["パン", "きのう", "どこ", "なに"],
-        answer: 0
-      },
-      {
-        text: "Ａ：クラスでだれがいちばん背が高いですか。\nＢ：________がいちばん高いです。",
-        options: ["きのう", "山田さん", "学校", "どこ"],
-        answer: 1
-      },
-      {
-        text: "Ａ：きのうのテストときょうのテストと、どちらがむずかしかったですか。\nＢ：きのうのテストのほうが________。",
-        options: ["むずかしいです", "むずかしかったです", "むずかしくないです", "やさしいです"],
-        answer: 1
-      },
-      {
-        text: "Ａ：日本語と英語と、どちらが分かりやすいですか。\nＢ：英語のほうが分かりやすいです。でも、日本語も________。",
-        options: [
-          "きらいです",
-          "好きじゃありません",
-          "すこし分かります",
-          "あまり分かりません"
-        ],
-        answer: 2
-      },
-      {
-        text: "Ａ：どの季節がいちばん好きですか。\nＢ：________がいちばん好きです。",
-        options: ["春", "先週", "きのう", "あした"],
-        answer: 0
-      }
-    ];
-
-    const QUIZ_TIME_LIMIT = 3600; // 60 menit
-    let currentIndex = 0;
-    let score = 0;
-    let timer = null;
-    let timeLeft = QUIZ_TIME_LIMIT;
-    let selectedOption = null;
-    let quizFinishedByTime = false;
-
-    const studentNameInput = document.getElementById("studentName");
-    const studentClassInput = document.getElementById("studentClass");
-    const startBtn = document.getElementById("startBtn");
-    const quizArea = document.getElementById("quizArea");
-    const questionCounter = document.getElementById("questionCounter");
-    const questionText = document.getElementById("questionText");
-    const optionsDiv = document.getElementById("options");
-    const nextBtn = document.getElementById("nextBtn");
-    const timerSpan = document.getElementById("timer");
-    const resultDiv = document.getElementById("result");
-    const historyDiv = document.getElementById("history");
-    const backHomeBtn = document.getElementById("backHomeBtn");
-
-    startBtn.addEventListener("click", () => {
-      if (!studentNameInput.value.trim()) {
-        alert("Isi nama siswa dulu.");
-        studentNameInput.focus();
-        return;
-      }
-      studentNameInput.disabled = true;
-      studentClassInput.disabled = true;
-      startBtn.style.display = "none";
-      backHomeBtn.style.display = "none";
-      quizArea.classList.remove("hidden");
-      currentIndex = 0;
-      score = 0;
-      timeLeft = QUIZ_TIME_LIMIT;
-      startTimer();
-      showQuestion();
-      nextBtn.style.display = "block";
-      resultDiv.classList.add("hidden");
-      resultDiv.innerHTML = "";
-      window.screenshotDetected = 0;
-    });
-
-    function startTimer() {
-      quizFinishedByTime = false;
-      timerSpan.textContent = formatTime(timeLeft);
-      timer = setInterval(() => {
-        timeLeft--;
-        timerSpan.textContent = formatTime(timeLeft);
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          quizFinishedByTime = true;
-          autoTimeUpSubmit();
+    <meta charset="UTF-8" />
+    <title>Fukushū Bab 9–11</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --primary: #3678c7;
+            --primary-dark: #225a8a;
+            --success: #24ba63;
+            --danger: #ee3054;
+            --accent: #fecd57;
+            --bg: #f0f4fa;
+            --header-bg: #b4c7e7;
+            --question-bg: #fff;
+            --card-shadow: 0 6px 32px 0 #2b90d91a;
         }
-      }, 1000);
-    }
 
-    function formatTime(t) {
-      const min = Math.floor(t / 60);
-      const sec = t % 60;
-      return `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
-    }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #b4c, #b4c7e7 80%);
+            color: #222;
+            font-size: 20px;
+        }
 
-    function showQuestion() {
-      const q = questions[currentIndex];
-      questionCounter.textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
-      questionText.textContent = q.text;
-      optionsDiv.innerHTML = "";
-      selectedOption = null;
-      q.options.forEach((opt, index) => {
-        const btn = document.createElement("button");
-        btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
-        btn.className = "option-btn";
-        btn.onclick = () => {
-          selectedOption = index;
-          Array.from(optionsDiv.children).forEach(b => b.classList.remove("selected"));
-          btn.classList.add("selected");
-        };
-        optionsDiv.appendChild(btn);
-      });
-      nextBtn.textContent =
-        currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Kirim";
-    }
+        .quiz-container {
+            background: var(--question-bg);
+            border-radius: 22px;
+            box-shadow: var(--card-shadow);
+            max-width: 520px;
+            width: 95vw;
+            margin: 40px auto 20px auto;
+            padding: 2.8em 1.5em 2.2em 1.5em;
+            position: relative;
+            border: 2.5px solid #b4c;
+        }
 
-    nextBtn.addEventListener("click", () => {
-      if (quizFinishedByTime) return;
-      if (selectedOption === null) {
-        alert("Pilih dulu jawabannya.");
-        return;
-      }
-      if (selectedOption === questions[currentIndex].answer) {
-        score++;
-      }
-      currentIndex++;
-      if (currentIndex < questions.length) {
-        showQuestion();
-      } else {
-        finishQuiz();
-      }
-    });
+        h1 {
+            text-align: center;
+            background: var(--header-bg);
+            color: #1a3e6e;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin: -32px -20px 22px -20px;
+            padding: 18px 6px 16px 6px;
+            font-weight: bold;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 3px dotted #fff;
+            box-shadow: 0 5px 15px #b4c7e73a;
+        }
 
-    function autoTimeUpSubmit() {
-      quizArea.classList.add("hidden");
-      questionText.textContent = "";
-      optionsDiv.innerHTML = "";
-      nextBtn.style.display = "none";
+        .input-group label {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            color: var(--primary-dark);
+            margin-top: 16px;
+            font-weight: 600;
+            display: block;
+        }
 
-      const nama = studentNameInput.value.trim();
-      const kelas = studentClassInput.value.trim();
-      const total = questions.length;
-      let nilai = Math.round((score / total) * 100);
-      let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
-      let nilaiAkhir = Math.max(0, nilai - penalti);
-      const keterangan = "Waktu habis";
+        .input-group input[type="text"] {
+            width: 100%;
+            font-size: 1.15rem;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1.8px solid #acd6ed;
+            background: #eef7ff;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
 
-      resultDiv.classList.remove("hidden");
-      resultDiv.className = "remedial";
-      resultDiv.innerText =
-        `Waktu pengerjaan sudah habis.\n\n` +
-        `Nama: ${nama}\n` +
-        `Kelas: ${kelas}\n` +
-        `Jawaban benar: ${score} dari ${total}\n` +
-        `Nilai sementara: ${nilaiAkhir} (${keterangan})\n` +
-        `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+        #startBtn,
+        #nextBtn {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), #1869c2 82%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 0;
+            margin-top: 16px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: .6px;
+            cursor: pointer;
+            transition: background .17s, transform .1s;
+            box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
+        }
 
-      simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
-      backHomeBtn.style.display = "block";
-    }
+        #startBtn:hover,
+        #nextBtn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 14px #225a8a2b;
+            transform: scale(1.04);
+        }
 
-    function finishQuiz() {
-      clearInterval(timer);
-      quizArea.classList.add("hidden");
+        #nextBtn {
+            display: none;
+        }
 
-      const nama = studentNameInput.value.trim();
-      const kelas = studentClassInput.value.trim();
-      const total = questions.length;
-      let nilai = Math.round((score / total) * 100);
-      let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
-      let nilaiAkhir = Math.max(0, nilai - penalti);
-      const keterangan = nilaiAkhir >= 70 ? "Lulus" : "Perlu Remedial";
+        #backHomeBtn {
+            margin-top: 8px;
+            width: 100%;
+            background: #5a89cc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+            box-shadow: 0 3px 10px rgba(33, 80, 179, 0.4);
+            text-align: center;
+            text-decoration: none;
+            display: none;
+        }
 
-      resultDiv.classList.remove("hidden");
-      resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
-      // Tidak menampilkan jawaban benar
-      resultDiv.innerText =
-        `Nama: ${nama}\n` +
-        `Kelas: ${kelas}\n` +
-        `Skor: ${score} / ${total}\n` +
-        `Nilai: ${nilaiAkhir} (${keterangan})\n` +
-        `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+        #backHomeBtn:hover {
+            background: #2e4a9d;
+        }
 
-      simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
-      backHomeBtn.style.display = "block";
-    }
+        #questionHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
 
-    function simpanRiwayat(nama, kelas, skor, total, nilai, penalti, keterangan) {
-      const record = {
-        nama,
-        kelas,
-        skor,
-        total,
-        nilai,
-        penalti,
-        screenshotCount: window.screenshotDetected || 0,
-        keterangan,
-        tanggal: new Date().toLocaleString()
-      };
-      let data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
-      data.push(record);
-      localStorage.setItem("fukushu_9_11_results", JSON.stringify(data));
-      showHistory();
-    }
+        #questionCounter {
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
 
-    function showHistory() {
-      const data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
-      if (data.length === 0) {
-        historyDiv.innerHTML = "";
-        return;
-      }
-      let html = "<h2>Riwayat Nilai Fukushū 9–11</h2><ul>";
-      data.slice(-7).reverse().forEach((r) => {
-        html += `<li>
+        #timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--danger);
+            background: var(--accent);
+            border-radius: 999px;
+            padding: 4px 14px;
+            min-width: 88px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .question {
+            background: var(--accent);
+            color: var(--primary-dark);
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 1.3em 1.1em;
+            margin-bottom: 20px;
+            min-height: 70px;
+            box-shadow: 0 3px 16px rgba(200, 200, 0, .11);
+            white-space: pre-line;
+            user-select: none;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            user-select: none;
+        }
+
+        .option-btn {
+            background: #e9f1fa;
+            color: var(--primary-dark);
+            border: 2px solid #b9dafe;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 7px rgba(20, 90, 200, 0.05);
+            text-align: left;
+            transition: all .2s, background .22s;
+            user-select: none;
+        }
+
+        .option-btn:hover,
+        .option-btn.selected {
+            background: linear-gradient(90deg, #85baff 50%, #3678c7 90%);
+            color: #fff;
+            border: 2px solid var(--primary-dark);
+            box-shadow: 0 4px 12px #3678c780;
+        }
+
+        #result {
+            text-align: left;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 24px 0 10px 0;
+            padding: 1.3em;
+            border-radius: 15px;
+            background: #f3faf5;
+            color: var(--primary-dark);
+            border: 2px dashed #c8e9ec;
+            box-shadow: 0 1px 7px #c6dff54a;
+            white-space: pre-line;
+        }
+
+        #result.passed {
+            background: #eafbe9;
+            color: var(--success);
+            border: 2px solid #24ba63;
+        }
+
+        #result.remedial {
+            background: #fff1f5;
+            color: var(--danger);
+            border: 2px solid #ee3054;
+        }
+
+        #history {
+            margin-top: 16px;
+            background: #f6fafe;
+            border-radius: 12px;
+            padding: 1em;
+            font-size: 0.9rem;
+            color: #333;
+            max-height: 220px;
+            overflow-y: auto;
+            box-shadow: 0 1px 8px #3678c71f;
+        }
+
+        @media (max-width: 750px) {
+            .quiz-container {
+                max-width: 98vw;
+                padding: 1.2em .5em 1.4em .5em;
+            }
+
+            h1 {
+                font-size: 1.55rem;
+            }
+
+            .question {
+                font-size: 1.05rem;
+            }
+
+            .option-btn {
+                font-size: 1rem;
+            }
+
+            #timer {
+                font-size: 1.15rem;
+                padding: 3px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>Fukushū Bab 9–11</h1>
+
+        <a href="index.html" id="backHomeBtn">🏠 Kembali ke Beranda</a>
+
+        <div id="student-info">
+            <div class="input-group">
+                <label for="studentName">Nama:</label>
+                <input type="text" id="studentName" autocomplete="name" />
+            </div>
+            <div class="input-group">
+                <label for="studentClass">Kelas:</label>
+                <input type="text" id="studentClass" value="Suginami" autocomplete="class" />
+            </div>
+            <button id="startBtn">Mulai Ujian</button>
+        </div>
+
+        <div id="quizArea" class="hidden">
+            <div id="questionHeader">
+                <div id="questionCounter"></div>
+                <span id="timer">60:00</span>
+            </div>
+            <div id="questionText" class="question"></div>
+            <div id="options" class="options"></div>
+            <button id="nextBtn">Soal berikutnya</button>
+        </div>
+
+        <div id="result" class="hidden"></div>
+        <div id="history"></div>
+    </div>
+
+    <script>
+        // 40 SOAL FUKUSHŪ BAB 9–11 (campuran pola suka, がわかります, からです,
+        // に・で・を・へ, どちら, いちばん, いつ・どこ・だれ・なに・いくつ, dll.)
+        const questions = [
+            // Bab 9 – 好き・わかります・から
+            {
+                text: "わたしは________が好きです。",
+                options: ["映画", "行きます", "にぎやか", "学校"],
+                answer: 0
+            },
+            {
+                text: "母は________があまり好きじゃありません。",
+                options: ["宿題", "野菜", "国", "駅"],
+                answer: 1
+            },
+            {
+                text: "田中さんは日本語が________。",
+                options: ["あります", "できます", "わかります", "つかれます"],
+                answer: 2
+            },
+            {
+                text: "Ａ：どうして毎日日本語を勉強しますか。\nＢ：日本の会社で働きたい________。",
+                options: ["とき", "からです", "ところです", "までです"],
+                answer: 1
+            },
+            {
+                text: "Ａ：どうして昨日早く寝ましたか。\nＢ：あしたテストがあった________。",
+                options: ["ですから", "からです", "でしたから", "ですからです"],
+                answer: 1
+            },
+            {
+                text: "Ａ：何が好きですか。\nＢ：________が好きです。",
+                options: ["勉強", "図書館", "にぎやか", "きれい"],
+                answer: 0
+            },
+            {
+                text: "Ａ：誰の説明がいちばんよくわかりますか。\nＢ：________の説明がいちばんわかります。",
+                options: ["先生", "学校", "本", "日本"],
+                answer: 0
+            },
+            {
+                text: "Ａ：英語はわかりますか。\nＢ：いいえ、あまり________。",
+                options: ["できません", "わかりません", "好きじゃありません", "ありません"],
+                answer: 1
+            },
+
+            {
+                text: "Ａ：どうしてそんなに大きいケーキを買いましたか。\nＢ：友だちのたんじょうび________。",
+                options: ["ときです", "からです", "までです", "あとです"],
+                answer: 1
+            },
+
+            // Bab 10 – に・で・を・へ・にあげます
+
+            {
+                text: "Ａ：リンさんはだれに本を貸しましたか。\nＢ：________に貸しました。",
+                options: ["先生", "学校", "机", "図書館"],
+                answer: 0
+            },
+            {
+                text: "わたしは弟________お金をあげました。",
+                options: ["を", "が", "に", "で"],
+                answer: 2
+            },
+
+            {
+                text: "きのうスーパー________りんごを買いました。",
+                options: ["に", "で", "へ", "を"],
+                answer: 1
+            },
+            {
+                text: "Ａ：りんごをいくつ買いましたか。\nＢ：________買いました。",
+                options: ["２つ", "２人", "２冊", "２本"],
+                answer: 0
+            },
+            {
+                text: "手紙を日本語________書きます。",
+                options: ["に", "で", "と", "を"],
+                answer: 1
+            },
+            {
+                text: "はし________すしを食べます。",
+                options: ["で", "を", "に", "へ"],
+                answer: 0
+            },
+            {
+                text: "Ａ：なんで学校へ行きますか。\nＢ：バス________行きます。",
+                options: ["を", "で", "が", "に"],
+                answer: 1
+            },
+            {
+                text: "わたしはコーヒーとケーキ________します。",
+                options: ["を", "に", "で", "と"],
+                answer: 0
+            },
+
+            // Bab 11 – 比較・どちら・いちばん
+            {
+                text: "東京は大阪________人が多いです。",
+                options: ["と", "より", "のほうが", "が"],
+                answer: 1
+            },
+            {
+                text: "ソウルは東京________寒いです。",
+                options: ["が", "より", "と", "のほうが"],
+                answer: 1
+            },
+            {
+                text: "肉と魚と、________が好きですか。",
+                options: ["どれ", "どちら", "どこ", "いつ"],
+                answer: 1
+            },
+
+            {
+                text: "スポーツでなにがいちばん人気がありますか。\nＢ：________がいちばん人気があります。",
+                options: ["だれ", "どこ", "サッカー", "いつ"],
+                answer: 2
+            },
+            {
+                text: "スポーツでサッカーがいちばん好きです。下線部「サッカーがいちばん好きです」と同じ意味はどれですか。",
+                options: [
+                    "サッカーがあまり好きじゃありません。",
+                    "サッカーがとてもきらいです。",
+                    "スポーツの中でサッカーが一番好きです。",
+                    "サッカーよりテニスのほうが好きです。"
+                ],
+                answer: 2
+            },
+
+            {
+                text: "日本は韓国より人が多いです。下線部と同じ意味の文はどれですか。",
+                options: [
+                    "韓国のほうが人が多いです。",
+                    "日本のほうが人が少ないです。",
+                    "日本のほうが人が多いです。",
+                    "日本も韓国も人が多いです。"
+                ],
+                answer: 2
+            },
+            {
+                text: "A：どちらも好きです。いちばん自然な返事はどれですか。",
+                options: ["そうですか。", "どうも。", "すみません。", "よろしくお願いします。"],
+                answer: 0
+            },
+            {
+                text: "このクラスで、山田さんが________まじめです。",
+                options: ["より", "どちら", "いちばん", "すこし"],
+                answer: 2
+            },
+
+            // Kombinasi dan variasi
+            {
+                text: "Ａ：スポーツでなにが一番好きですか。\nＢ：サッカー________一番好きです。",
+                options: ["と", "を", "が", "は"],
+                answer: 2
+            },
+
+            {
+                text: "Ａ：映画と音楽と、どちらが好きですか。\nＢ：映画のほうが________。",
+                options: ["きれいです", "すきです", "にぎやかです", "あついです"],
+                answer: 1
+            },
+            {
+                text: "Ａ：パンとごはんと、どちらをよく食べますか。\nＢ：________をよく食べます。",
+                options: ["パン", "きのう", "どこ", "なに"],
+                answer: 0
+            },
+            {
+                text: "Ａ：クラスでだれがいちばん背が高いですか。\nＢ：________がいちばん高いです。",
+                options: ["きのう", "山田さん", "学校", "どこ"],
+                answer: 1
+            },
+            {
+                text: "Ａ：きのうのテストときょうのテストと、どちらがむずかしかったですか。\nＢ：きのうのテストのほうが________。",
+                options: ["むずかしいです", "むずかしかったです", "むずかしくないです", "やさしいです"],
+                answer: 1
+            },
+
+            {
+                text: "Ａ：どの季節がいちばん好きですか。\nＢ：________がいちばん好きです。",
+                options: ["春", "先週", "きのう", "あした"],
+                answer: 0
+            }
+        ];
+
+        const QUIZ_TIME_LIMIT = 3600; // 60 menit
+        let currentIndex = 0;
+        let score = 0;
+        let timer = null;
+        let timeLeft = QUIZ_TIME_LIMIT;
+        let selectedOption = null;
+        let quizFinishedByTime = false;
+
+        const studentNameInput = document.getElementById("studentName");
+        const studentClassInput = document.getElementById("studentClass");
+        const startBtn = document.getElementById("startBtn");
+        const quizArea = document.getElementById("quizArea");
+        const questionCounter = document.getElementById("questionCounter");
+        const questionText = document.getElementById("questionText");
+        const optionsDiv = document.getElementById("options");
+        const nextBtn = document.getElementById("nextBtn");
+        const timerSpan = document.getElementById("timer");
+        const resultDiv = document.getElementById("result");
+        const historyDiv = document.getElementById("history");
+        const backHomeBtn = document.getElementById("backHomeBtn");
+
+        startBtn.addEventListener("click", () => {
+            if (!studentNameInput.value.trim()) {
+                alert("Isi nama siswa dulu.");
+                studentNameInput.focus();
+                return;
+            }
+            studentNameInput.disabled = true;
+            studentClassInput.disabled = true;
+            startBtn.style.display = "none";
+            backHomeBtn.style.display = "none";
+            quizArea.classList.remove("hidden");
+            currentIndex = 0;
+            score = 0;
+            timeLeft = QUIZ_TIME_LIMIT;
+            startTimer();
+            showQuestion();
+            nextBtn.style.display = "block";
+            resultDiv.classList.add("hidden");
+            resultDiv.innerHTML = "";
+            window.screenshotDetected = 0;
+        });
+
+        function startTimer() {
+            quizFinishedByTime = false;
+            timerSpan.textContent = formatTime(timeLeft);
+            timer = setInterval(() => {
+                timeLeft--;
+                timerSpan.textContent = formatTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    quizFinishedByTime = true;
+                    autoTimeUpSubmit();
+                }
+            }, 1000);
+        }
+
+        function formatTime(t) {
+            const min = Math.floor(t / 60);
+            const sec = t % 60;
+            return `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+        }
+
+        function showQuestion() {
+            const q = questions[currentIndex];
+            questionCounter.textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
+            questionText.textContent = q.text;
+            optionsDiv.innerHTML = "";
+            selectedOption = null;
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
+                btn.className = "option-btn";
+                btn.onclick = () => {
+                    selectedOption = index;
+                    Array.from(optionsDiv.children).forEach(b => b.classList.remove("selected"));
+                    btn.classList.add("selected");
+                };
+                optionsDiv.appendChild(btn);
+            });
+            nextBtn.textContent =
+                currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Kirim";
+        }
+
+        nextBtn.addEventListener("click", () => {
+            if (quizFinishedByTime) return;
+            if (selectedOption === null) {
+                alert("Pilih dulu jawabannya.");
+                return;
+            }
+            if (selectedOption === questions[currentIndex].answer) {
+                score++;
+            }
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                showQuestion();
+            } else {
+                finishQuiz();
+            }
+        });
+
+        function autoTimeUpSubmit() {
+            quizArea.classList.add("hidden");
+            questionText.textContent = "";
+            optionsDiv.innerHTML = "";
+            nextBtn.style.display = "none";
+
+            const nama = studentNameInput.value.trim();
+            const kelas = studentClassInput.value.trim();
+            const total = questions.length;
+            let nilai = Math.round((score / total) * 100);
+            let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
+            let nilaiAkhir = Math.max(0, nilai - penalti);
+            const keterangan = "Waktu habis";
+
+            resultDiv.classList.remove("hidden");
+            resultDiv.className = "remedial";
+            resultDiv.innerText =
+                `Waktu pengerjaan sudah habis.\n\n` +
+                `Nama: ${nama}\n` +
+                `Kelas: ${kelas}\n` +
+                `Jawaban benar: ${score} dari ${total}\n` +
+                `Nilai sementara: ${nilaiAkhir} (${keterangan})\n` +
+                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+
+            simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
+            backHomeBtn.style.display = "block";
+        }
+
+        function finishQuiz() {
+            clearInterval(timer);
+            quizArea.classList.add("hidden");
+
+            const nama = studentNameInput.value.trim();
+            const kelas = studentClassInput.value.trim();
+            const total = questions.length;
+            let nilai = Math.round((score / total) * 100);
+            let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
+            let nilaiAkhir = Math.max(0, nilai - penalti);
+            const keterangan = nilaiAkhir >= 70 ? "Lulus" : "Perlu Remedial";
+
+            resultDiv.classList.remove("hidden");
+            resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
+            // Tidak menampilkan jawaban benar
+            resultDiv.innerText =
+                `Nama: ${nama}\n` +
+                `Kelas: ${kelas}\n` +
+                `Skor: ${score} / ${total}\n` +
+                `Nilai: ${nilaiAkhir} (${keterangan})\n` +
+                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+
+            simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
+            backHomeBtn.style.display = "block";
+        }
+
+        function simpanRiwayat(nama, kelas, skor, total, nilai, penalti, keterangan) {
+            const record = {
+                nama,
+                kelas,
+                skor,
+                total,
+                nilai,
+                penalti,
+                screenshotCount: window.screenshotDetected || 0,
+                keterangan,
+                tanggal: new Date().toLocaleString()
+            };
+            let data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
+            data.push(record);
+            localStorage.setItem("fukushu_9_11_results", JSON.stringify(data));
+            showHistory();
+        }
+
+        function showHistory() {
+            const data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
+            if (data.length === 0) {
+                historyDiv.innerHTML = "";
+                return;
+            }
+            let html = "<h2>Riwayat Nilai Fukushū 9–11</h2><ul>";
+            data.slice(-7).reverse().forEach((r) => {
+                html += `<li>
           <b>${r.nama}</b> (${r.kelas})<br>
           Skor: <span style="color:${r.nilai>=70?'#24ba63':'#ee3054'};">${r.skor}/${r.total}</span>
           <span style="font-weight:700;color:${r.nilai>=70?'#24ba63':'#ee3054'};">[${r.nilai}, ${r.keterangan}]</span>
           <br>${r.tanggal}
         </li>`;
-      });
-      html += "</ul>";
-      historyDiv.innerHTML = html;
-    }
-    showHistory();
-
-    // Proteksi copy-paste & klik kanan
-    document.addEventListener('keydown', function (e) {
-      const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
-      if (isQuizArea && (e.ctrlKey || e.metaKey)) {
-        if (['a','c','x','v'].includes(e.key.toLowerCase())) {
-          e.preventDefault();
-          alert('Akses copy/paste dinonaktifkan!');
+            });
+            html += "</ul>";
+            historyDiv.innerHTML = html;
         }
-      }
-    });
-    ['copy','cut','paste'].forEach(ev => {
-      document.addEventListener(ev, function (e) {
-        const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
-        if (isQuizArea) {
-          e.preventDefault();
-          alert('Akses copy/paste dinonaktifkan!');
-        }
-      });
-    });
-    document.addEventListener('contextmenu', function (e) {
-      if (e.target.closest('.question') || e.target.closest('.options')) {
-        e.preventDefault();
-        alert('Klik kanan dinonaktifkan!');
-      }
-    });
+        showHistory();
 
-    window.screenshotDetected = 0;
-    document.addEventListener('keyup', function (e) {
-      if (e.key === 'PrintScreen') {
-        window.screenshotDetected++;
-        alert('Screen capture terdeteksi! Poin Anda akan dikurangi 5 poin.');
-      }
-    });
-  </script>
+        // Proteksi copy-paste & klik kanan
+        document.addEventListener('keydown', function (e) {
+            const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
+            if (isQuizArea && (e.ctrlKey || e.metaKey)) {
+                if (['a', 'c', 'x', 'v'].includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                    alert('Akses copy/paste dinonaktifkan!');
+                }
+            }
+        });
+        ['copy', 'cut', 'paste'].forEach(ev => {
+            document.addEventListener(ev, function (e) {
+                const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
+                if (isQuizArea) {
+                    e.preventDefault();
+                    alert('Akses copy/paste dinonaktifkan!');
+                }
+            });
+        });
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.closest('.question') || e.target.closest('.options')) {
+                e.preventDefault();
+                alert('Klik kanan dinonaktifkan!');
+            }
+        });
+
+        window.screenshotDetected = 0;
+        document.addEventListener('keyup', function (e) {
+            if (e.key === 'PrintScreen') {
+                window.screenshotDetected++;
+                alert('Screen capture terdeteksi! Poin Anda akan dikurangi 5 poin.');
+            }
+        });
+    </script>
 </body>
+
 </html>
