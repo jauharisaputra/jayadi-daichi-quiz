@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Kuis Daichi Bab 12</title>
+    <title>Kuis Daichi Bab 11</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
         :root {
@@ -95,27 +95,39 @@
             transform: scale(1.04);
         }
 
-        #nextBtn {
-            width: 100%;
+        #nextBtn,
+        #prevBtn {
+            flex: 1;
             background: linear-gradient(90deg, var(--primary), #1869c2 82%);
             color: #fff;
             border: none;
             border-radius: 12px;
-            padding: 18px 0;
+            padding: 16px 0;
             margin-top: 12px;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: bold;
             letter-spacing: .6px;
             cursor: pointer;
             transition: background .17s, transform .1s;
             box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
-            display: none;
         }
 
-        #nextBtn:hover {
+        #nextBtn:hover,
+        #prevBtn:hover {
             background: var(--primary-dark);
             box-shadow: 0 4px 14px #225a8a2b;
             transform: scale(1.04);
+        }
+
+        #nextBtn {
+            display: none;
+        }
+
+        #prevBtn:disabled {
+            opacity: 0.4;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
         }
 
         #backHomeBtn {
@@ -178,9 +190,6 @@
             box-shadow: 0 3px 16px rgba(200, 200, 0, .11);
             white-space: pre-line;
             user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         .options {
@@ -189,9 +198,6 @@
             gap: 18px;
             margin-bottom: 24px;
             user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         .option-btn {
@@ -207,9 +213,6 @@
             text-align: left;
             transition: all .2s, background .22s;
             user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
 
         .option-btn:hover,
@@ -236,13 +239,13 @@
 
         #result.passed {
             background: #eafbe9;
-            color: var(--success);
+            color: #24ba63;
             border: 2px solid #24ba63;
         }
 
         #result.remedial {
             background: #fff1f5;
-            color: var(--danger);
+            color: #ee3054;
             border: 2px solid #ee3054;
         }
 
@@ -256,6 +259,10 @@
             max-height: 220px;
             overflow-y: auto;
             box-shadow: 0 1px 8px #3678c71f;
+        }
+
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 750px) {
@@ -289,6 +296,7 @@
 
             #startBtn,
             #nextBtn,
+            #prevBtn,
             .option-btn {
                 font-size: 1.1rem;
                 padding: 14px;
@@ -326,6 +334,7 @@
 
             #startBtn,
             #nextBtn,
+            #prevBtn,
             .option-btn {
                 font-size: 1rem;
                 padding: 12px;
@@ -355,11 +364,14 @@
         <div id="quizArea" class="hidden">
             <div id="questionHeader">
                 <div id="questionCounter"></div>
-                <span id="timer">30:00</span>
+                <span id="timer">60:00</span>
             </div>
             <div id="questionText" class="question"></div>
             <div id="options" class="options"></div>
-            <button id="nextBtn">Soal berikutnya</button>
+            <div style="display:flex; gap:10px; margin-top:4px;">
+                <button id="prevBtn">Soal sebelumnya</button>
+                <button id="nextBtn">Soal berikutnya</button>
+            </div>
         </div>
 
         <div id="result" class="hidden"></div>
@@ -494,15 +506,14 @@
             }
         ];
 
-
-        const QUIZ_TIME_LIMIT = 1800;
+        const QUIZ_TIME_LIMIT = 3600; // 60 menit
         let currentIndex = 0;
         let score = 0;
         let timer = null;
         let timeLeft = QUIZ_TIME_LIMIT;
         let selectedOption = null;
-        let wrongAnswers = [];
         let quizFinishedByTime = false;
+        let userAnswers = new Array(questions.length).fill(null);
 
         const studentNameInput = document.getElementById("studentName");
         const studentClassInput = document.getElementById("studentClass");
@@ -512,6 +523,7 @@
         const questionText = document.getElementById("questionText");
         const optionsDiv = document.getElementById("options");
         const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
         const timerSpan = document.getElementById("timer");
         const resultDiv = document.getElementById("result");
         const historyDiv = document.getElementById("history");
@@ -530,7 +542,7 @@
             quizArea.classList.remove("hidden");
             currentIndex = 0;
             score = 0;
-            wrongAnswers = [];
+            userAnswers = new Array(questions.length).fill(null);
             timeLeft = QUIZ_TIME_LIMIT;
             startTimer();
             showQuestion();
@@ -549,6 +561,7 @@
                 if (timeLeft <= 0) {
                     clearInterval(timer);
                     quizFinishedByTime = true;
+                    hitungSkor();
                     autoTimeUpSubmit();
                 }
             }, 1000);
@@ -565,43 +578,53 @@
             questionCounter.textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
             questionText.textContent = q.text;
             optionsDiv.innerHTML = "";
-            selectedOption = null;
+            selectedOption = userAnswers[currentIndex];
+
             q.options.forEach((opt, index) => {
                 const btn = document.createElement("button");
                 btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
                 btn.className = "option-btn";
+                if (selectedOption === index) btn.classList.add("selected");
                 btn.onclick = () => {
                     selectedOption = index;
+                    userAnswers[currentIndex] = index;
                     Array.from(optionsDiv.children).forEach(b => b.classList.remove("selected"));
                     btn.classList.add("selected");
                 };
                 optionsDiv.appendChild(btn);
             });
+
             nextBtn.textContent =
                 currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Lihat Nilai";
+
+            prevBtn.disabled = currentIndex === 0;
         }
 
         nextBtn.addEventListener("click", () => {
             if (quizFinishedByTime) return;
-            if (selectedOption === null) {
-                alert("Pilih dulu jawabannya.");
-                return;
-            }
-            if (selectedOption === questions[currentIndex].answer) {
-                score++;
-            } else {
-                wrongAnswers.push({
-                    index: currentIndex,
-                    correct: questions[currentIndex].options[questions[currentIndex].answer]
-                });
-            }
-            currentIndex++;
-            if (currentIndex < questions.length) {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
                 showQuestion();
             } else {
+                hitungSkor();
                 finishQuiz();
             }
         });
+
+        prevBtn.addEventListener("click", () => {
+            if (quizFinishedByTime) return;
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        });
+
+        function hitungSkor() {
+            score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questions[idx].answer) score++;
+            });
+        }
 
         function autoTimeUpSubmit() {
             quizArea.classList.add("hidden");
@@ -659,20 +682,13 @@
             resultDiv.classList.remove("hidden");
             resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
 
-            let detailJawaban = "";
-            if (wrongAnswers.length > 0) {
-                detailJawaban += "Jawaban yang benar untuk soal yang salah:\n";
-                wrongAnswers.forEach(w => {
-                    detailJawaban += `Soal ${w.index + 1}: ${w.correct}\n`;
-                });
-            } else {
-                detailJawaban = "Semua jawaban benar!";
-            }
-
+            // Tidak menampilkan jawaban benar; hanya ringkasan nilai
             resultDiv.innerText =
-                `Nama: ${nama}\nKelas: ${kelas}\nSkor: ${score} / ${total}\n` +
+                `Nama: ${nama}\n` +
+                `Kelas: ${kelas}\n` +
+                `Skor: ${score} / ${total}\n` +
                 `Nilai: ${nilaiAkhir} (${keterangan})\n` +
-                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}\n\n${detailJawaban}`;
+                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
 
             const record = {
                 nama,
