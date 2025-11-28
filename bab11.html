@@ -249,18 +249,6 @@
             border: 2px solid #ee3054;
         }
 
-        #history {
-            margin-top: 20px;
-            background: #f6fafe;
-            border-radius: 12px;
-            padding: 1.2em;
-            font-size: 1rem;
-            color: #333;
-            max-height: 220px;
-            overflow-y: auto;
-            box-shadow: 0 1px 8px #3678c71f;
-        }
-
         .hidden {
             display: none;
         }
@@ -375,7 +363,6 @@
         </div>
 
         <div id="result" class="hidden"></div>
-        <div id="history"></div>
     </div>
 
     <script>
@@ -526,7 +513,6 @@
         const prevBtn = document.getElementById("prevBtn");
         const timerSpan = document.getElementById("timer");
         const resultDiv = document.getElementById("result");
-        const historyDiv = document.getElementById("history");
         const backHomeBtn = document.getElementById("backHomeBtn");
 
         startBtn.addEventListener("click", () => {
@@ -649,21 +635,6 @@
                 `Nilai sementara: ${nilaiAkhir} (${keterangan})\n` +
                 `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
 
-            const record = {
-                nama,
-                kelas,
-                skor: score,
-                total,
-                nilai: nilaiAkhir,
-                penalti,
-                screenshotCount: window.screenshotDetected || 0,
-                keterangan,
-                tanggal: new Date().toLocaleString()
-            };
-            let data = JSON.parse(localStorage.getItem("daichi_bab12_results")) || [];
-            data.push(record);
-            localStorage.setItem("daichi_bab12_results", JSON.stringify(data));
-            showHistory();
             backHomeBtn.style.display = "block";
         }
 
@@ -682,7 +653,7 @@
             resultDiv.classList.remove("hidden");
             resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
 
-            // Tidak menampilkan jawaban benar; hanya ringkasan nilai
+            // Tidak ada kunci jawaban, hanya ringkasan nilai
             resultDiv.innerText =
                 `Nama: ${nama}\n` +
                 `Kelas: ${kelas}\n` +
@@ -690,43 +661,8 @@
                 `Nilai: ${nilaiAkhir} (${keterangan})\n` +
                 `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
 
-            const record = {
-                nama,
-                kelas,
-                skor: score,
-                total,
-                nilai: nilaiAkhir,
-                penalti,
-                screenshotCount: window.screenshotDetected || 0,
-                keterangan,
-                tanggal: new Date().toLocaleString()
-            };
-            let data = JSON.parse(localStorage.getItem("daichi_bab12_results")) || [];
-            data.push(record);
-            localStorage.setItem("daichi_bab12_results", JSON.stringify(data));
-            showHistory();
             backHomeBtn.style.display = "block";
         }
-
-        function showHistory() {
-            const data = JSON.parse(localStorage.getItem("daichi_bab12_results")) || [];
-            if (data.length === 0) {
-                historyDiv.innerHTML = "";
-                return;
-            }
-            let html = "<h2>Riwayat Nilai Bab 12</h2><ul>";
-            data.slice(-7).reverse().forEach((r) => {
-                html += `<li>
-          <b>${r.nama}</b> (${r.kelas})<br>
-          Skor: <span style="color:${r.nilai>=70?'#24ba63':'#ee3054'};">${r.skor}/${r.total}</span>
-          <span style="font-weight:700;color:${r.nilai>=70?'#24ba63':'#ee3054'};">[${r.nilai}, ${r.keterangan}]</span>
-          <br>${r.tanggal}
-        </li>`;
-            });
-            html += "</ul>";
-            historyDiv.innerHTML = html;
-        }
-        showHistory();
 
         document.addEventListener('keydown', function (e) {
             const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
