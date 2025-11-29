@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Fukushū Bab 9–11</title>
+    <title>Kuis Daichi Bab 11</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
         :root {
@@ -31,7 +31,7 @@
             background: var(--question-bg);
             border-radius: 22px;
             box-shadow: var(--card-shadow);
-            max-width: 520px;
+            max-width: 480px;
             width: 95vw;
             margin: 40px auto 20px auto;
             padding: 2.8em 1.5em 2.2em 1.5em;
@@ -43,7 +43,7 @@
             text-align: center;
             background: var(--header-bg);
             color: #1a3e6e;
-            font-size: 2rem;
+            font-size: 2.1rem;
             letter-spacing: 1px;
             margin: -32px -20px 22px -20px;
             padding: 18px 6px 16px 6px;
@@ -54,7 +54,7 @@
         }
 
         .input-group label {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 6px;
             color: var(--primary-dark);
             margin-top: 16px;
@@ -64,8 +64,8 @@
 
         .input-group input[type="text"] {
             width: 100%;
-            font-size: 1.15rem;
-            padding: 12px;
+            font-size: 1.25rem;
+            padding: 14px;
             border-radius: 10px;
             border: 1.8px solid #acd6ed;
             background: #eef7ff;
@@ -73,15 +73,37 @@
             box-sizing: border-box;
         }
 
-        #startBtn,
-        #nextBtn {
+        #startBtn {
             width: 100%;
             background: linear-gradient(90deg, var(--primary), #1869c2 82%);
             color: #fff;
             border: none;
             border-radius: 12px;
+            padding: 18px 0;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: .6px;
+            cursor: pointer;
+            transition: background .17s, transform .1s;
+            box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
+        }
+
+        #startBtn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 14px #225a8a2b;
+            transform: scale(1.04);
+        }
+
+        #nextBtn,
+        #prevBtn {
+            flex: 1;
+            background: linear-gradient(90deg, var(--primary), #1869c2 82%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
             padding: 16px 0;
-            margin-top: 16px;
+            margin-top: 12px;
             font-size: 1.15rem;
             font-weight: bold;
             letter-spacing: .6px;
@@ -90,8 +112,8 @@
             box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
         }
 
-        #startBtn:hover,
-        #nextBtn:hover {
+        #nextBtn:hover,
+        #prevBtn:hover {
             background: var(--primary-dark);
             box-shadow: 0 4px 14px #225a8a2b;
             transform: scale(1.04);
@@ -101,15 +123,22 @@
             display: none;
         }
 
+        #prevBtn:disabled {
+            opacity: 0.4;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+
         #backHomeBtn {
-            margin-top: 8px;
+            margin-top: 12px;
             width: 100%;
             background: #5a89cc;
             color: white;
             border: none;
             border-radius: 12px;
-            padding: 12px 0;
-            font-size: 1rem;
+            padding: 14px 0;
+            font-size: 1.15rem;
             font-weight: 600;
             letter-spacing: 0.3px;
             cursor: pointer;
@@ -132,13 +161,13 @@
         }
 
         #questionCounter {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--primary-dark);
             font-weight: 600;
         }
 
         #timer {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--danger);
             background: var(--accent);
@@ -153,10 +182,10 @@
             background: var(--accent);
             color: var(--primary-dark);
             border-radius: 15px;
-            font-size: 1.3rem;
+            font-size: 1.45rem;
             font-weight: 600;
-            padding: 1.3em 1.1em;
-            margin-bottom: 20px;
+            padding: 1.4em 1.2em;
+            margin-bottom: 25px;
             min-height: 70px;
             box-shadow: 0 3px 16px rgba(200, 200, 0, .11);
             white-space: pre-line;
@@ -166,18 +195,18 @@
         .options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 18px;
+            margin-bottom: 24px;
             user-select: none;
         }
 
         .option-btn {
             background: #e9f1fa;
             color: var(--primary-dark);
-            border: 2px solid #b9dafe;
-            padding: 14px 16px;
+            border: 2.2px solid #b9dafe;
+            padding: 16px 18px;
             border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             cursor: pointer;
             font-weight: 600;
             box-shadow: 0 2px 7px rgba(20, 90, 200, 0.05);
@@ -190,16 +219,16 @@
         .option-btn.selected {
             background: linear-gradient(90deg, #85baff 50%, #3678c7 90%);
             color: #fff;
-            border: 2px solid var(--primary-dark);
+            border: 2.2px solid var(--primary-dark);
             box-shadow: 0 4px 12px #3678c780;
         }
 
         #result {
             text-align: left;
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin: 24px 0 10px 0;
-            padding: 1.3em;
+            margin: 30px 0 12px 0;
+            padding: 1.5em;
             border-radius: 15px;
             background: #f3faf5;
             color: var(--primary-dark);
@@ -210,49 +239,93 @@
 
         #result.passed {
             background: #eafbe9;
-            color: var(--success);
+            color: #24ba63;
             border: 2px solid #24ba63;
         }
 
         #result.remedial {
             background: #fff1f5;
-            color: var(--danger);
+            color: #ee3054;
             border: 2px solid #ee3054;
         }
 
-        #history {
-            margin-top: 16px;
-            background: #f6fafe;
-            border-radius: 12px;
-            padding: 1em;
-            font-size: 0.9rem;
-            color: #333;
-            max-height: 220px;
-            overflow-y: auto;
-            box-shadow: 0 1px 8px #3678c71f;
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 750px) {
             .quiz-container {
                 max-width: 98vw;
-                padding: 1.2em .5em 1.4em .5em;
+                padding: 1.4em .6em 1.6em .6em;
             }
 
             h1 {
-                font-size: 1.55rem;
+                font-size: 1.8rem;
+                padding: 14px 1px 10px 1px;
+            }
+
+            #questionCounter {
+                font-size: 0.95rem;
             }
 
             .question {
-                font-size: 1.05rem;
+                font-size: 1.2rem;
             }
 
-            .option-btn {
-                font-size: 1rem;
+            #result {
+                font-size: 1.1rem;
             }
 
             #timer {
-                font-size: 1.15rem;
+                font-size: 1.3rem;
                 padding: 3px 10px;
+                min-width: 72px;
+            }
+
+            #startBtn,
+            #nextBtn,
+            #prevBtn,
+            .option-btn {
+                font-size: 1.1rem;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .quiz-container {
+                padding: 1em .4em 1.2em .4em;
+                border-radius: 0;
+                margin: .25em 0 0 0;
+            }
+
+            h1 {
+                font-size: 1.4rem
+            }
+
+            #questionCounter {
+                font-size: 0.85rem;
+            }
+
+            .question {
+                font-size: 1rem
+            }
+
+            #result {
+                font-size: .95rem
+            }
+
+            #timer {
+                font-size: 1.2rem;
+                padding: 3px 8px;
+                min-width: 68px;
+            }
+
+            #startBtn,
+            #nextBtn,
+            #prevBtn,
+            .option-btn {
+                font-size: 1rem;
+                padding: 12px;
             }
         }
     </style>
@@ -260,7 +333,7 @@
 
 <body>
     <div class="quiz-container">
-        <h1>Fukushū Bab 9–11</h1>
+        <h1>Fukushuu 9-11</h1>
 
         <a href="index.html" id="backHomeBtn">🏠 Kembali ke Beranda</a>
 
@@ -273,7 +346,7 @@
                 <label for="studentClass">Kelas:</label>
                 <input type="text" id="studentClass" value="Suginami" autocomplete="class" />
             </div>
-            <button id="startBtn">Mulai Ujian</button>
+            <button id="startBtn">Mulai Kuis</button>
         </div>
 
         <div id="quizArea" class="hidden">
@@ -283,16 +356,16 @@
             </div>
             <div id="questionText" class="question"></div>
             <div id="options" class="options"></div>
-            <button id="nextBtn">Soal berikutnya</button>
+            <div style="display:flex; gap:10px; margin-top:4px;">
+                <button id="prevBtn">Soal sebelumnya</button>
+                <button id="nextBtn">Soal berikutnya</button>
+            </div>
         </div>
 
         <div id="result" class="hidden"></div>
-        <div id="history"></div>
     </div>
 
     <script>
-        // 40 SOAL FUKUSHŪ BAB 9–11 (campuran pola suka, がわかります, からです,
-        // に・で・を・へ, どちら, いちばん, いつ・どこ・だれ・なに・いくつ, dll.)
         const questions = [
             // Bab 9 – 好き・わかります・から
             {
@@ -475,6 +548,8 @@
             }
         ];
 
+
+
         const QUIZ_TIME_LIMIT = 3600; // 60 menit
         let currentIndex = 0;
         let score = 0;
@@ -482,6 +557,7 @@
         let timeLeft = QUIZ_TIME_LIMIT;
         let selectedOption = null;
         let quizFinishedByTime = false;
+        let userAnswers = new Array(questions.length).fill(null);
 
         const studentNameInput = document.getElementById("studentName");
         const studentClassInput = document.getElementById("studentClass");
@@ -491,9 +567,9 @@
         const questionText = document.getElementById("questionText");
         const optionsDiv = document.getElementById("options");
         const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
         const timerSpan = document.getElementById("timer");
         const resultDiv = document.getElementById("result");
-        const historyDiv = document.getElementById("history");
         const backHomeBtn = document.getElementById("backHomeBtn");
 
         startBtn.addEventListener("click", () => {
@@ -509,6 +585,7 @@
             quizArea.classList.remove("hidden");
             currentIndex = 0;
             score = 0;
+            userAnswers = new Array(questions.length).fill(null);
             timeLeft = QUIZ_TIME_LIMIT;
             startTimer();
             showQuestion();
@@ -527,6 +604,7 @@
                 if (timeLeft <= 0) {
                     clearInterval(timer);
                     quizFinishedByTime = true;
+                    hitungSkor();
                     autoTimeUpSubmit();
                 }
             }, 1000);
@@ -543,38 +621,53 @@
             questionCounter.textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
             questionText.textContent = q.text;
             optionsDiv.innerHTML = "";
-            selectedOption = null;
+            selectedOption = userAnswers[currentIndex];
+
             q.options.forEach((opt, index) => {
                 const btn = document.createElement("button");
                 btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
                 btn.className = "option-btn";
+                if (selectedOption === index) btn.classList.add("selected");
                 btn.onclick = () => {
                     selectedOption = index;
+                    userAnswers[currentIndex] = index;
                     Array.from(optionsDiv.children).forEach(b => b.classList.remove("selected"));
                     btn.classList.add("selected");
                 };
                 optionsDiv.appendChild(btn);
             });
+
             nextBtn.textContent =
-                currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Kirim";
+                currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Lihat Nilai";
+
+            prevBtn.disabled = currentIndex === 0;
         }
 
         nextBtn.addEventListener("click", () => {
             if (quizFinishedByTime) return;
-            if (selectedOption === null) {
-                alert("Pilih dulu jawabannya.");
-                return;
-            }
-            if (selectedOption === questions[currentIndex].answer) {
-                score++;
-            }
-            currentIndex++;
-            if (currentIndex < questions.length) {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
                 showQuestion();
             } else {
+                hitungSkor();
                 finishQuiz();
             }
         });
+
+        prevBtn.addEventListener("click", () => {
+            if (quizFinishedByTime) return;
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        });
+
+        function hitungSkor() {
+            score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questions[idx].answer) score++;
+            });
+        }
 
         function autoTimeUpSubmit() {
             quizArea.classList.add("hidden");
@@ -594,13 +687,11 @@
             resultDiv.className = "remedial";
             resultDiv.innerText =
                 `Waktu pengerjaan sudah habis.\n\n` +
-                `Nama: ${nama}\n` +
-                `Kelas: ${kelas}\n` +
+                `Nama: ${nama}\nKelas: ${kelas}\n` +
                 `Jawaban benar: ${score} dari ${total}\n` +
                 `Nilai sementara: ${nilaiAkhir} (${keterangan})\n` +
                 `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
 
-            simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
             backHomeBtn.style.display = "block";
         }
 
@@ -618,7 +709,8 @@
 
             resultDiv.classList.remove("hidden");
             resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
-            // Tidak menampilkan jawaban benar
+
+            // Tidak ada kunci jawaban, hanya ringkasan nilai
             resultDiv.innerText =
                 `Nama: ${nama}\n` +
                 `Kelas: ${kelas}\n` +
@@ -626,49 +718,9 @@
                 `Nilai: ${nilaiAkhir} (${keterangan})\n` +
                 `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
 
-            simpanRiwayat(nama, kelas, score, total, nilaiAkhir, penalti, keterangan);
             backHomeBtn.style.display = "block";
         }
 
-        function simpanRiwayat(nama, kelas, skor, total, nilai, penalti, keterangan) {
-            const record = {
-                nama,
-                kelas,
-                skor,
-                total,
-                nilai,
-                penalti,
-                screenshotCount: window.screenshotDetected || 0,
-                keterangan,
-                tanggal: new Date().toLocaleString()
-            };
-            let data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
-            data.push(record);
-            localStorage.setItem("fukushu_9_11_results", JSON.stringify(data));
-            showHistory();
-        }
-
-        function showHistory() {
-            const data = JSON.parse(localStorage.getItem("fukushu_9_11_results")) || [];
-            if (data.length === 0) {
-                historyDiv.innerHTML = "";
-                return;
-            }
-            let html = "<h2>Riwayat Nilai Fukushū 9–11</h2><ul>";
-            data.slice(-7).reverse().forEach((r) => {
-                html += `<li>
-          <b>${r.nama}</b> (${r.kelas})<br>
-          Skor: <span style="color:${r.nilai>=70?'#24ba63':'#ee3054'};">${r.skor}/${r.total}</span>
-          <span style="font-weight:700;color:${r.nilai>=70?'#24ba63':'#ee3054'};">[${r.nilai}, ${r.keterangan}]</span>
-          <br>${r.tanggal}
-        </li>`;
-            });
-            html += "</ul>";
-            historyDiv.innerHTML = html;
-        }
-        showHistory();
-
-        // Proteksi copy-paste & klik kanan
         document.addEventListener('keydown', function (e) {
             const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
             if (isQuizArea && (e.ctrlKey || e.metaKey)) {
