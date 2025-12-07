@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Kuis Daichi Bab 13 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --primary: #3678c7;
+            --primary-dark: #225a8a;
+            --success: #24ba63;
+            --danger: #ee3054;
+            --accent: #fecd57;
+            --bg: #f0f4fa;
+            --header-bg: #b4c7e7;
+            --question-bg: #fff;
+            --card-shadow: 0 6px 32px 0 #2b90d91a;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #b4c, #b4c7e7 80%);
+            color: #222;
+            font-size: 20px;
+        }
+
+        .quiz-container {
+            background: var(--question-bg);
+            border-radius: 22px;
+            box-shadow: var(--card-shadow);
+            max-width: 480px;
+            width: 95vw;
+            margin: 40px auto 20px auto;
+            padding: 2.8em 1.5em 2.2em 1.5em;
+            position: relative;
+            border: 2.5px solid #b4c;
+        }
+
+        h1 {
+            text-align: center;
+            background: var(--header-bg);
+            color: #1a3e6e;
+            font-size: 2.1rem;
+            letter-spacing: 1px;
+            margin: -32px -20px 22px -20px;
+            padding: 18px 6px 16px 6px;
+            font-weight: bold;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 3px dotted #fff;
+            box-shadow: 0 5px 15px #b4c7e73a;
+        }
+
+        .input-group label {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+            color: var(--primary-dark);
+            margin-top: 16px;
+            font-weight: 600;
+            display: block;
+        }
+
+        .input-group input[type="text"] {
+            width: 100%;
+            font-size: 1.25rem;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1.8px solid #acd6ed;
+            background: #eef7ff;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+
+        #startBtn {
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), #1869c2 82%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 18px 0;
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: .6px;
+            cursor: pointer;
+            transition: background .17s, transform .1s;
+            box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
+        }
+
+        #startBtn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 14px #225a8a2b;
+            transform: scale(1.04);
+        }
+
+        #nextBtn,
+        #prevBtn {
+            flex: 1;
+            background: linear-gradient(90deg, var(--primary), #1869c2 82%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 0;
+            margin-top: 12px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            letter-spacing: .6px;
+            cursor: pointer;
+            transition: background .17s, transform .1s;
+            box-shadow: 0 3px 12px rgba(43, 144, 217, 0.11);
+        }
+
+        #nextBtn:hover,
+        #prevBtn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 14px #225a8a2b;
+            transform: scale(1.04);
+        }
+
+        #nextBtn {
+            display: none;
+        }
+
+        #prevBtn:disabled {
+            opacity: 0.4;
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #backHomeBtn {
+            margin-top: 12px;
+            width: 100%;
+            background: #5a89cc;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 0;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+            box-shadow: 0 3px 10px rgba(33, 80, 179, 0.4);
+            text-align: center;
+            text-decoration: none;
+            display: none;
+        }
+
+        #backHomeBtn:hover {
+            background: #2e4a9d;
+        }
+
+        #questionHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        #questionCounter {
+            font-size: 1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        #timer {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--danger);
+            background: var(--accent);
+            border-radius: 999px;
+            padding: 4px 14px;
+            min-width: 88px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .question {
+            background: var(--accent);
+            color: var(--primary-dark);
+            border-radius: 15px;
+            font-size: 1.45rem;
+            font-weight: 600;
+            padding: 1.4em 1.2em;
+            margin-bottom: 25px;
+            min-height: 70px;
+            box-shadow: 0 3px 16px rgba(200, 200, 0, .11);
+            white-space: pre-line;
+            user-select: none;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 24px;
+            user-select: none;
+        }
+
+        .option-btn {
+            background: #e9f1fa;
+            color: var(--primary-dark);
+            border: 2.2px solid #b9dafe;
+            padding: 16px 18px;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 7px rgba(20, 90, 200, 0.05);
+            text-align: left;
+            transition: all .2s, background .22s;
+            user-select: none;
+        }
+
+        .option-btn:hover,
+        .option-btn.selected {
+            background: linear-gradient(90deg, #85baff 50%, #3678c7 90%);
+            color: #fff;
+            border: 2.2px solid var(--primary-dark);
+            box-shadow: 0 4px 12px #3678c780;
+        }
+
+        #result {
+            text-align: left;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 30px 0 12px 0;
+            padding: 1.5em;
+            border-radius: 15px;
+            background: #f3faf5;
+            color: var(--primary-dark);
+            border: 2px dashed #c8e9ec;
+            box-shadow: 0 1px 7px #c6dff54a;
+            white-space: pre-line;
+        }
+
+        #result.passed {
+            background: #eafbe9;
+            color: #24ba63;
+            border: 2px solid #24ba63;
+        }
+
+        #result.remedial {
+            background: #fff1f5;
+            color: #ee3054;
+            border: 2px solid #ee3054;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 750px) {
+            .quiz-container {
+                max-width: 98vw;
+                padding: 1.4em .6em 1.6em .6em;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                padding: 14px 1px 10px 1px;
+            }
+
+            #questionCounter {
+                font-size: 0.95rem;
+            }
+
+            .question {
+                font-size: 1.2rem;
+            }
+
+            #result {
+                font-size: 1.1rem;
+            }
+
+            #timer {
+                font-size: 1.3rem;
+                padding: 3px 10px;
+                min-width: 72px;
+            }
+
+            #startBtn,
+            #nextBtn,
+            #prevBtn,
+            .option-btn {
+                font-size: 1.1rem;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .quiz-container {
+                padding: 1em .4em 1.2em .4em;
+                border-radius: 0;
+                margin: .25em 0 0 0;
+            }
+
+            h1 {
+                font-size: 1.4rem
+            }
+
+            #questionCounter {
+                font-size: 0.85rem;
+            }
+
+            .question {
+                font-size: 1rem
+            }
+
+            #result {
+                font-size: .95rem
+            }
+
+            #timer {
+                font-size: 1.2rem;
+                padding: 3px 8px;
+                min-width: 68px;
+            }
+
+            #startBtn,
+            #nextBtn,
+            #prevBtn,
+            .option-btn {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h1>Kuis Daichi Bab 20</h1>
+
+        <a href="index.html" id="backHomeBtn">🏠 Kembali ke Beranda</a>
+
+        <div id="student-info">
+            <div class="input-group">
+                <label for="studentName">Nama:</label>
+                <input type="text" id="studentName" autocomplete="name" />
+            </div>
+            <div class="input-group">
+                <label for="studentClass">Kelas:</label>
+                <input type="text" id="studentClass" value="Suginami" autocomplete="class" />
+            </div>
+            <button id="startBtn">Mulai Kuis</button>
+        </div>
+
+        <div id="quizArea" class="hidden">
+            <div id="questionHeader">
+                <div id="questionCounter"></div>
+                <span id="timer">60:00</span>
+            </div>
+            <div id="questionText" class="question"></div>
+            <div id="options" class="options"></div>
+            <div style="display:flex; gap:10px; margin-top:4px;">
+                <button id="prevBtn">Soal sebelumnya</button>
+                <button id="nextBtn">Soal berikutnya</button>
+            </div>
+        </div>
+
+        <div id="result" class="hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            // A. 辞書形＋ロボット
+            {
+                text: "これは　へやをそうじ＿＿＿ロボットです。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            },
+            {
+                text: "これは　にほんごをおしえ＿＿＿ロボットです。",
+                options: ["ている", "する", "した", "して"],
+                answer: 1
+            },
+            {
+                text: "あの会社は　料理をつくり＿＿＿ロボットを　作っています。",
+                options: ["している", "した", "する", "して"],
+                answer: 2
+            },
+            {
+                text: "このロボットは　音楽をきき＿＿＿ことができます。",
+                options: ["する", "している", "した", "ます"],
+                answer: 1
+            },
+
+            // B. 辞書形＋機械／プログラム
+            {
+                text: "これは　漢字をチェック＿＿＿プログラムです。",
+                options: ["する", "して", "した", "しない"],
+                answer: 0
+            },
+            {
+                text: "会社には　電話にこたえ＿＿＿機械があります。",
+                options: ["ている", "する", "した", "して"],
+                answer: 1
+            },
+            {
+                text: "これは　メールを自動でおくり＿＿＿システムです。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            },
+            {
+                text: "この機械は　まいにちデータを集め＿＿＿。",
+                options: ["する", "している", "した", "して"],
+                answer: 1
+            },
+
+            // C. なにを～するロボットですか
+            {
+                text: "A：これは　なにをするロボットですか。\nB：へやを＿＿＿ロボットです。",
+                options: ["そうじする", "そうじして", "そうじした", "そうじします"],
+                answer: 0
+            },
+            {
+                text: "A：あれは　なにをする機械ですか。\nB：パンを＿＿＿機械です。",
+                options: ["つくる", "つくって", "つくった", "つくります"],
+                answer: 0
+            },
+            {
+                text: "A：そのアプリは　なにをするプログラムですか。\nB：えいごをにほんごに＿＿＿プログラムです。",
+                options: ["ほんやくする", "ほんやくして", "ほんやくした", "ほんやくします"],
+                answer: 0
+            },
+            {
+                text: "A：これは　なにをするシステムですか。\nB：データを＿＿＿システムです。",
+                options: ["まとめる", "まとめて", "まとめた", "まとめます"],
+                answer: 0
+            },
+
+            // D. 文中でのV辞書形＋名詞
+            {
+                text: "会社で　お客さんにしょうかい＿＿＿ロボットを　使っています。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            },
+            {
+                text: "わたしは　日本語をべんきょう＿＿＿アプリを　毎日つかっています。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            },
+            {
+                text: "弟は　ゲームをつくり＿＿＿会社ではたらきたいです。",
+                options: ["している", "する", "した", "して"],
+                answer: 1
+            },
+            {
+                text: "これは　人の声をきき＿＿＿機械です。",
+                options: ["する", "している", "した", "して"],
+                answer: 1
+            },
+
+            // E. まとめ
+            {
+                text: "その店では　料理をはこび＿＿＿ロボットが　あります。",
+                options: ["する", "している", "した", "して"],
+                answer: 1
+            },
+            {
+                text: "あのロボットは　日本語で話し＿＿＿ことができます。",
+                options: ["する", "している", "した", "ます"],
+                answer: 0
+            },
+            {
+                text: "これは　てがみをよみ＿＿＿プログラムです。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            },
+            {
+                text: "会社で　じどうでドアをあけ＿＿＿システムを　使っています。",
+                options: ["する", "している", "した", "して"],
+                answer: 0
+            }
+        ];
+
+
+
+        const QUIZ_TIME_LIMIT = 3600; // 60 menit
+        let currentIndex = 0;
+        let score = 0;
+        let timer = null;
+        let timeLeft = QUIZ_TIME_LIMIT;
+        let selectedOption = null;
+        let quizFinishedByTime = false;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        const studentNameInput = document.getElementById("studentName");
+        const studentClassInput = document.getElementById("studentClass");
+        const startBtn = document.getElementById("startBtn");
+        const quizArea = document.getElementById("quizArea");
+        const questionCounter = document.getElementById("questionCounter");
+        const questionText = document.getElementById("questionText");
+        const optionsDiv = document.getElementById("options");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const timerSpan = document.getElementById("timer");
+        const resultDiv = document.getElementById("result");
+        const backHomeBtn = document.getElementById("backHomeBtn");
+
+        startBtn.addEventListener("click", () => {
+            if (!studentNameInput.value.trim()) {
+                alert("Isi nama siswa dulu.");
+                studentNameInput.focus();
+                return;
+            }
+            studentNameInput.disabled = true;
+            studentClassInput.disabled = true;
+            startBtn.style.display = "none";
+            backHomeBtn.style.display = "none";
+            quizArea.classList.remove("hidden");
+            currentIndex = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            timeLeft = QUIZ_TIME_LIMIT;
+            startTimer();
+            showQuestion();
+            nextBtn.style.display = "block";
+            resultDiv.classList.add("hidden");
+            resultDiv.innerHTML = "";
+            window.screenshotDetected = 0;
+        });
+
+        function startTimer() {
+            quizFinishedByTime = false;
+            timerSpan.textContent = formatTime(timeLeft);
+            timer = setInterval(() => {
+                timeLeft--;
+                timerSpan.textContent = formatTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    quizFinishedByTime = true;
+                    hitungSkor();
+                    autoTimeUpSubmit();
+                }
+            }, 1000);
+        }
+
+        function formatTime(t) {
+            const min = Math.floor(t / 60);
+            const sec = t % 60;
+            return `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+        }
+
+        function showQuestion() {
+            const q = questions[currentIndex];
+            questionCounter.textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
+            questionText.textContent = q.text;
+            optionsDiv.innerHTML = "";
+            selectedOption = userAnswers[currentIndex];
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
+                btn.className = "option-btn";
+                if (selectedOption === index) btn.classList.add("selected");
+                btn.onclick = () => {
+                    selectedOption = index;
+                    userAnswers[currentIndex] = index;
+                    Array.from(optionsDiv.children).forEach(b => b.classList.remove("selected"));
+                    btn.classList.add("selected");
+                };
+                optionsDiv.appendChild(btn);
+            });
+
+            nextBtn.textContent =
+                currentIndex < questions.length - 1 ? "Soal berikutnya" : "Selesai & Lihat Nilai";
+
+            prevBtn.disabled = currentIndex === 0;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            if (quizFinishedByTime) return;
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            } else {
+                hitungSkor();
+                finishQuiz();
+            }
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (quizFinishedByTime) return;
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        });
+
+        function hitungSkor() {
+            score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === questions[idx].answer) score++;
+            });
+        }
+
+        function autoTimeUpSubmit() {
+            quizArea.classList.add("hidden");
+            questionText.textContent = "";
+            optionsDiv.innerHTML = "";
+            nextBtn.style.display = "none";
+
+            const nama = studentNameInput.value.trim();
+            const kelas = studentClassInput.value.trim();
+            const total = questions.length;
+            let nilai = Math.round((score / total) * 100);
+            let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
+            let nilaiAkhir = Math.max(0, nilai - penalti);
+            const keterangan = "Waktu habis";
+
+            resultDiv.classList.remove("hidden");
+            resultDiv.className = "remedial";
+            resultDiv.innerText =
+                `Waktu pengerjaan sudah habis.\n\n` +
+                `Nama: ${nama}\nKelas: ${kelas}\n` +
+                `Jawaban benar: ${score} dari ${total}\n` +
+                `Nilai sementara: ${nilaiAkhir} (${keterangan})\n` +
+                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+
+            backHomeBtn.style.display = "block";
+        }
+
+        function finishQuiz() {
+            clearInterval(timer);
+            quizArea.classList.add("hidden");
+
+            const nama = studentNameInput.value.trim();
+            const kelas = studentClassInput.value.trim();
+            const total = questions.length;
+            let nilai = Math.round((score / total) * 100);
+            let penalti = window.screenshotDetected ? window.screenshotDetected * 5 : 0;
+            let nilaiAkhir = Math.max(0, nilai - penalti);
+            const keterangan = nilaiAkhir >= 70 ? "Lulus" : "Perlu Remedial";
+
+            resultDiv.classList.remove("hidden");
+            resultDiv.className = keterangan === "Lulus" ? "passed" : "remedial";
+
+            // Tidak ada kunci jawaban, hanya ringkasan nilai
+            resultDiv.innerText =
+                `Nama: ${nama}\n` +
+                `Kelas: ${kelas}\n` +
+                `Skor: ${score} / ${total}\n` +
+                `Nilai: ${nilaiAkhir} (${keterangan})\n` +
+                `${penalti > 0 ? "Penalti screenshot: -" + penalti : ""}`;
+
+            backHomeBtn.style.display = "block";
+        }
+
+        document.addEventListener('keydown', function (e) {
+            const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
+            if (isQuizArea && (e.ctrlKey || e.metaKey)) {
+                if (['a', 'c', 'x', 'v'].includes(e.key.toLowerCase())) {
+                    e.preventDefault();
+                    alert('Akses copy/paste dinonaktifkan!');
+                }
+            }
+        });
+        ['copy', 'cut', 'paste'].forEach(ev => {
+            document.addEventListener(ev, function (e) {
+                const isQuizArea = e.target.closest('.question') || e.target.closest('.options');
+                if (isQuizArea) {
+                    e.preventDefault();
+                    alert('Akses copy/paste dinonaktifkan!');
+                }
+            });
+        });
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.closest('.question') || e.target.closest('.options')) {
+                e.preventDefault();
+                alert('Klik kanan dinonaktifkan!');
+            }
+        });
+
+        window.screenshotDetected = 0;
+        document.addEventListener('keyup', function (e) {
+            if (e.key === 'PrintScreen') {
+                window.screenshotDetected++;
+                alert('Screen capture terdeteksi! Poin Anda akan dikurangi 5 poin.');
+            }
+        });
+    </script>
+</body>
+
+</html>
