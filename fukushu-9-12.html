@@ -333,7 +333,7 @@
 
 <body>
     <div class="quiz-container">
-        <h1>Fukushuu 9-11</h1>
+        <h1>Fukushuu 9-12</h1>
 
         <a href="index.html" id="backHomeBtn">🏠 Kembali ke Beranda</a>
 
@@ -367,186 +367,424 @@
 
     <script>
         const questions = [
-            // Bab 9 – 好き・わかります・から
+            // ===== 1–5: Bab 9 – 好き・わかります・時間があります =====
             {
-                text: "わたしは________が好きです。",
-                options: ["映画", "行きます", "にぎやか", "学校"],
-                answer: 0
-            },
-            {
-                text: "母は________があまり好きじゃありません。",
-                options: ["宿題", "野菜", "国", "駅"],
-                answer: 1
-            },
-            {
-                text: "田中さんは日本語が________。",
-                options: ["あります", "できます", "わかります", "つかれます"],
-                answer: 2
-            },
-            {
-                text: "Ａ：どうして毎日日本語を勉強しますか。\nＢ：日本の会社で働きたい________。",
-                options: ["とき", "からです", "ところです", "までです"],
-                answer: 1
-            },
-            {
-                text: "Ａ：どうして昨日早く寝ましたか。\nＢ：あしたテストがあった________。",
-                options: ["ですから", "からです", "でしたから", "ですからです"],
-                answer: 1
-            },
-            {
-                text: "Ａ：何が好きですか。\nＢ：________が好きです。",
-                options: ["勉強", "図書館", "にぎやか", "きれい"],
-                answer: 0
-            },
-            {
-                text: "Ａ：誰の説明がいちばんよくわかりますか。\nＢ：________の説明がいちばんわかります。",
-                options: ["先生", "学校", "本", "日本"],
-                answer: 0
-            },
-            {
-                text: "Ａ：英語はわかりますか。\nＢ：いいえ、あまり________。",
-                options: ["できません", "わかりません", "好きじゃありません", "ありません"],
-                answer: 1
-            },
-
-            {
-                text: "Ａ：どうしてそんなに大きいケーキを買いましたか。\nＢ：友だちのたんじょうび________。",
-                options: ["ときです", "からです", "までです", "あとです"],
-                answer: 1
-            },
-
-            // Bab 10 – に・で・を・へ・にあげます
-
-            {
-                text: "Ａ：リンさんはだれに本を貸しましたか。\nＢ：________に貸しました。",
-                options: ["先生", "学校", "机", "図書館"],
-                answer: 0
-            },
-            {
-                text: "わたしは弟________お金をあげました。",
-                options: ["を", "が", "に", "で"],
-                answer: 2
-            },
-
-            {
-                text: "きのうスーパー________りんごを買いました。",
-                options: ["に", "で", "へ", "を"],
-                answer: 1
-            },
-            {
-                text: "Ａ：りんごをいくつ買いましたか。\nＢ：________買いました。",
-                options: ["２つ", "２人", "２冊", "２本"],
-                answer: 0
-            },
-            {
-                text: "手紙を日本語________書きます。",
-                options: ["に", "で", "と", "を"],
-                answer: 1
-            },
-            {
-                text: "はし________すしを食べます。",
-                options: ["で", "を", "に", "へ"],
-                answer: 0
-            },
-            {
-                text: "Ａ：なんで学校へ行きますか。\nＢ：バス________行きます。",
-                options: ["を", "で", "が", "に"],
-                answer: 1
-            },
-            {
-                text: "わたしはコーヒーとケーキ________します。",
-                options: ["を", "に", "で", "と"],
-                answer: 0
-            },
-
-            // Bab 11 – 比較・どちら・いちばん
-            {
-                text: "東京は大阪________人が多いです。",
-                options: ["と", "より", "のほうが", "が"],
-                answer: 1
-            },
-            {
-                text: "ソウルは東京________寒いです。",
-                options: ["が", "より", "と", "のほうが"],
-                answer: 1
-            },
-            {
-                text: "肉と魚と、________が好きですか。",
-                options: ["どれ", "どちら", "どこ", "いつ"],
-                answer: 1
-            },
-
-            {
-                text: "スポーツでなにがいちばん人気がありますか。\nＢ：________がいちばん人気があります。",
-                options: ["だれ", "どこ", "サッカー", "いつ"],
-                answer: 2
-            },
-            {
-                text: "スポーツでサッカーがいちばん好きです。下線部「サッカーがいちばん好きです」と同じ意味はどれですか。",
+                text: "わたしは　日本語が　好きです。",
                 options: [
-                    "サッカーがあまり好きじゃありません。",
-                    "サッカーがとてもきらいです。",
-                    "スポーツの中でサッカーが一番好きです。",
-                    "サッカーよりテニスのほうが好きです。"
+                    "Saya suka bahasa Jepang.",
+                    "Saya bisa bahasa Jepang.",
+                    "Saya tidak suka bahasa Jepang.",
+                    "Saya mengerti bahasa Jepang."
+                ],
+                answer: 0
+            },
+            {
+                text: "わたしは　音楽が　よく　わかります。",
+                options: [
+                    "Saya sering mendengar musik.",
+                    "Saya sangat mengerti musik.",
+                    "Saya tidak mengerti musik.",
+                    "Saya sedikit suka musik."
+                ],
+                answer: 1
+            },
+            {
+                text: "この本は　やさしいですから、よく　わかります。",
+                options: [
+                    "Karena buku ini sulit, saya sangat mengerti.",
+                    "Karena buku ini mudah, saya sangat mengerti.",
+                    "Karena buku ini mudah, saya tidak mengerti.",
+                    "Karena buku ini mahal, saya suka."
+                ],
+                answer: 1
+            },
+            {
+                text: "どうして　日本語を　勉強しますか。日本のアニメが　好きですから。",
+                options: [
+                    "Mengapa Anda belajar bahasa Jepang? Karena saya suka anime Jepang.",
+                    "Di mana Anda belajar bahasa Jepang? Karena saya suka anime Jepang.",
+                    "Kapan Anda belajar bahasa Jepang? Karena saya suka anime Jepang.",
+                    "Bagaimana Anda belajar bahasa Jepang? Karena saya suka anime Jepang."
+                ],
+                answer: 0
+            },
+            {
+                text: "きょうは　時間が　ありますから、えいがを　見ます。",
+                options: [
+                    "Hari ini saya tidak punya waktu, jadi menonton film.",
+                    "Hari ini saya punya waktu, jadi menonton film.",
+                    "Besok saya punya waktu, jadi menonton film.",
+                    "Hari ini saya punya uang, jadi menonton film."
+                ],
+                answer: 1
+            },
+
+            // ===== 6–10: Bab 9 – isian =====
+            {
+                text: "Ａ：何が　好きですか。\nＢ：＿＿＿＿＿＿が　好きです。",
+                options: [
+                    "サッカー",
+                    "よく",
+                    "わかります",
+                    "時間"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：日本語が　わかりますか。\nＢ：はい、＿＿＿＿＿＿わかります。",
+                options: [
+                    "すこし",
+                    "時間が",
+                    "どうして",
+                    "から"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：このゲームは　どうですか。\nＢ：むずかしいですから、＿＿＿＿＿＿。",
+                options: [
+                    "よく　わかります",
+                    "あまり　わかりません",
+                    "とても　好きです",
+                    "時間が　あります"
+                ],
+                answer: 1
+            },
+            {
+                text: "Ａ：どうして　英語が　わかりますか。\nＢ：＿＿＿＿＿＿からです。",
+                options: [
+                    "よく　勉強します",
+                    "好きです",
+                    "時間が　ありません",
+                    "日本語が　わかります"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：きょう　いっしょに　テニスを　しませんか。\nＢ：すみません、きょうは　＿＿＿＿＿＿。",
+                options: [
+                    "日本語が　わかりません",
+                    "時間が　ありません",
+                    "テニスが　好きです",
+                    "テニスが　わかります"
+                ],
+                answer: 1
+            },
+
+            // ===== 11–15: Bab 10 – 貸す・借りる・いくつ・なんで・～にします =====
+            {
+                text: "わたしは　友だちに　本を　貸しました。",
+                options: [
+                    "Saya meminjam buku dari teman.",
+                    "Saya meminjamkan buku kepada teman.",
+                    "Teman meminjamkan buku kepada saya.",
+                    "Saya membeli buku untuk teman."
+                ],
+                answer: 1
+            },
+            {
+                text: "きのう　先生に　本を　借りました。",
+                options: [
+                    "Kemarin saya meminjamkan buku kepada guru.",
+                    "Kemarin saya meminjam buku dari guru.",
+                    "Kemarin guru meminjam buku dari saya.",
+                    "Kemarin saya membeli buku untuk guru."
+                ],
+                answer: 1
+            },
+            {
+                text: "Ａ：りんごを　いくつ　買いましたか。\nＢ：＿＿＿＿＿＿　買いました。",
+                options: [
+                    "３つ",
+                    "ナイフで",
+                    "先生に",
+                    "本を"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：なんで　パンを　切りますか。\nＢ：＿＿＿＿＿＿　切ります。",
+                options: [
+                    "３つ",
+                    "友だちに",
+                    "ナイフで",
+                    "りんごを"
                 ],
                 answer: 2
             },
-
             {
-                text: "日本は韓国より人が多いです。下線部と同じ意味の文はどれですか。",
+                text: "Ａ：飲み物は　何に　しますか。\nＢ：＿＿＿＿＿＿に　します。",
                 options: [
-                    "韓国のほうが人が多いです。",
-                    "日本のほうが人が少ないです。",
-                    "日本のほうが人が多いです。",
-                    "日本も韓国も人が多いです。"
+                    "コーヒー",
+                    "３つ",
+                    "先生に",
+                    "ナイフで"
+                ],
+                answer: 0
+            },
+
+            // ===== 16–20: Bab 10 – pola tanya =====
+            {
+                text: "Ａ：だれに　本を　貸しましたか。\nＢ：＿＿＿＿＿＿貸しました。",
+                options: [
+                    "友だちに",
+                    "本を",
+                    "３つ",
+                    "ナイフで"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：だれに　お金を　借りましたか。\nＢ：＿＿＿＿＿＿借りました。",
+                options: [
+                    "先生に",
+                    "３つに",
+                    "パンを",
+                    "ナイフで"
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：りんごを　＿＿＿＿＿＿買いましたか。\nＢ：５つ　買いました。",
+                options: [
+                    "なんで",
+                    "だれに",
+                    "どれ",
+                    "いくつ"
+                ],
+                answer: 3
+            },
+            {
+                text: "Ａ：＿＿＿＿＿＿　パンを　切りますか。\nＢ：ナイフで　切ります。",
+                options: [
+                    "どこで",
+                    "なんで",
+                    "だれと",
+                    "いくつ"
+                ],
+                answer: 1
+            },
+            {
+                text: "Ａ：食べ物は　何と　何に　しますか。\nＢ：＿＿＿＿＿＿に　します。",
+                options: [
+                    "コーヒーと　ケーキ",
+                    "コーヒーと　ケーキに",
+                    "コーヒーと　ケーキを",
+                    "コーヒーと　ケーキで"
+                ],
+                answer: 1
+            },
+
+            // ===== 21–25: Bab 11 – おおい／すくない・より・どちら =====
+            {
+                text: "日本は　山が　おおいです。",
+                options: [
+                    "Di Jepang gunungnya banyak.",
+                    "Di Jepang gunungnya sedikit.",
+                    "Di Jepang tidak ada gunung.",
+                    "Di Jepang hanya ada satu gunung."
+                ],
+                answer: 0
+            },
+            {
+                text: "この町は　人が　すくないです。",
+                options: [
+                    "Di kota ini orangnya banyak.",
+                    "Di kota ini orangnya sedikit.",
+                    "Di kota ini orangnya tidak ada.",
+                    "Di kota ini orangnya sangat ramai."
+                ],
+                answer: 1
+            },
+            {
+                text: "大阪は　東京より　ちいさいです。",
+                options: [
+                    "Osaka lebih besar daripada Tokyo.",
+                    "Osaka lebih kecil daripada Tokyo.",
+                    "Tokyo lebih kecil daripada Osaka.",
+                    "Tokyo dan Osaka sama besar."
+                ],
+                answer: 1
+            },
+            {
+                text: "Ａ：日本語と英語と　どちらが　むずかしいですか。\nＢ：＿＿＿＿＿＿ほうが　むずかしいです。",
+                options: [
+                    "英語の",
+                    "日本語の",
+                    "どちらも",
+                    "どちらでも"
+                ],
+                answer: 1
+            },
+            {
+                text: "スポーツで　サッカーが　いちばん　好きです。",
+                options: [
+                    "Dari semua olahraga, saya paling suka sepak bola.",
+                    "Saya sedikit suka sepak bola.",
+                    "Saya tidak suka sepak bola.",
+                    "Saya paling suka semua olahraga."
+                ],
+                answer: 0
+            },
+
+            // ===== 26–30: Bab 11 – どちらが好き・sifat majemuk・dokkai =====
+            {
+                text: "Ａ：コーヒーと　おちゃと　どちらが　好きですか。\nＢ：＿＿＿＿＿＿ほうが　好きです。",
+                options: [
+                    "コーヒーの",
+                    "おちゃの",
+                    "どちらも",
+                    "どちらでも"
                 ],
                 answer: 2
             },
             {
-                text: "A：どちらも好きです。いちばん自然な返事はどれですか。",
-                options: ["そうですか。", "どうも。", "すみません。", "よろしくお願いします。"],
+                text: "このへやは　あたらしくて、きれいで、しずかです。",
+                options: [
+                    "Kamar ini baru, bersih, dan tenang.",
+                    "Kamar ini lama, kotor, dan ramai.",
+                    "Kamar ini baru tetapi kotor.",
+                    "Kamar ini tenang tetapi sempit."
+                ],
                 answer: 0
             },
             {
-                text: "このクラスで、山田さんが________まじめです。",
-                options: ["より", "どちら", "いちばん", "すこし"],
+                text: "Ａ：この町は　どうですか。\nＢ：人が　おおくて、にぎやかです。",
+                options: [
+                    "Di kota ini orangnya sedikit dan sepi.",
+                    "Di kota ini orangnya banyak dan ramai.",
+                    "Di kota ini tidak ada orang.",
+                    "Di kota ini tenang dan sepi."
+                ],
+                answer: 1
+            },
+            {
+                text: "【文を読んでください】\n日本は　山が　おおいです。川も　おおいです。\n\n日本は　どうですか。",
+                options: [
+                    "Gunung dan sungainya sedikit.",
+                    "Gunungnya banyak, tapi tidak ada sungai.",
+                    "Gunung dan sungainya banyak.",
+                    "Tidak ada gunung dan sungai."
+                ],
                 answer: 2
             },
-
-            // Kombinasi dan variasi
             {
-                text: "Ａ：スポーツでなにが一番好きですか。\nＢ：サッカー________一番好きです。",
-                options: ["と", "を", "が", "は"],
-                answer: 2
-            },
-
-            {
-                text: "Ａ：映画と音楽と、どちらが好きですか。\nＢ：映画のほうが________。",
-                options: ["きれいです", "すきです", "にぎやかです", "あついです"],
+                text: "【文を読んでください】\nＡさんは　くだもので　りんごより　みかんが　好きです。\n\nＡさんは　何が　好きですか。",
+                options: [
+                    "りんごが　好きです。",
+                    "みかんが　好きです。",
+                    "どちらも　きらいです。",
+                    "どちらも　好きです。"
+                ],
                 answer: 1
             },
+
+            // ===== 31–35: Bab 12 – ～かった／～でした／～くなかった・じゃありませんでした =====
             {
-                text: "Ａ：パンとごはんと、どちらをよく食べますか。\nＢ：________をよく食べます。",
-                options: ["パン", "きのう", "どこ", "なに"],
+                text: "きのうは　いそがしかったです。",
+                options: [
+                    "Kemarin saya sibuk.",
+                    "Besok saya sibuk.",
+                    "Kemarin saya tidak sibuk.",
+                    "Kemarin saya tidak belajar."
+                ],
                 answer: 0
             },
             {
-                text: "Ａ：クラスでだれがいちばん背が高いですか。\nＢ：________がいちばん高いです。",
-                options: ["きのう", "山田さん", "学校", "どこ"],
+                text: "きのうは　あまり　さむくなかったです。",
+                options: [
+                    "Kemarin sangat dingin.",
+                    "Kemarin tidak terlalu dingin.",
+                    "Kemarin tidak dingin sama sekali.",
+                    "Kemarin sangat panas."
+                ],
                 answer: 1
             },
             {
-                text: "Ａ：きのうのテストときょうのテストと、どちらがむずかしかったですか。\nＢ：きのうのテストのほうが________。",
-                options: ["むずかしいです", "むずかしかったです", "むずかしくないです", "やさしいです"],
+                text: "先週の土曜日は　ひまじゃありませんでした。",
+                options: [
+                    "Sabtu lalu saya punya waktu luang.",
+                    "Sabtu lalu saya tidak punya waktu luang.",
+                    "Sabtu lalu saya libur panjang.",
+                    "Sabtu lalu saya tidak bekerja dan tidak sibuk."
+                ],
                 answer: 1
+            },
+            {
+                text: "わたしは　前は　会社員でした。",
+                options: [
+                    "Dulu saya pegawai perusahaan.",
+                    "Nanti saya pegawai perusahaan.",
+                    "Sekarang saya pegawai perusahaan.",
+                    "Saya bukan pegawai perusahaan dulu."
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：昨日のパーティーは　どうでしたか。\nＢ：とても　たのしかったです。",
+                options: [
+                    "Pestanya sangat menyenangkan kemarin.",
+                    "Pestanya tidak menyenangkan kemarin.",
+                    "Pestanya besok menyenangkan.",
+                    "Pestanya sekarang menyenangkan."
+                ],
+                answer: 0
             },
 
+            // ===== 36–40: Bab 12 – どのぐらい／～ぐらい・dokkai =====
             {
-                text: "Ａ：どの季節がいちばん好きですか。\nＢ：________がいちばん好きです。",
-                options: ["春", "先週", "きのう", "あした"],
+                text: "Ａ：どのぐらい　日本語を　勉強しましたか。\nＢ：＿＿＿＿＿＿勉強しました。",
+                options: [
+                    "２しゅうかん",
+                    "きれいに",
+                    "とても",
+                    "すこし"
+                ],
                 answer: 0
+            },
+            {
+                text: "東京から　大阪まで　２時間ぐらい　かかります。",
+                options: [
+                    "Dari Tokyo ke Osaka makan waktu sekitar dua jam.",
+                    "Dari Tokyo ke Osaka makan waktu dua hari.",
+                    "Dari Tokyo ke Osaka makan waktu dua menit.",
+                    "Dari Tokyo ke Osaka tidak makan waktu."
+                ],
+                answer: 0
+            },
+            {
+                text: "Ａ：日本で　どのぐらい　働きましたか。\nＢ：＿＿＿＿＿＿働きました。",
+                options: [
+                    "３年ぐらい",
+                    "とても",
+                    "あまり",
+                    "すこし"
+                ],
+                answer: 0
+            },
+            {
+                text: "【文を読んでください】\nＡさんは　２年ぐらい　日本語を　勉強しました。\n\nＡさんは　どのぐらい　日本語を　勉強しましたか。",
+                options: [
+                    "１年ぐらい　勉強しました。",
+                    "２年ぐらい　勉強しました。",
+                    "３年ぐらい　勉強しました。",
+                    "あまり　勉強しませんでした。"
+                ],
+                answer: 1
+            },
+            {
+                text: "【文を読んでください】\nＢさんは　きのう　いそがしくなかったです。\n時間が　ありましたから、えいがを　見ました。\n\nＢさんは　きのう　どうでしたか。",
+                options: [
+                    "いそがしかったです。",
+                    "いそがしくなかったです。",
+                    "会社員でした。",
+                    "元気じゃありませんでした。"
+                ],
+                answer: 1
             }
         ];
+
+
 
 
 
