@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRY OUT JLPT N4</title>
-
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -28,7 +27,6 @@
             margin-bottom: 20px;
         }
 
-        /* ===== Tombol Beranda ===== */
         .home-btn {
             display: inline-block;
             padding: 8px 15px;
@@ -166,6 +164,12 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
     </style>
 </head>
 
@@ -178,40 +182,30 @@
     </div>
 
     <div class="container" id="examContainer" style="display:none;">
-        <!-- Tombol kembali -->
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-
         <h1>📚 TRY OUT JLPT N4</h1>
-
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
             <div id="timer">70:00</div>
         </div>
-
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
         </div>
-
         <div class="question" id="questionText"></div>
         <div class="options" id="options"></div>
-
         <div class="nav-grid" id="navGrid"></div>
-
         <button onclick="finishExam()" id="finishBtn"
             style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
             ⏹️ Selesai Ujian
         </button>
-
         <div id="result"></div>
-
-        <!-- Tombol kembali bawah -->
         <div class="home-bottom">
             <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
         </div>
     </div>
 
     <script>
-        const QUIZ_TIME = 4200; // 70 menit dalam detik
+        const QUIZ_TIME = 4200; // 70 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -220,7 +214,7 @@
         let attempt = 1;
 
         const questions = [
-            // 1-30: TATA BAHASA (30 soal)
+            // 1-30: TATA BAHASA + GOI (30 soal = 190 poin)
             {
                 text: "1. 冬にコートを着ないで歩いて、（ ）のです。",
                 options: ["さむい", "さむくて", "さむかった", "さむくない"],
@@ -372,7 +366,7 @@
                 answer: 1
             },
 
-            // 31-45: DOKKAI (15 soal)
+            // 31-46: DOKKAI (16 soal = 80 poin)
             {
                 text: "31. どうして大学生のときカメラを買いましたか。",
                 options: ["カメラが好き", "Nikonが好き", "写真が好き", "大学が好き"],
@@ -448,149 +442,149 @@
                 options: ["豆腐を食べた", "布団に入った", "枕を乗せた", "熱がある"],
                 answer: 3
             },
-
-            // 46-65: KANJI (20 soal)
             {
-                text: "46. たいふう",
+                text: "46. 次は何をしますか。",
+                options: ["勉強する", "寝る", "食べる", "遊ぶ"],
+                answer: 0
+            },
+
+            // 47-66: KANJI (20 soal = 80 poin)
+            {
+                text: "47. たいふう",
                 options: ["台所", "公園", "台風", "会議"],
                 answer: 2
             },
             {
-                text: "47. あたらしい",
+                text: "48. あたらしい",
                 options: ["重い", "親しい", "古い", "新しい"],
                 answer: 3
             },
             {
-                text: "48. はたらいて",
+                text: "49. はたらいて",
                 options: ["付いて", "働いて", "動いて", "書いて"],
                 answer: 1
             },
             {
-                text: "49. しりません",
+                text: "50. しりません",
                 options: ["切り", "取り", "走り", "知り"],
                 answer: 3
             },
             {
-                text: "50. でんわ",
+                text: "51. でんわ",
                 options: ["電光", "電気", "電話", "電車"],
                 answer: 2
             },
             {
-                text: "51. みじかい",
+                text: "52. みじかい",
                 options: ["太い", "暑い", "短い", "寒い"],
                 answer: 2
             },
             {
-                text: "52. おくって",
+                text: "53. おくって",
                 options: ["送って", "通って", "遅って", "走って"],
                 answer: 0
             },
             {
-                text: "53. こえ",
+                text: "54. こえ",
                 options: ["遅", "屋", "扉", "声"],
                 answer: 3
             },
             {
-                text: "54. しごと",
+                text: "55. しごと",
                 options: ["事実", "事件", "仕事", "記事"],
                 answer: 2
             },
             {
-                text: "55. じゅうしょ",
+                text: "56. じゅうしょ",
                 options: ["場所", "長所", "住所", "短所"],
                 answer: 2
             },
             {
-                text: "56. きる（服を）",
+                text: "57. きる（服を）",
                 options: ["切る", "着る", "消る", "決る"],
                 answer: 1
             },
             {
-                text: "57. かう",
+                text: "58. かう",
                 options: ["買う", "会う", "歌う", "使う"],
                 answer: 0
             },
             {
-                text: "58. おわる",
+                text: "59. おわる",
                 options: ["始まる", "終わる", "帰わる", "変わる"],
                 answer: 1
             },
             {
-                text: "59. ふく",
+                text: "60. ふく",
                 options: ["服", "福", "副", "幅"],
                 answer: 0
             },
             {
-                text: "60. つよい",
+                text: "61. つよい",
                 options: ["強い", "弱い", "太い", "広い"],
                 answer: 0
             },
             {
-                text: "61. おと",
+                text: "62. おと",
                 options: ["昔", "音", "青", "空"],
                 answer: 1
             },
             {
-                text: "62. かんがえる",
+                text: "63. かんがえる",
                 options: ["教える", "答える", "考える", "伝える"],
                 answer: 2
             },
             {
-                text: "63. はたらく",
+                text: "64. はたらく",
                 options: ["働く", "動く", "助く", "続く"],
                 answer: 0
             },
             {
-                text: "64. しけん",
+                text: "65. しけん",
                 options: ["試験", "実験", "経験", "危険"],
                 answer: 0
             },
             {
-                text: "65. とし",
+                text: "66. とし",
                 options: ["都市", "図書", "年", "会社"],
                 answer: 2
             },
 
-            // 66-74: KIJUTSU (9 soal)
+            // 67-74: KIJUTSU (8 soal = 80 poin)
             {
-                text: "66. 来年日本へ（ ）つもりです。",
+                text: "67. 来年日本へ（ ）つもりです。",
                 options: ["行く", "行き", "行った", "行って"],
                 answer: 0
             },
             {
-                text: "67. 雨が降った（ ）試合は中止です。",
+                text: "68. 雨が降った（ ）試合は中止です。",
                 options: ["から", "ので", "ら", "なら"],
                 answer: 3
             },
             {
-                text: "68. 日本語が話せる（ ）なりたいです。",
+                text: "69. 日本語が話せる（ ）なりたいです。",
                 options: ["ように", "みたいに", "そうに", "らしい"],
                 answer: 0
             },
             {
-                text: "69. ここで写真を（ ）もいいですか。",
+                text: "70. ここで写真を（ ）もいいですか。",
                 options: ["撮る", "撮って", "撮った", "撮り"],
                 answer: 0
             },
             {
-                text: "70. 正しい文を選びなさい。",
+                text: "71. 正しい文を選びなさい。",
                 options: ["春になったら来年旅行にしましょう", "来年旅行になったら春しましょう", "来年春になったら旅行にしましょう", "旅行来年春になったらしましょう"],
                 answer: 2
             },
             {
-                text: "71. 正しい文を選びなさい。",
+                text: "72. 正しい文を選びなさい。",
                 options: ["会うと友だちにうれしいです", "友だちに会うとうれしいです", "うれしいです友だちに会うと", "友だちうれしい会うとです"],
                 answer: 1
             },
             {
-                text: "72. 正しい文を選びなさい。",
+                text: "73. 正しい文を選びなさい。",
                 options: ["ばかり食事をしたです", "食事したばかりです", "した食事ばかりです", "食事をしたばかりです"],
                 answer: 3
-            },
-            {
-                text: "73. 正しい文を選びなさい。",
-                options: ["合格する試験ために", "試験するために合格", "試験に合格するために", "ために試験合格する"],
-                answer: 2
             },
             {
                 text: "74. 土曜日何をしたい？",
@@ -601,17 +595,16 @@
 
         let answers = new Array(questions.length).fill(null);
 
-        // ANTI-CHEAT (sekali saja)
+        // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
-            if (e.key === "F12" ||
-                (e.ctrlKey && e.shiftKey && e.key === "I") ||
-                (e.ctrlKey && e.key === "u") ||
-                (e.ctrlKey && e.key === "s") ||
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
                 (e.ctrlKey && e.key === "a")) {
                 e.preventDefault();
             }
         });
+        document.addEventListener("copy", e => e.preventDefault());
 
         // FULLSCREEN DETECTION
         function openFullscreen() {
@@ -639,6 +632,7 @@
             let savedAttempt = localStorage.getItem("attempt_" + name);
             attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
             localStorage.setItem("attempt_" + name, attempt);
+            localStorage.removeItem('quiz_answers_' + name);
 
             document.getElementById("loginBox").style.display = "none";
             document.getElementById("examContainer").style.display = "block";
@@ -660,7 +654,6 @@
 
         function loadQuestion() {
             if (examFinished) return;
-
             const q = questions[current];
             document.getElementById("questionText").innerText = q.text;
             document.getElementById("counter").innerText = `Soal ${current + 1} / ${questions.length}`;
@@ -689,7 +682,6 @@
         function generateNav() {
             const nav = document.getElementById("navGrid");
             nav.innerHTML = "";
-
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
                 btn.innerText = i + 1;
@@ -718,7 +710,6 @@
                     clearInterval(timer);
                     return;
                 }
-
                 timeLeft--;
                 const min = Math.floor(timeLeft / 60);
                 const sec = timeLeft % 60;
@@ -733,12 +724,11 @@
 
         function finishExam(timeUp = false) {
             if (examFinished) return;
-
             examFinished = true;
             clearInterval(timer);
 
-            // Hitung skor per bagian
-            let tata = 0,
+            // OFFICIAL JLPT N4 SCORING
+            let tataBahasa = 0,
                 dokkai = 0,
                 kanji = 0,
                 kijutsu = 0;
@@ -747,19 +737,26 @@
             answers.forEach((a, i) => {
                 if (a === questions[i].answer) {
                     score++;
-                    if (i < 30) tata++; // 0-29: Tata Bahasa (30 soal)
-                    else if (i < 45) dokkai++; // 30-44: Dokkai (15 soal)
-                    else if (i < 65) kanji++; // 45-64: Kanji (20 soal)
-                    else kijutsu++; // 65-73: Kijutsu (9 soal)
+                    if (i < 30) tataBahasa++; // 1-30: 30 soal = 190 pt
+                    else if (i < 46) dokkai++; // 31-46: 16 soal = 80 pt
+                    else if (i < 66) kanji++; // 47-66: 20 soal = 80 pt
+                    else kijutsu++; // 67-74: 8 soal = 80 pt
                 }
             });
 
-            let total = score;
-            let nilaiTata = Math.round((tata / 30) * 100);
-            let nilaiDokkai = Math.round((dokkai / 15) * 100);
+            // Konversi nilai per kompetensi (0-100%)
+            let nilaiTata = Math.round((tataBahasa / 30) * 100);
+            let nilaiDokkai = Math.round((dokkai / 16) * 100);
             let nilaiKanji = Math.round((kanji / 20) * 100);
-            let nilaiKijutsu = Math.round((kijutsu / 9) * 100);
-            let nilaiTotal = Math.round((total / 74) * 100);
+            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
+
+            // Point calculation (official formula)
+            let pointTata = Math.round(tataBahasa * 19 / 10); // 190 max (19/190×10)
+            let pointDokkai = Math.round(dokkai * 5); // 80 max (5 pt/soal)
+            let pointKanji = Math.round(kanji * 4); // 80 max (4 pt/soal)
+            let pointKijutsu = Math.round(kijutsu * 10); // 80 max (10 pt/soal)
+            let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
+            let nilaiTotal = Math.round((totalPoint / 430) * 100); // 430 total max
 
             // Kirim ke Google Sheet
             fetch("https://script.google.com/macros/s/AKfycbxzxnAFC8t0Uuk2JedPYRiP1URBpOonwFmxXDE7S1HLouKlcjeXMYaSXfoyBPXya4V5KA/exec", {
@@ -767,65 +764,63 @@
                 mode: "no-cors",
                 body: JSON.stringify({
                     nama: studentName,
-                    tata,
+                    attempt,
+                    tataBahasa,
                     dokkai,
                     kanji,
                     kijutsu,
-                    total,
-                    score,
+                    total: score,
                     nilai_tata: nilaiTata,
                     nilai_dokkai: nilaiDokkai,
                     nilai_kanji: nilaiKanji,
                     nilai_kijutsu: nilaiKijutsu,
                     nilai_total: nilaiTotal,
-                    attempt
+                    point_tata: pointTata,
+                    point_dokkai: pointDokkai,
+                    point_kanji: pointKanji,
+                    point_kijutsu: pointKijutsu,
+                    total_point: totalPoint
                 })
             });
 
-            // Kunci semua tombol
+            // Lock UI
             document.querySelectorAll("button").forEach(btn => {
                 btn.disabled = true;
                 btn.style.opacity = "0.6";
                 btn.style.cursor = "not-allowed";
             });
 
-            // Popup hasil
-            setTimeout(() => {
-                alert(
-                    (timeUp ? "⏰ Waktu Habis!\n\n" : "") +
-                    `👤 Nama: ${studentName}\n` +
-                    `📊 Skor: ${score} / 74\n` +
-                    `🎯 Nilai: ${nilaiTotal}%\n` +
-                    `📜 Status: ${nilaiTotal >= 70 ? "🎉 LULUS" : "📚 REMEDIAL"}`
-                );
-            }, 200);
-
-            // Tampilkan hasil di halaman
+            // Tampilkan hasil
             document.getElementById("result").innerHTML = `
                 <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
                     <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
                     <div style="font-size:18px; margin:15px 0;">
-                        <b>👤 Nama:</b> ${studentName}<br>
-                        <b>🔄 Attempt:</b> ${attempt}<br><br>
+                        <b>👤 Nama:</b> ${studentName} | <b>🔄 Attempt:</b> ${attempt}<br><br>
                         
-                        📝 <b>Tata Bahasa:</b> ${tata}/30 (${nilaiTata}%)<br>
-                        📖 <b>Dokkai:</b> ${dokkai}/15 (${nilaiDokkai}%)<br>
-                        漢字 <b>Kanji:</b> ${kanji}/20 (${nilaiKanji}%)<br>
-                        ✍️ <b>Kijutsu:</b> ${kijutsu}/9 (${nilaiKijutsu}%)<br><br>
+                        📝 <b>Tata Bahasa:</b> ${tataBahasa}/30 (${nilaiTata}%) | ${pointTata}/190 pt<br>
+                        📖 <b>Dokkai:</b> ${dokkai}/16 (${nilaiDokkai}%) | ${pointDokkai}/80 pt<br>
+                        漢字 <b>Kanji:</b> ${kanji}/20 (${nilaiKanji}%) | ${pointKanji}/80 pt<br>
+                        ✍️ <b>Kijutsu:</b> ${kijutsu}/8 (${nilaiKijutsu}%) | ${pointKijutsu}/80 pt<br><br>
                         
                         <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
-                            📊 Total: ${total}/74 (${nilaiTotal}%)
+                            📊 Total: ${totalPoint}/430 (${nilaiTotal}%)
                         </div>
-                        
                         <div style="font-size:22px; padding:15px 25px; border-radius:12px; 
                                    ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'} 
                                    border: 3px solid ${nilaiTotal >= 70 ? '#28a745' : '#dc3545'};">
-                            ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+                            ${nilaiTotal >= 70 ? "✅ LULUS JLPT N4" : "📚 REMEDIAL"}
                         </div>
                     </div>
                 </div>
             `;
             document.getElementById("result").style.display = "block";
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+
+            setTimeout(() => {
+                alert((timeUp ? "⏰ Waktu Habis!\n\n" : "") +
+                    `👤 ${studentName}\n📊 ${totalPoint}/430 (${nilaiTotal}%)\n📜 ${nilaiTotal >= 70 ? "🎉 LULUS" : "📚 REMEDIAL"}`
+                );
+            }, 200);
         }
     </script>
 </body>
