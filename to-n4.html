@@ -725,11 +725,30 @@
             examFinished = true;
             clearInterval(timer);
 
-            let score = 0;
+            let tata = 0;
+            let dokkai = 0;
+            let kanji = 0;
+            let kijutsu = 0;
 
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) score++;
+
+                if (a === questions[i].answer) {
+
+                    if (i <= 29) tata++; // 1–30
+                    else if (i <= 45) dokkai++; // 31–46
+                    else if (i <= 65) kanji++; // 47–66
+                    else kijutsu++; // 67–74
+                }
+
             });
+
+            let total = tata + dokkai + kanji + kijutsu;
+            let nilaiTata = Math.round((tata / 30) * 100);
+            let nilaiDokkai = Math.round((dokkai / 16) * 100);
+            let nilaiKanji = Math.round((kanji / 20) * 100);
+            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
+
+            let nilaiTotal = Math.round((total / 74) * 100);
 
             const nilai = Math.round(score / questions.length * 100);
             // KIRIM KE GOOGLE SHEET
@@ -737,12 +756,19 @@
                 method: "POST",
                 body: JSON.stringify({
                     nama: studentName,
-                    skor: score,
-                    nilai: nilai,
+                    tata: tata,
+                    dokkai: dokkai,
+                    kanji: kanji,
+                    kijutsu: kijutsu,
+                    total: total,
+                    nilai_tata: nilaiTata,
+                    nilai_dokkai: nilaiDokkai,
+                    nilai_kanji: nilaiKanji,
+                    nilai_kijutsu: nilaiKijutsu,
+                    nilai_total: nilaiTotal,
                     attempt: attempt
                 })
             });
-
             // KUNCI SEMUA TOMBOL
             document.querySelectorAll("button").forEach(btn => {
                 btn.disabled = true;
@@ -762,32 +788,36 @@
             }, 200);
 
             // TAMPILKAN DI HALAMAN
-            const result = document.getElementById("result");
-            result.style.display = "block";
             result.innerHTML =
-                `${timeUp ? "<b>⏰ Waktu Habis</b><br><br>" : ""}
-         <b>UJIAN SELESAI</b><br><br>
-         Skor: ${score} / ${questions.length}<br>
-         Nilai: ${nilai}<br>
-         Status: ${nilai >= 70 ? "LULUS" : "REMEDIAL"}`;
-        }
-        /* =========================
-        ANTI CHEAT BASIC
-        ========================= */
+                `
+            <b>UJIAN SELESAI</b><br><br>
 
-        // Blok klik kanan
-        document.addEventListener("contextmenu", function (e) {
-            e.preventDefault();
-        });
+            Tata Bahasa: ${tata} / 30 ( ${nilaiTata} )<br>
+            Dokkai: ${dokkai} / 16 ( ${nilaiDokkai} )<br>
+            Kanji: ${kanji} / 20 ( ${nilaiKanji} )<br>
+            Kijutsu: ${kijutsu} / 8 ( ${nilaiKijutsu} )<br><br>
 
-        // Blok shortcut tertentu
-        document.addEventListener("keydown", function (e) {
+            <b>Total: ${total} / 74</b><br>
+            Nilai Akhir: <b>${nilaiTotal}</b><br>
+            Status: ${nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"}
+            `;
+            /* =========================
+            ANTI CHEAT BASIC
+            ========================= */
 
-            if (e.key === "F12") e.preventDefault();
-            if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
-            if (e.ctrlKey && e.key === "u") e.preventDefault();
+            // Blok klik kanan
+            document.addEventListener("contextmenu", function (e) {
+                e.preventDefault();
+            });
 
-        });
+            // Blok shortcut tertentu
+            document.addEventListener("keydown", function (e) {
+
+                if (e.key === "F12") e.preventDefault();
+                if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+                if (e.ctrlKey && e.key === "u") e.preventDefault();
+
+            });
     </script>
 </body>
 
