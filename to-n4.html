@@ -88,6 +88,11 @@
             color: white;
         }
 
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -101,11 +106,22 @@
             border: none;
             background: #ddd;
             cursor: pointer;
+            font-size: 12px;
         }
 
         .nav-grid button.answered {
             background: #2ecc71;
             color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         #result {
@@ -121,30 +137,54 @@
             margin-top: 20px;
             text-align: center;
         }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-
-
-
-    <div id="loginBox"
-        style="max-width:500px;margin:80px auto;background:white;padding:30px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);text-align:center;">
-        <h2>Login Ujian</h2>
-        <input type="text" id="studentName" placeholder="Masukkan Nama Anda"
-            style="padding:10px;width:80%;margin:10px 0;">
-        <br>
-        <button onclick="startExam()" style="padding:10px 20px;">Mulai Ujian</button>
+    <div id="loginBox">
+        <h2>🎓 Login Ujian</h2>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
     </div>
 
     <div class="container" id="examContainer" style="display:none;">
         <!-- Tombol kembali -->
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
 
-        <h1>TRY OUT JLPT N4</h1>
+        <h1>📚 TRY OUT JLPT N4</h1>
 
-        <div style="display:flex; justify-content:space-between;">
-            <div id="counter"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
             <div id="timer">70:00</div>
         </div>
 
@@ -157,8 +197,9 @@
 
         <div class="nav-grid" id="navGrid"></div>
 
-        <button onclick="finishExam()" style="margin-top:20px; padding:10px 20px;">
-            Selesai Ujian
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
         </button>
 
         <div id="result"></div>
@@ -167,43 +208,19 @@
         <div class="home-bottom">
             <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
         </div>
-
     </div>
 
     <script>
-        const QUIZ_TIME = 4200; // 70 menit
+        const QUIZ_TIME = 4200; // 70 menit dalam detik
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
-
         let current = 0;
         let studentName = "";
         let attempt = 1;
-        /* =========================
-        FULLSCREEN MODE
-        ========================= */
-        function openFullscreen() {
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
-        }
-
-        document.addEventListener("fullscreenchange", function () {
-            if (!document.fullscreenElement && !examFinished) {
-                alert("Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
-                finishExam(true);
-            }
-        });
-
-
 
         const questions = [
-
+            // 1-30: TATA BAHASA (30 soal)
             {
                 text: "1. 冬にコートを着ないで歩いて、（ ）のです。",
                 options: ["さむい", "さむくて", "さむかった", "さむくない"],
@@ -254,7 +271,6 @@
                 options: ["しないで", "しなくても", "しない", "しなければ"],
                 answer: 0
             },
-
             {
                 text: "11. ドアが（ ）ありますから、入れません。",
                 options: ["開けて", "閉めて", "聞いて", "閃いて"],
@@ -305,7 +321,6 @@
                 options: ["すぎる", "すぎて", "すぎた", "すぎない"],
                 answer: 1
             },
-
             {
                 text: "21. このサインはタバコを吸うなという意味です。",
                 options: ["禁煙", "駐車", "中止", "勤勉"],
@@ -357,6 +372,7 @@
                 answer: 1
             },
 
+            // 31-45: DOKKAI (15 soal)
             {
                 text: "31. どうして大学生のときカメラを買いましたか。",
                 options: ["カメラが好き", "Nikonが好き", "写真が好き", "大学が好き"],
@@ -370,7 +386,7 @@
             {
                 text: "33. なぜスイミングスクールに通いましたか。",
                 options: ["水泳が好き", "上手になりたい", "母が行かせた", "近所にある"],
-                answer: 2
+                answer: 1
             },
             {
                 text: "34. どのぐらい通いましたか。",
@@ -432,169 +448,194 @@
                 options: ["豆腐を食べた", "布団に入った", "枕を乗せた", "熱がある"],
                 answer: 3
             },
-            {
-                text: "46. 土曜日何をしたい？",
-                options: ["帰って寝る", "働く", "温度を計る", "ゆっくり休む"],
-                answer: 3
-            },
 
+            // 46-65: KANJI (20 soal)
             {
-                text: "47. たいふう",
+                text: "46. たいふう",
                 options: ["台所", "公園", "台風", "会議"],
                 answer: 2
             },
             {
-                text: "48. あたらしい",
+                text: "47. あたらしい",
                 options: ["重い", "親しい", "古い", "新しい"],
                 answer: 3
             },
             {
-                text: "49. はたらいて",
+                text: "48. はたらいて",
                 options: ["付いて", "働いて", "動いて", "書いて"],
                 answer: 1
             },
             {
-                text: "50. しりません",
+                text: "49. しりません",
                 options: ["切り", "取り", "走り", "知り"],
                 answer: 3
             },
             {
-                text: "51. でんわ",
+                text: "50. でんわ",
                 options: ["電光", "電気", "電話", "電車"],
                 answer: 2
             },
             {
-                text: "52. みじかい",
+                text: "51. みじかい",
                 options: ["太い", "暑い", "短い", "寒い"],
                 answer: 2
             },
             {
-                text: "53. おくって",
+                text: "52. おくって",
                 options: ["送って", "通って", "遅って", "走って"],
                 answer: 0
             },
             {
-                text: "54. こえ",
+                text: "53. こえ",
                 options: ["遅", "屋", "扉", "声"],
                 answer: 3
             },
             {
-                text: "55. しごと",
+                text: "54. しごと",
                 options: ["事実", "事件", "仕事", "記事"],
                 answer: 2
             },
             {
-                text: "56. じゅうしょ",
+                text: "55. じゅうしょ",
                 options: ["場所", "長所", "住所", "短所"],
                 answer: 2
             },
             {
-                text: "57. きる（服を）",
+                text: "56. きる（服を）",
                 options: ["切る", "着る", "消る", "決る"],
                 answer: 1
             },
             {
-                text: "58. かう",
+                text: "57. かう",
                 options: ["買う", "会う", "歌う", "使う"],
                 answer: 0
             },
             {
-                text: "59. おわる",
-                options: ["始わる", "終わる", "帰わる", "変わる"],
+                text: "58. おわる",
+                options: ["始まる", "終わる", "帰わる", "変わる"],
                 answer: 1
             },
             {
-                text: "60. ふく",
+                text: "59. ふく",
                 options: ["服", "福", "副", "幅"],
                 answer: 0
             },
             {
-                text: "61. つよい",
+                text: "60. つよい",
                 options: ["強い", "弱い", "太い", "広い"],
                 answer: 0
             },
             {
-                text: "62. おと",
+                text: "61. おと",
                 options: ["昔", "音", "青", "空"],
                 answer: 1
             },
             {
-                text: "63. かんがえる",
+                text: "62. かんがえる",
                 options: ["教える", "答える", "考える", "伝える"],
                 answer: 2
             },
             {
-                text: "64. はたらく",
+                text: "63. はたらく",
                 options: ["働く", "動く", "助く", "続く"],
                 answer: 0
             },
             {
-                text: "65. しけん",
+                text: "64. しけん",
                 options: ["試験", "実験", "経験", "危険"],
                 answer: 0
             },
             {
-                text: "66. とし",
+                text: "65. とし",
                 options: ["都市", "図書", "年", "会社"],
-                answer: 0
+                answer: 2
             },
 
+            // 66-74: KIJUTSU (9 soal)
             {
-                text: "67. 来年日本へ（ ）つもりです。",
+                text: "66. 来年日本へ（ ）つもりです。",
                 options: ["行く", "行き", "行った", "行って"],
                 answer: 0
             },
             {
-                text: "68. 雨が降った（ ）試合は中止です。",
+                text: "67. 雨が降った（ ）試合は中止です。",
                 options: ["から", "ので", "ら", "なら"],
                 answer: 3
             },
             {
-                text: "69. 日本語が話せる（ ）なりたいです。",
+                text: "68. 日本語が話せる（ ）なりたいです。",
                 options: ["ように", "みたいに", "そうに", "らしい"],
                 answer: 0
             },
             {
-                text: "70. ここで写真を（ ）もいいですか。",
+                text: "69. ここで写真を（ ）もいいですか。",
                 options: ["撮る", "撮って", "撮った", "撮り"],
-                answer: 1
+                answer: 0
             },
-
             {
-                text: "71. 正しい文を選びなさい。",
+                text: "70. 正しい文を選びなさい。",
                 options: ["春になったら来年旅行にしましょう", "来年旅行になったら春しましょう", "来年春になったら旅行にしましょう", "旅行来年春になったらしましょう"],
                 answer: 2
             },
             {
-                text: "72. 正しい文を選びなさい。",
+                text: "71. 正しい文を選びなさい。",
                 options: ["会うと友だちにうれしいです", "友だちに会うとうれしいです", "うれしいです友だちに会うと", "友だちうれしい会うとです"],
                 answer: 1
             },
             {
-                text: "73. 正しい文を選びなさい。",
+                text: "72. 正しい文を選びなさい。",
                 options: ["ばかり食事をしたです", "食事したばかりです", "した食事ばかりです", "食事をしたばかりです"],
                 answer: 3
             },
             {
-                text: "74. 正しい文を選びなさい。",
+                text: "73. 正しい文を選びなさい。",
                 options: ["合格する試験ために", "試験するために合格", "試験に合格するために", "ために試験合格する"],
                 answer: 2
+            },
+            {
+                text: "74. 土曜日何をしたい？",
+                options: ["帰って寝る", "働く", "温度を計る", "ゆっくり休む"],
+                answer: 3
             }
-
         ];
+
         let answers = new Array(questions.length).fill(null);
 
+        // ANTI-CHEAT (sekali saja)
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" ||
+                (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") ||
+                (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
         function startExam() {
-
             const name = document.getElementById("studentName").value.trim();
-
             if (!name) {
-                alert("Masukkan nama terlebih dahulu!");
+                alert("❌ Masukkan nama terlebih dahulu!");
                 return;
             }
 
             studentName = name;
-
             let savedAttempt = localStorage.getItem("attempt_" + name);
             attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
             localStorage.setItem("attempt_" + name, attempt);
@@ -609,38 +650,33 @@
             timeLeft = QUIZ_TIME;
             examFinished = false;
 
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
             generateNav();
             loadQuestion();
             startTimer();
         }
 
         function loadQuestion() {
-
             if (examFinished) return;
 
             const q = questions[current];
-
             document.getElementById("questionText").innerText = q.text;
-            document.getElementById("counter").innerText =
-                `Soal ${current + 1} / ${questions.length}`;
+            document.getElementById("counter").innerText = `Soal ${current + 1} / ${questions.length}`;
 
-            document.getElementById("progress").style.width =
-                ((current + 1) / questions.length * 100) + "%";
+            document.getElementById("progress").style.width = ((current + 1) / questions.length * 100) + "%";
 
             const optionsDiv = document.getElementById("options");
             optionsDiv.innerHTML = "";
 
             q.options.forEach((opt, i) => {
-
                 const btn = document.createElement("button");
                 btn.innerText = String.fromCharCode(65 + i) + ". " + opt;
-
-                if (answers[current] === i)
-                    btn.classList.add("selected");
+                if (answers[current] === i) btn.classList.add("selected");
 
                 btn.onclick = () => {
                     if (examFinished) return;
-
                     answers[current] = i;
                     loadQuestion();
                     updateNav();
@@ -650,177 +686,147 @@
             });
         }
 
-        /* =========================
-           NAVIGASI NOMOR
-        ========================= */
         function generateNav() {
-
             const nav = document.getElementById("navGrid");
             nav.innerHTML = "";
 
             for (let i = 0; i < questions.length; i++) {
-
                 const btn = document.createElement("button");
                 btn.innerText = i + 1;
-
                 btn.onclick = () => {
                     if (examFinished) return;
-
                     current = i;
                     loadQuestion();
                 };
-
                 nav.appendChild(btn);
             }
         }
 
         function updateNav() {
-
             const buttons = document.querySelectorAll(".nav-grid button");
-
             buttons.forEach((btn, i) => {
-
-                if (answers[i] !== null)
-                    btn.classList.add("answered");
-
-                if (examFinished)
-                    btn.disabled = true;
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
             });
         }
 
-        /* =========================
-           TIMER (AUTO SUBMIT)
-        ========================= */
         function startTimer() {
-
             timer = setInterval(() => {
-
                 if (examFinished) {
                     clearInterval(timer);
                     return;
                 }
 
                 timeLeft--;
-
                 const min = Math.floor(timeLeft / 60);
                 const sec = timeLeft % 60;
-
                 document.getElementById("timer").innerText =
                     `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
 
                 if (timeLeft <= 0) {
-                    finishExam(true); // AUTO SUBMIT
+                    finishExam(true);
                 }
-
             }, 1000);
         }
 
-        /* =========================
-           SELESAI UJIAN
-        ========================= */
         function finishExam(timeUp = false) {
-
             if (examFinished) return;
 
             examFinished = true;
             clearInterval(timer);
 
-            let tata = 0;
-            let dokkai = 0;
-            let kanji = 0;
-            let kijutsu = 0;
+            // Hitung skor per bagian
+            let tata = 0,
+                dokkai = 0,
+                kanji = 0,
+                kijutsu = 0;
+            let score = 0;
 
             answers.forEach((a, i) => {
-
                 if (a === questions[i].answer) {
-
-                    if (i <= 29) tata++; // 1–30
-                    else if (i <= 45) dokkai++; // 31–46
-                    else if (i <= 65) kanji++; // 47–66
-                    else kijutsu++; // 67–74
+                    score++;
+                    if (i < 30) tata++; // 0-29: Tata Bahasa (30 soal)
+                    else if (i < 45) dokkai++; // 30-44: Dokkai (15 soal)
+                    else if (i < 65) kanji++; // 45-64: Kanji (20 soal)
+                    else kijutsu++; // 65-73: Kijutsu (9 soal)
                 }
-
             });
 
-            let total = tata + dokkai + kanji + kijutsu;
+            let total = score;
             let nilaiTata = Math.round((tata / 30) * 100);
-            let nilaiDokkai = Math.round((dokkai / 16) * 100);
+            let nilaiDokkai = Math.round((dokkai / 15) * 100);
             let nilaiKanji = Math.round((kanji / 20) * 100);
-            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
-
+            let nilaiKijutsu = Math.round((kijutsu / 9) * 100);
             let nilaiTotal = Math.round((total / 74) * 100);
 
-
-            // KIRIM KE GOOGLE SHEET
+            // Kirim ke Google Sheet
             fetch("https://script.google.com/macros/s/AKfycbxzxnAFC8t0Uuk2JedPYRiP1URBpOonwFmxXDE7S1HLouKlcjeXMYaSXfoyBPXya4V5KA/exec", {
                 method: "POST",
+                mode: "no-cors",
                 body: JSON.stringify({
                     nama: studentName,
-                    tata: tata,
-                    dokkai: dokkai,
-                    kanji: kanji,
-                    kijutsu: kijutsu,
-                    total: total,
+                    tata,
+                    dokkai,
+                    kanji,
+                    kijutsu,
+                    total,
+                    score,
                     nilai_tata: nilaiTata,
                     nilai_dokkai: nilaiDokkai,
                     nilai_kanji: nilaiKanji,
                     nilai_kijutsu: nilaiKijutsu,
                     nilai_total: nilaiTotal,
-                    attempt: attempt
+                    attempt
                 })
             });
-            // KUNCI SEMUA TOMBOL
+
+            // Kunci semua tombol
             document.querySelectorAll("button").forEach(btn => {
                 btn.disabled = true;
                 btn.style.opacity = "0.6";
                 btn.style.cursor = "not-allowed";
             });
 
-            // POPUP NILAI
+            // Popup hasil
             setTimeout(() => {
                 alert(
                     (timeUp ? "⏰ Waktu Habis!\n\n" : "") +
-                    `Skor: ${total} / 74\n` +
-                    `Nilai: ${nilaiTotal}\n` +
-                    `Status: ${nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"}`
+                    `👤 Nama: ${studentName}\n` +
+                    `📊 Skor: ${score} / 74\n` +
+                    `🎯 Nilai: ${nilaiTotal}%\n` +
+                    `📜 Status: ${nilaiTotal >= 70 ? "🎉 LULUS" : "📚 REMEDIAL"}`
                 );
             }, 200);
 
-            // TAMPILKAN DI HALAMAN
-            const result = document.getElementById("result");
-            result.style.display = "block";
-            result.innerHTML =
-                `
-            <b>UJIAN SELESAI</b><br><br>
-
-            Tata Bahasa: ${tata} / 30 ( ${nilaiTata} )<br>
-            Dokkai: ${dokkai} / 16 ( ${nilaiDokkai} )<br>
-            Kanji: ${kanji} / 20 ( ${nilaiKanji} )<br>
-            Kijutsu: ${kijutsu} / 8 ( ${nilaiKijutsu} )<br><br>
-
-            <b>Total: ${total} / 74</b><br>
-            Nilai Akhir: <b>${nilaiTotal}</b><br>
-            Status: ${nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"}
+            // Tampilkan hasil di halaman
+            document.getElementById("result").innerHTML = `
+                <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+                    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+                    <div style="font-size:18px; margin:15px 0;">
+                        <b>👤 Nama:</b> ${studentName}<br>
+                        <b>🔄 Attempt:</b> ${attempt}<br><br>
+                        
+                        📝 <b>Tata Bahasa:</b> ${tata}/30 (${nilaiTata}%)<br>
+                        📖 <b>Dokkai:</b> ${dokkai}/15 (${nilaiDokkai}%)<br>
+                        漢字 <b>Kanji:</b> ${kanji}/20 (${nilaiKanji}%)<br>
+                        ✍️ <b>Kijutsu:</b> ${kijutsu}/9 (${nilaiKijutsu}%)<br><br>
+                        
+                        <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
+                            📊 Total: ${total}/74 (${nilaiTotal}%)
+                        </div>
+                        
+                        <div style="font-size:22px; padding:15px 25px; border-radius:12px; 
+                                   ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'} 
+                                   border: 3px solid ${nilaiTotal >= 70 ? '#28a745' : '#dc3545'};">
+                            ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+                        </div>
+                    </div>
+                </div>
             `;
-
+            document.getElementById("result").style.display = "block";
         }
-        /* =========================
-        ANTI CHEAT BASIC
-        ========================= */
-
-        // Blok klik kanan
-        document.addEventListener("contextmenu", function (e) {
-            e.preventDefault();
-        });
-
-        // Blok shortcut tertentu
-        document.addEventListener("keydown", function (e) {
-
-            if (e.key === "F12") e.preventDefault();
-            if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
-            if (e.ctrlKey && e.key === "u") e.preventDefault();
-
-        });
     </script>
 </body>
 
