@@ -179,6 +179,27 @@
         let current = 0;
         let studentName = "";
         let attempt = 1;
+        /* =========================
+        FULLSCREEN MODE
+        ========================= */
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
 
 
         const questions = [
@@ -580,6 +601,7 @@
 
             document.getElementById("loginBox").style.display = "none";
             document.getElementById("examContainer").style.display = "block";
+            openFullscreen();
 
             // RESET
             current = 0;
@@ -749,6 +771,23 @@
          Nilai: ${nilai}<br>
          Status: ${nilai >= 70 ? "LULUS" : "REMEDIAL"}`;
         }
+        /* =========================
+        ANTI CHEAT BASIC
+        ========================= */
+
+        // Blok klik kanan
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        // Blok shortcut tertentu
+        document.addEventListener("keydown", function (e) {
+
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+            if (e.ctrlKey && e.key === "u") e.preventDefault();
+
+        });
     </script>
 </body>
 
