@@ -316,52 +316,52 @@
                 answer: 1
             },
             {
-                text: "21. このサインはタバコを吸うなという意味です。",
+                text: "21. このサインは<u>タバコを吸うな</u>という意味です。",
                 options: ["禁煙", "駐車", "中止", "勤勉"],
                 answer: 0
             },
             {
-                text: "22. 時間が足ります。",
+                text: "22. 時間が<u>足ります</u>。",
                 options: ["ふだんあります", "たくさんあります", "少しあります", "いつもあります"],
                 answer: 1
             },
             {
-                text: "23. 間違わないように、注意してください。",
+                text: "23. <u>間違わないように、注意してください</u>。",
                 options: ["気がつく", "気を付けて", "気にしない", "気がなくなる"],
                 answer: 1
             },
             {
-                text: "24. このケーキ、うまいですね。",
+                text: "24. このケーキ、<u>うまい</u>ですね。",
                 options: ["たかい", "やすい", "おおい", "おいしい"],
                 answer: 3
             },
             {
-                text: "25. きっと、課長に相談するチャンスがありますよ。",
+                text: "25. きっと、課長に相談する<u>チャンス</u>がありますよ。",
                 options: ["情報", "方法", "機会", "必要"],
                 answer: 2
             },
             {
-                text: "26. どうぞたくさん召し上がってください。",
+                text: "26. どうぞたくさん<u>召し上がって</u>ください。",
                 options: ["食べて", "言って", "聞いて", "読んで"],
                 answer: 0
             },
             {
-                text: "27. 雨がひどく降ってきた。それで、私たちは屋内で遊んだ。",
+                text: "27. 雨がひどく降ってきた。<u>それで</u>、私たちは屋内で遊んだ。",
                 options: ["そして", "それから", "でも", "ですから"],
                 answer: 3
             },
             {
-                text: "28. 部屋で寝たばかりです。",
+                text: "28. 部屋で<u>寝たばかり</u>です。",
                 options: ["寝ない", "寝たいです", "すぐ寝る", "さっき寝た"],
                 answer: 3
             },
             {
-                text: "29. 夜空に星が輝いています。",
+                text: "29. 夜空に星が<u>輝いています</u>。",
                 options: ["バラバラ", "ワクワク", "ドキドキ", "キラキラ"],
                 answer: 3
             },
             {
-                text: "30. 町の人々は地震に大変びっくりしました。",
+                text: "30. 町の人々は地震に大変<u>びっくりしました</u>。",
                 options: ["踊った", "驚いた", "落ちた", "押した"],
                 answer: 1
             },
@@ -655,7 +655,7 @@
         function loadQuestion() {
             if (examFinished) return;
             const q = questions[current];
-            document.getElementById("questionText").innerText = q.text;
+            document.getElementById("questionText").innerHTML = q.text;
             document.getElementById("counter").innerText = `Soal ${current + 1} / ${questions.length}`;
 
             document.getElementById("progress").style.width = ((current + 1) / questions.length * 100) + "%";
