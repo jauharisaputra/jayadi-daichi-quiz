@@ -750,7 +750,7 @@
 
             let nilaiTotal = Math.round((total / 74) * 100);
 
-            const nilai = Math.round(score / questions.length * 100);
+
             // KIRIM KE GOOGLE SHEET
             fetch("https://script.google.com/macros/s/AKfycbxzxnAFC8t0Uuk2JedPYRiP1URBpOonwFmxXDE7S1HLouKlcjeXMYaSXfoyBPXya4V5KA/exec", {
                 method: "POST",
@@ -780,14 +780,15 @@
             setTimeout(() => {
                 alert(
                     (timeUp ? "⏰ Waktu Habis!\n\n" : "") +
-                    "UJIAN SELESAI\n\n" +
-                    `Skor: ${score} / ${questions.length}\n` +
-                    `Nilai: ${nilai}\n` +
-                    `Status: ${nilai >= 70 ? "LULUS" : "REMEDIAL"}`
+                    `Skor: ${total} / 74\n` +
+                    `Nilai: ${nilaiTotal}\n` +
+                    `Status: ${nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"}`
                 );
             }, 200);
 
             // TAMPILKAN DI HALAMAN
+            const result = document.getElementById("result");
+            result.style.display = "block";
             result.innerHTML =
                 `
             <b>UJIAN SELESAI</b><br><br>
@@ -801,23 +802,25 @@
             Nilai Akhir: <b>${nilaiTotal}</b><br>
             Status: ${nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"}
             `;
-            /* =========================
-            ANTI CHEAT BASIC
-            ========================= */
 
-            // Blok klik kanan
-            document.addEventListener("contextmenu", function (e) {
-                e.preventDefault();
-            });
+        }
+        /* =========================
+        ANTI CHEAT BASIC
+        ========================= */
 
-            // Blok shortcut tertentu
-            document.addEventListener("keydown", function (e) {
+        // Blok klik kanan
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
 
-                if (e.key === "F12") e.preventDefault();
-                if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
-                if (e.ctrlKey && e.key === "u") e.preventDefault();
+        // Blok shortcut tertentu
+        document.addEventListener("keydown", function (e) {
 
-            });
+            if (e.key === "F12") e.preventDefault();
+            if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+            if (e.ctrlKey && e.key === "u") e.preventDefault();
+
+        });
     </script>
 </body>
 
