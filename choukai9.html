@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.TEST D-E 聴解試験</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .right-panel {
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .section-intro {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #eef2ff;
+            border-radius: 6px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question img,
+        .question table,
+        .question pre {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question table {
+            border-collapse: collapse;
+        }
+
+        .question table th,
+        .question table td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162d6b;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>J.TEST D-E 聴解試験</h2>
+        <div>35分 | 350点満点</div>
+        <div class="timer">Sisa Waktu: <span id="time">35:00</span></div>
+    </header>
+
+    <div class="container">
+        <!-- LOGIN -->
+        <div id="loginBox">
+            <h3>Login Peserta</h3>
+            <input type="text" id="nama" placeholder="Nama Lengkap"><br><br>
+            <input type="text" id="kelas" placeholder="Kelas"><br><br>
+            <button onclick="startExam()">Mulai Ujian</button>
+        </div>
+
+        <!-- EXAM -->
+        <div id="examBox" style="display:none">
+            <div class="right-panel">
+                <h3>Jawaban</h3>
+                <div id="questions"></div>
+                <br>
+                <button onclick="submitExam('Selesai')">Kumpulkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio tersembunyi -->
+    <audio id="audio" style="display:none">
+        <source src="audio/Choukai TO 01 新しい.m4a" type="audio/mp4">
+    </audio>
+
+    <script>
+        let namaPeserta = "",
+            kelasPeserta = "";
+        let duration = 35 * 60;
+        let timer = null;
+        let submitted = false;
+
+        if (sessionStorage.getItem("examStarted") === "true") {
+            alert("Refresh terdeteksi. Ujian dihentikan.");
+            window.location = "about:blank";
+        }
+
+        const examSections = [{
+                name: "写真問題",
+                intro: `<p>Contoh: Perhatikan gambar berikut dan pilih jawaban yang tepat.</p>
+                        <img src="img/contoh_foto.jpg" style="max-width:100%; margin-bottom:10px;">`,
+                questions: [{
+                        type: "text",
+                        content: "Soal 1: Isi jawaban soal 1"
+                    },
+                    {
+                        type: "image",
+                        content: "img/soal1.jpg"
+                    },
+                    {
+                        type: "text",
+                        content: "Soal 3: Isi jawaban soal 3"
+                    }
+                ]
+            },
+            {
+                name: "聴読解問題",
+                intro: `<p>Contoh: Baca teks berikut dan pilih jawaban yang sesuai.</p>
+                        <pre>A: こんにちは B: はい、元気です</pre>`,
+                questions: [{
+                        type: "text",
+                        content: "Soal 4: Isi jawaban soal 4"
+                    },
+                    {
+                        type: "table",
+                        content: `<table>
+                        <tr><th>Hari</th><th>Cuaca</th></tr>
+                        <tr><td>Senin</td><td>Cerah</td></tr>
+                        <tr><td>Selasa</td><td>Hujan</td></tr>
+                        </table>`
+                    }
+                ]
+            },
+            {
+                name: "応答問題",
+                intro: `<p>Contoh percakapan singkat:</p>
+                        <pre>A: おはよう B: おはようございます</pre>`,
+                questions: [{
+                        type: "text",
+                        content: "Soal 6: ..."
+                    },
+                    {
+                        type: "text",
+                        content: "Soal 7: ..."
+                    }
+                ]
+            },
+            {
+                name: "会話・説明問題",
+                intro: `<p>Contoh percakapan panjang:</p>
+                        <pre>...</pre>`,
+                questions: [{
+                        type: "text",
+                        content: "Soal 8: ..."
+                    },
+                    {
+                        type: "text",
+                        content: "Soal 9: ..."
+                    }
+                ]
+            }
+        ];
+
+        function startExam() {
+            namaPeserta = document.getElementById("nama").value.trim();
+            kelasPeserta = document.getElementById("kelas").value.trim();
+            if (!namaPeserta || !kelasPeserta) {
+                alert("Isi nama dan kelas terlebih dahulu");
+                return;
+            }
+            sessionStorage.setItem("examStarted", "true");
+            enterFullscreen();
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examBox").style.display = "block";
+            generateQuestions();
+            startTimer();
+            startAudio();
+        }
+
+        function enterFullscreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) submitExam("Keluar Fullscreen");
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) submitExam("Pindah Tab");
+        });
+
+        function startAudio() {
+            let audio = document.getElementById("audio");
+            audio.play().catch(() => {});
+            audio.addEventListener("pause", () => {
+                if (!audio.ended) audio.play();
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                let m = Math.floor(duration / 60);
+                let s = duration % 60;
+                document.getElementById("time").textContent =
+                    (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+                duration--;
+                if (duration < 0) submitExam("Waktu Habis");
+            }, 1000);
+        }
+
+        function generateQuestions() {
+            let c = document.getElementById("questions");
+            c.innerHTML = "";
+            let soalCounter = 1;
+
+            examSections.forEach(sec => {
+                c.innerHTML += `<div class="section-title">${sec.name}</div>`;
+                c.innerHTML += `<div class="section-intro">${sec.intro}</div>`;
+
+                sec.questions.forEach(q => {
+                    let konten = "";
+                    if (q.type === "text") konten = `<p>${q.content}</p>`;
+                    else if (q.type === "image") konten = `<img src="${q.content}" alt="Soal">`;
+                    else if (q.type === "table" || q.type === "pre") konten = q.content;
+
+                    c.innerHTML += `
+                    <div class="question">
+                      <p><b>Soal ${soalCounter}</b></p>
+                      ${konten}
+                      <label><input type="radio" name="q${soalCounter}" value="1"> 1</label>
+                      <label><input type="radio" name="q${soalCounter}" value="2"> 2</label>
+                      <label><input type="radio" name="q${soalCounter}" value="3"> 3</label>
+                      <label><input type="radio" name="q${soalCounter}" value="4"> 4</label>
+                    </div>`;
+                    soalCounter++;
+                });
+            });
+        }
+
+        // Contoh jawaban kunci sederhana
+        let answerKey = {};
+        for (let i = 1; i <= 38; i++) answerKey[i] = 1; // sesuaikan sesuai kunci asli
+
+        function submitExam(status) {
+            if (submitted) return;
+            submitted = true;
+            clearInterval(timer);
+            sessionStorage.clear();
+
+            let total = 0,
+                detail = "";
+            for (let i = 1; i <= 38; i++) {
+                let s = document.querySelector(`input[name="q${i}"]:checked`);
+                let j = s ? parseInt(s.value) : 0;
+                detail += `Q${i}:${j} `;
+                if (j === answerKey[i]) total += 10;
+            }
+
+            sendData(total, status, detail);
+
+            alert(`Ujian selesai\nTotal: ${total}/380`);
+
+            document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
+        }
+
+        function sendData(total, status, detail) {
+            fetch("https://script.google.com/macros/s/AKfycbwYrT7futaKdDpGetNBNompvAqWr32XnOq9WaSBmvmDFlXZRzF7K5d3xWcrAjNNBjLh/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    nama: namaPeserta,
+                    kelas: kelasPeserta,
+                    total,
+                    status,
+                    detail
+                })
+            });
+        }
+    </script>
+</body>
+
+</html>
