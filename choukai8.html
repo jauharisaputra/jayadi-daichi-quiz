@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.TEST D-E 聴解試験</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .right-panel {
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question img,
+        .question table,
+        .question pre {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question table {
+            border-collapse: collapse;
+        }
+
+        .question table th,
+        .question table td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162d6b;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>J.TEST D-E 聴解試験</h2>
+        <div>35分 | 350点満点</div>
+        <div class="timer">Sisa Waktu: <span id="time">35:00</span></div>
+    </header>
+
+    <div class="container">
+        <!-- LOGIN -->
+        <div id="loginBox">
+            <h3>Login Peserta</h3>
+            <input type="text" id="nama" placeholder="Nama Lengkap"><br><br>
+            <input type="text" id="kelas" placeholder="Kelas"><br><br>
+            <button onclick="startExam()">Mulai Ujian</button>
+        </div>
+
+        <!-- EXAM -->
+        <div id="examBox" style="display:none">
+            <div class="right-panel">
+                <h3>Jawaban</h3>
+                <div id="questions"></div>
+                <br>
+                <button onclick="submitExam('Selesai')">Kumpulkan</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio" style="display:none">
+        <source src="audio/Choukai TO 01 新しい.m4a" type="audio/mp4">
+    </audio>
+
+    <script>
+        let namaPeserta = "",
+            kelasPeserta = "";
+        let duration = 35 * 60;
+        let timer = null;
+        let submitted = false;
+
+        if (sessionStorage.getItem("examStarted") === "true") {
+            alert("Refresh terdeteksi. Ujian dihentikan.");
+            window.location = "about:blank";
+        }
+
+        function startExam() {
+            namaPeserta = document.getElementById("nama").value.trim();
+            kelasPeserta = document.getElementById("kelas").value.trim();
+            if (!namaPeserta || !kelasPeserta) {
+                alert("Isi nama dan kelas terlebih dahulu");
+                return;
+            }
+            sessionStorage.setItem("examStarted", "true");
+            enterFullscreen();
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examBox").style.display = "block";
+            generateQuestions();
+            startTimer();
+            startAudio();
+        }
+
+        function enterFullscreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) submitExam("Keluar Fullscreen");
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) submitExam("Pindah Tab");
+        });
+
+        function startAudio() {
+            let audio = document.getElementById("audio");
+            audio.play().catch(() => {});
+            audio.addEventListener("pause", () => {
+                if (!audio.ended) audio.play();
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                let m = Math.floor(duration / 60);
+                let s = duration % 60;
+                document.getElementById("time").textContent =
+                    (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+                duration--;
+                if (duration < 0) submitExam("Waktu Habis");
+            }, 1000);
+        }
+
+        function generateQuestions() {
+            let c = document.getElementById("questions");
+            c.innerHTML = "";
+
+            for (let i = 1; i <= 38; i++) {
+                let kontenSoal = "";
+
+                if (i === 5) {
+                    kontenSoal = `<p>Perhatikan gambar berikut:</p>
+                                  <img src="img/soal5.jpg" alt="Soal 5">`;
+                } else if (i === 12) {
+                    kontenSoal = `<p>Perhatikan tabel berikut:</p>
+                                  <table>
+                                    <tr><th>Hari</th><th>Cuaca</th></tr>
+                                    <tr><td>Senin</td><td>Cerah</td></tr>
+                                    <tr><td>Selasa</td><td>Hujan</td></tr>
+                                  </table>`;
+                } else if (i === 20) {
+                    kontenSoal = `<p>Baca percakapan berikut:</p>
+                                  <pre>
+A: こんにちは。元気ですか？
+B: はい、元気です。あなたは？
+A: 私も元気です。</pre>`;
+                } else {
+                    kontenSoal = `<p>Isi jawaban soal ${i}:</p>`;
+                }
+
+                c.innerHTML += `
+<div class="question">
+  <p><b>Soal ${i}</b></p>
+  ${kontenSoal}
+  <label><input type="radio" name="q${i}" value="1"> 1</label>
+  <label><input type="radio" name="q${i}" value="2"> 2</label>
+  <label><input type="radio" name="q${i}" value="3"> 3</label>
+  <label><input type="radio" name="q${i}" value="4"> 4</label>
+</div>`;
+            }
+        }
+
+        let answerKey = {
+            1: 4,
+            2: 3,
+            3: 2,
+            4: 3,
+            5: 1,
+            6: 4,
+            7: 1,
+            8: 2,
+            9: 3,
+            10: 4,
+            11: 4,
+            12: 3,
+            13: 1,
+            14: 3,
+            15: 2,
+            16: 3,
+            17: 1,
+            18: 2,
+            19: 2,
+            20: 1,
+            21: 2,
+            22: 1,
+            23: 3,
+            24: 1,
+            25: 3,
+            26: 1,
+            27: 2,
+            28: 3,
+            29: 3,
+            30: 1,
+            31: 3,
+            32: 2,
+            33: 3,
+            34: 2,
+            35: 1,
+            36: 2,
+            37: 1,
+            38: 3
+        };
+
+        function submitExam(status) {
+            if (submitted) return;
+            submitted = true;
+            clearInterval(timer);
+            sessionStorage.clear();
+
+            let scoreFoto = 0,
+                scoreChoudokukai = 0,
+                scoreOutou = 0,
+                scoreKaiwa = 0;
+            let detail = "";
+
+            for (let i = 1; i <= 38; i++) {
+                let s = document.querySelector(`input[name="q${i}"]:checked`);
+                let j = s ? parseInt(s.value) : 0;
+                detail += `Q${i}:${j} `;
+                if (j === answerKey[i]) {
+                    if (i <= 6) scoreFoto += 5;
+                    else if (i <= 12) scoreChoudokukai += 10;
+                    else if (i <= 28) scoreOutou += 10;
+                    else scoreKaiwa += 10;
+                }
+            }
+
+            let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
+            sendData(scoreFoto, scoreChoudokukai, scoreOutou, scoreKaiwa, total, status, detail);
+
+            alert(
+                "Ujian selesai\n\n" +
+                "写真問題: " + scoreFoto + "/30\n" +
+                "聴読解問題: " + scoreChoudokukai + "/60\n" +
+                "応答問題: " + scoreOutou + "/160\n" +
+                "会話・説明問題: " + scoreKaiwa + "/100\n\n" +
+                "Total: " + total + "/350"
+            );
+
+            document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
+        }
+
+        function sendData(foto, choudokukai, outou, kaiwa, total, status, detail) {
+            fetch("https://script.google.com/macros/s/AKfycbwYrT7futaKdDpGetNBNompvAqWr32XnOq9WaSBmvmDFlXZRzF7K5d3xWcrAjNNBjLh/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    nama: namaPeserta,
+                    kelas: kelasPeserta,
+                    foto,
+                    choudokukai,
+                    outou,
+                    kaiwa,
+                    total,
+                    status,
+                    detail
+                })
+            });
+        }
+    </script>
+</body>
+
+</html>
