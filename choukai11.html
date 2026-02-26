@@ -95,6 +95,39 @@
             padding: 8px;
             width: 250px;
         }
+
+        /* ===== Border & hover untuk opsi jawaban ===== */
+        .question label {
+            border: 1px solid #1e3a8a;
+            border-radius: 6px;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .question label:hover {
+            background: #eef2ff;
+        }
+
+        /* ===== Mobile ===== */
+        @media (max-width:768px) {
+            .question label {
+                width: 22%;
+                margin-bottom: 5px;
+            }
+        }
+
+        /* ===== Soal 29-38 gambar diperbesar di PC ===== */
+        @media (min-width:769px) {
+            .question-large img {
+                max-width: 80%;
+                display: block;
+                margin: 0 auto 10px auto;
+            }
+        }
     </style>
 </head>
 
@@ -200,83 +233,22 @@
                 ]
             },
             {
-                name: "３ 応答問題 （問題 ）",
+                name: "応答問題",
                 intro: `<p>（問題だけ聞いて答えてください）</p>
-<pre>例題1 → れい1  ① ● ③ （答えは解答用紙にマークしてください）<br><br> 
-例題2 → れい2  ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
-                questions: [{
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-                    {
-                        type: "text",
-                        content: "問題：（問題だけ聞いて答えてください）"
-                    },
-
-                ]
+<pre>例題 → （答えは解答用紙にマークしてください）</pre>`,
+                questions: Array.from({
+                    length: 16
+                }, (_, i) => ({
+                    type: "text",
+                    content: `Soal ${i+13}`
+                })) // ringkas soal 13-28
             },
             {
                 name: "会話・説明問題",
                 intro: `<p>例題 <br>
-                    1 耳が痛いですから <br>
-                    2 頭が痛いですから <br>
-                    3 歯が痛いですから </p>
+1 耳が痛いですから <br>
+2 頭が痛いですから <br>
+3 歯が痛いですから </p>
 <pre>れい ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
                 questions: [{
                         type: "image",
@@ -286,7 +258,6 @@
                         type: "image",
                         content: "img/b.jpeg"
                     },
-
                     {
                         type: "image",
                         content: "img/c.jpeg"
@@ -294,9 +265,7 @@
                     {
                         type: "image",
                         content: "img/d.jpeg"
-
                     },
-
                     {
                         type: "image",
                         content: "img/e.jpeg"
@@ -321,7 +290,6 @@
                         type: "image",
                         content: "img/j.jpeg"
                     }
-
                 ]
             }
         ];
@@ -365,8 +333,7 @@
             timer = setInterval(() => {
                 let m = Math.floor(duration / 60),
                     s = duration % 60;
-                document.getElementById("time").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ?
-                    "0" :
+                document.getElementById("time").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" :
                     "") + s;
                 duration--;
                 if (duration < 0) submitExam("Waktu Habis");
@@ -382,10 +349,15 @@
                 c.innerHTML += `<div class="section-intro">${sec.intro}</div>`;
                 sec.questions.forEach(q => {
                     let konten = "";
-                    if (q.type === "text") konten = `<p>${q.content}</p>`;
+                    if (soalCounter >= 13 && soalCounter <= 28) {
+                        konten = "";
+                    } // ringkas soal 13-28
+                    else if (q.type === "text") konten = `<p>${q.content}</p>`;
                     else if (q.type === "image") konten = `<img src="${q.content}" alt="Soal">`;
                     else if (q.type === "table" || q.type === "pre") konten = q.content;
-                    c.innerHTML += `<div class="question"><p><b>Soal ${soalCounter}</b></p>${konten}
+                    let classSoal = (soalCounter >= 29 && soalCounter <= 38) ?
+                        "question question-large" : "question";
+                    c.innerHTML += `<div class="${classSoal}"><p><b>Soal ${soalCounter}</b></p>${konten}
 <label><input type="radio" name="q${soalCounter}" value="1"> 1</label>
 <label><input type="radio" name="q${soalCounter}" value="2"> 2</label>
 <label><input type="radio" name="q${soalCounter}" value="3"> 3</label>
@@ -396,12 +368,12 @@
             });
         }
 
-        // Kunci jawaban sesuai poin tiap bagian
+        // Kunci jawaban
         let answerKey = {};
-        for (let i = 1; i <= 6; i++) answerKey[i] = 1; // Deskripsi Gambar
-        for (let i = 7; i <= 12; i++) answerKey[i] = 2; // 聴読解問題
-        for (let i = 13; i <= 28; i++) answerKey[i] = 3; // 応答問題
-        for (let i = 29; i <= 38; i++) answerKey[i] = 4; // 会話・説明問題
+        for (let i = 1; i <= 6; i++) answerKey[i] = 1;
+        for (let i = 7; i <= 12; i++) answerKey[i] = 2;
+        for (let i = 13; i <= 28; i++) answerKey[i] = 3;
+        for (let i = 29; i <= 38; i++) answerKey[i] = 4;
 
         function submitExam(status) {
             if (submitted) return;
@@ -427,8 +399,7 @@
             let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
             sendData(scoreFoto, scoreChoudokukai, scoreOutou, scoreKaiwa, total, status, detail);
             alert(
-                `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`
-            );
+                `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`);
             document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
         }
 
