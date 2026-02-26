@@ -129,9 +129,9 @@
     <script>
         let namaPeserta = "",
             kelasPeserta = "";
-        let duration = 35 * 60;
-        let timer = null;
-        let submitted = false;
+        let duration = 35 * 60,
+            timer = null,
+            submitted = false;
 
         if (sessionStorage.getItem("examStarted") === "true") {
             alert("Refresh terdeteksi. Ujian dihentikan.");
@@ -140,47 +140,188 @@
 
         const examSections = [{
                 name: "写真問題",
-                intro: `<p>Contoh: Perhatikan gambar berikut dan pilih jawaban yang tepat.</p>
-           <img src="img/contoh_foto.jpg" style="max-width:100%; margin-bottom:10px;">`,
-                questions: Array.from({
-                    length: 6
-                }, (_, i) => ({
-                    type: "text",
-                    content: `Soal ${i+1}: Isi jawaban soal`
-                }))
+                intro: `<p>写真問題</p>
+<img src="img/1.jpeg" style="max-width:100%; margin-bottom:10px;">`,
+                questions: [{
+                        type: "image",
+                        content: "img/2.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/3.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/4.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/5.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/6.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/7.jpeg"
+                    }
+                ]
             },
             {
                 name: "聴読解問題",
-                intro: `<p>Contoh: Baca teks berikut dan pilih jawaban yang sesuai.</p>
-           <pre>A: こんにちは B: はい、元気です</pre>`,
-                questions: Array.from({
-                    length: 6
-                }, (_, i) => ({
-                    type: "text",
-                    content: `Soal ${i+7}: Isi jawaban soal`
-                }))
+                intro: `<p>マークしてください</p>
+<pre>答えはマークしてください</pre>`,
+                questions: [{
+                        type: "image",
+                        content: "img/8.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/9.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/10.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/11.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/12.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/13.jpeg"
+                    }
+                ]
             },
             {
-                name: "応答問題",
-                intro: `<p>Contoh: Respon percakapan singkat:</p>
-           <pre>A: おはよう B: おはようございます</pre>`,
-                questions: Array.from({
-                    length: 16
-                }, (_, i) => ({
-                    type: "text",
-                    content: `Soal ${i+13}: Isi jawaban soal`
-                }))
+                name: "３ 応答問題 （問題 ）",
+                intro: `<p>（問題だけ聞いて答えてください）</p>
+<pre>例題1 → れい1  ① ● ③ （答えは解答用紙にマークしてください）<br><br> 
+例題2 → れい2  ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
+                questions: [{
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+                    {
+                        type: "text",
+                        content: "問題：（問題だけ聞いて答えてください）"
+                    },
+
+                ]
             },
             {
                 name: "会話・説明問題",
-                intro: `<p>Contoh: Percakapan panjang:</p>
-           <pre>...</pre>`,
-                questions: Array.from({
-                    length: 10
-                }, (_, i) => ({
-                    type: "text",
-                    content: `Soal ${i+29}: Isi jawaban soal`
-                }))
+                intro: `<p>例題 <br>
+                    1 耳が痛いですから <br>
+                    2 頭が痛いですから <br>
+                    3 歯が痛いですから </p>
+<pre>れい ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
+                questions: [{
+                        type: "image",
+                        content: "img/a.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/b.jpeg"
+                    },
+
+                    {
+                        type: "image",
+                        content: "img/c.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/d.jpeg"
+
+                    },
+
+                    {
+                        type: "image",
+                        content: "img/e.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/f.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/g.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/h.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/i.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/j.jpeg"
+                    }
+
+                ]
             }
         ];
 
@@ -221,9 +362,10 @@
 
         function startTimer() {
             timer = setInterval(() => {
-                let m = Math.floor(duration / 60);
-                let s = duration % 60;
-                document.getElementById("time").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" :
+                let m = Math.floor(duration / 60),
+                    s = duration % 60;
+                document.getElementById("time").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ?
+                    "0" :
                     "") + s;
                 duration--;
                 if (duration < 0) submitExam("Waktu Habis");
@@ -242,13 +384,12 @@
                     if (q.type === "text") konten = `<p>${q.content}</p>`;
                     else if (q.type === "image") konten = `<img src="${q.content}" alt="Soal">`;
                     else if (q.type === "table" || q.type === "pre") konten = q.content;
-                    c.innerHTML += `<div class="question">
-      <p><b>Soal ${soalCounter}</b></p>${konten}
-      <label><input type="radio" name="q${soalCounter}" value="1"> 1</label>
-      <label><input type="radio" name="q${soalCounter}" value="2"> 2</label>
-      <label><input type="radio" name="q${soalCounter}" value="3"> 3</label>
-      <label><input type="radio" name="q${soalCounter}" value="4"> 4</label>
-      </div>`;
+                    c.innerHTML += `<div class="question"><p><b>Soal ${soalCounter}</b></p>${konten}
+<label><input type="radio" name="q${soalCounter}" value="1"> 1</label>
+<label><input type="radio" name="q${soalCounter}" value="2"> 2</label>
+<label><input type="radio" name="q${soalCounter}" value="3"> 3</label>
+<label><input type="radio" name="q${soalCounter}" value="4"> 4</label>
+</div>`;
                     soalCounter++;
                 });
             });
@@ -285,7 +426,8 @@
             let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
             sendData(scoreFoto, scoreChoudokukai, scoreOutou, scoreKaiwa, total, status, detail);
             alert(
-                `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`);
+                `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`
+            );
             document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
         }
 
