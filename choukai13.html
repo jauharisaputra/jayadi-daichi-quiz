@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.TEST D-E 聴解試験</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .right-panel {
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .section-intro {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #eef2ff;
+            border-radius: 6px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question img,
+        .question table,
+        .question pre {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question table {
+            border-collapse: collapse;
+        }
+
+        .question table th,
+        .question table td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162d6b;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+
+        /* Border opsi */
+        .question label {
+            border: 1px solid #1e3a8a;
+            border-radius: 6px;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .question label:hover {
+            background: #eef2ff;
+        }
+
+        /* Mobile */
+        @media (max-width:768px) {
+            .question label {
+                width: 22%;
+                margin-bottom: 5px;
+            }
+        }
+
+        /* ===== FIX KHUSUS SOAL 29–38 DI MOBILE ===== */
+        @media (max-width:768px) {
+
+            .question-large img {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin-bottom: 12px;
+            }
+
+            .question-large label {
+                width: 30% !important;
+                /* override 22% */
+                display: inline-block;
+                margin: 5px 1%;
+                vertical-align: top;
+            }
+
+        }
+
+        /* Perbesar gambar 29–38 di PC */
+        @media (min-width:769px) {
+            .question-large img {
+                max-width: 85%;
+                display: block;
+                margin: 0 auto 10px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>J.TEST D-E 聴解試験</h2>
+        <div>35分 | 350点満点</div>
+        <div class="timer">Sisa Waktu: <span id="time">35:00</span></div>
+    </header>
+
+    <div class="container">
+
+        <div id="loginBox">
+            <h3>Login Peserta</h3>
+            <input type="text" id="nama" placeholder="Nama Lengkap"><br><br>
+            <input type="text" id="kelas" placeholder="Kelas"><br><br>
+            <button onclick="startExam()">Mulai Ujian</button>
+        </div>
+
+        <div id="examBox" style="display:none">
+            <div class="right-panel">
+                <h3>Jawaban</h3>
+                <div id="questions"></div><br>
+                <button onclick="submitExam('Selesai')">Kumpulkan</button>
+            </div>
+        </div>
+
+    </div>
+
+    <audio id="audio" style="display:none">
+        <source src="audio/Choukai TO 01 新しい.m4a" type="audio/mp4">
+    </audio>
+
+    <script>
+        let namaPeserta = "",
+            kelasPeserta = "";
+        let duration = 35 * 60,
+            timer = null,
+            submitted = false;
+
+        /* ===== Anti Refresh ===== */
+        if (sessionStorage.getItem("examStarted") === "true") {
+            alert("Refresh terdeteksi. Ujian dihentikan.");
+            window.location = "about:blank";
+        }
+
+        /* ===== DATA SOAL (TIDAK DIUBAH) ===== */
+        const examSections = [{
+                name: "写真問題",
+                intro: `<p>写真問題</p>
+<img src="img/1.jpeg" style="max-width:100%; margin-bottom:10px;">`,
+                questions: [{
+                        type: "image",
+                        content: "img/2.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/3.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/4.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/5.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/6.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/7.jpeg"
+                    }
+                ]
+            },
+            {
+                name: "聴読解問題",
+                intro: `<p>マークしてください</p>
+<pre>答えはマークしてください</pre>
+<img src="img/8.jpeg" style="max-width:100%; margin-bottom:10px;">`,
+                questions: [{
+                        type: "image",
+                        content: "img/9.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/10.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/11.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/12.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/13.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/14.jpeg"
+                    }
+                ]
+            },
+            {
+                name: "応答問題",
+                intro: `<p>（問題だけ聞いて答えてください）</p>
+<pre>例題 → （答えは解答用紙にマークしてください）</pre>`,
+                questions: Array.from({
+                    length: 16
+                }, (_, i) => ({
+                    type: "text",
+                    content: `Soal ${i+13}`
+                }))
+            },
+            {
+                name: "会話・説明問題",
+                intro: `<p>例題 <br>
+1 耳が痛いですから <br>
+2 頭が痛いですから <br>
+3 歯が痛いですから </p>
+<pre>れい ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
+                questions: [{
+                        type: "image",
+                        content: "img/a.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/b.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/c.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/d.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/e.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/f.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/g.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/h.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/i.jpeg"
+                    },
+                    {
+                        type: "image",
+                        content: "img/j.jpeg"
+                    }
+                ]
+            }
+        ];
+
+        /* ===== GENERATE SOAL ===== */
+        function generateQuestions() {
+            let c = document.getElementById("questions");
+            c.innerHTML = "";
+            let nomor = 1;
+
+            examSections.forEach(sec => {
+                c.innerHTML += `<div class="section-title">${sec.name}</div>`;
+                c.innerHTML += `<div class="section-intro">${sec.intro}</div>`;
+
+                sec.questions.forEach(q => {
+
+                    let konten = "";
+                    if (nomor >= 13 && nomor <= 28) {
+                        konten = ""; // ringkas
+                    } else {
+                        if (q.type === "image") konten = `<img src="${q.content}" alt="Soal ${nomor}">`;
+                        else if (q.type === "text") konten = `<p>${q.content}</p>`;
+                        else konten = q.content;
+                    }
+
+                    let classSoal = (nomor >= 29 && nomor <= 38) ?
+                        "question question-large" : "question";
+
+                    let opsi = `
+<label><input type="radio" name="q${nomor}" value="1"> 1</label>
+<label><input type="radio" name="q${nomor}" value="2"> 2</label>
+<label><input type="radio" name="q${nomor}" value="3"> 3</label>
+`;
+
+                    if (nomor <= 12) {
+                        opsi += `<label><input type="radio" name="q${nomor}" value="4"> 4</label>`;
+                    }
+
+                    c.innerHTML += `
+<div class="${classSoal}">
+<p><b>Soal ${nomor}</b></p>
+${konten}
+${opsi}
+</div>
+`;
+
+                    nomor++;
+                });
+            });
+        }
+
+        /* ===== TIMER ===== */
+        function startTimer() {
+            timer = setInterval(() => {
+                let m = Math.floor(duration / 60),
+                    s = duration % 60;
+                document.getElementById("time").textContent =
+                    (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+                duration--;
+                if (duration < 0) submitExam("Waktu Habis");
+            }, 1000);
+        }
+
+        /* ===== FULLSCREEN ===== */
+        function enterFullscreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+        }
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) submitExam("Keluar Fullscreen");
+        });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) submitExam("Pindah Tab");
+        });
+
+        /* ===== AUDIO ===== */
+        function startAudio() {
+            let audio = document.getElementById("audio");
+            audio.play().catch(() => {});
+            audio.addEventListener("pause", () => {
+                if (!audio.ended) audio.play();
+            });
+        }
+
+        /* ===== START ===== */
+        function startExam() {
+            namaPeserta = document.getElementById("nama").value.trim();
+            kelasPeserta = document.getElementById("kelas").value.trim();
+            if (!namaPeserta || !kelasPeserta) {
+                alert("Isi nama dan kelas terlebih dahulu");
+                return;
+            }
+            sessionStorage.setItem("examStarted", "true");
+            enterFullscreen();
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examBox").style.display = "block";
+            generateQuestions();
+            startTimer();
+            startAudio();
+        }
+
+        /* ===== KUNCI ===== */
+        let answerKey = {
+            1: 4,
+            2: 3,
+            3: 2,
+            4: 3,
+            5: 1,
+            6: 4,
+            7: 1,
+            8: 2,
+            9: 3,
+            10: 4,
+            11: 4,
+            12: 3,
+            13: 1,
+            14: 3,
+            15: 2,
+            16: 3,
+            17: 1,
+            18: 2,
+            19: 2,
+            20: 1,
+            21: 2,
+            22: 1,
+            23: 3,
+            24: 1,
+            25: 3,
+            26: 1,
+            27: 2,
+            28: 3,
+            29: 3,
+            30: 1,
+            31: 3,
+            32: 2,
+            33: 3,
+            34: 2,
+            35: 1,
+            36: 2,
+            37: 1,
+            38: 3
+        };
+
+        /* ===== SUBMIT ===== */
+        function submitExam(status) {
+            if (submitted) return;
+            submitted = true;
+            clearInterval(timer);
+            sessionStorage.clear();
+
+            let scoreFoto = 0,
+                scoreChoudokukai = 0,
+                scoreOutou = 0,
+                scoreKaiwa = 0;
+            let detail = "";
+
+            for (let i = 1; i <= 38; i++) {
+                let s = document.querySelector(`input[name="q${i}"]:checked`);
+                let j = s ? parseInt(s.value) : 0;
+                detail += `Q${i}:${j} `;
+                if (j === answerKey[i]) {
+                    if (i <= 6) scoreFoto += 5;
+                    else if (i <= 12) scoreChoudokukai += 10;
+                    else if (i <= 28) scoreOutou += 10;
+                    else scoreKaiwa += 10;
+                }
+            }
+
+            let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
+
+            fetch("https://script.google.com/macros/s/AKfycbwYrT7futaKdDpGetNBNompvAqWr32XnOq9WaSBmvmDFlXZRzF7K5d3xWcrAjNNBjLh/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    nama: namaPeserta,
+                    kelas: kelasPeserta,
+                    foto: scoreFoto,
+                    choudokukai: scoreChoudokukai,
+                    outou: scoreOutou,
+                    kaiwa: scoreKaiwa,
+                    total,
+                    status,
+                    detail
+                })
+            });
+
+            alert(
+                `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`
+            );
+            document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
+        }
+    </script>
+</body>
+
+</html>
