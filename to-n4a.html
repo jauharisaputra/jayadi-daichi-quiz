@@ -696,7 +696,7 @@
             {
                 text: "59. 仕事はもう <u>終</u> わりましたか。",
                 options: ["お", "おわ", "おわり", "おわる"],
-                answer: 3
+                answer: 0
             },
             {
                 text: "60. あたらしい <u>服</u> を買いました。",
@@ -1038,10 +1038,36 @@
             document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
-                alert((timeUp ? "⏰ Waktu Habis!\n\n" : "") +
-                    `👤 ${studentName}\n📊 ${totalPoint}/350 (${nilaiTotal}%)\n📜 ${nilaiTotal >= 70 ? "🎉 LULUS" : "📚 REMEDIAL"}`
-                );
-            }, 200);
+
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS TO N4" : "📚 REMEDIAL";
+
+                let message = `
+           ==============================
+           HASIL UJIAN JLPT N4
+           ==============================
+
+           👤 Nama : ${studentName}
+           🔄 Attempt : ${attempt}
+
+           📝 Tata Bahasa : ${tataBahasa}/30 (${nilaiTata}%)
+           📖 Dokkai : ${dokkai}/16 (${nilaiDokkai}%)
+           漢字 Kanji : ${kanji}/20 (${nilaiKanji}%)
+           ✍️ Kijutsu : ${kijutsu}/8 (${nilaiKijutsu}%)
+
+           --------------------------------
+           📊 TOTAL POINT : ${totalPoint}/350
+           🎯 NILAI AKHIR : ${nilaiTotal}%
+           --------------------------------
+
+           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+           ${statusText}
+
+           ==============================
+           `;
+
+                alert(message);
+
+            }, 300);
         }
     </script>
 </body>
