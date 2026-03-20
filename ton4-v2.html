@@ -257,6 +257,26 @@
             margin-bottom: 5px;
             color: #333;
         }
+
+        .multi-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+        }
+
+        .multi-item {
+            border: 1px solid #000;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .multi-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
@@ -310,6 +330,8 @@
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
         </div>
+
+        <div id="multiBox"></div>
         <div id="passageBox"></div>
         <div id="conversationBox"></div>
         <div id="questionBox"></div>
@@ -605,34 +627,36 @@
             【３５－３６】
             ================================= */
             {
-                passage: `<strong>【３５－３６】</strong><br><br>
-           昨日の夜、寝ているときに地震がありました。
-           突然、ベッドが揺れたので、びっくりして目が覚めました。
-           ベッドから降りて、テレビをつけると、ニュースで地震について話していました。
-           震度は３でしたから、あまり大きい地震じゃなかったそうです。
-           でも、私の国では全然地震がありません。
-           日本に来て、初めて地震を経験しましたから、とても怖かったです。`,
-
-                text: "３５．起きた後で、「私」は何をしましたか。",
-                options: [
-                    "目が覚めました。",
-                    "国に帰りました。",
-                    "家を出かけました。",
-                    "テレビをつけました。"
+                multi: [{
+                        title: "Aさん",
+                        text: "旅行したいです。今年の誕生日に姉と旅行に行って、楽しかったです。今年も家族と旅行するのは、難しいですが、その前にもう一度3人で旅行したいです。"
+                    },
+                    {
+                        title: "Bさん",
+                        text: "とくには、したいものはありませんが、恋人と映画を見て、食事をしたいです。去年は、家族と誕生日をすごしましたが、今年は、恋人と一緒にすごそうと思います。"
+                    },
+                    {
+                        title: "Cさん",
+                        text: "花が咲く木がほしいです。去年、誕生日に姉からもらった木を庭に植えると、きれいな花が咲きました。私も花が好きですから、うれしかったです。またほしいです。"
+                    },
+                    {
+                        title: "Dさん",
+                        text: "ペットです。姉は犬を飼いたいし、一人でうらしているのは、さびしいです。去年友だちが誕生日にくれた犬の話は、かわいかったですが、やっぱり生きているものはかわいいです。"
+                    }
                 ],
-                answer: 3
-            },
-            {
-                text: "３６．「私」は何が初めて経験しましたか。",
-                options: [
-                    "日本の夜。",
-                    "ニュースで地震を見ること。",
-                    "日本に来ること。",
-                    "地震。"
-                ],
-                answer: 3
-            },
 
+                questions: [{
+                        text: "35. 結婚しているのは、だれですか。",
+                        options: ["Aさんです。", "Bさんです。", "Cさんです。", "Dさんです。"],
+                        answer: 1
+                    },
+                    {
+                        text: "36. 去年の誕生日と同じものをもらったり、同じことをしたりしたいと思っているのは、だれですか。",
+                        options: ["AさんとCさんです。", "BさんとCさんです。", "AさんとDさんです。", "BさんとDさんです。"],
+                        answer: 0
+                    }
+                ]
+            },
             /* ===============================
             【３７－３８】
             ================================= */
@@ -1091,7 +1115,33 @@
             });
         }
 
+        function renderMulti(data) {
+            const box = document.getElementById("multiBox");
 
+            if (!data.multi) {
+                box.innerHTML = "";
+                box.style.display = "none";
+                return;
+            }
+
+            let html = `<div class="multi-box">`;
+
+            data.multi.forEach(item => {
+                html += `
+           <div class="multi-item">
+               <div class="multi-title">${item.title}</div>
+               ${item.text}
+           </div>
+           `;
+            });
+
+            html += `</div>`;
+
+            box.innerHTML = html;
+
+            // 🔥 WAJIB TAMBAHKAN INI
+            box.style.display = "block";
+        }
         // ===============================
         // SIMPAN JAWABAN GROUP
         // ===============================
@@ -1107,6 +1157,10 @@
         }
 
         function clearUI() {
+            const multi = document.getElementById("multiBox");
+            multi.innerHTML = "";
+            multi.style.display = "none";
+
             document.getElementById("passageBox").innerHTML = "";
             document.getElementById("passageBox").style.display = "none";
 
@@ -1124,10 +1178,57 @@
             clearUI(); // 🔥 WAJIB DI SINI
 
             const q = questions[current];
+
             // ===============================
-            // HANDLE SOAL CONVERSATION (GROUP)
+            // ✅ HANDLE MULTI (35-36) HARUS DI ATAS
             // ===============================
-            if (q.questions) {
+            if (q.multi && q.questions) {
+
+                document.getElementById("multiBox").style.display = "block"; // 🔥 TAMBAH INI
+                renderMulti(q);
+
+                document.getElementById("passageBox").style.display = "none";
+                document.getElementById("conversationBox").style.display = "none";
+
+                const qBox = document.getElementById("questionBox");
+                qBox.innerHTML = "";
+
+                q.questions.forEach((subQ, index) => {
+
+                    let html = `<p><b>${subQ.text}</b></p>`;
+
+                    subQ.options.forEach((opt, i) => {
+
+                        let checked = "";
+                        if (answers[current] && answers[current][index] === i) {
+                            checked = "checked";
+                        }
+
+                        html += `
+           <label style="display:block;margin:5px 0;">
+               <input type="radio" name="q${current}_${index}" ${checked}
+                   onclick="saveGroupAnswer(${current}, ${index}, ${i})">
+               ${String.fromCharCode(97 + i)}. ${opt}
+           </label>
+           `;
+                    });
+
+                    qBox.innerHTML += html;
+                });
+
+                document.getElementById("counter").innerText =
+                    `Soal ${current + 1} / ${questions.length}`;
+
+                document.getElementById("progress").style.width =
+                    ((current + 1) / questions.length * 100) + "%";
+
+                return;
+            }
+
+            // ===============================
+            // HANDLE CONVERSATION (31-32)
+            // ===============================
+            if (q.conversation && q.questions) {
 
                 document.getElementById("conversationBox").style.display = "block";
 
@@ -1153,6 +1254,7 @@
                 kanjiBox.style.display = "none";
             }
 
+
             /* ======================
             TAMPILKAN PASSAGE
             ====================== */
@@ -1162,7 +1264,7 @@
             if (q.passage) {
                 passageBox.innerHTML = `<div class="passage">${q.passage}</div>`;
                 passageBox.style.display = "block";
-            } else {
+            } else if (!q.multi) {
                 passageBox.style.display = "none";
             }
 
@@ -1214,9 +1316,29 @@
 
         function updateNav() {
             const buttons = document.querySelectorAll(".nav-grid button");
+
             buttons.forEach((btn, i) => {
                 btn.classList.remove("answered", "current");
-                if (answers[i] !== null) btn.classList.add("answered");
+
+                const q = questions[i];
+
+                // ===============================
+                // ✅ DETEKSI GROUP
+                // ===============================
+                if (q.questions) {
+
+                    if (answers[i] && answers[i].length === q.questions.length) {
+                        btn.classList.add("answered");
+                    }
+
+                } else {
+
+                    if (answers[i] !== null) {
+                        btn.classList.add("answered");
+                    }
+
+                }
+
                 if (i === current) btn.classList.add("current");
                 if (examFinished) btn.disabled = true;
             });
@@ -1253,12 +1375,34 @@
             let score = 0;
 
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) {
-                    score++;
-                    if (i < 30) tataBahasa++; // 1-30: 30 soal = 150 pt
-                    else if (i < 46) dokkai++; // 31-46: 16 soal = 80 pt
-                    else if (i < 66) kanji++; // 47-66: 20 soal = 80 pt
-                    else kijutsu++; // 67-74: 8 soal = 40 pt
+
+                const q = questions[i];
+
+                // ===============================
+                // ✅ GROUP QUESTION (31-32, 35-36)
+                // ===============================
+                if (q.questions) {
+
+                    q.questions.forEach((subQ, idx) => {
+
+                        if (a && a[idx] === subQ.answer) {
+
+                            score++;
+
+                            if (i < 30) tataBahasa++;
+                            else if (i < 46) dokkai++;
+                            else if (i < 66) kanji++;
+                            else kijutsu++;
+                        }
+                    });
+                } else { // NORMAL QUESTION
+                    if (a === q.answer) {
+                        score++;
+                        if (i < 30) tataBahasa++;
+                        else if (i < 46) dokkai++;
+                        else if (i < 66) kanji++;
+                        else kijutsu++;
+                    }
                 }
             });
 
