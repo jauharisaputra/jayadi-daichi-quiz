@@ -181,25 +181,23 @@
         }
 
         .blank-star {
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
             position: relative;
-            display: inline-block;
-            width: 40px;
-            text-align: center;
+            margin: 0 4px;
         }
 
+        /* garis kiri */
+        .blank-star::before {
+            content: "＿＿＿";
+            margin-right: 4px;
+        }
+
+        /* garis kanan */
         .blank-star::after {
-            content: "＿＿";
-            display: block;
-            font-size: 18px;
-        }
-
-        .blank-star span {
-            position: absolute;
-            top: -18px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 22px;
-            font-weight: bold;
+            content: "＿＿＿";
+            margin-left: 4px;
         }
     </style>
 </head>
