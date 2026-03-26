@@ -68,6 +68,8 @@
         .question {
             font-size: 20px;
             margin: 20px 0;
+            line-height: 1.8;
+            word-break: break-word;
         }
 
         .options button {
@@ -183,21 +185,24 @@
         .blank-star {
             display: inline-flex;
             align-items: center;
-            white-space: nowrap;
-            position: relative;
+            gap: 6px;
             margin: 0 4px;
         }
 
-        /* garis kiri */
-        .blank-star::before {
-            content: "＿＿＿";
-            margin-right: 4px;
+        /* garis kiri & kanan pakai elemen, bukan teks */
+        .blank-star::before,
+        .blank-star::after {
+            content: "";
+            display: inline-block;
+            width: 40px;
+            /* panjang garis */
+            border-bottom: 2px solid #000;
+            transform: translateY(2px);
+            /* biar sejajar teks */
         }
 
-        /* garis kanan */
-        .blank-star::after {
-            content: "＿＿＿";
-            margin-left: 4px;
+        .no-wrap {
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -944,28 +949,28 @@
             // 【７１－７４】並び替え問題（FIXED FINAL)
             // ===============================
             {
-                text: "71. 弟は映画が好きで、ビデオ ＿＿＿ ＿＿＿ <span class='blank-star'><span>☆</span></span> ＿＿＿ 。",
+                text: `71. 弟は映画が好きで、ビデオ<span class="no-wrap">＿＿＿ ＿＿＿ <span class="blank-star"><span>☆</span></span>
+               ＿＿＿</span>。`,
                 options: ["持っています", "も", "を", "２００本"],
                 answer: [2, 3, 1, 0]
-                // ビデオを２００本も持っています。
             },
             {
-                text: "72. ファリド：「あしたは大事なおきゃくさまに会うから、＿＿＿ ＿＿＿ <span class='blank-star'><span>☆</span></span> ＿＿＿ いけませんよ。」<br><br>ベニ：「わかりました。あしたは 新しい くつを はいて 来ます。」",
+                text: `72. ファリド：「あしたは大事なおきゃくさまに会うから、<span class="no-wrap">＿＿＿ ＿＿＿ <span
+                   class="blank-star"><span>☆</span></span> ＿＿＿</span>いけませんよ。」<br><br>ベニ：「わかりました。あしたは新しいくつをはいて来ます。」`,
                 options: ["くつ", "は", "そんな", "で"],
                 answer: [2, 0, 3, 1]
-                // そんなくつではいけませんよ。
             },
             {
-                text: "73. 今日は、風が ＿＿＿ ＿＿＿ <span class='blank-star'><span>☆</span></span> ＿＿＿ 出かけたくない。",
+                text: `73. 今日は、風が<span class="no-wrap">＿＿＿ ＿＿＿ <span class="blank-star"><span>☆</span></span>
+               ＿＿＿</span>出かけたくない。`,
                 options: ["し", "だから", "寒そう", "強い"],
                 answer: [3, 2, 0, 1]
-                // 風が強いし寒そうだから出かけたくない。
             },
             {
-                text: "74. 山田：「田中さん、これから食事でもどうですか。」<br><br>田中：「すみません。ちょうど＿＿＿＿＿＿<span class='blank-star'><span>☆</span></span>＿＿＿です。」",
+                text: `74. 山田：「田中さん、これから食事でもどうですか。」<br><br>田中：「すみません。ちょうど<span class="no-wrap">＿＿＿ ＿＿＿ <span
+                   class="blank-star"><span>☆</span></span> ＿＿＿</span>です。」`,
                 options: ["なん", "ところ", "食べた", "今"],
                 answer: [3, 2, 1, 0]
-                // ちょうど今食べたところなんです。
             }
         ];
 
