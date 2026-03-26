@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" translate="no">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRY OUT JLPT N4</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -201,6 +203,11 @@
             font-size: 22px;
             font-weight: bold;
         }
+
+        html,
+        body {
+            translate: no;
+        }
     </style>
 </head>
 
@@ -273,7 +280,7 @@
             </span>
 
         </div>
-        <div class="question" id="questionText"></div>
+        <div class="question notranslate" id="questionText"> </div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
