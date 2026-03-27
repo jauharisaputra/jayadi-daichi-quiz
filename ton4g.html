@@ -208,10 +208,13 @@
         body {
             translate: no;
         }
-    </style>
+    * {
+    user-select: none !important;
+}
+</style>
 </head>
 
-<body>
+<body oncontextmenu='return false' ondragstart='return false'>
     <div id="loginBox">
 
         <h2>🎓 Login Ujian</h2>
@@ -302,7 +305,10 @@
         let studentName = "";
         let attempt = 1;
 
-        const questions = [
+        
+function decode(str){return atob(str);}
+
+const questions = [
             // 1-30: TATA BAHASA + GOI (30 soal = 190 poin)
             {
                 text: "1. 冬にコートを着ないで歩いて、（ ）のです。",
@@ -1169,7 +1175,43 @@
 
             }, 300);
         }
-    </script>
+    
+
+// ==============================
+// ?? ANTI AI / ANTI CHEAT ADVANCED
+// ==============================
+
+// ?? Disable selection paksa
+document.addEventListener("selectionchange", () => {
+    if (window.getSelection().toString().length > 0) {
+        window.getSelection().removeAllRanges();
+    }
+});
+
+// ?? Detect pindah tab
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+    }
+});
+
+// ?? Detect keluar window
+window.addEventListener("blur", () => {
+    if (!examFinished) {
+        alert("?? Keluar dari halaman terdeteksi!");
+        finishExam(true);
+    }
+});
+
+// ?? Detect DevTools / Sidebar AI
+setInterval(() => {
+    if (window.outerWidth - window.innerWidth > 200) {
+        alert("?? DevTools / AI terdeteksi!");
+        finishExam(true);
+    }
+}, 1000);
+
+</script>
 </body>
 
 </html>
