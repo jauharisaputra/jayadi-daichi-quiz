@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja" translate="no">
+<html translate="no" class="notranslate" lang="ja" translate="no">
 
 <head>
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="ja">
+<meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRY OUT JLPT N4</title>
@@ -210,6 +213,10 @@
         }
     * {
     user-select: none !important;
+}
+.question, .options {
+    filter: blur(0.3px);
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
 }
 </style>
 </head>
@@ -1210,6 +1217,26 @@ setInterval(() => {
         finishExam(true);
     }
 }, 1000);
+
+
+// ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+setInterval(() => {
+    let suspicious = window.outerWidth - window.innerWidth;
+
+    if (suspicious > 160 && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+    }
+}, 1000);
+
+
+// ?? Auto detect popup translate
+setInterval(() => {
+    let bodyText = document.body.innerText;
+
+    if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+        document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+    }
+}, 1500);
 
 </script>
 </body>
