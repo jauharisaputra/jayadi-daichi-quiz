@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html translate="no" class="notranslate" lang="ja" translate="no">
 
 <head>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FUKUSHUU BAB 23-26</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -201,10 +206,25 @@
             font-size: 22px;
             font-weight: bold;
         }
+
+        html,
+        body {
+            translate: no;
+        }
+
+        * {
+            user-select: none !important;
+        }
+
+        .question,
+        .options {
+            filter: blur(0.3px);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
-<body>
+<body oncontextmenu='return false' ondragstart='return false'>
     <div id="loginBox">
 
         <h2>🎓 Login Ujian</h2>
@@ -246,10 +266,10 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 FUKUSHUU BAB 23–26</h1>
+        <h1>📚 FUKUSHUU BAB 23-26</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">40:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -273,7 +293,7 @@
             </span>
 
         </div>
-        <div class="question" id="questionText"></div>
+        <div class="question notranslate" id="questionText"> </div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -287,13 +307,18 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 2400; // 40 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
         let current = 0;
         let studentName = "";
         let attempt = 1;
+
+
+        function decode(str) {
+            return atob(str);
+        }
 
         const questions = [
 
@@ -689,33 +714,21 @@
             clearInterval(timer);
 
             let benar = 0;
-
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) {
-                    benar++;
-                }
+                if (a === questions[i].answer) benar++;
             });
+            let nilaiTotal = Math.round((benar / questions.length) * 100);
 
-            let totalSoal = questions.length; // 40
-            let nilai = Math.round((benar / totalSoal) * 100);
-
-            // ===============================
-            // SISTEM POINT (100 POIN)
-            // ===============================
-            let totalPoint = benar * 2.5; // 40 × 2.5 = 100
-            totalPoint = Math.round(totalPoint);
-
-            // Kirim ke Google Sheet
             fetch("https://script.google.com/macros/s/AKfycbyEtKKGSQe_v92EHQWdHnfoa7WJzQLRRsYzKJ-LBebPbRBJKGIlA1WMLw1h1w2GvvQzJg/exec", {
                 method: "POST",
                 mode: "no-cors",
                 body: JSON.stringify({
                     nama: studentName,
-                    attempt,
-                    benar,
-                    total_soal: totalSoal,
-                    nilai,
-                    total_point: totalPoint
+                    attempt: attempt,
+                    benar: benar,
+                    total_soal: questions.length,
+                    nilai: nilaiTotal,
+                    total_point: nilaiTotal // kalau belum pakai point system, samakan dulu
                 })
             });
 
@@ -728,71 +741,109 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-                   <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-                       <h2 style="color:#27ae60;">🎉 UJIAN FUKUSHUU BAB 23–26 SELESAI</h2>
+          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-                       <div style="font-size:18px; margin:15px 0;">
-                           <b>👤 Nama:</b> ${studentName} |
-                           <b>🔄 Attempt:</b> ${attempt}<br><br>
+              <div style="font-size:18px; margin:15px 0;">
+                  <b>👤 Nama:</b> ${studentName} <br>
+                  <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                           ✅ <b>Benar:</b> ${benar} / ${totalSoal}<br>
-                           ❌ <b>Salah:</b> ${totalSoal - benar}<br><br>
+                  ✅ Benar: ${benar} / ${questions.length} <br>
+                  📊 Nilai: <b>${nilaiTotal}%</b>
+              </div>
 
-                           <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
-                               📊 Nilai: ${nilai}%
-                           </div>
-
-                           <div style="font-size:22px; margin:10px 0;">
-                               🎯 Point: ${totalPoint} / 100
-                           </div>
-
-                           <div style="font-size:22px; padding:15px 25px; border-radius:12px;
-                    ${nilai >= 70 
-                        ? 'background:#d4edda; color:#155724;' 
-                        : 'background:#f8d7da; color:#721c24;'}
-                    border: 3px solid ${nilai >= 70 ? '#28a745' : '#dc3545'};">
-
-                               ${nilai >= 70 ? "✅ LULUS FUKUSHUU" : "📚 REMEDIAL"}
-
-                           </div>
-                       </div>
-                   </div>
-                   `;
-
+              <div style="font-size:22px; padding:15px; border-radius:12px;
+            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+              </div>
+          </div>
+          `;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container')
-                .scrollTo(0, document.querySelector('#result').offsetTop);
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
 
-                let statusText = nilai >= 70 ? "✅ LULUS FUKUSHUU" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS FUKUSHUU" : "📚 REMEDIAL";
 
                 let message = `
-                   ==============================
-                   HASIL UJIAN FUKUSHUU 23–26
-                   ==============================
+       ==============================
+       HASIL FUKUSHUU BAB 23-26
+       ==============================
 
-                   👤 Nama : ${studentName}
-                   🔄 Attempt : ${attempt}
+       👤 Nama : ${studentName}
+       🔄 Attempt : ${attempt}
 
-                   ✅ Benar : ${benar} / ${totalSoal}
-                   ❌ Salah : ${totalSoal - benar}
+       ✅ Benar : ${benar} / ${questions.length}
+       📊 Nilai : ${nilaiTotal}%
 
-                   --------------------------------
-                   🎯 NILAI : ${nilai}%
-                   📊 POINT : ${totalPoint}/100
-                   --------------------------------
+       --------------------------------
 
-                   ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-                   ${statusText}
+       ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+       ${statusText}
 
-                   ==============================
-                   `;
-
+       ==============================
+       `;
                 alert(message);
 
             }, 300);
         }
+
+
+        // ==============================
+        // ?? ANTI AI / ANTI CHEAT ADVANCED
+        // ==============================
+
+        // ?? Disable selection paksa
+        document.addEventListener("selectionchange", () => {
+            if (window.getSelection().toString().length > 0) {
+                window.getSelection().removeAllRanges();
+            }
+        });
+
+        // ?? Detect pindah tab
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && !examFinished) {
+                document.body.innerHTML =
+                    "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+            }
+        });
+
+        // ?? Detect keluar window
+        window.addEventListener("blur", () => {
+            if (!examFinished) {
+                alert("?? Keluar dari halaman terdeteksi!");
+                finishExam(true);
+            }
+        });
+
+        // ?? Detect DevTools / Sidebar AI
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 200) {
+                alert("?? DevTools / AI terdeteksi!");
+                finishExam(true);
+            }
+        }, 1000);
+
+
+        // ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+        setInterval(() => {
+            let suspicious = window.outerWidth - window.innerWidth;
+
+            if (suspicious > 160 && !examFinished) {
+                document.body.innerHTML =
+                    "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+            }
+        }, 1000);
+
+
+        // ?? Auto detect popup translate
+        setInterval(() => {
+            let bodyText = document.body.innerText;
+
+            if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+                document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+            }
+        }, 1500);
     </script>
 </body>
 
