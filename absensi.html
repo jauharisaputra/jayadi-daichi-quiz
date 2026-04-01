@@ -202,7 +202,7 @@
         ];
 
         let absensi = JSON.parse(localStorage.getItem('absensi')) || [];
-        // Tampilkan popup daftar siswa alpha
+        // Tampilkan popup daftar siswa alpha dengan tombol kirim WA per siswa
         function showPopupAlpha() {
             const periode = getPeriode();
             const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
@@ -216,7 +216,13 @@
 
             alphaSiswa.forEach(a => {
                 const s = siswa.find(s => s.nama === a.nama);
-                listEl.innerHTML += `<li>${s.nama} (WA: ${s.wa})</li>`;
+                if (!s) return;
+
+                const li = document.createElement('li');
+                li.style.marginBottom = "6px";
+                li.innerHTML = `${s.nama} (WA: ${s.wa})
+        <button style="margin-left:10px;" onclick="kirimWA('${s.wa}','${s.nama}')">Kirim WA</button>`;
+                listEl.appendChild(li);
             });
 
             document.getElementById('popupAlpha').style.display = "flex";
@@ -227,24 +233,10 @@
             document.getElementById('popupAlpha').style.display = "none";
         }
 
-        // Kirim WA gabungan ke satu nomor guru
-        function kirimWAAlphaGabungan() {
-            const periode = getPeriode();
-            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
-
-            if (alphaSiswa.length === 0) return;
-
-            let pesan = `Siswa Alpha bulan ${periode}:\n`;
-            alphaSiswa.forEach((a, idx) => {
-                pesan += `${idx + 1}. ${a.nama}\n`;
-            });
-
-            // Ganti nomor guru dengan WA tujuan
-            const guruWA = "6285159296337"; // masukkan nomor WA guru (628...)
-            window.open(`https://wa.me/${guruWA}?text=${encodeURIComponent(pesan)}`, "_blank");
-
-            alert("💬 Link WA gabungan sudah dibuka.");
-            popupAlphaClose();
+        // Kirim WA ke satu siswa dengan pesan personal
+        function kirimWA(wa, nama) {
+            const pesan = `Konnichiwa ${nama}san, mengapa tidak ikut kelas hari ini?`;
+            window.open(`https://wa.me/${wa}?text=${encodeURIComponent(pesan)}`, "_blank");
         }
 
         function renderSiswa() {
@@ -416,8 +408,7 @@
         <div style="background:#fff; padding:20px; border-radius:10px; width:400px; max-width:90%;">
             <h3>📩 Siswa Alpha</h3>
             <ul id="listAlpha" style="text-align:left; max-height:200px; overflow:auto; padding-left:20px;"></ul>
-            <button onclick="kirimWAAlphaGabungan()">Kirim WA Sekaligus</button>
-            <button style="margin-left:10px;" onclick="popupAlphaClose()">Tutup</button>
+            <button onclick="popupAlphaClose()">Tutup</button>
         </div>
     </div>
 </body>
