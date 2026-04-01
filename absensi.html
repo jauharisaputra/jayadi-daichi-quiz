@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Absensi Bulanan</title>
+
     <style>
         body {
             font-family: Arial;
             background: linear-gradient(135deg, #2c5aa0, #6ea8fe);
             padding: 20px;
-            color: #333;
         }
 
         .container {
@@ -34,7 +34,6 @@
             padding: 10px;
             margin: 6px 0;
             border-radius: 8px;
-            border: 1px solid #ccc;
         }
 
         button {
@@ -44,26 +43,8 @@
             cursor: pointer;
         }
 
-        button:hover {
-            background: #1e3d72;
-        }
-
-        .danger {
-            color: red;
-            font-weight: bold;
-        }
-
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-
         .btn-red {
             background: #dc3545;
-        }
-
-        .btn-red:hover {
-            background: #a71d2a;
         }
 
         table {
@@ -77,27 +58,34 @@
             color: #fff;
         }
 
-        th,
-        td {
+        td,
+        th {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
         }
 
-        tr:nth-child(even) {
-            background: #f2f2f2;
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .danger {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
+
         <h2>📊 Absensi Bulanan</h2>
 
         <input type="month" id="periode" onchange="render()">
 
         <select id="siswa"></select>
-        <button onclick="tambahSiswaBaru()">+ Tambah Siswa Baru</button>
+        <button onclick="tambahSiswaBaru()">+ Tambah Siswa</button>
 
         <select id="status">
             <option value="Hadir">Hadir (O)</option>
@@ -106,9 +94,9 @@
             <option value="Alpha">Alpha (X)</option>
         </select>
 
-        <button onclick="absen()">✔ Absen Hari Ini</button>
-        <button onclick="exportExcel()">⬇ Export Rekap</button>
-        <button class="btn-red" onclick="clearData()">🗑 Clear Data</button>
+        <button id="btnAbsen" onclick="absen()">✔ Absen</button>
+        <button onclick="exportExcel()">⬇ Export</button>
+        <button class="btn-red" onclick="clearData()">🗑 Clear</button>
 
         <h3>📅 Data Harian</h3>
         <table>
@@ -122,7 +110,7 @@
             <tbody id="tabel"></tbody>
         </table>
 
-        <h3>📈 Rekap Bulanan (<span id="judulPeriode"></span>)</h3>
+        <h3>📈 Rekap Bulanan (<span id="judul"></span>)</h3>
         <table>
             <thead>
                 <tr>
@@ -131,138 +119,89 @@
                     <th>Izin</th>
                     <th>Sakit</th>
                     <th>Alpha</th>
-                    <th>Nilai (%)</th>
+                    <th>Nilai</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody id="rekap"></tbody>
         </table>
+
     </div>
 
     <script>
+        const SHEET_URL =
+            "https://script.google.com/macros/s/AKfycbzrnLUredIITuI_QCx0r1B3ziHy0hBG_9wyHGrZM4rHJLtHFhBG2qfvB2b8gk-CxCWZ/exec";
+
         let siswa = [{
-                nis: "JGEC63-P20252812",
-                nama: "Mikael Adi Setiawan Hutabarat",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC64-A20252891",
-                nama: "Radwan",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC65-P20252952",
-                nama: "Freisye Adetya Mandala",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC65-P20252960",
-                nama: "Dyko Satmoko (Marlon)",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC65-P20262961",
-                nama: "David Matius Augustino Kolanus",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC64-A20252913",
-                nama: "Hegel Al Hanan",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC65-A20252956",
-                nama: "Mustia",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC61-A20252728",
-                nama: "Rani Basri Tinulu Rante Talla",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC44-F20241090",
-                nama: "Indra Jhonatan Situmorang",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC16-N320250017",
-                nama: "Ferdi Muchtadin",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC64-P20252915",
-                nama: "Aulia Naufal Ardana",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC66-M20263041",
-                nama: "Sola Gratia Agafiana",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC57-P20252304",
-                nama: "Liau Cia Cia",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC57-O20252215",
-                nama: "Septian Widiya Kusuma Ramadani",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC63-P20252854",
-                nama: "Jeremy Joshua Tanor",
-                kelas: "Goshogawara",
-                wa: ""
-            },
-            {
-                nis: "JGEC61-P20252744",
                 nama: "Andika",
-                kelas: "Goshogawara",
-                wa: ""
+                wa: "62822021922084"
             },
             {
-                nis: "JGEC64-M20252866",
+                nama: "Aulia Naufal Ardana",
+                wa: "6281292256104"
+            },
+            {
                 nama: "Chairul Achmad Zacky",
-                kelas: "Goshogawara",
-                wa: ""
+                wa: "6282001995779"
+            },
+            {
+                nama: "David Matius Augustino Kolanus",
+                wa: "6289694869140"
+            },
+            {
+                nama: "Freisye Adetya Mandala",
+                wa: "6285340432339"
+            },
+            {
+                nama: "Radwan",
+                wa: "6289689573238"
+            },
+            {
+                nama: "Septian Widiya Kusuma Ramadani",
+                wa: "6287761570244"
+            },
+            {
+                nama: "Sola Gratia Agafiana",
+                wa: "6285704288016"
+            },
+            {
+                nama: "Indra Jhonatan Situmorang",
+                wa: "6283135082919"
+            },
+            {
+                nama: "Liau Cia Cia",
+                wa: "6281349832802"
+            },
+            {
+                nama: "Dyko Satmoko (Marlon)",
+                wa: "6281264561823"
+            },
+            {
+                nama: "Rani Basri Tinulu Rante Talla",
+                wa: "6285696057450"
+            },
+            {
+                nama: "Hegel Al Hanan",
+                wa: "6281384665535"
+            },
+            {
+                nama: "Ferdi Muchtadin",
+                wa: "6281292793987"
+            },
+            {
+                nama: "Mikael Adi Setiawan Hutabarat",
+                wa: "6281519428961"
+            },
+            {
+                nama: "Mustia",
+                wa: "6285289038883"
             }
         ];
 
         let absensi = JSON.parse(localStorage.getItem('absensi')) || [];
 
-        function tambahSiswaBaru() {
-            const nis = prompt('NIS');
-            const nama = prompt('Nama');
-            const kelas = prompt('Kelas');
-            const wa = prompt('No WA (628xxx)');
-            if (!nis || !nama || !kelas || !wa) return;
-            siswa.push({
-                nis,
-                nama,
-                kelas,
-                wa
-            });
-            renderSiswa();
-        }
-
         function renderSiswa() {
-            const el = document.getElementById('siswa');
+            let el = document.getElementById('siswa');
             el.innerHTML = '';
             siswa.forEach((s, i) => {
                 el.innerHTML += `<option value="${i}">${s.nama}</option>`;
@@ -277,105 +216,154 @@
             return document.getElementById('periode').value;
         }
 
-        function absen() {
+        async function absen() {
+            const btn = document.getElementById("btnAbsen");
+            btn.disabled = true;
+
             const idx = document.getElementById('siswa').value;
             const status = document.getElementById('status').value;
             const periode = getPeriode();
-            if (!periode) return alert('Pilih bulan');
+
+            if (!periode) {
+                alert("Pilih bulan dulu!");
+                btn.disabled = false;
+                return;
+            }
 
             const s = siswa[idx];
-            let simbol = status === 'Hadir' ? 'O' : (status === 'Alpha' ? 'X' : status);
+            let simbol = status === "Hadir" ? "O" : (status === "Alpha" ? "X" : status);
+
+            const data = {
+                nama: s.nama,
+                status: simbol,
+                periode: periode
+            };
 
             absensi.push({
                 tanggal: today(),
-                periode,
-                ...s,
-                status: simbol
+                ...data
             });
             localStorage.setItem('absensi', JSON.stringify(absensi));
+
+            try {
+                await fetch(SHEET_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams(data)
+                });
+
+                alert("✅ Data terkirim ke Google Sheet");
+
+            } catch (err) {
+                console.error(err);
+                alert("❌ Gagal kirim");
+            }
+
+            if (simbol === "X") {
+                let pesan = `Siswa ${s.nama} tidak hadir. Mohon alasan.`;
+                window.open(`https://wa.me/${s.wa}?text=${encodeURIComponent(pesan)}`);
+            }
+
+            btn.disabled = false;
             render();
         }
 
         function render() {
-            const periode = getPeriode();
-            document.getElementById('judulPeriode').innerText = periode || '-';
+            let periode = getPeriode();
+            document.getElementById('judul').innerText = periode || "-";
 
-            const tb = document.getElementById('tabel');
-            tb.innerHTML = '';
+            let tb = document.getElementById('tabel');
+            tb.innerHTML = "";
 
             absensi.filter(a => a.periode === periode).forEach(a => {
-                tb.innerHTML += `<tr>
-      <td>${a.tanggal}</td>
-      <td>${a.nama}</td>
-      <td class="${a.status==='X'?'danger':'success'}">${a.status}</td>
-    </tr>`;
+                tb.innerHTML += `
+        <tr>
+        <td>${a.tanggal}</td>
+        <td>${a.nama}</td>
+        <td class="${a.status==='X'?'danger':'success'}">${a.status}</td>
+        </tr>`;
             });
 
-            const rk = document.getElementById('rekap');
-            rk.innerHTML = '';
+            let rk = document.getElementById('rekap');
+            rk.innerHTML = "";
 
             siswa.forEach(s => {
-                const data = absensi.filter(a => a.nis === s.nis && a.periode === periode);
+                let data = absensi.filter(a => a.nama === s.nama && a.periode === periode);
 
-                const hadir = data.filter(d => d.status === 'O').length;
-                const izin = data.filter(d => d.status === 'Izin').length;
-                const sakit = data.filter(d => d.status === 'Sakit').length;
-                const alpha = data.filter(d => d.status === 'X').length;
+                let hadir = data.filter(d => d.status === "O").length;
+                let izin = data.filter(d => d.status === "Izin").length;
+                let sakit = data.filter(d => d.status === "Sakit").length;
+                let alpha = data.filter(d => d.status === "X").length;
 
-                const total = hadir + izin + sakit + alpha;
-                const nilai = total > 0 ? Math.round((hadir / total) * 100) : 0;
+                let total = hadir + izin + sakit + alpha;
+                let nilai = total ? Math.round(hadir / total * 100) : 0;
+                let ket = alpha > 4 ? "TIDAK LULUS" : "LULUS";
 
-                const ket = alpha > 4 ? 'TIDAK LULUS' : 'LULUS';
-
-                rk.innerHTML += `<tr>
-      <td>${s.nama}</td>
-      <td class="success">${hadir}</td>
-      <td>${izin}</td>
-      <td>${sakit}</td>
-      <td class="danger">${alpha}</td>
-      <td><b>${nilai}</b></td>
-      <td class="${ket==='TIDAK LULUS'?'danger':'success'}">${ket}</td>
-    </tr>`;
+                rk.innerHTML += `
+        <tr>
+        <td>${s.nama}</td>
+        <td class="success">${hadir}</td>
+        <td>${izin}</td>
+        <td>${sakit}</td>
+        <td class="danger">${alpha}</td>
+        <td><b>${nilai}</b></td>
+        <td class="${ket==='TIDAK LULUS'?'danger':'success'}">${ket}</td>
+        </tr>`;
             });
         }
 
-        function exportExcel() {
-            const periode = getPeriode();
-            let csv = 'Nama,Hadir,Izin,Sakit,Alpha,Nilai,Status\n';
-
-            siswa.forEach(s => {
-                const data = absensi.filter(a => a.nis === s.nis && a.periode === periode);
-
-                const hadir = data.filter(d => d.status === 'O').length;
-                const izin = data.filter(d => d.status === 'Izin').length;
-                const sakit = data.filter(d => d.status === 'Sakit').length;
-                const alpha = data.filter(d => d.status === 'X').length;
-
-                const total = hadir + izin + sakit + alpha;
-                const nilai = total > 0 ? Math.round((hadir / total) * 100) : 0;
-
-                const ket = alpha > 4 ? 'TIDAK LULUS' : 'LULUS';
-
-                csv += `${s.nama},${hadir},${izin},${sakit},${alpha},${nilai},${ket}\n`;
+        function tambahSiswaBaru() {
+            let nama = prompt("Nama");
+            let wa = prompt("WA (628xxx)");
+            if (!nama || !wa) return;
+            siswa.push({
+                nama,
+                wa
             });
-
-            const blob = new Blob([csv]);
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `rekap-${periode}.csv`;
-            a.click();
+            renderSiswa();
         }
 
         function clearData() {
-            if (confirm('Yakin ingin hapus semua data absensi?')) {
+            if (confirm("Hapus semua data?")) {
                 localStorage.removeItem('absensi');
                 absensi = [];
                 render();
             }
         }
 
+        function exportExcel() {
+            let periode = getPeriode();
+            let csv = "Nama,Hadir,Izin,Sakit,Alpha,Nilai,Status\n";
+
+            siswa.forEach(s => {
+                let data = absensi.filter(a => a.nama === s.nama && a.periode === periode);
+
+                let hadir = data.filter(d => d.status === "O").length;
+                let izin = data.filter(d => d.status === "Izin").length;
+                let sakit = data.filter(d => d.status === "Sakit").length;
+                let alpha = data.filter(d => d.status === "X").length;
+
+                let total = hadir + izin + sakit + alpha;
+                let nilai = total ? Math.round(hadir / total * 100) : 0;
+                let ket = alpha > 4 ? "TIDAK LULUS" : "LULUS";
+
+                csv += `${s.nama},${hadir},${izin},${sakit},${alpha},${nilai},${ket}\n`;
+            });
+
+            let blob = new Blob([csv]);
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `rekap-${periode}.csv`;
+            a.click();
+        }
+
         renderSiswa();
+        render();
     </script>
+
 </body>
 
 </html>
