@@ -126,6 +126,9 @@
             <tbody id="rekap"></tbody>
         </table>
 
+
+        <!-- Tombol memunculkan popup, bisa ditaruh di atas atau bawah button absen -->
+        <button onclick="showPopupAlpha()">📩 Daftar Siswa Alpha</button>
     </div>
 
     <script>
@@ -199,6 +202,50 @@
         ];
 
         let absensi = JSON.parse(localStorage.getItem('absensi')) || [];
+        // Tampilkan popup daftar siswa alpha
+        function showPopupAlpha() {
+            const periode = getPeriode();
+            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
+            const listEl = document.getElementById('listAlpha');
+            listEl.innerHTML = "";
+
+            if (alphaSiswa.length === 0) {
+                alert("Tidak ada siswa Alpha di periode ini.");
+                return;
+            }
+
+            alphaSiswa.forEach(a => {
+                const s = siswa.find(s => s.nama === a.nama);
+                listEl.innerHTML += `<li>${s.nama} (WA: ${s.wa})</li>`;
+            });
+
+            document.getElementById('popupAlpha').style.display = "flex";
+        }
+
+        // Tutup popup
+        function popupAlphaClose() {
+            document.getElementById('popupAlpha').style.display = "none";
+        }
+
+        // Kirim WA gabungan ke satu nomor guru
+        function kirimWAAlphaGabungan() {
+            const periode = getPeriode();
+            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
+
+            if (alphaSiswa.length === 0) return;
+
+            let pesan = `Siswa Alpha bulan ${periode}:\n`;
+            alphaSiswa.forEach((a, idx) => {
+                pesan += `${idx + 1}. ${a.nama}\n`;
+            });
+
+            // Ganti nomor guru dengan WA tujuan
+            const guruWA = "6285159296337"; // masukkan nomor WA guru (628...)
+            window.open(`https://wa.me/${guruWA}?text=${encodeURIComponent(pesan)}`, "_blank");
+
+            alert("💬 Link WA gabungan sudah dibuka.");
+            popupAlphaClose();
+        }
 
         function renderSiswa() {
             let el = document.getElementById('siswa');
@@ -262,10 +309,10 @@
                 alert("❌ Gagal kirim");
             }
 
-            if (simbol === "X") {
-                let pesan = `Siswa ${s.nama} tidak hadir. Mohon alasan.`;
-                window.open(`https://wa.me/${s.wa}?text=${encodeURIComponent(pesan)}`);
-            }
+            // if (simbol === "X") {
+            //     let pesan = `Siswa ${s.nama} tidak hadir. Mohon alasan.`;
+            //     window.open(`https://wa.me/${s.wa}?text=${encodeURIComponent(pesan)}`);
+            // }
 
             btn.disabled = false;
             render();
@@ -363,7 +410,16 @@
         renderSiswa();
         render();
     </script>
-
+    <!-- Popup daftar Alpha -->
+    <div id="popupAlpha" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:20px; border-radius:10px; width:400px; max-width:90%;">
+            <h3>📩 Siswa Alpha</h3>
+            <ul id="listAlpha" style="text-align:left; max-height:200px; overflow:auto; padding-left:20px;"></ul>
+            <button onclick="kirimWAAlphaGabungan()">Kirim WA Sekaligus</button>
+            <button style="margin-left:10px;" onclick="popupAlphaClose()">Tutup</button>
+        </div>
+    </div>
 </body>
 
 </html>
