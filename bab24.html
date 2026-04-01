@@ -665,7 +665,9 @@
                     benar: benar,
                     total_soal: questions.length,
                     nilai: nilaiTotal,
-                    total_point: nilaiTotal // kalau belum pakai point system, samakan dulu
+                    total_point: nilaiTotal,
+                    bab: "BAB 24",
+                    status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
 
