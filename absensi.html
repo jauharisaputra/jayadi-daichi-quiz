@@ -121,7 +121,7 @@
             <tbody id="tabel"></tbody>
         </table>
 
-        <h3>📈 Rekap Bulanan</h3>
+        <h3>📈 Rekap Bulanan (<span id="judulPeriode"></span>)</h3>
         <table>
             <thead>
                 <tr>
@@ -299,6 +299,8 @@
         }
 
         function render() {
+            const periodeText = getPeriode();
+            document.getElementById('judulPeriode').innerText = periodeText || '-';
             const periode = getPeriode();
 
             const tb = document.getElementById('tabel');
