@@ -1,0 +1,322 @@
+{
+    "sheets": [{
+            "properties": {
+                "title": "Data"
+            },
+            "data": [{
+                "rowData": [{
+                    "values": [{
+                            "userEnteredValue": {
+                                "stringValue": "Tanggal"
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": "Nama"
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": "Status"
+                            }
+                        },
+                        {
+                            "userEnteredValue": {
+                                "stringValue": "Periode"
+                            }
+                        }
+                    ]
+                }]
+            }]
+        },
+        {
+            "properties": {
+                "title": "Siswa"
+            },
+            "data": [{
+                    "rowData": [{
+                            "values": [{
+                                    "userEnteredValue": {
+                                        "stringValue": "Nama"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "WA"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Andika"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "62822021922084"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Aulia Naufal Ardana"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281292256104"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Chairul Achmad Zacky"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6282001995779"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "David Matius Augustino Kolanus"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6289694869140"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Freisye Adetya Mandala"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6285340432339"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Radwan"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6289689573238"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Septian Widiya Kusuma Ramadani"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6287761570244"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Sola Gratia Agafiana"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6285704288016"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Indra Jhonatan Situmorang"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6283135082919"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Liau Cia Cia"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281349832802"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Dyko Satmoko (Marlon)"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281264561823"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Rani Basri Tinulu Rante Talla"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6285696057450"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Hegel Al Hanan"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281384665535"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Ferdi Muchtadin"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281292793987"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Mikael Adi Setiawan Hutabarat"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6281519428961"
+                                }
+                            }]
+                        },
+                        {
+                            "values": [{
+                                "userEnteredValue": {
+                                    "stringValue": "Mustia"
+                                }
+                            }, {
+                                "userEnteredValue": {
+                                    "stringValue": "6285289038883"
+                                }
+                            }]
+                        }
+                    ]
+                ]
+            },
+            {
+                "properties": {
+                    "title": "Rekap"
+                },
+                "data": [{
+                        "rowData": [{
+                            "values": [{
+                                    "userEnteredValue": {
+                                        "stringValue": "Nama"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Hadir"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Izin"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Sakit"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Alpha"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Nilai"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "stringValue": "Status"
+                                    }
+                                }
+                            ]
+                        }]
+                    },
+                    {
+                        "rowData": [{
+                            "values": [{
+                                    "userEnteredValue": {
+                                        "stringValue": "Andika"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=COUNTIFS(Data!B:B, A2, Data!C:C, "
+                                        O ")"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=COUNTIFS(Data!B:B, A2, Data!C:C, "
+                                        Izin ")"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=COUNTIFS(Data!B:B, A2, Data!C:C, "
+                                        Sakit ")"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=COUNTIFS(Data!B:B, A2, Data!C:C, "
+                                        X ")"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=IF(SUM(B2:E2)=0,0,ROUND(B2/SUM(B2:E2)*100))"
+                                    }
+                                },
+                                {
+                                    "userEnteredValue": {
+                                        "formulaValue": "=IF(E2>4, "
+                                        TIDAK LULUS ", "
+                                        LULUS ")"
+                                    }
+                                }
+                            ]
+                        }]
+                    }
+                ]
+            }
+        ]
+    }
