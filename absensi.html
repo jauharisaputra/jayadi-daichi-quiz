@@ -98,6 +98,7 @@
 
         <select id="siswa"></select>
         <button onclick="tambahSiswaBaru()">+ Tambah Siswa Baru</button>
+
         <select id="status">
             <option value="Hadir">Hadir (O)</option>
             <option value="Izin">Izin</option>
@@ -130,6 +131,7 @@
                     <th>Izin</th>
                     <th>Sakit</th>
                     <th>Alpha</th>
+                    <th>Nilai (%)</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -249,9 +251,7 @@
             const nama = prompt('Nama');
             const kelas = prompt('Kelas');
             const wa = prompt('No WA (628xxx)');
-
             if (!nis || !nama || !kelas || !wa) return;
-
             siswa.push({
                 nis,
                 nama,
@@ -284,7 +284,6 @@
             if (!periode) return alert('Pilih bulan');
 
             const s = siswa[idx];
-
             let simbol = status === 'Hadir' ? 'O' : (status === 'Alpha' ? 'X' : status);
 
             absensi.push({
@@ -293,15 +292,13 @@
                 ...s,
                 status: simbol
             });
-
             localStorage.setItem('absensi', JSON.stringify(absensi));
             render();
         }
 
         function render() {
-            const periodeText = getPeriode();
-            document.getElementById('judulPeriode').innerText = periodeText || '-';
             const periode = getPeriode();
+            document.getElementById('judulPeriode').innerText = periode || '-';
 
             const tb = document.getElementById('tabel');
             tb.innerHTML = '';
@@ -325,6 +322,9 @@
                 const sakit = data.filter(d => d.status === 'Sakit').length;
                 const alpha = data.filter(d => d.status === 'X').length;
 
+                const total = hadir + izin + sakit + alpha;
+                const nilai = total > 0 ? Math.round((hadir / total) * 100) : 0;
+
                 const ket = alpha > 4 ? 'TIDAK LULUS' : 'LULUS';
 
                 rk.innerHTML += `<tr>
@@ -333,6 +333,7 @@
       <td>${izin}</td>
       <td>${sakit}</td>
       <td class="danger">${alpha}</td>
+      <td><b>${nilai}</b></td>
       <td class="${ket==='TIDAK LULUS'?'danger':'success'}">${ket}</td>
     </tr>`;
             });
@@ -340,7 +341,7 @@
 
         function exportExcel() {
             const periode = getPeriode();
-            let csv = 'Nama,Hadir,Izin,Sakit,Alpha,Status\n';
+            let csv = 'Nama,Hadir,Izin,Sakit,Alpha,Nilai,Status\n';
 
             siswa.forEach(s => {
                 const data = absensi.filter(a => a.nis === s.nis && a.periode === periode);
@@ -350,9 +351,12 @@
                 const sakit = data.filter(d => d.status === 'Sakit').length;
                 const alpha = data.filter(d => d.status === 'X').length;
 
+                const total = hadir + izin + sakit + alpha;
+                const nilai = total > 0 ? Math.round((hadir / total) * 100) : 0;
+
                 const ket = alpha > 4 ? 'TIDAK LULUS' : 'LULUS';
 
-                csv += `${s.nama},${hadir},${izin},${sakit},${alpha},${ket}\n`;
+                csv += `${s.nama},${hadir},${izin},${sakit},${alpha},${nilai},${ket}\n`;
             });
 
             const blob = new Blob([csv]);
