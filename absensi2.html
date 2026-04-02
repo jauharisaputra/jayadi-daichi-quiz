@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Absensi Bulanan</title>
-
     <style>
         body {
             font-family: Arial;
@@ -79,11 +78,8 @@
 
 <body>
     <div class="container">
-
         <h2>📊 Absensi Bulanan</h2>
-
         <input type="month" id="periode" onchange="render()">
-
         <select id="siswa"></select>
         <button onclick="tambahSiswaBaru()">+ Tambah Siswa</button>
 
@@ -126,138 +122,62 @@
             <tbody id="rekap"></tbody>
         </table>
 
-
-        <!-- Tombol memunculkan popup, bisa ditaruh di atas atau bawah button absen -->
         <button onclick="showPopupAlpha()">📩 Daftar Siswa Alpha</button>
     </div>
 
     <script>
-        const SHEET_URL =
-            "https://script.google.com/macros/s/AKfycbz0vBM6EWB6j3v7a7Bz6X-QhdIjlaA3rZYinRWAyl7lD1tSU07ARk8xILz7bAKS5OTqiA/exec";
-
+        // DATA SISWA
         let siswa = [{
-                nama: "Andika",
-                wa: "62822021922084"
-            },
-            {
-                nama: "Aulia Naufal Ardana",
-                wa: "6281292256104"
-            },
-            {
-                nama: "Chairul Achmad Zacky",
-                wa: "6282001995779"
-            },
-            {
-                nama: "David Matius Augustino Kolanus",
-                wa: "6289694869140"
-            },
-            {
-                nama: "Freisye Adetya Mandala",
-                wa: "6285340432339"
-            },
-            {
-                nama: "Radwan",
-                wa: "6289689573238"
-            },
-            {
-                nama: "Septian Widiya Kusuma Ramadani",
-                wa: "6287761570244"
-            },
-            {
-                nama: "Sola Gratia Agafiana",
-                wa: "6285704288016"
-            },
-            {
-                nama: "Indra Jhonatan Situmorang",
-                wa: "6283135082919"
-            },
-            {
-                nama: "Liau Cia Cia",
-                wa: "6281349832802"
-            },
-            {
-                nama: "Dyko Satmoko (Marlon)",
-                wa: "6281264561823"
-            },
-            {
-                nama: "Rani Basri Tinulu Rante Talla",
-                wa: "6285696057450"
-            },
-            {
-                nama: "Hegel Al Hanan",
-                wa: "6281384665535"
-            },
-            {
-                nama: "Ferdi Muchtadin",
-                wa: "6281292793987"
-            },
-            {
-                nama: "Mikael Adi Setiawan Hutabarat",
-                wa: "6281519428961"
-            },
-            {
-                nama: "Mustia",
-                wa: "6285289038883"
-            }
-        ];
+            nama: "Andika",
+            wa: "62822021922084"
+        }, {
+            nama: "Aulia Naufal Ardana",
+            wa: "6281292256104"
+        }, {
+            nama: "Chairul Achmad Zacky",
+            wa: "6282001995779"
+        }, {
+            nama: "David Matius Augustino Kolanus",
+            wa: "6289694869140"
+        }, {
+            nama: "Freisye Adetya Mandala",
+            wa: "6285340432339"
+        }, {
+            nama: "Radwan",
+            wa: "6289689573238"
+        }, {
+            nama: "Septian Widiya Kusuma Ramadani",
+            wa: "6287761570244"
+        }, {
+            nama: "Sola Gratia Agafiana",
+            wa: "6285704288016"
+        }, {
+            nama: "Indra Jhonatan Situmorang",
+            wa: "6283135082919"
+        }, {
+            nama: "Liau Cia Cia",
+            wa: "6281349832802"
+        }, {
+            nama: "Dyko Satmoko (Marlon)",
+            wa: "6281264561823"
+        }, {
+            nama: "Rani Basri Tinulu Rante Talla",
+            wa: "6285696057450"
+        }, {
+            nama: "Hegel Al Hanan",
+            wa: "6281384665535"
+        }, {
+            nama: "Ferdi Muchtadin",
+            wa: "6281292793987"
+        }, {
+            nama: "Mikael Adi Setiawan Hutabarat",
+            wa: "6281519428961"
+        }, {
+            nama: "Mustia",
+            wa: "6285289038883"
+        }];
 
         let absensi = JSON.parse(localStorage.getItem('absensi')) || [];
-        // Tampilkan popup daftar siswa alpha dengan tombol kirim WA per siswa
-        function showPopupAlpha() {
-            const periode = getPeriode();
-            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
-            const listEl = document.getElementById('listAlpha');
-            listEl.innerHTML = "";
-
-            if (alphaSiswa.length === 0) {
-                alert("Tidak ada siswa Alpha di periode ini.");
-                return;
-            }
-
-            alphaSiswa.forEach(a => {
-                const s = siswa.find(s => s.nama === a.nama);
-                if (!s) return;
-
-                const li = document.createElement('li');
-                li.style.marginBottom = "6px";
-                li.innerHTML = `${s.nama} (WA: ${s.wa})
-        <button style="margin-left:10px;" onclick="kirimWA('${s.wa}','${s.nama}')">Kirim WA</button>`;
-                listEl.appendChild(li);
-            });
-
-            document.getElementById('popupAlpha').style.display = "flex";
-        }
-
-        // Tutup popup
-        function popupAlphaClose() {
-            document.getElementById('popupAlpha').style.display = "none";
-        }
-
-        // Kirim WA ke satu siswa dengan pesan personal
-        function kirimWA(wa, nama) {
-            const pesan = `Konnichiwa ${nama}san, mengapa tidak ikut kelas hari ini?`;
-            window.open(`https://wa.me/${wa}?text=${encodeURIComponent(pesan)}`, "_blank");
-        }
-
-        function kirimSemuaAlpha() {
-            const periode = getPeriode();
-            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
-
-            if (alphaSiswa.length === 0) {
-                alert("Tidak ada siswa Alpha di periode ini.");
-                return;
-            }
-
-            alphaSiswa.forEach(a => {
-                const s = siswa.find(s => s.nama === a.nama);
-                if (!s) return;
-
-                const pesan = `Konnichiwa ${s.nama}san, mengapa tidak ikut kelas hari ini?`;
-                window.open(`https://wa.me/${s.wa}?text=${encodeURIComponent(pesan)}`, "_blank");
-            });
-
-            alert("Semua chat WA Alpha telah terbuka. Silakan tekan kirim di masing-masing chat.");
-        }
 
         function renderSiswa() {
             let el = document.getElementById('siswa');
@@ -275,102 +195,52 @@
             return document.getElementById('periode').value;
         }
 
-        async function absen() {
+        function absen() {
             const btn = document.getElementById("btnAbsen");
             btn.disabled = true;
-
             const idx = document.getElementById('siswa').value;
             const status = document.getElementById('status').value;
             const periode = getPeriode();
-
             if (!periode) {
                 alert("Pilih bulan dulu!");
                 btn.disabled = false;
                 return;
             }
-
             const s = siswa[idx];
             let simbol = status === "Hadir" ? "O" : (status === "Alpha" ? "X" : status);
-
-            const data = {
-                nama: s.nama,
-                status: simbol,
-                periode: periode
-            };
-
             absensi.push({
                 tanggal: today(),
-                ...data
+                nama: s.nama,
+                status: simbol,
+                periode
             });
             localStorage.setItem('absensi', JSON.stringify(absensi));
-
-            try {
-                await fetch(SHEET_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: new URLSearchParams(data)
-                });
-
-                alert("✅ Data terkirim ke Google Sheet");
-
-            } catch (err) {
-                console.error(err);
-                alert("❌ Gagal kirim");
-            }
-
-            // if (simbol === "X") {
-            //     let pesan = `Siswa ${s.nama} tidak hadir. Mohon alasan.`;
-            //     window.open(`https://wa.me/${s.wa}?text=${encodeURIComponent(pesan)}`);
-            // }
-
-            btn.disabled = false;
             render();
+            btn.disabled = false;
         }
 
         function render() {
             let periode = getPeriode();
             document.getElementById('judul').innerText = periode || "-";
-
             let tb = document.getElementById('tabel');
             tb.innerHTML = "";
-
             absensi.filter(a => a.periode === periode).forEach(a => {
-                tb.innerHTML += `
-        <tr>
-        <td>${a.tanggal}</td>
-        <td>${a.nama}</td>
-        <td class="${a.status==='X'?'danger':'success'}">${a.status}</td>
-        </tr>`;
+                tb.innerHTML +=
+                    `<tr><td>${a.tanggal}</td><td>${a.nama}</td><td class="${a.status==='X'?'danger':'success'}">${a.status}</td></tr>`;
             });
-
             let rk = document.getElementById('rekap');
             rk.innerHTML = "";
-
             siswa.forEach(s => {
                 let data = absensi.filter(a => a.nama === s.nama && a.periode === periode);
-
                 let hadir = data.filter(d => d.status === "O").length;
                 let izin = data.filter(d => d.status === "Izin").length;
                 let sakit = data.filter(d => d.status === "Sakit").length;
                 let alpha = data.filter(d => d.status === "X").length;
-
                 let total = hadir + izin + sakit + alpha;
                 let nilai = total ? Math.round(hadir / total * 100) : 0;
                 let ket = alpha > 4 ? "TIDAK LULUS" : "LULUS";
-
-                rk.innerHTML += `
-        <tr>
-        <td>${s.nama}</td>
-        <td class="success">${hadir}</td>
-        <td>${izin}</td>
-        <td>${sakit}</td>
-        <td class="danger">${alpha}</td>
-        <td><b>${nilai}</b></td>
-        <td class="${ket==='TIDAK LULUS'?'danger':'success'}">${ket}</td>
-        </tr>`;
+                rk.innerHTML +=
+                    `<tr><td>${s.nama}</td><td class="success">${hadir}</td><td>${izin}</td><td>${sakit}</td><td class="danger">${alpha}</td><td><b>${nilai}</b></td><td class="${ket==='TIDAK LULUS'?'danger':'success'}">${ket}</td></tr>`;
             });
         }
 
@@ -396,42 +266,122 @@
         function exportExcel() {
             let periode = getPeriode();
             let csv = "Nama,Hadir,Izin,Sakit,Alpha,Nilai,Status\n";
-
             siswa.forEach(s => {
                 let data = absensi.filter(a => a.nama === s.nama && a.periode === periode);
-
                 let hadir = data.filter(d => d.status === "O").length;
                 let izin = data.filter(d => d.status === "Izin").length;
                 let sakit = data.filter(d => d.status === "Sakit").length;
                 let alpha = data.filter(d => d.status === "X").length;
-
                 let total = hadir + izin + sakit + alpha;
                 let nilai = total ? Math.round(hadir / total * 100) : 0;
                 let ket = alpha > 4 ? "TIDAK LULUS" : "LULUS";
-
                 csv += `${s.nama},${hadir},${izin},${sakit},${alpha},${nilai},${ket}\n`;
             });
-
             let blob = new Blob([csv]);
             let a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `rekap-${periode}.csv`;
+            a.download = `rekap-${getPeriode()}.csv`;
             a.click();
+        }
+
+        // --- Popup Alpha & WA Cloud API Serverless ---
+        function showPopupAlpha() {
+            const periode = getPeriode();
+            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode);
+            const listEl = document.getElementById('listAlpha');
+            listEl.innerHTML = "";
+            if (alphaSiswa.length === 0) {
+                alert("Tidak ada siswa Alpha di periode ini.");
+                return;
+            }
+            alphaSiswa.forEach(a => {
+                const s = siswa.find(s => s.nama === a.nama);
+                if (!s) return;
+                const li = document.createElement('li');
+                li.style.marginBottom = "6px";
+                li.innerHTML =
+                    `${s.nama} (WA: ${s.wa}) <button style="margin-left:10px;" onclick="kirimWA('${s.wa}','${s.nama}')">Kirim WA</button>`;
+                listEl.appendChild(li);
+            });
+            document.getElementById('popupAlpha').style.display = "flex";
+        }
+
+        function popupAlphaClose() {
+            document.getElementById('popupAlpha').style.display = "none";
+        }
+
+        // KIRIM WA via SERVERLESS (ganti ENDPOINT_API kamu)
+        const ENDPOINT_API = "https://wa-server-tawny.vercel.app/api/sendWa";
+
+        async function kirimWA(wa, nama) {
+            try {
+                const res = await fetch(ENDPOINT_API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        siswa: [{
+                            nama,
+                            wa
+                        }]
+                    })
+                });
+                const data = await res.json();
+                console.log(data);
+                alert(`Status kirim: ${data[0].status}`);
+            } catch (err) {
+                console.error(err);
+                alert("Gagal kirim WA");
+            }
+        }
+
+        async function kirimSemuaAlpha() {
+            const periode = getPeriode();
+            const alphaSiswa = absensi.filter(a => a.status === "X" && a.periode === periode).map(a => {
+                const s = siswa.find(s => s.nama === a.nama);
+                return s ? {
+                    nama: s.nama,
+                    wa: s.wa
+                } : null;
+            }).filter(Boolean);
+            if (alphaSiswa.length === 0) {
+                alert("Tidak ada siswa Alpha di periode ini.");
+                return;
+            }
+            try {
+                const res = await fetch(ENDPOINT_API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        siswa: alphaSiswa
+                    })
+                });
+                const data = await res.json();
+                console.table(data);
+                alert("Pesan Alpha berhasil dikirim via WA Cloud API. Cek console untuk detail.");
+            } catch (err) {
+                console.error(err);
+                alert("Gagal mengirim pesan Alpha");
+            }
         }
 
         renderSiswa();
         render();
     </script>
-    <!-- Popup daftar Alpha -->
-    <div id="popupAlpha" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-        <div style="background:#fff; padding:20px; border-radius:10px; width:400px; max-width:90%;">
+
+    <div id="popupAlpha"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+        <div style="background:#fff;padding:20px;border-radius:10px;width:400px;max-width:90%;">
             <h3>📩 Siswa Alpha</h3>
-            <ul id="listAlpha" style="text-align:left; max-height:200px; overflow:auto; padding-left:20px;"></ul>
+            <ul id="listAlpha" style="text-align:left;max-height:200px;overflow:auto;padding-left:20px;"></ul>
             <button onclick="popupAlphaClose()">Tutup</button>
             <button onclick="kirimSemuaAlpha()">📩 Kirim WA ke Semua Alpha</button>
         </div>
     </div>
+
 </body>
 
 </html>
