@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapor Siswa</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1)
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin: 5px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center
+        }
+
+        .section {
+            margin-top: 20px
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #2c5aa0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer
+        }
+
+        .input-area {
+            text-align: center;
+            margin-bottom: 20px
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="input-area">
+            <input type="text" id="nisInput" placeholder="Masukkan NIS">
+            <button class="btn" onclick="loadRapor()">Tampilkan Rapor</button>
+        </div>
+
+        <div class="card" id="rapor">
+            <h1>JAYADI GLOBAL EDUCATION CENTER</h1>
+            <h2>NILAI HASIL BELAJAR SISWA</h2>
+
+            <div class="section">
+                <b>Nama:</b> <span id="nama"></span><br>
+                <b>Kelas:</b> <span id="kelas"></span><br>
+                <b>Level:</b> <span id="level"></span><br>
+                <b>KKM:</b> <span id="kkm"></span>
+            </div>
+
+            <div class="section">
+                <h3>A. Penilaian Sikap</h3>
+                <table>
+                    <tr>
+                        <th>Kehadiran</th>
+                        <th>Keaktifan</th>
+                    </tr>
+                    <tr>
+                        <td id="kehadiran"></td>
+                        <td id="keaktifan"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>B. Penilaian Tugas</h3>
+                <table>
+                    <tr>
+                        <th>Nilai Tugas</th>
+                    </tr>
+                    <tr>
+                        <td id="tugas"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>C. Kompetensi / TO</h3>
+                <table>
+                    <tr>
+                        <th>Bunpou</th>
+                        <th>Kanji</th>
+                        <th>Dokkai</th>
+                        <th>Choukai</th>
+                        <th>Kaiwa</th>
+                    </tr>
+                    <tr>
+                        <td id="bunpou"></td>
+                        <td id="kanji"></td>
+                        <td id="dokkai"></td>
+                        <td id="choukai"></td>
+                        <td id="kaiwa"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>D. Nilai Akhir</h3>
+                <table>
+                    <tr>
+                        <th>Sikap</th>
+                        <th>Tugas</th>
+                        <th>TO</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td id="nilaiSikap"></td>
+                        <td id="nilaiTugas"></td>
+                        <td id="nilaiTO"></td>
+                        <td><b id="total"></b></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h3>Status</h3>
+                <h2 id="status"></h2>
+            </div>
+
+        </div>
+
+        <button class="btn" onclick="downloadPDF()">Download PDF</button>
+
+    </div>
+
+    <script>
+        const API_URL =
+            "https://script.google.com/macros/s/AKfycbw16Lxt68VpV9nhJGk0z_2slbn4K16QhP0yEcxBetMzkooOtr3sxB2GyODSim57bI9FaA/exec";
+
+        async function loadRapor() {
+            const nis = document.getElementById("nisInput").value;
+
+            const res = await fetch(API_URL + "?nis=" + nis);
+            const data = await res.json();
+
+            document.getElementById("nama").innerText = data.nama || "-";
+            document.getElementById("kelas").innerText = data.kelas || "-";
+            document.getElementById("level").innerText = data.level || "-";
+
+            document.getElementById("kehadiran").innerText = data.kehadiran || 0;
+            document.getElementById("keaktifan").innerText = data.keaktifan || 0;
+            document.getElementById("tugas").innerText = data.nilaiTugas || 0;
+
+            document.getElementById("bunpou").innerText = data.bunpou || 0;
+            document.getElementById("kanji").innerText = data.kanji || 0;
+            document.getElementById("dokkai").innerText = data.dokkai || 0;
+            document.getElementById("choukai").innerText = data.choukai || 0;
+            document.getElementById("kaiwa").innerText = data.kaiwa || 0;
+
+            const sikap = ((data.kehadiran || 0) + (data.keaktifan || 0)) / 2;
+            const tugas = data.nilaiTugas || 0;
+            const to = ((data.bunpou || 0) + (data.kanji || 0) + (data.dokkai || 0) + (data.choukai || 0) + (data
+                .kaiwa || 0)) / 5;
+
+            const total = (sikap * 0.3) + (tugas * 0.3) + (to * 0.4);
+
+            document.getElementById("nilaiSikap").innerText = Math.round(sikap);
+            document.getElementById("nilaiTugas").innerText = tugas;
+            document.getElementById("nilaiTO").innerText = Math.round(to);
+            document.getElementById("total").innerText = Math.round(total);
+
+            let kkm = 0;
+            if (data.level === "N5") kkm = 70;
+            if (data.level === "N4") kkm = 62;
+
+            document.getElementById("kkm").innerText = kkm;
+
+            const status = total >= kkm ? "LULUS" : "TIDAK LULUS";
+            document.getElementById("status").innerText = status;
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById("rapor");
+            html2pdf().from(element).save("rapor.pdf");
+        }
+    </script>
+
+</body>
+
+</html>
