@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rapor N4 - Input</title>
+    <title>Rapor N4 - Final Presisi</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         body {
-            font-family: "Times New Roman", serif;
-            background: #eee
+            font-family: "Times New Roman", Cambria, serif;
+            background: #eee;
+            line-height: 1.2
         }
 
         .wrapper {
@@ -33,6 +34,7 @@
         }
 
         .page {
+            position: relative;
             width: 794px;
             min-height: 1123px;
             background: #fff;
@@ -112,6 +114,13 @@
             margin-top: 10px;
             padding: 8px
         }
+
+        .logo {
+            position: absolute;
+            left: 50px;
+            top: 40px;
+            width: 150px
+        }
     </style>
 </head>
 
@@ -176,15 +185,17 @@
             let kompetensi = Math.round((data.bunpou + data.kanji + data.dokkai + data.choukai + data.kaiwa) / 5);
             let total = Math.round(sikap * 0.3 + data.tugas * 0.3 + kompetensi * 0.4);
 
-            let status = total >= 70 ?
+            let statusHTML = total >= 70 ?
                 "<b>LULUS</b> / <s>TIDAK LULUS</s>" :
                 "<s>LULUS</s> / <b>TIDAK LULUS</b>";
 
             let html = `
+<img src="logo/logo_jgec.jpg" class="logo">
+
 <div class="center">
 <div class="header-title">JAYADI GLOBAL</div>
 <div class="header-title">EDUCATION CENTER</div>
-<div class="sub">Ruko Gunung Sahari Center Blok B8 Jl. Industri Raya I, Jakarta Pusat</div>
+<div class="sub">Ruko Gunung Sahari Center Blok B8 Jl. Industri Raya I, Jakarta Pusat Telp. 021 – 6009666</div>
 <div class="title">NILAI HASIL BELAJAR SISWA KELAS N4</div>
 </div>
 
@@ -216,11 +227,11 @@
 <div class="section-title">C. Penilaian Kompetensi/TO</div>
 <table>
 <tr><th>Kategori</th><th>Nilai (0 - 100)</th></tr>
-<tr><td>Bunpou</td><td class="right">${data.bunpou}</td></tr>
-<tr><td>Kanji</td><td class="right">${data.kanji}</td></tr>
-<tr><td>Dokkai</td><td class="right">${data.dokkai}</td></tr>
-<tr><td>Choukai</td><td class="right">${data.choukai}</td></tr>
-<tr><td>Kaiwa</td><td class="right">${data.kaiwa}</td></tr>
+<tr><td>Bunpou, Goi, Kijutsu (文法, 語彙, 記述)</td><td class="right">${data.bunpou}</td></tr>
+<tr><td>Kanji 漢字</td><td class="right">${data.kanji}</td></tr>
+<tr><td>Dokkai 読解</td><td class="right">${data.dokkai}</td></tr>
+<tr><td>Choukai 聴解</td><td class="right">${data.choukai}</td></tr>
+<tr><td>Kaiwa 会話</td><td class="right">${data.kaiwa}</td></tr>
 </table>
 </div>
 
@@ -242,14 +253,24 @@
 
 <div style="margin-top:20px">
 Berdasarkan hasil penilaian yang diperoleh oleh siswa di kelas ini, siswa dinyatakan:
-<div style="margin-top:5px">${status}</div>
+<div style="margin-top:5px">${statusHTML}</div>
 <div style="margin-top:20px">Jakarta, 2 April 2026</div>
 </div>
 
 <div class="sign">
-<div>(Izzatur Rahman Ardanian Zhafran)<br>Sensei Utama</div>
-<div>(Desie Triaryani)<br>Kepala Sekolah</div>
-<div>(Jauhari Saputra)<br>Sensei Pendamping</div>
+<div>
+<img src="logo/ttd13.jpg" height="50"><br>
+(Izzatur Rahman Ardanian Zhafran)<br>Sensei Utama
+</div>
+<div>
+<img src="logo/ttd_desy.jpg" height="50"><br>
+<img src="logo/logo_jgec.jpg" height="50"><br>
+(Desie Triaryani)<br>Kepala Sekolah
+</div>
+<div>
+<img src="logo/ttd_jauhari.jpg" height="50"><br>
+(Jauhari Saputra)<br>Sensei Pendamping
+</div>
 </div>
 `;
 
