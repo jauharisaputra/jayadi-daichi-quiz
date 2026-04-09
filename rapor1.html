@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapor N4 - FINAL PRINT FIX</title>
+
+    <!-- FONT JEPANG -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+
+    <!-- XLSX -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <style>
+        body {
+            font-family: "Noto Serif JP", serif;
+            background: #eee;
+            line-height: 1.2;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form {
+            width: 300px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .sub {
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+
+        .info {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .section {
+            margin-top: 10px;
+        }
+
+        .section-title {
+            background: #ddd;
+            border: 1px solid #000;
+            padding: 3px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        td {
+            border: 1px solid #000;
+            padding: 4px;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .note {
+            border: 1px solid #000;
+            padding: 6px;
+            margin-top: 5px;
+        }
+
+        .sign {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .logo {
+            position: absolute;
+            left: 15mm;
+            top: 15mm;
+            width: 30mm;
+        }
+
+        select {
+            width: 100%;
+            margin-top: 10px;
+            padding: 5px;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+
+            .form {
+                display: none;
+            }
+
+            .wrapper {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- FORM DIGANTI JADI EXCEL -->
+        <div class="form">
+            <h3>Import Excel</h3>
+
+            <input type="file" id="excelFile">
+            <button onclick="importExcel()">Load Data</button>
+
+            <h4>Pilih Siswa</h4>
+            <select id="siswaSelect" onchange="generate()"></select>
+
+            <br><br>
+            <button onclick="generate()">Generate</button>
+            <button onclick="window.print()">Download PDF</button>
+        </div>
+
+        <!-- RAPOR TIDAK DIUBAH -->
+        <div id="rapor" class="page"></div>
+
+    </div>
+
+    <script>
+        let dataSiswa = [];
+
+        function num(v) {
+            let n = parseInt(v);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function importExcel() {
+            let file = document.getElementById('excelFile').files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                let data = new Uint8Array(e.target.result);
+                let wb = XLSX.read(data, {
+                    type: 'array'
+                });
+
+                let sheet = wb.Sheets[wb.SheetNames[0]];
+                dataSiswa = XLSX.utils.sheet_to_json(sheet);
+
+                let select = document.getElementById('siswaSelect');
+                select.innerHTML = "";
+
+                dataSiswa.forEach((s, i) => {
+                    let opt = document.createElement('option');
+                    opt.value = i;
+                    opt.text = s.nama + " (" + s.nis + ")";
+                    select.appendChild(opt);
+                });
+
+                alert("Data loaded: " + dataSiswa.length + " siswa");
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function generate() {
+
+            if (dataSiswa.length === 0) {
+                alert("Import Excel dulu!");
+                return;
+            }
+
+            let d = dataSiswa[document.getElementById('siswaSelect').value];
+
+            let sikap = Math.round((num(d.kehadiran) + num(d.keaktifan)) / 2);
+            let kompetensi = Math.round(
+                (num(d.bunpou) + num(d.kanji) + num(d.dokkai) + num(d.choukai) + num(d.kaiwa)) / 5
+            );
+
+            let total = Math.round(sikap * 0.3 + num(d.tugas) * 0.3 + kompetensi * 0.4);
+
+            let statusHTML = total >= 70 ?
+                "<b>LULUS</b> / <s>TIDAK LULUS</s>" :
+                "<s>LULUS</s> / <b>TIDAK LULUS</b>";
+
+            document.getElementById('rapor').innerHTML = `
+<img src="logo/logo_jgec.jpg" class="logo">
+
+<div class="header-title">JAYADI GLOBAL</div>
+<div class="header-title">EDUCATION CENTER</div>
+<div class="sub">Jakarta Pusat</div>
+<div class="title">NILAI HASIL BELAJAR SISWA KELAS N4</div>
+
+<div class="info">
+<div>Nama : ${d.nama}</div>
+<div>NIS : ${d.nis}</div>
+<div>Tanggal : ${d.tanggal || ''}</div>
+<div>Kelas : ${d.kelas}</div>
+</div>
+
+<div class="section">
+<div class="section-title">A. Sikap</div>
+<table>
+<tr><td>Kehadiran</td><td class="right">${num(d.kehadiran)}</td></tr>
+<tr><td>Keaktifan</td><td class="right">${num(d.keaktifan)}</td></tr>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">B. Tugas</div>
+<table>
+<tr><td>Total</td><td class="right">${num(d.tugas)}</td></tr>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">C. Kompetensi</div>
+<table>
+<tr><td>Bunpou 文法</td><td class="right">${num(d.bunpou)}</td></tr>
+<tr><td>Kanji 漢字</td><td class="right">${num(d.kanji)}</td></tr>
+<tr><td>Dokkai 読解</td><td class="right">${num(d.dokkai)}</td></tr>
+<tr><td>Choukai 聴解</td><td class="right">${num(d.choukai)}</td></tr>
+<tr><td>Kaiwa 会話</td><td class="right">${num(d.kaiwa)}</td></tr>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">D. Total</div>
+<table>
+<tr><td>Sikap</td><td>${sikap}</td></tr>
+<tr><td>Tugas</td><td>${num(d.tugas)}</td></tr>
+<tr><td>Kompetensi</td><td>${kompetensi}</td></tr>
+<tr><td><b>Total</b></td><td>${total}</td></tr>
+</table>
+</div>
+
+<div class="section">
+<div class="section-title">Catatan</div>
+<div class="note">${d.catatan || ''}</div>
+</div>
+
+<div style="margin-top:10px">
+Status: ${statusHTML}
+</div>
+
+<div class="sign">
+<div>
+<img src="logo/img15.jpg" style="height:40px"><br>
+Sensei Utama
+</div>
+
+<div style="position:relative">
+<img src="logo/ttd_desy.jpg" style="height:40px">
+<img src="logo/logo_jgec.jpg" style="position:absolute;left:50%;top:0;transform:translateX(-50%);height:35px;opacity:0.7">
+<br>Kepala Sekolah
+</div>
+
+<div>
+<img src="logo/ttd_jauhari.jpg" style="height:40px"><br>
+Pendamping
+</div>
+</div>
+`;
+        }
+    </script>
+
+</body>
+
+</html>
