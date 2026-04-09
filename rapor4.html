@@ -42,7 +42,7 @@
         }
 
         .logo {
-            width: 120px;
+            width: 150px;
         }
 
         .header-text {
@@ -215,7 +215,9 @@
                 5);
             let total = Math.round(sikap * 0.3 + num(d.tugas) * 0.3 + kompetensi * 0.4);
 
-            let status = total >= 70 ? "LULUS" : "TIDAK LULUS";
+            let statusHTML = total >= 70 ?
+                "<b>LULUS</b> / <s>TIDAK LULUS</s>" :
+                "<s>LULUS</s> / <b>TIDAK LULUS</b>";
 
             document.getElementById('rapor').innerHTML = `
 
@@ -291,7 +293,7 @@ Kelas : ${d.kelas}
         Berdasarkan hasil penilaian yang diperoleh oleh siswa<br>
         di kelas ini, siswa dinyatakan:<br><br>
 
-        <b>${status}</b><br><br>
+        ${statusHTML}
 
         Jakarta, ${formatTanggal()}
     </div>
