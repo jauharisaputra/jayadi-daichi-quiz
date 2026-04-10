@@ -241,7 +241,7 @@
                 };
                 await html2pdf().set(opt).from(element).save();
                 await new Promise(r => setTimeout(r, 800)); // jeda biar tidak
-                crash
+
             }
 
             alert("Semua PDF berhasil dibuat 🎉");
