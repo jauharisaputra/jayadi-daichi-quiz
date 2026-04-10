@@ -140,6 +140,15 @@
                 background: none;
             }
         }
+
+        .status-lulus {
+            margin-bottom: 10px;
+            /* jarak ke tanggal */
+        }
+
+        .tanggal {
+            margin-top: 5px;
+        }
     </style>
 </head>
 
@@ -293,9 +302,13 @@ Kelas : ${d.kelas}
         Berdasarkan hasil penilaian yang diperoleh oleh siswa<br>
         di kelas ini, siswa dinyatakan:<br><br>
 
-        ${statusHTML}
+        <div class="status-lulus">
+            ${statusHTML}
+        </div>
 
-        Jakarta, ${formatTanggal()}
+        <div class="tanggal">
+            Jakarta, ${formatTanggal()}
+        </div>
     </div>
 </div>
 
