@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapor N4 - Latex Fix Final</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: "Noto Serif JP", serif;
+            background: #eee;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form {
+            width: 300px;
+            background: #fff;
+            padding: 15px;
+        }
+
+        /* PAGE */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: #fff;
+            padding: 20mm;
+            position: relative;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .header-text {
+            width: 100%;
+            text-align: center;
+        }
+
+        .header-text b {
+            font-size: 16px;
+        }
+
+        .alamat {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .judul {
+            margin-top: 10px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        /* IDENTITAS */
+        .identitas {
+            margin-top: 15px;
+            font-size: 12px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        td,
+        th {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .section-title {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* CATATAN */
+        .catatan {
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        /* STATUS */
+        .status-box {
+            margin-top: 40px;
+            /* ⬅️ tambah dari sebelumnya 20px */
+            margin-bottom: 50px;
+            /* ⬅️ kasih jarak ke tanda tangan */
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .status-inner {
+            width: 260px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        /* TTD */
+        .ttd {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .cap {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 50px;
+            opacity: 0.6;
+        }
+
+        @media print {
+            .form {
+                display: none;
+            }
+
+            body {
+                background: none;
+            }
+        }
+
+        .status-lulus {
+            margin-bottom: 10px;
+            /* jarak ke tanggal */
+        }
+
+        .tanggal {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="form">
+            <h3>Import Excel</h3>
+            <input type="file" id="excelFile">
+            <button onclick="importExcel()">Load</button>
+
+            <select id="siswaSelect" onchange="generate()"></select>
+
+            <br><br>
+            <button onclick="generate()">Generate</button>
+            <button onclick="generateAllPDF()">Generate Semua PDF</button>
+            <button onclick="window.print()">Print PDF</button>
+        </div>
+
+        <div id="rapor" class="page"></div>
+
+    </div>
+
+    <script>
+        let dataSiswa = [];
+
+        function num(v) {
+            let n = parseInt(v);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function formatTanggal() {
+            let d = new Date();
+            return d.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function importExcel() {
+            let file = document.getElementById('excelFile').files[0];
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                let data = new Uint8Array(e.target.result);
+                let wb = XLSX.read(data, {
+                    type: 'array'
+                });
+                let sheet = wb.Sheets[wb.SheetNames[0]];
+                dataSiswa = XLSX.utils.sheet_to_json(sheet);
+
+                let select = document.getElementById('siswaSelect');
+                select.innerHTML = "";
+
+                dataSiswa.forEach((s, i) => {
+                    let opt = document.createElement('option');
+                    opt.value = i;
+                    opt.text = s.nama;
+                    select.appendChild(opt);
+                });
+            }
+
+            reader.readAsArrayBuffer(file);
+        }
+        async function generateAllPDF() {
+
+            for (let i = 0; i < dataSiswa.length; i++) {
+                document.getElementById('siswaSelect').value = i;
+                generate();
+                let
+                    element = document.getElementById('rapor');
+                let opt = {
+                    margin: 0,
+                    filename: dataSiswa[i].nama + '.pdf',
+                    image: {
+                        type: 'jpeg',
+                        quality: 1
+                    },
+                    html2canvas: {
+                        scale: 3
+                    },
+                    jsPDF: {
+                        unit: 'mm',
+                        format: 'a4',
+                        orientation: 'portrait'
+                    }
+                };
+                await html2pdf().set(opt).from(element).save();
+                await new Promise(r => setTimeout(r, 800)); // jeda biar tidak
+                crash
+            }
+
+            alert("Semua PDF berhasil dibuat 🎉");
+        }
+
+        function generate() {
+
+            let d = dataSiswa[document.getElementById('siswaSelect').value];
+
+            let sikap = Math.round((num(d.kehadiran) + num(d.keaktifan)) / 2);
+            let kompetensi = Math.round((num(d.bunpou) + num(d.kanji) + num(d.dokkai) + num(d.choukai) + num(d.kaiwa)) /
+                5);
+            let total = Math.round(sikap * 0.3 + num(d.tugas) * 0.3 + kompetensi * 0.4);
+
+            let lulus = false;
+
+            if (d.kelas.includes("N4")) {
+                lulus = total >= 62;
+            } else if (d.kelas.includes("N5")) {
+                lulus = total >= 70;
+            }
+
+            let statusHTML = lulus ?
+                "<b>LULUS</b> / <s>TIDAK LULUS</s>" :
+                "<s>LULUS</s> / <b>TIDAK LULUS</b>";
+
+            document.getElementById('rapor').innerHTML = `
+
+<!-- HEADER -->
+<div class="header">
+    <img src="logo/logo_jgec.jpg" class="logo">
+    <div class="header-text">
+        <b>JAYADI GLOBAL</b><br>
+        <b>EDUCATION CENTER</b>
+        <div class="alamat">
+            Ruko Gunung Sahari Center Blok B8<br>
+            Jl. Industri Raya I, Jakarta Pusat<br>
+            Telp. 021 – 6009666
+        </div>
+
+        <div class="judul">
+            NILAI HASIL BELAJAR SISWA KELAS N4
+        </div>
+    </div>
+</div>
+
+<!-- IDENTITAS -->
+<div class="identitas">
+Nama : ${d.nama}<br>
+NIS : ${d.nis}<br>
+Tanggal : ${d.tanggal}<br>
+Kelas : ${d.kelas}
+</div>
+
+<!-- A -->
+<div class="section-title">A. Penilaian Sikap</div>
+<table>
+<tr><th>Kriteria</th><th>Nilai</th></tr>
+<tr><td>Kehadiran</td><td>${num(d.kehadiran)}</td></tr>
+<tr><td>Keaktifan</td><td>${num(d.keaktifan)}</td></tr>
+</table>
+
+<!-- B -->
+<div class="section-title">B. Penilaian Tugas</div>
+<table>
+<tr><th>Kategori</th><th>Nilai</th></tr>
+<tr><td>Keseluruhan Tugas</td><td>${num(d.tugas)}</td></tr>
+</table>
+
+<!-- C -->
+<div class="section-title">C. Penilaian Kompetensi/TO</div>
+<table>
+<tr><th>Kategori</th><th>Nilai</th></tr>
+<tr><td>Bunpou 文法</td><td>${num(d.bunpou)}</td></tr>
+<tr><td>Kanji 漢字</td><td>${num(d.kanji)}</td></tr>
+<tr><td>Dokkai 読解</td><td>${num(d.dokkai)}</td></tr>
+<tr><td>Choukai 聴解</td><td>${num(d.choukai)}</td></tr>
+<tr><td>Kaiwa 会話</td><td>${num(d.kaiwa)}</td></tr>
+</table>
+
+<!-- D -->
+<div class="section-title">D. Kesimpulan Nilai Akhir</div>
+<table>
+<tr><th>Komponen</th><th>Presentase</th><th>Nilai</th></tr>
+<tr><td>Sikap</td><td>30%</td><td>${sikap}</td></tr>
+<tr><td>Tugas</td><td>30%</td><td>${num(d.tugas)}</td></tr>
+<tr><td>Kompetensi</td><td>40%</td><td>${kompetensi}</td></tr>
+<tr><td><b>Total</b></td><td>100%</td><td><b>${total}</b></td></tr>
+</table>
+
+<!-- CATATAN -->
+<div class="section-title">E. Catatan Sensei</div>
+<div class="catatan">${d.catatan || ''}</div>
+
+<!-- STATUS -->
+<div class="status-box">
+    <div class="status-inner">
+        Berdasarkan hasil penilaian yang diperoleh oleh siswa<br>
+        di kelas ini, siswa dinyatakan:<br><br>
+
+        <div class="status-lulus">
+            ${statusHTML}
+        </div>
+
+        <div class="tanggal">
+            Jakarta, ${formatTanggal()}
+        </div>
+    </div>
+</div>
+
+<!-- TTD -->
+<div class="ttd">
+<div>
+<img src="logo/img15.jpg" height="40"><br>
+Sensei Utama
+</div>
+
+<div style="position:relative">
+<img src="logo/ttd_desy.jpg" height="40">
+<img src="logo/logo_jgec.jpg" class="cap">
+<br>Kepala Sekolah
+</div>
+
+<div>
+<img src="logo/ttd_jauhari.jpg" height="40"><br>
+Pendamping
+</div>
+</div>
+
+`;
+        }
+    </script>
+
+</body>
+
+</html>
