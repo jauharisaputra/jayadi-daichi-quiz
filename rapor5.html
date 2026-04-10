@@ -31,9 +31,12 @@
         .page {
             width: 210mm;
             min-height: 297mm;
+
             background: #fff;
-            padding: 20mm;
+            padding: 15mm;
+            box-sizing: border-box;
             position: relative;
+
         }
 
         /* HEADER */
@@ -68,7 +71,7 @@
 
         /* IDENTITAS */
         .identitas {
-            margin-top: 15px;
+            margin-top: 10px;
             font-size: 12px;
         }
 
@@ -76,8 +79,10 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 5px;
+            table-layout: fixed;
+            font-size: 11px;
+            margin-top: 3px;
+            word-wrap: break-word;
         }
 
         td,
@@ -87,22 +92,25 @@
         }
 
         .section-title {
-            margin-top: 15px;
+            margin-top: 6px;
             font-weight: bold;
         }
 
         /* CATATAN */
         .catatan {
             border: 1px solid black;
-            padding: 10px;
+            padding: 6px;
             margin-top: 5px;
+            max-height: 60px;
+            overflow: hidden;
+
         }
 
         /* STATUS */
         .status-box {
-            margin-top: 40px;
+            margin-top: 25px;
             /* ⬅️ tambah dari sebelumnya 20px */
-            margin-bottom: 50px;
+            margin-bottom: 20px;
             /* ⬅️ kasih jarak ke tanda tangan */
             width: 100%;
             display: flex;
@@ -117,10 +125,16 @@
 
         /* TTD */
         .ttd {
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             text-align: center;
+            page-break-inside: avoid;
+            position: absolute;
+            bottom: 20mm;
+            left: 15mm;
+            right: 15mm;
+
         }
 
         .cap {
@@ -149,6 +163,19 @@
 
         .tanggal {
             margin-top: 5px;
+        }
+
+        table,
+        tr,
+        td {
+            page-break-inside: avoid;
+            padding: 4px;
+            font-size: 10px;
+        }
+
+        .page {
+            page-break-after: always;
+            page-break-inside: avoid;
         }
     </style>
 </head>
@@ -221,8 +248,11 @@
             for (let i = 0; i < dataSiswa.length; i++) {
                 document.getElementById('siswaSelect').value = i;
                 generate();
-                let
-                    element = document.getElementById('rapor');
+
+                // tunggu render DOM
+                await new Promise(r => setTimeout(r, 300));
+
+                let element = document.getElementById('rapor');
                 let opt = {
                     margin: 0,
                     filename: dataSiswa[i].nama + '.pdf',
@@ -231,7 +261,12 @@
                         quality: 1
                     },
                     html2canvas: {
-                        scale: 3
+                        scale: 1.2,
+                        scrollX: 0,
+                        scrollY: 0
+                    },
+                    pagebreak: {
+                        mode: ['avoid-all', 'css', 'legacy']
                     },
                     jsPDF: {
                         unit: 'mm',
@@ -239,7 +274,9 @@
                         orientation: 'portrait'
                     }
                 };
-                await html2pdf().set(opt).from(element).save();
+                await html2pdf().set(opt).from(element).toPdf().get('pdf').then(pdf => {
+                    pdf.save(dataSiswa[i].nama + '.pdf');
+                });
                 await new Promise(r => setTimeout(r, 800)); // jeda biar tidak
 
             }
@@ -258,9 +295,9 @@
 
             let lulus = false;
 
-            if (d.kelas.includes("N4")) {
+            if ((d.kelas || "").includes("N4")) {
                 lulus = total >= 62;
-            } else if (d.kelas.includes("N5")) {
+            } else if ((d.kelas || "").includes("N5")) {
                 lulus = total >= 70;
             }
 
@@ -283,7 +320,7 @@
         </div>
 
         <div class="judul">
-            NILAI HASIL BELAJAR SISWA KELAS N4
+            NILAI HASIL BELAJAR SISWA KELAS ${d.kelas}
         </div>
     </div>
 </div>
