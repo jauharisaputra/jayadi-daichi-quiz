@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html translate="no" class="notranslate" lang="ja" translate="no">
+
+<head>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <meta name="translate" content="no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Bab 35</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover {
+            background: #217dbb;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+
+        .nav-grid button {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-grid button.answered {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ecf9f1;
+            display: none;
+        }
+
+        .home-bottom {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        u {
+            text-decoration-thickness: 2px;
+            /* garis lebih tebal */
+            text-underline-offset: 4px;
+            /* jarak garis dari huruf */
+            text-decoration-color: #000;
+            /* warna garis */
+        }
+
+        .blank-star {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        .blank-star::after {
+            content: "＿＿";
+            display: block;
+            font-size: 18px;
+        }
+
+        .blank-star span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        html,
+        body {
+            translate: no;
+        }
+
+        * {
+            user-select: none !important;
+        }
+
+        .question,
+        .options {
+            filter: blur(0.3px);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'>
+    <div id="loginBox">
+
+        <h2>🎓 Login Ujian</h2>
+
+        <div
+            style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:10px;margin-bottom:15px;text-align:left;font-size:14px;line-height:1.6;">
+            <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                <li>Jangan membuka tab baru atau aplikasi lain selama ujian berlangsung.</li>
+                <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis diselesaikan.</li>
+                <li>Jangan mencoba <b>copy, screenshot, inspect element, atau developer tools</b>.</li>
+                <li>Jawaban akan tersimpan hanya selama ujian berlangsung.</li>
+            </ul>
+
+            <b>📱 Jika menggunakan HP:</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Atur waktu layar agar tidak cepat mati.</li>
+                <li>Buka <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                <li>Set minimal <b>10 menit atau lebih</b>.</li>
+            </ul>
+
+            <!-- CHECKBOX DILETAKKAN DI SINI -->
+            <div style="margin-top:12px;padding-left:22px;">
+                <label style="display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:start;">
+                    <input type="checkbox" id="agreeRule" style="margin-top:3px;">
+                    <span>Saya sudah membaca dan memahami semua peringatan di atas.</span>
+                </label>
+            </div>
+
+        </div>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
+    </div>
+
+    <div class="container" id="examContainer" style="display:none;">
+        <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
+        <h1>📚 Kuis Bab 35</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
+            <div id="timer">60:00</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div id="passageBox"></div>
+        <div id="kanjiInstruction" style="display:none; 
+            background:#f8f9fa; 
+            padding:15px; 
+            border-radius:10px; 
+            margin-bottom:15px; 
+            font-size:14px; 
+            line-height:1.6;">
+
+            <strong>【漢字 読み方問題】</strong><br><br>
+
+            ・ひらがなは、きれいに書いてください。<br>
+            ・漢字の読み方だけ書いてください。<br><br>
+
+            <span style="color:#1d0b0b;">
+                （例） はやく<strong><u>書</u></strong>いてください。 → れい 答え: か
+            </span>
+
+        </div>
+        <div class="question notranslate" id="questionText"> </div>
+        <div class="options" id="options"></div>
+        <div class="nav-grid" id="navGrid"></div>
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
+        </button>
+        <div id="result"></div>
+        <div class="home-bottom">
+            <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script>
+        const QUIZ_TIME = 3600; // 60 menit
+        let timeLeft = QUIZ_TIME;
+        let timer;
+        let examFinished = false;
+        let current = 0;
+        let studentName = "";
+        let attempt = 1;
+
+
+        function decode(str) {
+            return atob(str);
+        }
+        const questions = [
+
+            // ===============================
+            // 1–15: ～ように / ～ようにしています
+            // ===============================
+            {
+                text: "1. 忘れない（　）、メモします。",
+                options: ["ように", "ために", "のに", "から"],
+                answer: 0
+            },
+            {
+                text: "2. 日本語が上手になる（　）、毎日練習します。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "3. 健康になる（　）、運動しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 1
+            },
+            {
+                text: "4. 遅刻しない（　）、早く起きます。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "5. 毎日日本語を勉強する（　）しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+
+            {
+                text: "6. 遅く寝ない（　）しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "7. 甘い物を食べすぎない（　）しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "8. 早く起きる（　）しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "9. 宿題を忘れない（　）、ノートに書きます。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "10. うまくできる（　）、たくさん練習します。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+
+            {
+                text: "11. 健康の（　）、毎日歩きます。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 1
+            },
+            {
+                text: "12. 日本へ行く（　）、お金をためています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 1
+            },
+            {
+                text: "13. 試験に合格する（　）、勉強しています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 1
+            },
+            {
+                text: "14. 忘れない（　）、カレンダーに書きます。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+            {
+                text: "15. けがをしない（　）、気をつけています。",
+                options: ["ように", "ために", "のに", "でも"],
+                answer: 0
+            },
+
+            // ===============================
+            // 16–25: ～のに
+            // ===============================
+            {
+                text: "16. 雨が降っている（　）、出かけました。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "17. お金がある（　）、何も買いません。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "18. 病気（　）、会社に行きました。",
+                options: ["なので", "なのに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "19. 日本人（　）、漢字が読めません。",
+                options: ["なので", "なのに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "20. 暇（　）、どこにも行きませんでした。",
+                options: ["なので", "なのに", "から", "でも"],
+                answer: 1
+            },
+
+            {
+                text: "21. 彼が好きな（　）、話しません。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "22. 勉強した（　）、試験に落ちました。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "23. 暑い（　）、エアコンをつけません。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "24. 安い（　）、買いませんでした。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+            {
+                text: "25. 時間がある（　）、手伝いません。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 1
+            },
+
+            // ===============================
+            // 26–35: ～やすい / ～にくい
+            // ===============================
+            {
+                text: "26. この本は読み（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+            {
+                text: "27. この漢字は覚え（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 1
+            },
+            {
+                text: "28. このコップは持ち（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+            {
+                text: "29. この靴は履き（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 1
+            },
+            {
+                text: "30. この窓は閉め（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 1
+            },
+
+            {
+                text: "31. このペンは書き（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+            {
+                text: "32. この問題は分かり（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 1
+            },
+            {
+                text: "33. このアプリは使い（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+            {
+                text: "34. この道は歩き（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+            {
+                text: "35. この料理は食べ（　）です。",
+                options: ["やすい", "にくい", "たい", "すぎる"],
+                answer: 0
+            },
+
+            // ===============================
+            // 36–40: ～ますように
+            // ===============================
+            {
+                text: "36. 試験に合格し（　）。",
+                options: ["ますように", "たいです", "ています", "ました"],
+                answer: 0
+            },
+            {
+                text: "37. 病気が治り（　）。",
+                options: ["ますように", "たいです", "ています", "ました"],
+                answer: 0
+            },
+            {
+                text: "38. 幸せになり（　）。",
+                options: ["ますように", "たいです", "ています", "ました"],
+                answer: 0
+            },
+            {
+                text: "39. いい仕事が見つかり（　）。",
+                options: ["ますように", "たいです", "ています", "ました"],
+                answer: 0
+            },
+            {
+                text: "40. 雨が止み（　）。",
+                options: ["ますように", "たいです", "ています", "ました"],
+                answer: 0
+            }
+
+        ];
+        let answers = new Array(questions.length).fill(null);
+
+        // ANTI-CHEAT
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener("copy", e => e.preventDefault());
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
+        function startExam() {
+
+            if (!document.getElementById("agreeRule").checked) {
+                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                return;
+            }
+            const name = document.getElementById("studentName").value.trim();
+            if (!name) {
+                alert("❌ Masukkan nama terlebih dahulu!");
+                return;
+            }
+
+            studentName = name;
+            let savedAttempt = localStorage.getItem("attempt_" + name);
+            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+            localStorage.setItem("attempt_" + name, attempt);
+            localStorage.removeItem('quiz_answers_' + name);
+
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examContainer").style.display = "block";
+            openFullscreen();
+
+            // RESET
+            current = 0;
+            answers = new Array(questions.length).fill(null);
+            timeLeft = QUIZ_TIME;
+            examFinished = false;
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
+            generateNav();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (examFinished) return;
+
+            const q = questions[current];
+            // ======================
+            // ======================
+            // TAMPILKAN INSTRUKSI SEBELUM NO 57
+            // ======================
+            const kanjiBox = document.getElementById("kanjiInstruction");
+
+            if (current === 56) { // soal nomor 57
+                kanjiBox.style.display = "block";
+            } else {
+                kanjiBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN PASSAGE
+            ====================== */
+            const passageBox = document.getElementById("passageBox");
+
+            if (q.passage) {
+                passageBox.innerHTML = `<div class="passage">${q.passage}</div>`;
+                passageBox.style.display = "block";
+            } else {
+                passageBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN SOAL
+            ====================== */
+            document.getElementById("questionText").innerHTML = q.text;
+            document.getElementById("counter").innerText =
+                `Soal ${current + 1} / ${questions.length}`;
+
+            document.getElementById("progress").style.width =
+                ((current + 1) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement("button");
+                btn.innerText = (i + 1) + ". " + opt;
+
+                if (answers[current] === i)
+                    btn.classList.add("selected");
+
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    answers[current] = i;
+                    loadQuestion();
+                    updateNav();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function generateNav() {
+            const nav = document.getElementById("navGrid");
+            nav.innerHTML = "";
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    current = i;
+                    loadQuestion();
+                };
+                nav.appendChild(btn);
+            }
+        }
+
+        function updateNav() {
+            const buttons = document.querySelectorAll(".nav-grid button");
+            buttons.forEach((btn, i) => {
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (examFinished) {
+                    clearInterval(timer);
+                    return;
+                }
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById("timer").innerText =
+                    `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+                if (timeLeft <= 0) {
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+        function finishExam(timeUp = false) {
+            if (examFinished) return;
+            examFinished = true;
+            clearInterval(timer);
+
+            let benar = 0;
+            answers.forEach((a, i) => {
+                if (a === questions[i].answer) benar++;
+            });
+            let nilaiTotal = Math.round((benar / questions.length) * 100);
+
+            fetch("https://script.google.com/macros/s/AKfycbyEtKKGSQe_v92EHQWdHnfoa7WJzQLRRsYzKJ-LBebPbRBJKGIlA1WMLw1h1w2GvvQzJg/exec", {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    nama: studentName,
+                    attempt: attempt,
+                    benar: benar,
+                    total_soal: questions.length,
+                    nilai: nilaiTotal,
+                    total_point: nilaiTotal,
+                    bab: "Bab 35",
+                    status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
+                })
+            });
+
+            // Lock UI
+            document.querySelectorAll("button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.6";
+                btn.style.cursor = "not-allowed";
+            });
+
+            // Tampilkan hasil
+            document.getElementById("result").innerHTML = `
+          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+
+              <div style="font-size:18px; margin:15px 0;">
+                  <b>👤 Nama:</b> ${studentName} <br>
+                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+
+                  ✅ Benar: ${benar} / ${questions.length} <br>
+                  📊 Nilai: <b>${nilaiTotal}%</b>
+              </div>
+
+              <div style="font-size:22px; padding:15px; border-radius:12px;
+            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+              </div>
+          </div>
+          `;
+            document.getElementById("result").style.display = "block";
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+
+            setTimeout(() => {
+
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 26" : "📚 REMEDIAL";
+
+                let message = `
+       ==============================
+       HASIL BAB 35
+       ==============================
+
+       👤 Nama : ${studentName}
+       🔄 Attempt : ${attempt}
+
+       ✅ Benar : ${benar} / ${questions.length}
+       📊 Nilai : ${nilaiTotal}%
+
+       --------------------------------
+
+       ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+       ${statusText}
+
+       ==============================
+       `;
+                alert(message);
+
+            }, 300);
+        }
+
+
+        // ==============================
+        // ?? ANTI AI / ANTI CHEAT ADVANCED
+        // ==============================
+
+        // ?? Disable selection paksa
+        document.addEventListener("selectionchange", () => {
+            if (window.getSelection().toString().length > 0) {
+                window.getSelection().removeAllRanges();
+            }
+        });
+
+        // ?? Detect pindah tab
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && !examFinished) {
+                document.body.innerHTML =
+                    "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+            }
+        });
+
+        // ?? Detect keluar window
+        window.addEventListener("blur", () => {
+            if (!examFinished) {
+                alert("?? Keluar dari halaman terdeteksi!");
+                finishExam(true);
+            }
+        });
+
+        // ?? Detect DevTools / Sidebar AI
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 200) {
+                alert("?? DevTools / AI terdeteksi!");
+                finishExam(true);
+            }
+        }, 1000);
+
+
+        // ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+        setInterval(() => {
+            let suspicious = window.outerWidth - window.innerWidth;
+
+            if (suspicious > 160 && !examFinished) {
+                document.body.innerHTML =
+                    "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+            }
+        }, 1000);
+
+
+        // ?? Auto detect popup translate
+        setInterval(() => {
+            let bodyText = document.body.innerText;
+
+            if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+                document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+            }
+        }, 1500);
+    </script>
+</body>
+
+</html>
