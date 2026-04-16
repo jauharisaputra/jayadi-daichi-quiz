@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Kaiwa JLPT Test</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #eef2f7;
+            margin: 0;
+        }
+
+        header {
+            background: #1f2a44;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 12px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .play {
+            background: #3498db;
+            color: white;
+        }
+
+        .record {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .stop {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .submit {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .progress {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>Kaiwa JLPT Speaking Test</header>
+
+    <div class="container">
+
+        <input id="nama" placeholder="Nama">
+        <input id="kelas" placeholder="Kelas">
+
+        <select id="babSelect" onchange="startExam()">
+            <option value="">-- Pilih Bab --</option>
+            <option value="bab_31_34">Bab 31–34</option>
+        </select>
+
+        <div class="progress" id="progress"></div>
+
+        <audio id="audio"></audio>
+
+        <button class="play" onclick="playAudio()">▶ Play Full Audio</button>
+
+        <hr>
+
+        <div class="question" id="question"></div>
+
+        <button class="record" onclick="startRecording()">🎤 Record</button>
+        <button class="stop" onclick="stopRecording()">⏹ Stop</button>
+        <button class="submit" onclick="submitAnswer()">Submit Jawaban</button>
+
+        <div class="result" id="result"></div>
+
+    </div>
+
+    <script>
+        /* ================= CONFIG ================= */
+
+        const GOOGLE_SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbzw4B0DbbCIujNHEp08a6ICyuG2FejKM1ybanVqT8geOtjZyluvHW52W8JckRUWMgbw/exec";
+
+        const OPENAI_API_KEY = "ISI_API_KEY_KAMU";
+
+        /* ================= DATA ================= */
+
+        const examData = {
+            "bab_31_34": {
+                audio: "bab31_34_full.mp3",
+                questions: [{
+                        text: "何かアルバイトの経験がありますか？",
+                        modelAnswer: "はい、レストランでアルバイトをしたことがあります"
+                    },
+                    {
+                        text: "どんな仕事をしていましたか？",
+                        modelAnswer: "注文を取ったり、料理を運んだりしました"
+                    },
+                    {
+                        text: "大変だったことはありますか？",
+                        modelAnswer: "忙しい時は大変でした"
+                    },
+                    {
+                        text: "楽しかったことは何ですか？",
+                        modelAnswer: "お客様に喜ばれたことです"
+                    }
+                ]
+            }
+        };
+
+        /* ================= STATE ================= */
+
+        let currentBab = null;
+        let currentQuestions = [];
+        let currentIndex = 0;
+
+        let scores = [];
+        let transcripts = [];
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let streamGlobal;
+
+        /* ================= START EXAM ================= */
+
+        function startExam() {
+            const bab = document.getElementById("babSelect").value;
+            if (!bab) return;
+
+            currentBab = examData[bab];
+            currentQuestions = currentBab.questions;
+
+            currentIndex = 0;
+            scores = [];
+            transcripts = [];
+
+            document.getElementById("audio").src = currentBab.audio;
+
+            loadQuestion();
+        }
+
+        /* ================= AUDIO ================= */
+
+        function playAudio() {
+            document.getElementById("audio").play();
+        }
+
+        /* ================= QUESTION ================= */
+
+        function loadQuestion() {
+            const q = currentQuestions[currentIndex];
+
+            document.getElementById("question").innerText = q.text;
+
+            document.getElementById("progress").innerText =
+                `Soal ${currentIndex + 1} / ${currentQuestions.length}`;
+        }
+
+        /* ================= RECORD ================= */
+
+        async function startRecording() {
+            streamGlobal = await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
+
+            mediaRecorder = new MediaRecorder(streamGlobal);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            mediaRecorder.start();
+
+            document.getElementById("result").innerText = "🎤 Recording...";
+        }
+
+        function stopRecording() {
+            if (mediaRecorder) mediaRecorder.stop();
+            if (streamGlobal) streamGlobal.getTracks().forEach(t => t.stop());
+
+            document.getElementById("result").innerText = "⏹ Stopped";
+        }
+
+        /* ================= SUBMIT ================= */
+
+        async function submitAnswer() {
+
+            if (!audioChunks.length) {
+                alert("Rekam dulu jawaban!");
+                return;
+            }
+
+            document.getElementById("result").innerText = "Processing...";
+
+            const blob = new Blob(audioChunks, {
+                type: 'audio/webm'
+            });
+
+            /* ========== 1. TRANSCRIBE (WHISPER) ========== */
+
+            const formData = new FormData();
+            formData.append("file", blob);
+            formData.append("model", "gpt-4o-transcribe");
+
+            const transRes = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${OPENAI_API_KEY}`
+                },
+                body: formData
+            });
+
+            const transData = await transRes.json();
+            const transcript = transData.text;
+
+            /* ========== 2. SCORING ========== */
+
+            const q = currentQuestions[currentIndex];
+
+            const scoreRes = await fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${OPENAI_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-4.1-mini",
+                    messages: [{
+                            role: "system",
+                            content: "Kamu penguji bahasa Jepang."
+                        },
+                        {
+                            role: "user",
+                            content: `
+Nilai 0-100.
+
+Jawaban siswa:
+${transcript}
+
+Jawaban model:
+${q.modelAnswer}
+
+Hanya angka.
+`
+                        }
+                    ]
+                })
+            });
+
+            const scoreData = await scoreRes.json();
+            const score = parseInt(scoreData.choices[0].message.content);
+
+            scores.push(score);
+            transcripts.push(transcript);
+
+            document.getElementById("result").innerText =
+                `Skor: ${score}`;
+
+            currentIndex++;
+
+            audioChunks = [];
+
+            if (currentIndex < currentQuestions.length) {
+                setTimeout(loadQuestion, 1200);
+            } else {
+                finishExam();
+            }
+        }
+
+        /* ================= FINISH ================= */
+
+        async function finishExam() {
+
+            const nama = document.getElementById("nama").value;
+            const kelas = document.getElementById("kelas").value;
+            const bab = document.getElementById("babSelect").value;
+
+            const finalScore =
+                scores.reduce((a, b) => a + b, 0) / scores.length;
+
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                    nama,
+                    kelas,
+                    bab,
+                    scores,
+                    finalScore,
+                    transcript: transcripts
+                })
+            });
+
+            document.getElementById("result").innerHTML =
+                `✅ Selesai!<br><b>Nilai: ${finalScore.toFixed(1)}</b>`;
+        }
+    </script>
+
+</body>
+
+</html>
