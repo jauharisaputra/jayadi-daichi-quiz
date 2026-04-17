@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Database & Rekap - Jayadi Daichi</title>
+
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --success: #28a745;
+            --accent: #ffc107;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: #333;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: block;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            margin: 8px 0;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.03);
+        }
+
+        .green {
+            background: #27ae60;
+        }
+
+        .blue {
+            background: #2980b9;
+        }
+
+        .purple {
+            background: #8e44ad;
+        }
+
+        .red {
+            background: #e74c3c;
+        }
+
+        .orange {
+            background: #f39c12;
+        }
+
+        .teal {
+            background: #16a085;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>📊 Database & Rekap</h1>
+        <p>Semua hasil belajar siswa dalam satu tempat</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="container">
+        <div class="grid">
+
+            <!-- BAB -->
+            <div class="card">
+                <div class="icon">📚</div>
+                <div class="title">Latihan Bab</div>
+                <div class="desc">Hasil latihan dari Bab 1–42</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/1swdb62IDZ7dQUbIrrZagczKhqWY3PGTQZgVDWyfKamY/edit?gid=0#gid=0"
+                    target="_blank" class="btn green">📊 Lihat Data</a>
+            </div>
+
+            <!-- FUKUSHUU -->
+            <div class="card">
+                <div class="icon">🔁</div>
+                <div class="title">Fukushuu</div>
+                <div class="desc">Data hasil review per bab</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/1swdb62IDZ7dQUbIrrZagczKhqWY3PGTQZgVDWyfKamY/edit?gid=0#gid=0"
+                    target="_blank" class="btn blue">📊 Lihat Data</a>
+            </div>
+
+            <!-- CHOUKAI -->
+            <div class="card">
+                <div class="icon">🎧</div>
+                <div class="title">Choukai</div>
+                <div class="desc">Hasil listening JLPT</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/1irkTx1DtOwjnFL1Cs0hsoO8dDE8T_ib1XwXAy75tC9g/edit?gid=0#gid=0"
+                    target="_blank" class="btn purple">📊 Lihat Data</a>
+            </div>
+
+            <!-- TRY OUT -->
+            <div class="card">
+                <div class="icon">🚀</div>
+                <div class="title">Try Out</div>
+                <div class="desc">Simulasi ujian JLPT</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/1oFDrIx-Pvyhm7sv4BaxTPmeZjLqqximN_AF0VqAMo6M/edit?gid=0#gid=0"
+                    target="_blank" class="btn red">📊 Lihat Data</a>
+            </div>
+
+            <!-- ABSENSI -->
+            <div class="card">
+                <div class="icon">📋</div>
+                <div class="title">Absensi</div>
+                <div class="desc">Data kehadiran siswa</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/1tocnBnTnjsLbd2M5A0phcDxT_E1FoXHAr7nmD2kdp1A/edit?gid=0#gid=0"
+                    target="_blank" class="btn orange">📊 Lihat Data</a>
+            </div>
+
+            <!-- KAIWA -->
+            <div class="card">
+                <div class="icon">🗣️</div>
+                <div class="title">Kaiwa</div>
+                <div class="desc">Latihan percakapan siswa</div>
+
+                <a href="LINK_KAIWA" target="_blank" class="btn teal">📊 Lihat Data</a>
+            </div>
+
+            <!-- RAPOR -->
+            <div class="card">
+                <div class="icon">📈</div>
+                <div class="title">Rapor</div>
+                <div class="desc">Rekap nilai akhir siswa</div>
+
+                <a href="https://docs.google.com/spreadsheets/d/125EpXiukrnbkNVeOZLmXo078wJQyb96_RBgSY1c-dZk/edit?gid=774980990#gid=774980990"
+                    target="_blank" class="btn green">📊 Lihat Data</a>
+            </div>
+
+        </div>
+
+        <!-- BACK BUTTON -->
+        <div class="back">
+            <a href="index.html">⬅ Kembali ke Menu Utama</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
