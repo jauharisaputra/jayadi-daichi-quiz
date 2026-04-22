@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensei Panel - Upload Soal (Excel / Word / JSON)</title>
+
+    <!-- XLSX for Excel parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <style>
+        body {
+            font-family: Segoe UI;
+            margin: 0;
+            background: #f4f7fb
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .1)
+        }
+
+        h1 {
+            text-align: center
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            margin: 5px
+        }
+
+        button:hover {
+            background: #217dbb
+        }
+
+        .preview {
+            margin-top: 20px
+        }
+
+        .question-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px
+        }
+
+        .option {
+            padding: 5px 0
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px
+        }
+
+        .error {
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📚 Sensei Panel (Auto Parsing)</h1>
+
+        <input type="file" id="fileInput" accept=".json,.xlsx,.csv,.txt">
+        <br><br>
+        <button onclick="handleUpload()">📥 Upload File</button>
+        <button onclick="publishSoal()">🚀 Publish</button>
+        <button onclick="downloadTemplate()">📄 Template Excel</button>
+
+        <h3>📝 Atau Paste Soal Manual</h3>
+        <textarea id="manualInput" placeholder="Paste soal di sini..."></textarea>
+        <button onclick="parseManual()">🔍 Parse Manual</button>
+
+        <div id="status"></div>
+        <div class="preview" id="preview"></div>
+    </div>
+
+    <script>
+        let soalData = [];
+
+        function handleUpload() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                alert('Pilih file dulu');
+                return;
+            }
+
+            const ext = file.name.split('.').pop().toLowerCase();
+
+            if (ext === 'json') parseJSON(file);
+            else if (ext === 'xlsx' || ext === 'csv') parseExcel(file);
+            else parseText(file);
+        }
+
+        function parseJSON(file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                soalData = JSON.parse(e.target.result);
+                afterParse();
+            };
+            reader.readAsText(file);
+        }
+
+        function parseExcel(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {
+                    type: 'array'
+                });
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const json = XLSX.utils.sheet_to_json(sheet);
+
+                soalData = json.map(row => ({
+                    text: row.Soal,
+                    options: [row.A, row.B, row.C, row.D],
+                    answer: ["A", "B", "C", "D"].indexOf((row.Jawaban || "").toString().trim())
+                }));
+
+                afterParse();
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function parseText(file) {
+            const reader = new FileReader();
+            reader.onload = e => parseTextContent(e.target.result);
+            reader.readAsText(file);
+        }
+
+        function parseManual() {
+            const text = document.getElementById('manualInput').value;
+            parseTextContent(text);
+        }
+
+        function parseTextContent(text) {
+            const blocks = text.split(/\n\s*\n/);
+            soalData = [];
+
+            blocks.forEach(block => {
+                const lines = block.split('\n');
+                let q = {
+                    text: '',
+                    options: [],
+                    answer: 0
+                };
+
+                lines.forEach(line => {
+                    if (line.match(/^\d+\./)) q.text = line.replace(/^\d+\.\s*/, '');
+                    else if (line.startsWith('A.')) q.options[0] = line.slice(2).trim();
+                    else if (line.startsWith('B.')) q.options[1] = line.slice(2).trim();
+                    else if (line.startsWith('C.')) q.options[2] = line.slice(2).trim();
+                    else if (line.startsWith('D.')) q.options[3] = line.slice(2).trim();
+                    else if (line.toLowerCase().includes('jawaban')) {
+                        const ans = line.split(':')[1].trim();
+                        q.answer = ["A", "B", "C", "D"].indexOf(ans);
+                    }
+                });
+
+                if (q.text && q.options.length === 4) soalData.push(q);
+            });
+
+            afterParse();
+        }
+
+        function afterParse() {
+            try {
+                validateSoal(soalData);
+                renderPreview();
+                document.getElementById('status').innerHTML = '<div class="success">✅ Soal berhasil diparse</div>';
+            } catch (e) {
+                document.getElementById('status').innerHTML = '<div class="error">❌ ' + e.message + '</div>';
+            }
+        }
+
+        function validateSoal(data) {
+            data.forEach((q, i) => {
+                if (!q.text || !q.options || q.options.length !== 4) {
+                    throw new Error('Format salah di soal ' + (i + 1));
+                }
+                if (q.answer < 0 || q.answer > 3) {
+                    throw new Error('Jawaban harus A-D di soal ' + (i + 1));
+                }
+            });
+        }
+
+        function renderPreview() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+
+            soalData.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'question-box';
+
+                let html = `<b>${i+1}. ${q.text}</b>`;
+                q.options.forEach((opt, idx) => {
+                    html += `<div class="option">${idx+1}. ${opt} ${idx===q.answer ? '✅' : ''}</div>`;
+                });
+
+                div.innerHTML = html;
+                preview.appendChild(div);
+            });
+        }
+
+        function publishSoal() {
+            if (soalData.length === 0) {
+                alert('Belum ada soal');
+                return;
+            }
+            localStorage.setItem('questions_data', JSON.stringify(soalData));
+            document.getElementById('status').innerHTML = '<div class="success">🚀 Published!</div>';
+        }
+
+        function downloadTemplate() {
+            const template = [{
+                Soal: "Contoh soal",
+                A: "A",
+                B: "B",
+                C: "C",
+                D: "D",
+                Jawaban: "A"
+            }];
+
+            const ws = XLSX.utils.json_to_sheet(template);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Template");
+            XLSX.writeFile(wb, "template_soal.xlsx");
+        }
+    </script>
+
+</body>
+
+</html>
