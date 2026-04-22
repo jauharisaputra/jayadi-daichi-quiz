@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Soal Sensei</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>📝 Upload Soal</h2>
+
+    <label>Bab:</label>
+    <input type="number" id="bab" placeholder="Contoh: 23">
+
+    <br><br>
+
+    <label>Paste Soal:</label>
+    <textarea id="inputSoal" placeholder="1. Soal...
+A. ...
+B. ...
+C. ...
+D. ...
+Jawaban: A"></textarea>
+
+    <br>
+
+    <button onclick="parseSoal()">🔍 Preview</button>
+    <button onclick="publishSoal()">🚀 Publish</button>
+
+    <h3>Preview:</h3>
+    <pre id="preview"></pre>
+
+    <script>
+        let parsedQuestions = [];
+
+        function parseSoal() {
+            const text = document.getElementById("inputSoal").value;
+            const blocks = text.split(/\n(?=\d+\.)/);
+
+            parsedQuestions = blocks.map(block => {
+                const lines = block.trim().split("\n");
+
+                const question = lines[0];
+                const options = lines.slice(1, 5).map(opt => opt.replace(/^[A-D]\.\s*/, ""));
+                const answerLine = lines.find(l => l.toLowerCase().includes("jawaban"));
+
+                let answer = 0;
+                if (answerLine) {
+                    const huruf = answerLine.split(":")[1].trim().toUpperCase();
+                    answer = ["A", "B", "C", "D"].indexOf(huruf);
+                }
+
+                return {
+                    text: question,
+                    options,
+                    answer
+                };
+            });
+
+            document.getElementById("preview").textContent =
+                JSON.stringify(parsedQuestions, null, 2);
+        }
+
+        function publishSoal() {
+            const bab = document.getElementById("bab").value;
+
+            if (!bab) {
+                alert("Isi nomor bab dulu!");
+                return;
+            }
+
+            localStorage.setItem("quiz_bab_" + bab, JSON.stringify(parsedQuestions));
+
+            alert("✅ Soal Bab " + bab + " berhasil dipublish!");
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensei Panel PRO</title>
+
+    <style>
+        body {
+            font-family: Segoe UI;
+            margin: 0;
+            background: #f4f7fb
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .1)
+        }
+
+        .question-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px
+        }
+
+        .option {
+            padding: 5px 0
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 8px
+        }
+
+        .error {
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 8px
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .star {
+            color: red;
+            font-weight: bold
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📚 Sensei Panel PRO</h1>
+
+        <textarea id="manualInput" placeholder="Paste soal di sini..."></textarea>
+        <button onclick="parseManual()">🔍 Parse</button>
+        <button onclick="publishSoal()">🚀 Publish</button>
+
+        <div id="status"></div>
+        <div id="preview"></div>
+    </div>
+
+    <script>
+        let soalData = [];
+
+        function normalize(text) {
+            return text
+                .replace(/[Ａ-Ｚ]/g, s => String.fromCharCode(s.charCodeAt(0) - 65248))
+                .replace(/[０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 65248))
+                .replace(/　/g, ' ')
+                .trim();
+        }
+
+        function parseManual() {
+            const text = document.getElementById('manualInput').value;
+            parseTextContent(text);
+        }
+
+        function parseTextContent(text) {
+
+            text = normalize(text);
+
+            const lines = text.split('\n')
+                .map(l => l.trim())
+                .filter(l => l !== '');
+
+            soalData = [];
+            let current = null;
+            let currentPassage = "";
+
+            lines.forEach(line => {
+
+                // =========================
+                // PASSAGE (DOKKAI)
+                // =========================
+                if (line.includes("【") && line.includes("】")) {
+                    currentPassage = line;
+                    return;
+                }
+
+                // =========================
+                // DETECT SOAL (FIX BUG)
+                // =========================
+                if (/^\d+\.\s/.test(line) && line.length > 10) {
+
+                    if (current) soalData.push(current);
+
+                    current = {
+                        text: line.replace(/^\d+\.\s*/, ''),
+                        options: [],
+                        answer: 0,
+                        passage: currentPassage
+                    };
+                    return;
+                }
+
+                if (!current) return;
+
+                // =========================
+                // OPTION A-D
+                // =========================
+                if (/^[A-D][\.\)]\s/.test(line)) {
+                    current.options.push(line.slice(2).trim());
+                    return;
+                }
+
+                // =========================
+                // OPTION ANGKA (FIX BUG)
+                // =========================
+                if (/^[1-4][\.\)]\s/.test(line) && current.options.length < 4) {
+                    current.options.push(line.slice(2).trim());
+                    return;
+                }
+
+                // =========================
+                // JAWABAN
+                // =========================
+                if (line.toLowerCase().includes("jawaban")) {
+
+                    let ans = line.split(':')[1].trim();
+
+                    // support A atau 1
+                    if (["A", "B", "C", "D"].includes(ans.toUpperCase())) {
+                        current.answer = ["A", "B", "C", "D"].indexOf(ans.toUpperCase());
+                    } else {
+                        current.answer = parseInt(ans) - 1;
+                    }
+                    return;
+                }
+
+                // =========================
+                // STAR (★ / ☆)
+                // =========================
+                if (line.includes("☆") || line.includes("★")) {
+                    current.text += " <span class='star'>★</span>";
+                    return;
+                }
+
+                // =========================
+                // LANJUTAN TEKS
+                // =========================
+                current.text += " " + line;
+            });
+
+            if (current) soalData.push(current);
+
+            afterParse();
+        }
+
+        function afterParse() {
+            if (soalData.length === 0) {
+                document.getElementById('status').innerHTML =
+                    '<div class="error">❌ Gagal parse</div>';
+                return;
+            }
+
+            renderPreview();
+
+            document.getElementById('status').innerHTML =
+                `<div class="success">✅ ${soalData.length} soal berhasil diparse</div>`;
+        }
+
+        function renderPreview() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+
+            soalData.forEach((q, i) => {
+
+                const div = document.createElement('div');
+                div.className = 'question-box';
+
+                let html = '';
+
+                if (q.passage) {
+                    html += `<div style="background:#eef;padding:10px;margin-bottom:10px">${q.passage}</div>`;
+                }
+
+                html += `<b>${i+1}. ${q.text}</b>`;
+
+                q.options.forEach((opt, idx) => {
+                    html += `<div class="option">${idx+1}. ${opt} ${idx===q.answer ? '✅' : ''}</div>`;
+                });
+
+                div.innerHTML = html;
+                preview.appendChild(div);
+            });
+        }
+
+        function publishSoal() {
+            if (soalData.length === 0) {
+                alert('Belum ada soal');
+                return;
+            }
+
+            localStorage.setItem('questions_data', JSON.stringify(soalData));
+
+            document.getElementById('status').innerHTML =
+                '<div class="success">🚀 Published!</div>';
+        }
+    </script>
+
+</body>
+
+</html>
