@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Review Kesalahan</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-left: 5px solid #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>❌ Review Kesalahan</h2>
+
+    <div id="review"></div>
+
+    <script>
+        let data = JSON.parse(localStorage.getItem("reviewSalah")) || [];
+
+        let container = document.getElementById("review");
+
+        if (data.length === 0) {
+            container.innerHTML = "<p>Tidak ada kesalahan 🎉</p>";
+        }
+
+        data.forEach((item, i) => {
+            container.innerHTML += `
+  <div class="card">
+    <b>Soal ${i+1}</b><br><br>
+    ${item.soal}<br><br>
+    ❌ Jawaban kamu: ${item.jawab}<br>
+    ✅ Jawaban benar: ${item.benar}
+  </div>`;
+        });
+    </script>
+
+</body>
+
+</html>

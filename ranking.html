@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking Siswa</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #f1c40f;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🏆 Ranking Siswa</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Nama</th>
+                <th>Nilai</th>
+            </tr>
+        </thead>
+        <tbody id="rankingBody"></tbody>
+    </table>
+
+    <script>
+        // ambil data dari localStorage
+        let data = JSON.parse(localStorage.getItem("nilaiSiswa")) || [];
+
+        // urutkan nilai tertinggi
+        data.sort((a, b) => b.nilai - a.nilai);
+
+        let tbody = document.getElementById("rankingBody");
+
+        data.forEach((s, i) => {
+            let row = `<tr>
+    <td>${i+1}</td>
+    <td>${s.nama}</td>
+    <td>${s.nilai}</td>
+  </tr>`;
+            tbody.innerHTML += row;
+        });
+    </script>
+
+</body>
+
+</html>
