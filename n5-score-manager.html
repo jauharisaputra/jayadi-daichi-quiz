@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rekap Nilai N5 Multi Siswa</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        input {
+            width: 50px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Rekap Nilai JLPT N5 (Multi Siswa + Konversi)</h2>
+
+    <select id="daftarSiswa">
+<option value="">-- Pilih Siswa --</option>
+<option value="1|Aulia Naufal Ardana">1 - Aulia Naufal Ardana</option>
+<option value="2|DYKO SATMOKO">2 - DYKO SATMOKO</option>
+<option value="3|????�????">3 - ????�????</option>
+<option value="4|Ferdi Muchtadin">4 - Ferdi Muchtadin</option>
+<option value="5|Freisye Adetya Mandala">5 - Freisye Adetya Mandala</option>
+<option value="6|Hegel Al Hanan">6 - Hegel Al Hanan</option>
+<option value="7|Indra Situmorang">7 - Indra Situmorang</option>
+<option value="8|Mikael Adi">8 - Mikael Adi</option>
+<option value="9|????? (MUSTIA)">9 - ????? (MUSTIA)</option>
+<option value="10|Radwan">10 - Radwan</option>
+</select>
+
+<button onclick="tambahDariDropdown()">+ Tambah dari Daftar</button>
+<button onclick="tambahBaris()">+ Tambah Siswa</button>
+    <button onclick="exportCSV()">Export CSV</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">ID</th>
+                <th rowspan="2">Nama</th>
+
+                <th colspan="5">Reading</th>
+                <th colspan="4">Listening</th>
+
+                <th rowspan="2">Total</th>
+                <th colspan="4">Konversi</th>
+                <th rowspan="2">Rata2</th>
+            </tr>
+
+            <tr>
+                <th>Bunpou</th>
+                <th>Goi</th>
+                <th>Dokkai</th>
+                <th>Kanji</th>
+                <th>Tanbun</th>
+
+                <th>C1</th>
+                <th>C2</th>
+                <th>C3</th>
+                <th>C4</th>
+
+                <th>BGT</th>
+                <th>Kanji</th>
+                <th>Dokkai</th>
+                <th>Choukai</th>
+            </tr>
+        </thead>
+
+        <tbody id="body"></tbody>
+    </table>
+
+    <script>
+        // TAMBAH BARIS
+        function tambahBaris() {
+            var tbody = document.getElementById("body");
+
+            var row = document.createElement("tr");
+
+            row.innerHTML =
+                "<td><input></td>" +
+                "<td><input></td>" +
+
+                "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='15' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='5' oninput='hitung(this)'></td>" +
+
+                "<td><input type='number' min='0' max='5' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='2' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='14' oninput='hitung(this)'></td>" +
+                "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+
+                "<td class='total'>0</td>" +
+                "<td class='bgt'>0</td>" +
+                "<td class='kanji_conv'>0</td>" +
+                "<td class='dokkai_conv'>0</td>" +
+                "<td class='choukai_conv'>0</td>" +
+                "<td class='rata'>0</td>";
+
+            tbody.appendChild(row);
+        }
+
+
+        // HITUNG NILAI
+        function hitung(el) {
+            var row = el.parentElement.parentElement;
+            var cells = row.getElementsByTagName("td");
+
+            function val(i) {
+                var input = cells[i].getElementsByTagName("input")[0];
+                if (!input) return 0;
+                return parseInt(input.value) || 0;
+            }
+
+            var bunpou = val(2) * 3;
+            var goi = val(3) * 3;
+            var dokkai = val(4) * 5;
+            var kanji = val(5) * 3;
+            var tanbun = val(6) * 4;
+
+            var c1 = val(7) * 5;
+            var c2 = val(8) * 5;
+            var c3 = val(9) * 5;
+            var c4 = val(10) * 7;
+
+            var choukai = c1 + c2 + c3 + c4;
+
+            var total = bunpou + goi + dokkai + kanji + tanbun + choukai;
+
+            var bgt = bunpou + goi + tanbun;
+
+            var conv_bgt = Math.round((bgt / 19) * 20);
+            var conv_kanji = Math.round((kanji / 3) * 10);
+            var conv_dokkai = Math.round(dokkai * 2);
+            var conv_choukai = Math.round((choukai * 4) / 7);
+
+            var rata = Math.round((conv_bgt + conv_kanji + conv_dokkai + conv_choukai) / 4);
+
+            row.getElementsByClassName("total")[0].innerText = total;
+            row.getElementsByClassName("bgt")[0].innerText = conv_bgt;
+            row.getElementsByClassName("kanji_conv")[0].innerText = conv_kanji;
+            row.getElementsByClassName("dokkai_conv")[0].innerText = conv_dokkai;
+            row.getElementsByClassName("choukai_conv")[0].innerText = conv_choukai;
+            row.getElementsByClassName("rata")[0].innerText = rata;
+        }
+
+
+        // EXPORT CSV
+        function exportCSV() {
+            var rows = document.querySelectorAll("#body tr");
+            var csv = "ID,Nama,Total,BGT,Kanji,Dokkai,Choukai,Rata\n";
+
+            rows.forEach(function (row) {
+                var cells = row.getElementsByTagName("td");
+
+                var id = cells[0].getElementsByTagName("input")[0].value;
+                var nama = cells[1].getElementsByTagName("input")[0].value;
+
+                var total = cells[11].innerText;
+                var bgt = cells[12].innerText;
+                var kanji = cells[13].innerText;
+                var dokkai = cells[14].innerText;
+                var choukai = cells[15].innerText;
+                var rata = cells[16].innerText;
+
+                csv += id + "," + nama + "," + total + "," + bgt + "," + kanji + "," + dokkai + "," + choukai +
+                    "," + rata + "\n";
+            });
+
+            var blob = new Blob([csv], {
+                type: "text/csv"
+            });
+            var link = document.createElement("a");
+
+            link.href = URL.createObjectURL(blob);
+            link.download = "nilai_n5.csv";
+            link.click();
+        }
+    
+function tambahDariDropdown() {
+    var select = document.getElementById("daftarSiswa");
+    var value = select.value;
+
+    if (!value) {
+        alert("Pilih siswa dulu");
+        return;
+    }
+
+    var data = value.split("|");
+    var id = data[0];
+    var nama = data[1];
+
+    var tbody = document.getElementById("body");
+    var row = document.createElement("tr");
+
+    row.innerHTML =
+    "<td><input value='" + id + "'></td>" +
+    "<td><input value='" + nama + "'></td>" +
+
+    "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='15' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='5' oninput='hitung(this)'></td>" +
+
+    "<td><input type='number' min='0' max='5' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='2' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='14' oninput='hitung(this)'></td>" +
+    "<td><input type='number' min='0' max='10' oninput='hitung(this)'></td>" +
+
+    "<td class='total'>0</td>" +
+    "<td class='bgt'>0</td>" +
+    "<td class='kanji_conv'>0</td>" +
+    "<td class='dokkai_conv'>0</td>" +
+    "<td class='choukai_conv'>0</td>" +
+    "<td class='rata'>0</td>";
+
+    tbody.appendChild(row);
+
+    select.value = "";
+}
+
+</script>
+
+</body>
+
+</html>
+
