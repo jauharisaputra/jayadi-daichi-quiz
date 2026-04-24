@@ -39,13 +39,13 @@
             container.innerHTML = "<p>Tidak ada kesalahan 🎉</p>";
         }
 
-        data.forEach((item, i) => {
+        data.forEach((item) => {
             container.innerHTML += `
   <div class="card">
-    <b>Soal ${i+1}</b><br><br>
+    <b>Soal ${item.nomor}</b><br><br>
     ${item.soal}<br><br>
-    ❌ Jawaban kamu: ${item.jawab}<br>
-    ✅ Jawaban benar: ${item.benar}
+    ❌ Jawaban kamu: ${item.jawabanUser}<br>
+    ✅ Jawaban benar: ${item.jawabanBenar}
   </div>`;
         });
     </script>
