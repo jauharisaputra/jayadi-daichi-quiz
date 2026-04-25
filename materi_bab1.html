@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materi Bab 1 - Interaktif PRO</title>
+    <title>Materi Bab 1 - PRO</title>
 
     <style>
         :root {
@@ -35,14 +35,14 @@
             display: flex;
         }
 
-        /* TEXT */
         h1 {
             font-size: 2.5rem;
         }
 
         p {
             font-size: 1.2rem;
-            max-width: 600px
+            max-width: 600px;
+            cursor: pointer
         }
 
         /* BUTTON */
@@ -55,7 +55,6 @@
             font-weight: bold;
         }
 
-        /* SPEAK BUTTON */
         .speak-btn {
             background: #fff;
             color: #333;
@@ -88,14 +87,14 @@
             transition: 0.3s;
         }
 
-        /* QUIZ LOCK */
+        /* QUIZ */
         .quiz-btn {
             display: none;
             background: #e74c3c;
             color: white;
         }
 
-        /* FULLSCREEN BTN */
+        /* FULLSCREEN */
         .fullscreen {
             position: fixed;
             top: 10px;
@@ -112,24 +111,21 @@
 <body>
 
     <div class="progress" id="progress"></div>
-    <div class="fullscreen" onclick="openFullscreen()">⛶ Fullscreen</div>
+    <div class="fullscreen" onclick="openFullscreen()">⛶</div>
 
     <!-- SLIDE 1 -->
     <div class="slide active">
         <h1>📘 Bab 1</h1>
-        <p>Perkenalan dalam Bahasa Jepang</p>
+        <p>Perkenalan Bahasa Jepang</p>
         <button class="btn" onclick="nextSlide()">Mulai ▶️</button>
     </div>
 
     <!-- SLIDE 2 -->
     <div class="slide">
         <h1>わたしは〜です</h1>
-        <p>Saya adalah ~</p>
-
-        <p onclick="speakJP('わたしはがくせいです')" style="cursor:pointer;">
+        <p onclick="speakJP('わたしはがくせいです')">
             わたしは がくせいです 🔊
         </p>
-
         <button class="btn speak-btn" onclick="speakJP('わたしはがくせいです')">🔊 Dengar</button>
     </div>
 
@@ -137,17 +133,15 @@
     <div class="slide">
         <h1>Profesi</h1>
 
-        <p onclick="speakJP('せんせい')" style="cursor:pointer;">せんせい (Guru) 🔊</p>
-        <p onclick="speakJP('がくせい')" style="cursor:pointer;">がくせい (Siswa) 🔊</p>
-        <p onclick="speakJP('いしゃ')" style="cursor:pointer;">いしゃ (Dokter) 🔊</p>
+        <p onclick="speakJP('せんせい')">せんせい (Guru) 🔊</p>
+        <p onclick="speakJP('がくせい')">がくせい (Siswa) 🔊</p>
+        <p onclick="speakJP('いしゃ')">いしゃ (Dokter) 🔊</p>
     </div>
 
     <!-- SLIDE 4 -->
     <div class="slide">
         <h1>Partikel は</h1>
-        <p>Digunakan untuk topik</p>
-
-        <p onclick="speakJP('わたしはせんせいです')" style="cursor:pointer;">
+        <p onclick="speakJP('わたしはせんせいです')">
             わたしは せんせいです 🔊
         </p>
     </div>
@@ -155,18 +149,15 @@
     <!-- SLIDE 5 -->
     <div class="slide">
         <h1>Kalimat Negatif</h1>
-
-        <p onclick="speakJP('がくせいじゃありません')" style="cursor:pointer;">
+        <p onclick="speakJP('がくせいじゃありません')">
             がくせいじゃありません 🔊
         </p>
-
-        <p>Bukan siswa</p>
     </div>
 
     <!-- SLIDE 6 -->
     <div class="slide">
         <h1>🎉 Selesai!</h1>
-        <p>Kamu sudah menyelesaikan materi</p>
+        <p>Materi selesai, lanjut ke kuis</p>
 
         <a href="bab1.html" class="btn quiz-btn" id="quizBtn">
             🚀 Mulai Kuis
@@ -183,7 +174,9 @@
         let slides = document.querySelectorAll(".slide");
         let current = 0;
 
-        /* SHOW SLIDE */
+        /* =======================
+           SLIDE CONTROL
+        ======================= */
         function showSlide(i) {
             slides.forEach(s => s.classList.remove("active"));
             slides[i].classList.add("active");
@@ -191,13 +184,11 @@
             document.getElementById("progress").style.width =
                 ((i + 1) / slides.length * 100) + "%";
 
-            // UNLOCK QUIZ
             if (i === slides.length - 1) {
                 document.getElementById("quizBtn").style.display = "inline-block";
             }
         }
 
-        /* NEXT */
         function nextSlide() {
             if (current < slides.length - 1) {
                 current++;
@@ -205,7 +196,6 @@
             }
         }
 
-        /* PREV */
         function prevSlide() {
             if (current > 0) {
                 current--;
@@ -213,8 +203,11 @@
             }
         }
 
-        /* SWIPE HP */
+        /* =======================
+           SWIPE HP
+        ======================= */
         let startX = 0;
+
         document.addEventListener("touchstart", e => {
             startX = e.touches[0].clientX;
         });
@@ -226,27 +219,56 @@
             if (endX - startX > 50) prevSlide();
         });
 
-        /* FULLSCREEN */
+        /* =======================
+           FULLSCREEN
+        ======================= */
         function openFullscreen() {
             let elem = document.documentElement;
             if (elem.requestFullscreen) elem.requestFullscreen();
         }
 
-        /* 🔊 JAPANESE VOICE */
+        /* =======================
+           🔊 FIX AUDIO HP
+        ======================= */
+
+        let voicesReady = false;
+
+        // trigger load voice saat user pertama klik
+        document.body.addEventListener("click", () => {
+            if (!voicesReady) {
+                speechSynthesis.getVoices();
+                voicesReady = true;
+            }
+        });
+
         function speakJP(text) {
+            if (!window.speechSynthesis) {
+                alert("Browser tidak support audio");
+                return;
+            }
+
             const utter = new SpeechSynthesisUtterance(text);
             utter.lang = "ja-JP";
 
             let voices = speechSynthesis.getVoices();
-            let jp = voices.find(v => v.lang.includes("ja"));
 
-            if (jp) utter.voice = jp;
+            let jpVoice = voices.find(v => v.lang === "ja-JP") ||
+                voices.find(v => v.lang.includes("ja")) ||
+                voices[0];
+
+            if (jpVoice) utter.voice = jpVoice;
+
+            utter.rate = 0.9;
+            utter.pitch = 1;
 
             speechSynthesis.cancel();
-            speechSynthesis.speak(utter);
+
+            setTimeout(() => {
+                speechSynthesis.speak(utter);
+            }, 100);
         }
 
-        /* LOAD VOICE FIX */
+        // fix iOS & Android voice loading
         speechSynthesis.onvoiceschanged = () => {};
     </script>
 
