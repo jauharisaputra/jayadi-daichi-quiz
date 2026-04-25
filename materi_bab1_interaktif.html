@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Bab 1 - Interaktif PRO</title>
+
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --bg: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI';
+            background: var(--bg);
+            color: white;
+            overflow: hidden;
+        }
+
+        /* SLIDE */
+        .slide {
+            display: none;
+            height: 100vh;
+            padding: 40px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* TEXT */
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 600px
+        }
+
+        /* BUTTON */
+        .btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* SPEAK BUTTON */
+        .speak-btn {
+            background: #fff;
+            color: #333;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: #fff;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        /* QUIZ LOCK */
+        .quiz-btn {
+            display: none;
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* FULLSCREEN BTN */
+        .fullscreen {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: black;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress" id="progress"></div>
+    <div class="fullscreen" onclick="openFullscreen()">⛶ Fullscreen</div>
+
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+        <h1>📘 Bab 1</h1>
+        <p>Perkenalan dalam Bahasa Jepang</p>
+        <button class="btn" onclick="nextSlide()">Mulai ▶️</button>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+        <h1>わたしは〜です</h1>
+        <p>Saya adalah ~</p>
+
+        <p onclick="speakJP('わたしはがくせいです')" style="cursor:pointer;">
+            わたしは がくせいです 🔊
+        </p>
+
+        <button class="btn speak-btn" onclick="speakJP('わたしはがくせいです')">🔊 Dengar</button>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+        <h1>Profesi</h1>
+
+        <p onclick="speakJP('せんせい')" style="cursor:pointer;">せんせい (Guru) 🔊</p>
+        <p onclick="speakJP('がくせい')" style="cursor:pointer;">がくせい (Siswa) 🔊</p>
+        <p onclick="speakJP('いしゃ')" style="cursor:pointer;">いしゃ (Dokter) 🔊</p>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide">
+        <h1>Partikel は</h1>
+        <p>Digunakan untuk topik</p>
+
+        <p onclick="speakJP('わたしはせんせいです')" style="cursor:pointer;">
+            わたしは せんせいです 🔊
+        </p>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+        <h1>Kalimat Negatif</h1>
+
+        <p onclick="speakJP('がくせいじゃありません')" style="cursor:pointer;">
+            がくせいじゃありません 🔊
+        </p>
+
+        <p>Bukan siswa</p>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+        <h1>🎉 Selesai!</h1>
+        <p>Kamu sudah menyelesaikan materi</p>
+
+        <a href="bab1.html" class="btn quiz-btn" id="quizBtn">
+            🚀 Mulai Kuis
+        </a>
+    </div>
+
+    <!-- NAV -->
+    <div class="nav">
+        <button onclick="prevSlide()">⬅</button>
+        <button onclick="nextSlide()">➡</button>
+    </div>
+
+    <script>
+        let slides = document.querySelectorAll(".slide");
+        let current = 0;
+
+        /* SHOW SLIDE */
+        function showSlide(i) {
+            slides.forEach(s => s.classList.remove("active"));
+            slides[i].classList.add("active");
+
+            document.getElementById("progress").style.width =
+                ((i + 1) / slides.length * 100) + "%";
+
+            // UNLOCK QUIZ
+            if (i === slides.length - 1) {
+                document.getElementById("quizBtn").style.display = "inline-block";
+            }
+        }
+
+        /* NEXT */
+        function nextSlide() {
+            if (current < slides.length - 1) {
+                current++;
+                showSlide(current);
+            }
+        }
+
+        /* PREV */
+        function prevSlide() {
+            if (current > 0) {
+                current--;
+                showSlide(current);
+            }
+        }
+
+        /* SWIPE HP */
+        let startX = 0;
+        document.addEventListener("touchstart", e => {
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener("touchend", e => {
+            let endX = e.changedTouches[0].clientX;
+
+            if (startX - endX > 50) nextSlide();
+            if (endX - startX > 50) prevSlide();
+        });
+
+        /* FULLSCREEN */
+        function openFullscreen() {
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+        }
+
+        /* 🔊 JAPANESE VOICE */
+        function speakJP(text) {
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = "ja-JP";
+
+            let voices = speechSynthesis.getVoices();
+            let jp = voices.find(v => v.lang.includes("ja"));
+
+            if (jp) utter.voice = jp;
+
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utter);
+        }
+
+        /* LOAD VOICE FIX */
+        speechSynthesis.onvoiceschanged = () => {};
+    </script>
+
+</body>
+
+</html>

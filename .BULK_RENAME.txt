@@ -240,6 +240,7 @@ c:\DOKUMEN\JGEC\jayadi-daichi-quiz\logo\img15.jpg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\logo\logo_jgec.jpg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\logo\ttd_desy.jpg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\logo\ttd_jauhari.jpg
+c:\DOKUMEN\JGEC\jayadi-daichi-quiz\materi_bab1_interaktif.html
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\n5-score-manager.html
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\pdf\choukai_n4.pdf
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\pembelajaran_bab1.html
