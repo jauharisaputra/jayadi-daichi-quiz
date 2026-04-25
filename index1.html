@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jayadi Daichi Quiz - JLPT N5 & N4</title>
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --primary-dark: #1e3d72;
+            --success: #28a745;
+            --accent: #ffc107;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.8rem);
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .sensei-info {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px 40px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .levels-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 50px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .level-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
+        }
+
+        .level-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .level-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(44, 90, 160, 0.4);
+        }
+
+        .level-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .level-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .stat-mini {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-mini strong {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            display: block;
+        }
+
+        .start-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(44, 90, 160, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(44, 90, 160, 0.4);
+        }
+
+        .admin-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 60px 20px;
+            margin: 60px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 50px 15px;
+            }
+
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .level-card.to-card {
+            background: #ffffff !important;
+            border: 2px solid #e74c3c;
+        }
+
+        /* 🔥 teks utama */
+        .to-card .level-title {
+            color: #c0392b;
+            font-weight: 700;
+        }
+
+        /* 🔥 deskripsi */
+        .to-card p {
+            color: #333 !important;
+            font-weight: 500;
+        }
+
+        /* 🔥 angka 74 & 70 menit */
+        .to-card .stat-mini strong {
+            color: #e74c3c;
+            font-size: 1.4rem;
+        }
+
+        /* 🔥 tombol */
+        .to-card .start-btn {
+            background: #e74c3c !important;
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
+        }
+
+        .levels-grid {
+            align-items: start;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Jayadi Daichi Quiz</h1>
+        <p class="hero-subtitle">JLPT N5 & N4 Online Learning Platform</p>
+        <div class="sensei-info">
+            <strong>Jayadi Global Education Center</strong><br>
+            <img src="img/pp.jpg" alt="foto profil sensei"
+                style="width: 80px; height: 80px; border-radius: 50%; margin: 10px 0;"><br>
+            <a href="cv.html" style="color: white;">Klik Untuk Riwayat Hidup Sensei: <strong>Jauhari
+                    Saputra</strong></a>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">42</span>
+            <span class="stat-label">Total Bab</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">N5-N4</span>
+            <span class="stat-label">JLPT Level</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">42</span>
+            <span class="stat-label">Kuis Siap</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">3600s</span>
+            <span class="stat-label">Timer/Bab</span>
+        </div>
+    </div>
+
+    <!-- Levels Section -->
+    <section class="levels-section">
+        <h2 class="section-title">Pilih Level Belajar</h2>
+
+        <div class="levels-grid">
+            <!-- N5 Daichi 1 -->
+            <div class="level-card">
+                <div class="level-icon">N5</div>
+                <h3 class="level-title">Daichi 1 (Bab 1-22)</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    Grammar & Kosakata Dasar JLPT N5
+                </p>
+                <div class="level-stats">
+                    <div class="stat-mini">
+                        <strong>22 Bab</strong>
+                        Soal
+                    </div>
+                    <div class="stat-mini">
+                        <strong>22</strong>
+                        Siap Pakai
+                    </div>
+                </div>
+
+                <a href="pembelajaran_bab1.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 1
+                </a>
+                <a href="pembelajaran_bab2.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 2
+                </a>
+
+                <a href="pembelajaran_bab3.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 3
+                </a>
+                <a href="pembelajaran_bab4.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 4
+                </a>
+                <a href="pembelajaran_bab5.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 5
+                </a>
+                <a href="pembelajaran_bab6.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 6
+                </a>
+                <a href="pembelajaran_bab7.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 7
+                </a>
+                <a href="pembelajaran_bab8.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 8
+                </a>
+                <a href="pembelajaran_bab9.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 9
+                </a>
+                <a href="pembelajaran_bab10.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 10
+                </a>
+                <a href="pembelajaran_bab11.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 11
+                </a>
+                <a href="pembelajaran_bab12.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 12
+                </a>
+                <a href="pembelajaran_bab13.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 13
+                </a>
+                <a href="pembelajaran_bab14.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 14
+                </a>
+                <a href="pembelajaran_bab15.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 15
+                </a>
+                <a href="pembelajaran_bab16.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 16
+                </a>
+                <a href="pembelajaran_bab17.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 17
+                </a>
+                <a href="pembelajaran_bab18.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 18
+                </a>
+                <a href="pembelajaran_bab19.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 19
+                </a>
+                <a href="pembelajaran_bab20.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 20
+                </a>
+                <a href="pembelajaran_bab21.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 21
+                </a>
+                <a href="pembelajaran_bab22.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 22
+                </a>
+                <a href="bab2.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 2 Tersedia</a>
+                <a href="bab3.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 3 Tersedia</a>
+                <a href="bab4.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 4 Tersedia</a>
+                <a href="bab5.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 5 Tersedia</a>
+                <a href="bab6.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 6 Tersedia</a>
+                <a href="bab7.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 7 Tersedia</a>
+                <a href="bab8.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 8 Tersedia</a>
+                <a href="bab9.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 9 Tersedia</a>
+                <a href="bab10.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 10 Tersedia</a>
+                <a href="bab11.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 11 Tersedia</a>
+                <a href="bab12.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 12 Tersedia</a>
+                <a href="bab13.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 13 Tersedia</a>
+                <a href="bab14.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 14 Tersedia</a>
+                <a href="bab15.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 15 Tersedia</a>
+                <a href="bab16.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 16 Tersedia</a>
+                <a href="bab17.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 17 Tersedia</a>
+                <a href="bab18.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 18 Tersedia</a>
+                <a href="bab19.html" class="start-btn" style="background: var(--success);">📚 Kuis Kuis Bab 19
+                    Tersedia</a>
+                <a href="bab20.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 20 Tersedia</a>
+                <a href="bab21.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 21 Tersedia</a>
+                <a href="bab22.html" class="start-btn" style="background: var(--success);">📚 Kuis Bab 22 Tersedia</a>
+                <a href="fukushuu-1-4.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 1-4
+                    Tersedia</a>
+                <a href="fukushuu-5-8.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 5-8
+                    Tersedia</a>
+                <a href="fukushuu-9-12.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 9-12
+                    Tersedia</a>
+                <a href="fukushuu-13-16.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 13-16
+                    Tersedia</a>
+                <a href="fukushuu-17-20.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 17-20
+                    Tersedia</a>
+                <a href="fukushuu-21-22.html" class="start-btn" style="background: var(--success);">📚 Fukushū Bab 21-22
+                    Tersedia</a>
+
+
+            </div>
+
+            <!-- N4 Daichi 2 -->
+            <div class="level-card">
+                <div class="level-icon">N4</div>
+                <h3 class="level-title">Daichi 2 (Bab 23-42)</h3>
+
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    Grammar Menengah JLPT N4
+                </p>
+
+                <div class="level-stats">
+                    <div class="stat-mini">
+                        <strong>20 Bab</strong>
+                        Materi
+                    </div>
+                    <div class="stat-mini">
+                        <strong>20</strong>
+                        Siap Pakai
+                    </div>
+                </div>
+
+                <!-- 🔥 INI YANG KAMU TAMBAHKAN -->
+                <a href="pembelajaran_bab23.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 23
+                </a>
+                <a href="pembelajaran_bab24.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 24
+                </a>
+                <a href="pembelajaran_bab25.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 25
+                </a>
+                <a href="pembelajaran_bab26.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 26
+                </a>
+                <a href="pembelajaran_bab27.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 27
+                </a>
+                <a href="pembelajaran_bab28.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 28
+                </a>
+                <a href="pembelajaran_bab29.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 29
+                </a>
+                <a href="pembelajaran_bab30.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 30
+                </a>
+                <a href="pembelajaran_bab31.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 31
+                </a>
+                <a href="pembelajaran_bab32.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 32
+                </a>
+                <a href="pembelajaran_bab33.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 33
+                </a>
+                <a href="pembelajaran_bab34.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 34
+                </a>
+                <a href="pembelajaran_bab35.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 35
+                </a>
+                <a href="pembelajaran_bab36.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 36
+                </a>
+                <a href="pembelajaran_bab37.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 37
+                </a>
+                <a href="pembelajaran_bab38.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 38
+                </a>
+                <a href="pembelajaran_bab39.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 39
+                </a>
+                <a href="pembelajaran_bab40.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 40
+                </a>
+                <a href="pembelajaran_bab41.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 41
+                </a>
+                <a href="pembelajaran_bab42.html" class="start-btn" style="background:#17a2b8;">
+                    🎥 Belajar Bab 42
+                </a>
+
+                <a href="bab23.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 23 Tersedia
+                </a>
+                <a href="bab24.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 24 Tersedia
+                </a>
+                <a href="bab25.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 25 Tersedia
+                </a>
+                <a href="bab26.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 26 Tersedia
+                </a>
+                <a href="bab27.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 27 Tersedia
+                </a>
+                <a href="bab28.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 28 Tersedia
+                </a>
+                <a href="bab29.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 29 Tersedia
+                </a>
+                <a href="bab30.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 30 Tersedia
+                </a>
+                <a href="bab31.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 31 Tersedia
+                </a>
+                <a href="bab32.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 32 Tersedia
+                </a>
+                <a href="bab33.html" class="start-btn" style="background: var(--primary);">
+                    📘 Bab 33 Tersedia
+                </a>
+                <a href="bab34.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 34 Tersedia
+                </a>
+                <a href="bab35.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 35 Tersedia
+                </a>
+                <a href="bab36.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 36 Tersedia
+                </a>
+                <a href="bab37.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 37 Tersedia
+                </a>
+                <a href="bab38.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 38 Tersedia
+                </a>
+                <a href="bab39.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 39 Tersedia
+                </a>
+                <a href="bab40.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 40 Tersedia
+                </a>
+                <a href="bab41.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 41 Tersedia
+                </a>
+                <a href="bab42.html" class="start-btn" style="background: var(--primary);">
+                    📘 Kuis Bab 42 Tersedia
+                </a>
+                <a href="fukushuubab23-26.html" class="start-btn" style="background: var(--primary);">
+                    📘 Fukushuu Bab 23–26
+                </a>
+                <a href="fukushuubab27-30.html" class="start-btn" style="background: var(--primary);">
+                    📘 Fukushuu Bab 27–30
+                </a>
+                <a href="fukushuubab31-34.html" class="start-btn" style="background: var(--primary);">
+                    📘 Fukushuu Bab 31–34
+                </a>
+                <a href="fukushuubab35-38.html" class="start-btn" style="background: var(--primary);">
+                    📘 Fukushuu Bab 35–38
+                </a>
+                <a href="fukushuubab39-42.html" class="start-btn" style="background: var(--primary);">
+                    📘 Fukushuu Bab 39–42
+                </a>
+
+            </div>
+            <!-- TAMBAHAN CARD CHOUKAI (Diletakkan sebelum TRY OUT) -->
+
+            <div class="level-card">
+                <div class="level-icon"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483); box-shadow: 0 8px 25px rgba(142,68,173,0.4);">
+                    🎧
+                </div>
+
+                <h3 class="level-title">Choukai Practice (N4)</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Listening Resmi JLPT • 38 Soal • 35 Menit
+                </p>
+
+                <div class="level-stats">
+                    <div class="stat-mini">
+                        <strong>38</strong>
+                        Soal
+                    </div>
+                    <div class="stat-mini">
+                        <strong>35 Menit</strong>
+                        Durasi
+                    </div>
+                </div>
+
+                <a href="choukai14.html" class="start-btn" target="_blank"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483);">
+                    🎧 Mulai Choukai
+                </a>
+                <a href="choukai15.html" class="start-btn" target="_blank"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483);">
+                    🎧 Mulai Choukai Versi 2
+                </a>
+                <a href="choukai180.html" class="start-btn" target="_blank"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483);">
+                    🎧 Mulai Choukai Versi 3</a>
+
+                <a href="choukai178.html" class="start-btn" target="_blank"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483);">
+                    🎧 Mulai Choukai Versi 4</a>
+                <a href="choukai177.html" class="start-btn" target="_blank"
+                    style="background: linear-gradient(135deg,#8e44ad,#6c3483);">
+                    🎧 Mulai Choukai Versi 5</a>
+
+            </div>
+            <!-- TRY OUT -->
+            <div class="level-card to-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#e74c3c,#c0392b);">TO</div>
+                <h3 class="level-title">Simulasi Ujian JLPT N4</h3>
+                <p style="text-align:center; color:#333; margin-bottom:20px;">
+                    74 Soal Resmi • 70 Menit • Mode CBT
+                </p>
+
+                <div class="level-stats">
+                    <div class="stat-mini">
+                        <strong>74</strong>
+                        Soal
+                    </div>
+                    <div class="stat-mini">
+                        <strong>70 Menit</strong>
+                        Durasi
+                    </div>
+
+                </div>
+
+                <a href="ton4g.html" class="start-btn" style="background:#e74c3c;">
+                    🚀 Try Out Versi 1
+                </a>
+                <a href="ton4v2a.html" class="start-btn" style="background:#e74c3c;">
+                    🚀 Try Out Versi 2
+                </a>
+            </div>
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#16a085,#1abc9c);">
+                    📊
+                </div>
+
+
+                <h3 class="level-title">Rapor & Progress</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Lihat nilai, progres belajar, dan hasil ujian
+                </p>
+
+                <a href="rapor5.html" class="start-btn" style="background:#16a085;">
+                    📄 Buka Rapor
+                </a>
+            </div>
+            <!-- RANKING -->
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#f1c40f,#f39c12);">
+                    🏆
+                </div>
+
+                <h3 class="level-title">Ranking Siswa</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Lihat peringkat nilai tertinggi
+                </p>
+
+                <a href="ranking.html" class="start-btn" style="background:#f1c40f;">
+                    🥇 Lihat Ranking
+                </a>
+            </div>
+            <!-- REVIEW -->
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#e74c3c,#c0392b);">
+                    ❌
+                </div>
+
+                <h3 class="level-title">Review Kesalahan</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Pelajari soal yang salah sebelumnya
+                </p>
+
+                <a href="review.html" class="start-btn" style="background:#e74c3c;">
+                    🔍 Lihat Kesalahan
+                </a>
+            </div>
+            <!-- SERTIFIKAT -->
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#9b59b6,#8e44ad);">
+                    🎓
+                </div>
+
+                <h3 class="level-title">Sertifikat</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Download sertifikat kelulusan
+                </p>
+
+                <a href="sertifikat.html" class="start-btn" style="background:#9b59b6;">
+                    📄 Ambil Sertifikat
+                </a>
+            </div>
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#f39c12,#e67e22);">
+                    📝
+                </div>
+
+                <h3 class="level-title">Absensi & Kaiwa</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Isi absensi dan latihan percakapan (kaiwa)
+                </p>
+
+                <a href="absensi.html" class="start-btn" style="background:#f39c12;">
+                    📋 Isi Absensi
+                </a>
+
+                <a href="kaiwa.html" class="start-btn" style="background:#e67e22;">
+                    🗣️ Latihan Kaiwa
+                </a>
+            </div>
+            <div class="level-card">
+                <div class="level-icon" style="background: linear-gradient(135deg,#2ecc71,#27ae60);">
+                    🗂️
+                </div>
+
+                <h3 class="level-title">Database & Rekap</h3>
+
+                <p style="text-align:center; color:#666; margin-bottom:20px;">
+                    Kumpulan semua hasil belajar (Google Sheet)
+                </p>
+
+                <a href="database.html" class="start-btn" style="background:#27ae60;">
+                    📊 Buka Semua Data
+                </a>
+            </div>
+            <div
+                style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;">📊 N5 Score Manager</h3>
+                <p style="color:#666; margin-bottom:15px;">
+                    Rekap & konversi nilai JLPT N5 otomatis
+                </p>
+                <a href="n5-score-manager.html" class="start-btn" style="background:#2c5aa0;">
+                    🚀 Buka Score Manager
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Admin Section -->
+    <section class="admin-section">
+        <h2 style="text-align: center; color: white; margin-bottom: 40px; font-size: 2rem;">
+            👨‍🏫 Admin Panel Sensei
+        </h2>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto;">
+            <div
+                style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;">📊 Ekspor Nilai</h3>
+                <a href="http://localhost:3000/hasil-kuis-csv" class="start-btn" target="_blank"
+                    style="background: var(--success);">📥 Download CSV</a>
+            </div>
+            <div
+                style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;">⚙️ Backend</h3>
+                <a href="http://localhost:3000" class="start-btn" target="_blank">🖥️ Dashboard</a>
+            </div>
+            <div
+                style="background: var(--card-bg); padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px;">📝 Upload Soal</h3>
+                <p style="color:#666; margin-bottom:15px;">
+                    Upload Excel, Word, atau paste soal otomatis
+                </p>
+                <a href="uploadsoal.html" class="start-btn" style="background:#8e44ad;">
+                    🚀 Buka Halaman Sensei
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 <strong>Jayadi Global Education Center</strong><br>
+            Sensei: <strong>Jauhari Saputra</strong> | Daichi 1 (N5) & Daichi 2 (N4)</p>
+    </footer>
+    <script>
+        // ============================
+        // 🔐 SISTEM PROGRESS & LOCK
+        // ============================
+
+        // ambil data progress dari localStorage
+        let progress = JSON.parse(localStorage.getItem("progress_belajar")) || {};
+
+        // fungsi tandai bab selesai
+        function selesaiBelajar(bab) {
+            progress[bab] = true;
+            localStorage.setItem("progress_belajar", JSON.stringify(progress));
+        }
+
+        // ============================
+        // 🔒 LOCK QUIZ
+        // ============================
+
+        document.querySelectorAll("a[href^='bab']").forEach(btn => {
+            let match = btn.getAttribute("href").match(/bab(\d+)/);
+            if (!match) return;
+
+            let bab = "bab" + match[1];
+
+            // kalau belum belajar → LOCK
+            if (!progress[bab]) {
+                btn.style.background = "#999";
+                btn.style.pointerEvents = "none";
+                btn.innerHTML = "🔒 Kuis Bab " + match[1] + " (Belajar dulu)";
+            }
+        });
+
+        // ============================
+        // 🎥 AUTO UNLOCK SAAT BELAJAR
+        // ============================
+
+        document.querySelectorAll("a[href^='pembelajaran_bab']").forEach(btn => {
+            let match = btn.getAttribute("href").match(/bab(\d+)/);
+            if (!match) return;
+
+            let bab = "bab" + match[1];
+
+            btn.addEventListener("click", () => {
+                selesaiBelajar(bab);
+            });
+        });
+
+        // ============================
+        // 📊 PROGRESS BAR GLOBAL
+        // ============================
+
+        // hitung total bab
+        let totalBab = 42;
+        let selesai = Object.keys(progress).length;
+        let persen = Math.round((selesai / totalBab) * 100);
+
+        // buat elemen progress bar
+        let bar = document.createElement("div");
+        bar.style.position = "fixed";
+        bar.style.top = "0";
+        bar.style.left = "0";
+        bar.style.width = persen + "%";
+        bar.style.height = "6px";
+        bar.style.background = "linear-gradient(90deg,#00f260,#0575e6)";
+        bar.style.zIndex = "9999";
+        bar.style.transition = "0.5s";
+
+        document.body.appendChild(bar);
+
+        // ============================
+        // 🔊 SOUND CLICK (OPSIONAL)
+        // ============================
+
+        let klikSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+
+        document.querySelectorAll(".start-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                klikSound.play().catch(() => {});
+            });
+        });
+    </script>
+</body>
+
+</html>

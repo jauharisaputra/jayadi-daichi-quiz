@@ -234,6 +234,7 @@ c:\DOKUMEN\JGEC\jayadi-daichi-quiz\img5\9.jpeg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\img5\contoh1.jpeg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\img5\contoh2.jpeg
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\index.html
+c:\DOKUMEN\JGEC\jayadi-daichi-quiz\index1.html
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\kaiwa.html
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\kuis_bab38.html
 c:\DOKUMEN\JGEC\jayadi-daichi-quiz\logo\img15.jpg
