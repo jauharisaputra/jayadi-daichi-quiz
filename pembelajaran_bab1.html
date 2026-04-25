@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran Bab 1</title>
+
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --primary-dark: #1e3d72;
+            --success: #28a745;
+            --accent: #ffc107;
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: var(--bg);
+            margin: 0;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        #player {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            color: white;
+        }
+
+        .video-btn {
+            background: #17a2b8;
+        }
+
+        .materi-btn {
+            background: var(--success);
+        }
+
+        .quiz-btn {
+            background: #e74c3c;
+        }
+
+        .locked {
+            background: #aaa !important;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .progress-box {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+        }
+
+        .back {
+            text-align: center;
+            display: block;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>📘 Pembelajaran Bab 1</h1>
+        <p>Video • Materi • Kuis</p>
+    </div>
+
+    <div class="container">
+
+        <!-- VIDEO -->
+        <div class="card">
+            <div class="section-title">🎥 Video Pembelajaran</div>
+
+            <div id="player"></div>
+
+            <div class="progress-box">
+                Progress: <span id="progressText">0%</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATERI -->
+        <div class="card">
+            <div class="section-title">📖 Materi</div>
+            <p>
+                • わたしは〜です <br>
+                • Profesi (せんせい・がくせい) <br>
+                • Partikel は <br>
+                • Kalimat positif & negatif
+            </p>
+
+            <a href="materi_bab1.html" class="btn materi-btn">
+                📖 Buka Materi
+            </a>
+        </div>
+
+        <!-- KUIS -->
+        <div class="card">
+            <div class="section-title">🧪 Kuis</div>
+
+            <p id="quizInfo">🔒 Tonton video minimal 80% untuk membuka kuis</p>
+
+            <a href="bab1.html" id="quizBtn" class="btn quiz-btn locked">
+                🚀 Mulai Kuis
+            </a>
+        </div>
+
+        <a href="index.html" class="back">⬅ Kembali ke Beranda</a>
+
+    </div>
+
+    <!-- YOUTUBE API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        let player;
+        let duration = 0;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: 'Xt8rQ9niik4',
+                events: {
+                    'onReady': function (event) {
+                        duration = player.getDuration();
+                    }
+                }
+            });
+        }
+
+        // TRACK PROGRESS
+        setInterval(() => {
+            if (!player || !player.getCurrentTime) return;
+
+            let current = player.getCurrentTime();
+            let total = player.getDuration();
+
+            if (!total) return;
+
+            let percent = Math.floor((current / total) * 100);
+
+            document.getElementById("progressText").innerText = percent + "%";
+            document.getElementById("progressFill").style.width = percent + "%";
+
+            if (percent >= 80) {
+                unlockQuiz();
+            }
+
+        }, 1000);
+
+        function unlockQuiz() {
+            const btn = document.getElementById("quizBtn");
+            btn.classList.remove("locked");
+
+            document.getElementById("quizInfo").innerHTML =
+                "✅ Kuis sudah terbuka!";
+        }
+    </script>
+
+</body>
+
+</html>

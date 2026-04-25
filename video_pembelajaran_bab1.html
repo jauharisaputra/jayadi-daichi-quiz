@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 1 - Video & Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        /* VIDEO */
+        .video-section {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-section h2 {
+            text-align: center;
+            color: #2c5aa0;
+        }
+
+        .progress-box {
+            width: 100%;
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        #progressBar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #28a745, #2ecc71);
+        }
+
+        #progressText {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* QUIZ */
+        .quiz-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #2c5aa0;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- VIDEO -->
+    <div class="video-section">
+        <h2 id="videoTitle">🎥 Video Pembelajaran</h2>
+        <div id="player"></div>
+
+        <div class="progress-box">
+            <div id="progressBar"></div>
+        </div>
+
+        <p id="progressText">Progress: 0%</p>
+    </div>
+
+    <!-- LOCK TEXT -->
+    <p id="lockText" style="text-align:center; color:red;">
+        🔒 Tonton video minimal 80% untuk membuka soal
+    </p>
+
+    <!-- QUIZ -->
+    <div id="quiz" class="quiz-box" style="display:none;">
+        <h3>Soal 1</h3>
+        <p>Watashi wa ___ desu.</p>
+        <button onclick="jawab()">A. gakusei</button>
+        <button onclick="jawab()">B. hon</button>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        /* =========================
+   🔥 AUTO DETECT BAB
+========================= */
+        const bab = parseInt(location.pathname.match(/bab(\d+)/)?.[1]) || 1;
+
+        /* =========================
+           🔥 DATA VIDEO 42 BAB
+           (ISI VIDEO KAMU)
+        ========================= */
+        const videoData = {
+            1: {
+                id: "Xt8rQ9niik4",
+                durasi: 237
+            },
+            2: {
+                id: "M7lc1UVf-VE",
+                durasi: 600
+            },
+            3: {
+                id: "M7lc1UVf-VE",
+                durasi: 600
+            },
+            // lanjut sampai 42
+        };
+
+        /* =========================
+           🔥 ENGINE
+        ========================= */
+        let player;
+        let watchTime = 0;
+        let interval = null;
+
+        const data = videoData[bab] || {
+            id: "",
+            durasi: 600
+        };
+
+        document.getElementById("videoTitle").innerText =
+            "🎥 Video Pembelajaran Bab " + bab;
+
+        // load progress
+        const saved = localStorage.getItem("video_bab_" + bab);
+        if (saved) watchTime = parseInt(saved);
+
+        // youtube load
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '100%',
+                videoId: data.id,
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                startTracking();
+            } else {
+                stopTracking();
+            }
+        }
+
+        function startTracking() {
+            if (interval) return;
+
+            interval = setInterval(() => {
+                watchTime++; // 🔥 REAL TIME
+
+                let percent = Math.min((watchTime / data.durasi) * 100, 100);
+
+                updateUI(percent);
+
+                localStorage.setItem("video_bab_" + bab, watchTime);
+
+            }, 1000);
+        }
+
+        function stopTracking() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function updateUI(percent) {
+            document.getElementById("progressBar").style.width = percent + "%";
+            document.getElementById("progressText").innerText =
+                "Progress: " + Math.floor(percent) + "%";
+
+            if (percent >= 80) {
+                document.getElementById("quiz").style.display = "block";
+                document.getElementById("lockText").style.display = "none";
+            }
+        }
+
+        // tampil awal
+        window.onload = () => {
+            let percent = Math.min((watchTime / data.durasi) * 100, 100);
+            updateUI(percent);
+        };
+
+        // contoh jawaban
+        function jawab() {
+            alert("Jawaban dipilih!");
+        }
+    </script>
+
+</body>
+
+</html>
