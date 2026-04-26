@@ -4,7 +4,7 @@
 <head>
 
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jayadi Daichi Quiz - JLPT N5 & N4</title>
@@ -301,28 +301,22 @@
             align-items: center;
             z-index: 10000;
         }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                top: 10px;
+                right: 10px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="top-bar">
 
-        <select id="kelas">
-            <option value="">Pilih Kelas</option>
-            <option>Goshogawara</option>
-            <option>Suginami</option>
-            <option>Shibuya</option>
-            <option>Akihabara</option>
-        </select>
-
-        <!-- Google Login -->
-        <div id="g_id_onload" data-client_id="427555562472-ptt0e991t8tvd3ueh04go4echgarad24.apps.googleusercontent.com"
-            data-callback="handleCredentialResponse">
-        </div>
 
 
-        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_blue" data-shape="pill">
-        </div>
+
         <button onclick="logout()" style="
     background:#e74c3c;
     color:white;
@@ -335,9 +329,7 @@
         </button>
 
     </div>
-    <div id="lockScreen">
-        <h2>Silakan Login Terlebih Dahulu</h2>
-    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <p id="welcomeUser" style="font-size:18px; margin-top:10px;"></p>
@@ -961,51 +953,7 @@
             });
         });
     </script>
-    <script>
-        function handleCredentialResponse(response) {
-            const data = parseJwt(response.credential);
-            const kelas = document.getElementById("kelas").value;
 
-            if (!kelas) {
-                alert("Pilih kelas dulu!");
-                return;
-            }
-
-            const user = {
-                nama: data.name,
-                email: data.email,
-                kelas: kelas
-            };
-
-            // simpan login status
-            localStorage.setItem("login", "true");
-            localStorage.setItem("user", JSON.stringify(user));
-
-            // kirim ke Google Sheet
-            fetch("https://script.google.com/macros/s/AKfycbwJWNGhkWCae4VaOh6PSftN9z5MrD1dMq_P1SrmNIQhbt73Dji0at5rwIstFcIjKThX/exec", {
-                    method: "POST",
-                    body: JSON.stringify(user)
-                })
-                .then(res => res.text())
-                .then(() => {
-                    window.location.href = "index1.html"; // 🔥 pindah ke sini
-                })
-                .catch(() => {
-                    alert("Gagal kirim data!");
-                });
-        }
-
-        // decode JWT Google
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
-        }
-    </script>
     <script>
         window.onload = function () {
             const isLogin = localStorage.getItem("login");
