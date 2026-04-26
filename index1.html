@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jayadi Daichi Quiz - JLPT N5 & N4</title>
@@ -284,6 +285,28 @@
                 style="width: 80px; height: 80px; border-radius: 50%; margin: 10px 0;"><br>
             <a href="cv.html" style="color: white;">Klik Untuk Riwayat Hidup Sensei: <strong>Jauhari
                     Saputra</strong></a>
+        </div>
+        <div style="margin-top:20px; text-align:center;">
+
+            <select id="kelas" style="padding:12px; border-radius:10px; width:260px;">
+                <option value="">Pilih Kelas</option>
+                <option>Goshogawara</option>
+                <option>Suginami</option>
+                <option>Shibuya</option>
+                <option>Akihabara</option>
+            </select>
+
+            <br><br>
+
+            <!-- Google Login -->
+            <div id="g_id_onload"
+                data-client_id="427555562472-ptt0e991t8tvd3ueh04go4echgarad24.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse">
+            </div>
+
+            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_blue" data-shape="pill">
+            </div>
+
         </div>
     </section>
 
@@ -894,6 +917,56 @@
                 klikSound.play().catch(() => {});
             });
         });
+    </script>
+    <script>
+        function handleCredentialResponse(response) {
+            const data = parseJwt(response.credential);
+
+            const kelas = document.getElementById("kelas").value;
+
+            // VALIDASI
+            if (!kelas) {
+                alert("Pilih kelas dulu!");
+                return;
+            }
+
+            const user = {
+                nama: data.name,
+                email: data.email,
+                kelas: kelas
+            };
+
+            console.log(user);
+
+            // simpan ke local
+            localStorage.setItem("user", JSON.stringify(user));
+
+            // kirim ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbwJWNGhkWCae4VaOh6PSftN9z5MrD1dMq_P1SrmNIQhbt73Dji0at5rwIstFcIjKThX/exec", {
+                    method: "POST",
+                    body: JSON.stringify(user)
+                })
+                .then(res => res.text())
+                .then(res => {
+                    alert("Login berhasil!");
+                    window.location.href = "dashboard.html";
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Gagal kirim data!");
+                });
+        }
+
+        // decode JWT Google
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
     </script>
 </body>
 
