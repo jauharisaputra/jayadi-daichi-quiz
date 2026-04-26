@@ -2,6 +2,8 @@
 <html lang="id">
 
 <head>
+
+
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -271,12 +273,74 @@
         .levels-grid {
             align-items: start;
         }
+
+        .top-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 9999;
+        }
+
+        .top-bar select {
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b1c2c;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
     </style>
 </head>
 
 <body>
+    <div class="top-bar">
+
+        <select id="kelas">
+            <option value="">Pilih Kelas</option>
+            <option>Goshogawara</option>
+            <option>Suginami</option>
+            <option>Shibuya</option>
+            <option>Akihabara</option>
+        </select>
+
+        <!-- Google Login -->
+        <div id="g_id_onload" data-client_id="427555562472-ptt0e991t8tvd3ueh04go4echgarad24.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+
+
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_blue" data-shape="pill">
+        </div>
+        <button onclick="logout()" style="
+    background:#e74c3c;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+">
+            Logout
+        </button>
+
+    </div>
+    <div id="lockScreen">
+        <h2>Silakan Login Terlebih Dahulu</h2>
+    </div>
     <!-- Hero Section -->
     <section class="hero">
+        <p id="welcomeUser" style="font-size:18px; margin-top:10px;"></p>
         <h1>Jayadi Daichi Quiz</h1>
         <p class="hero-subtitle">JLPT N5 & N4 Online Learning Platform</p>
         <div class="sensei-info">
@@ -286,28 +350,7 @@
             <a href="cv.html" style="color: white;">Klik Untuk Riwayat Hidup Sensei: <strong>Jauhari
                     Saputra</strong></a>
         </div>
-        <div style="margin-top:20px; text-align:center;">
 
-            <select id="kelas" style="padding:12px; border-radius:10px; width:260px;">
-                <option value="">Pilih Kelas</option>
-                <option>Goshogawara</option>
-                <option>Suginami</option>
-                <option>Shibuya</option>
-                <option>Akihabara</option>
-            </select>
-
-            <br><br>
-
-            <!-- Google Login -->
-            <div id="g_id_onload"
-                data-client_id="427555562472-ptt0e991t8tvd3ueh04go4echgarad24.apps.googleusercontent.com"
-                data-callback="handleCredentialResponse">
-            </div>
-
-            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="filled_blue" data-shape="pill">
-            </div>
-
-        </div>
     </section>
 
     <!-- Stats -->
@@ -921,10 +964,8 @@
     <script>
         function handleCredentialResponse(response) {
             const data = parseJwt(response.credential);
-
             const kelas = document.getElementById("kelas").value;
 
-            // VALIDASI
             if (!kelas) {
                 alert("Pilih kelas dulu!");
                 return;
@@ -936,9 +977,8 @@
                 kelas: kelas
             };
 
-            console.log(user);
-
-            // simpan ke local
+            // simpan login status
+            localStorage.setItem("login", "true");
             localStorage.setItem("user", JSON.stringify(user));
 
             // kirim ke Google Sheet
@@ -947,12 +987,10 @@
                     body: JSON.stringify(user)
                 })
                 .then(res => res.text())
-                .then(res => {
-                    alert("Login berhasil!");
-                    window.location.href = "dashboard.html";
+                .then(() => {
+                    window.location.href = "index1.html"; // 🔥 pindah ke sini
                 })
-                .catch(err => {
-                    console.error(err);
+                .catch(() => {
                     alert("Gagal kirim data!");
                 });
         }
@@ -968,6 +1006,31 @@
             return JSON.parse(jsonPayload);
         }
     </script>
+    <script>
+        window.onload = function () {
+            const isLogin = localStorage.getItem("login");
+
+            if (isLogin === "true") {
+                document.getElementById("lockScreen").style.display = "none";
+            }
+        };
+        if (localStorage.getItem("login") !== "true") {
+            window.location.href = "login.html"; // balik ke halaman login
+        }
+
+        function logout() {
+            localStorage.removeItem("login");
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        }
+        const userData = JSON.parse(localStorage.getItem("user"));
+
+        if (userData) {
+            document.getElementById("welcomeUser").innerHTML =
+                "👋 Selamat datang, <strong>" + userData.nama + "</strong> (" + userData.kelas + ")";
+        }
+    </script>
+
 </body>
 
 </html>
