@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gokaku Engine - Simulasi JLPT & J.TEST</title>
+
+    <!-- Midtrans Snap -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-H8XiKgyrS7Pzstbv"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f4f7fb 0%, #e2e8f0 100%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        header>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin: 0 0 1rem 0;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .pricing {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .price-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #22c55e;
+        }
+
+        .price-card.free {
+            border-color: #6b7280;
+        }
+
+        .price-card.premium {
+            border-color: #22c55e;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+        }
+
+        .price {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: #22c55e;
+            margin: 1rem 0;
+        }
+
+        .price-card.free .price {
+            color: #6b7280;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        button:disabled,
+        button.loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        button.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafbfc;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+            background: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #0f172a;
+            color: #94a3b8;
+            margin-top: 4rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .promo-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .price-card {
+                min-width: unset;
+                max-width: unset;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #22c55e;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            max-width: 400px;
+        }
+
+        .alert.show {
+            transform: translateX(0);
+        }
+
+        .alert.error {
+            background: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Gokaku Engine</h1>
+        <div class="tagline">Latihan di sini. Lulus di Jepang.</div>
+        <p>Dipakai oleh 500+ siswa JLPT di Indonesia</p>
+        <div class="promo-badge">🚨 Promo hanya minggu ini!</div>
+        <button onclick="startFree()">Mulai Try Out Gratis Sekarang 🚀</button>
+    </header>
+
+    <div class="container">
+        <!-- FITUR -->
+        <div class="section card">
+            <h2>🔥 Fitur Utama</h2>
+            <ul>
+                <li>74 soal JLPT + 38 soal listening dengan audio native</li>
+                <li>Timer real (70 menit & 35 menit) persis ujian asli</li>
+                <li>Skor otomatis 350 poin dengan breakdown per section</li>
+                <li>Anti cheat lengkap (fullscreen, tab detect, copy block)</li>
+                <li>Monitoring real-time via Google Sheet + backup cloud</li>
+            </ul>
+        </div>
+
+        <!-- PRICING -->
+        <div class="section">
+            <h2>💰 Pilih Paket Anda</h2>
+            <div class="pricing">
+                <!-- FREE -->
+                <div class="price-card free">
+                    <h3>FREE</h3>
+                    <p class="price">Rp 0</p>
+                    <ul>
+                        <li>1x ujian lengkap</li>
+                        <li>Skor dasar instan</li>
+                        <li>Anti-cheat basic</li>
+                    </ul>
+                    <button onclick="startFree()">🚀 Mulai Gratis</button>
+                </div>
+
+                <!-- PREMIUM -->
+                <div class="price-card premium">
+                    <h3>PREMIUM</h3>
+                    <p class="price">Rp 49.000 <span style="font-size: 0.8em;">/ bulan</span></p>
+                    <ul>
+                        <li>✅ Unlimited akses ujian</li>
+                        <li>📊 Analisis lengkap + weak area</li>
+                        <li>📈 Riwayat skor & progress tracking</li>
+                        <li>🎯 Sertifikat digital JLPT ready</li>
+                    </ul>
+                    <input type="text" id="nama" placeholder="Nama Lengkap Anda" maxlength="50">
+                    <input type="email" id="email" placeholder="Email aktif Anda">
+                    <button id="payBtn" onclick="pay()">💳 Upgrade Premium Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Gokaku Engine - Dibuat dengan ❤️ untuk pelajar JLPT Indonesia
+    </footer>
+
+    <!-- Custom Alert -->
+    <div id="customAlert" class="alert"></div>
+
+    <script>
+        // ==============================
+        // UTILITY FUNCTIONS
+        // ==============================
+        function showAlert(message, type = 'success') {
+            const alertEl = document.getElementById('customAlert');
+            alertEl.textContent = message;
+            alertEl.className = `alert ${type} show`;
+            setTimeout(() => {
+                alertEl.classList.remove('show');
+            }, 4000);
+        }
+
+        function disableButton(btn, disabled = true) {
+            btn.disabled = disabled;
+            if (disabled) {
+                btn.classList.add('loading');
+                btn.textContent = disabled ? 'Memproses...' : btn.dataset.originalText;
+            } else {
+                btn.classList.remove('loading');
+            }
+        }
+
+        function simpleEncrypt(text) {
+            return btoa(unescape(encodeURIComponent(text)));
+        }
+
+        function simpleDecrypt(encrypted) {
+            try {
+                return decodeURIComponent(escape(atob(encrypted)));
+            } catch {
+                return '';
+            }
+        }
+
+        // ==============================
+        // ANTI-CHEAT SYSTEM
+        // ==============================
+        let cheatDetected = false;
+        let tabSwitched = false;
+        let lastFocus = Date.now();
+
+        // Tab switch detection
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && !cheatDetected) {
+                tabSwitched = true;
+                showAlert('Tab switch terdeteksi! Gunakan fullscreen.', 'error');
+                setTimeout(() => {
+                    if (tabSwitched) window.location.href = window.location.href;
+                }, 2000);
+            }
+        });
+
+        // Advanced keyblock
+        document.addEventListener('keydown', (e) => {
+            const blockedKeys = ['F12', 'F11', 'KeyI', 'KeyU', 'KeyC', 'KeyV'];
+            if (blockedKeys.includes(e.code) ||
+                (e.ctrlKey && (e.key === 'u' || e.key === 'i' || e.key === 's')) ||
+                (e.key === 'Escape')) {
+                e.preventDefault();
+                showAlert('Aksi diblokir untuk keamanan ujian.', 'error');
+            }
+        }, true);
+
+        // Context menu & copy block
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+
+        // ==============================
+        // FREE START
+        // ==============================
+        async function startFree() {
+            if (!document.fullscreenEnabled) {
+                showAlert('Fullscreen diblokir browser. Tekan F11 atau izinkan fullscreen.', 'error');
+                return;
+            }
+
+            try {
+                await document.documentElement.requestFullscreen();
+                localStorage.setItem('trialUsed', 'true');
+                showAlert('Mode FREE aktif! Selamat mengerjakan 🚀');
+                setTimeout(() => {
+                    window.location.href = 'exam.html?trial=1';
+                }, 1500);
+            } catch (err) {
+                showAlert('Fullscreen gagal. Tekan F11 manual lalu refresh.', 'error');
+            }
+        }
+
+        // ==============================
+        // MIDTRANS PAYMENT
+        // ==============================
+        async function pay() {
+            const payBtn = document.getElementById('payBtn');
+            const nama = document.getElementById('nama').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            // Validation
+            if (!nama || nama.length < 2) {
+                showAlert('Nama minimal 2 karakter', 'error');
+                return;
+            }
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showAlert('Email tidak valid', 'error');
+                return;
+            }
+
+            payBtn.dataset.originalText = payBtn.textContent;
+            disableButton(payBtn, true);
+
+            // Save encrypted user data
+            localStorage.setItem('user_email', simpleEncrypt(email));
+            localStorage.setItem('user_nama', simpleEncrypt(nama));
+            localStorage.setItem('plan', 'premium');
+
+            try {
+                showAlert('Membuat token pembayaran...');
+
+                const response = await fetch(
+                    'https://script.google.com/macros/s/AKfycbyq97f1A4mk95u6nHITqaraoLex0IFxOOfj39risFR_V778LtV33fyAEW0oitAnO0wOXQ/exec', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            nama,
+                            email,
+                            plan: 'premium'
+                        })
+                    });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.token) {
+                    throw new Error('Token tidak ditemukan');
+                }
+
+                // Midtrans Snap
+                snap.pay(data.token, {
+                    onSuccess: () => {
+                        showAlert('✅ Pembayaran sukses! Redirect ke exam...');
+                        localStorage.setItem('premium_active', 'true');
+                        setTimeout(() => {
+                            window.location.href = 'exam.html?trial=0';
+                        }, 2000);
+                    },
+                    onPending: () => {
+                        showAlert('⏳ Menunggu konfirmasi pembayaran');
+                        disableButton(payBtn, false);
+                    },
+                    onError: (result) => {
+                        console.error('Midtrans Error:', result);
+                        showAlert('❌ Pembayaran gagal. Coba lagi atau hubungi support.', 'error');
+                        disableButton(payBtn, false);
+                    },
+                    onClose: () => {
+                        disableButton(payBtn, false);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Payment Error:', error);
+                showAlert('Server error. Coba lagi dalam 1 menit atau hubungi support@gokaku.engine', 'error');
+                disableButton(payBtn, false);
+            }
+        }
+
+        // Auto-focus first input
+        window.addEventListener('load', () => {
+            document.getElementById('nama').focus();
+        });
+
+        // Prevent zoom on mobile
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+
+</html>
