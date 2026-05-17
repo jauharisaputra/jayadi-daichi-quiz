@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Jayadi Nihongo Learning Center</title>
+
+    <!-- GOOGLE LOGIN -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --primary-dark: #1e3d72;
+            --success: #28a745;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --purple: #8e44ad;
+            --teal: #16a085;
+
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 25px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* LOGIN BOX */
+        .login-box {
+            max-width: 420px;
+            margin: auto;
+            margin-top: 35px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-box h3 {
+            margin-bottom: 15px;
+        }
+
+        .login-status {
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        /* STATS */
+        .stats-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 28px;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* MAIN */
+        .main-section {
+            max-width: 1350px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 2.4rem;
+            margin-bottom: 40px;
+            font-weight: 800;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: .3s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .menu-icon {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: auto auto 20px;
+            font-weight: bold;
+        }
+
+        .menu-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .menu-desc {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .submenu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .submenu a,
+        .locked-btn {
+            color: white;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-align: center;
+            transition: .2s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .submenu a:hover,
+        .locked-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+        }
+
+        .btn-success {
+            background: var(--success);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+        }
+
+        .btn-purple {
+            background: var(--purple);
+        }
+
+        .btn-teal {
+            background: var(--teal);
+        }
+
+        .btn-dark {
+            background: #2d3436;
+        }
+
+        /* DETAILS */
+        details {
+            margin-top: 10px;
+            background: #f7f7f7;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            background: #ececec;
+        }
+
+        .details-content {
+            padding: 15px;
+            display: grid;
+            gap: 10px;
+        }
+
+        /* SECURITY */
+        .security-box {
+            margin-top: 35px;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 25px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+        }
+
+        .security-box h3 {
+            margin-bottom: 12px;
+        }
+
+        .security-box p {
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* DEVELOPER */
+        .developer-section {
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .developer-card {
+            max-width: 1100px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .developer-card img {
+            width: 140px;
+            height: 140px;
+            border-radius: 20px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .developer-content h2 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .developer-content p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .developer-btn {
+            display: inline-block;
+            margin-top: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: white;
+            opacity: 0.95;
+        }
+
+        /* MOBILE */
+        @media(max-width: 768px) {
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .developer-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 28px;
+            }
+
+            .developer-card img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .hero {
+                padding: 60px 15px 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+
+            <h1>Jayadi Nihongo Learning Center</h1>
+
+            <p>
+                JLPT • J-Test • Kaiwa • Choukai • CBT Practice
+            </p>
+
+            <div class="hero-badge">
+                🇯🇵 Platform Belajar Bahasa Jepang Interaktif
+            </div>
+
+            <!-- LOGIN -->
+            <div class="login-box">
+
+                <h3>🔐 Login Siswa</h3>
+
+                <p>
+                    Gunakan akun Google untuk mengakses latihan dan try out.
+                </p>
+
+                <br>
+
+                <div id="g_id_onload" data-client_id="ISI_CLIENT_ID_GOOGLE_ANDA"
+                    data-callback="handleCredentialResponse">
+                </div>
+
+                <div class="g_id_signin" data-type="standard">
+                </div>
+
+                <div class="login-status" id="loginStatus">
+                    Belum login
+                </div>
+
+            </div>
+
+            <!-- SECURITY -->
+            <div class="security-box">
+
+                <h3>
+                    🔒 Sistem Akses Terbatas
+                </h3>
+
+                <p>
+                    Soal Try Out, Choukai, Fukushuu, dan kuis tertentu hanya dapat diakses
+                    melalui link resmi yang dibagikan Sensei pada jadwal tertentu.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- STATS -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span class="stat-number">42+</span>
+                Materi & Bab Pembelajaran
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-number">🇯🇵</span>
+                JLPT • J-Test • Kaiwa • CBT
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-number">🎯</span>
+                Try Out & Latihan Interaktif
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-number">📊</span>
+                Ranking • Rapor • Sertifikat
+            </div>
+
+        </section>
+
+        <!-- MAIN -->
+        <section class="main-section">
+
+            <h2 class="section-title">
+                📚 Menu Pembelajaran
+            </h2>
+
+            <div class="menu-grid">
+
+                <!-- MATERI -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--primary)">
+                        🎥
+                    </div>
+
+                    <h3 class="menu-title">
+                        Materi Belajar
+                    </h3>
+
+                    <p class="menu-desc">
+                        Video pembelajaran Daichi 1 & 2
+                    </p>
+
+                    <div class="submenu">
+
+                        <details>
+
+                            <summary>
+                                📘 Daichi 1 (Bab 1-22)
+                            </summary>
+
+                            <div class="details-content">
+
+                                <a href="pembelajaran_bab1.html" class="btn-primary">Bab 1</a>
+                                <a href="pembelajaran_bab2.html" class="btn-primary">Bab 2</a>
+                                <a href="pembelajaran_bab3.html" class="btn-primary">Bab 3</a>
+
+                            </div>
+
+                        </details>
+
+                        <details>
+
+                            <summary>
+                                📗 Daichi 2 (Bab 23-42)
+                            </summary>
+
+                            <div class="details-content">
+
+                                <a href="pembelajaran_bab23.html" class="btn-primary">Bab 23</a>
+                                <a href="pembelajaran_bab24.html" class="btn-primary">Bab 24</a>
+                                <a href="pembelajaran_bab25.html" class="btn-primary">Bab 25</a>
+
+                            </div>
+
+                        </details>
+
+                    </div>
+
+                </div>
+
+                <!-- KUIS -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--success)">
+                        📚
+                    </div>
+
+                    <h3 class="menu-title">
+                        Kuis Bab
+                    </h3>
+
+                    <p class="menu-desc">
+                        Menu disembunyikan hingga dibagikan Sensei
+                    </p>
+
+                    <div class="submenu">
+
+                        <button class="locked-btn btn-success" onclick="openProtectedPage('quiz_n5_token')">
+
+                            🔒 Akses Kuis N5
+
+                        </button>
+
+                        <button class="locked-btn btn-primary" onclick="openProtectedPage('quiz_n4_token')">
+
+                            🔒 Akses Kuis N4
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- FUKUSHUU -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--warning)">
+                        🔁
+                    </div>
+
+                    <h3 class="menu-title">
+                        Fukushuu
+                    </h3>
+
+                    <p class="menu-desc">
+                        Review gabungan beberapa bab
+                    </p>
+
+                    <div class="submenu">
+
+                        <button class="locked-btn btn-warning" onclick="openProtectedPage('fukushuu_token')">
+
+                            🔒 Buka Fukushuu
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- CHOUKAI -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--purple)">
+                        🎙️
+                    </div>
+
+                    <h3 class="menu-title">
+                        Choukai Practice
+                    </h3>
+
+                    <p class="menu-desc">
+                        Listening dan latihan audio interaktif
+                    </p>
+
+                    <div class="submenu">
+
+                        <button class="locked-btn btn-purple" onclick="openProtectedPage('choukai_token')">
+
+                            🔒 Akses Choukai
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- TRY OUT -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--danger)">
+                        🚀
+                    </div>
+
+                    <h3 class="menu-title">
+                        Try Out CBT
+                    </h3>
+
+                    <p class="menu-desc">
+                        Simulasi JLPT dan J-Test berbasis CBT
+                    </p>
+
+                    <div class="submenu">
+
+                        <button class="locked-btn btn-danger" onclick="openProtectedPage('tryout_token')">
+
+                            🔒 Mulai Try Out
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- PROGRESS -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:var(--teal)">
+                        📊
+                    </div>
+
+                    <h3 class="menu-title">
+                        Progress Siswa
+                    </h3>
+
+                    <p class="menu-desc">
+                        Ranking, rapor dan sertifikat
+                    </p>
+
+                    <div class="submenu">
+
+                        <a href="ranking.html" class="btn-warning">
+                            🏆 Ranking
+                        </a>
+
+                        <a href="rapor5.html" class="btn-teal">
+                            📄 Rapor
+                        </a>
+
+                        <a href="sertifikat.html" class="btn-purple">
+                            🎓 Sertifikat
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- ADMIN -->
+                <div class="menu-card">
+
+                    <div class="menu-icon" style="background:#2d3436">
+                        ⚙️
+                    </div>
+
+                    <h3 class="menu-title">
+                        Admin Sensei
+                    </h3>
+
+                    <p class="menu-desc">
+                        Dashboard dan pengaturan sistem
+                    </p>
+
+                    <div class="submenu">
+
+                        <a href="uploadsoal.html" class="btn-purple">
+                            Upload Soal
+                        </a>
+
+                        <a href="database.html" class="btn-success">
+                            Database
+                        </a>
+
+                        <a href="admin.html" class="btn-dark">
+                            Dashboard Admin
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DEVELOPER -->
+        <section class="developer-section">
+
+            <div class="developer-card">
+
+                <img src="img/pp.jpg" alt="Developer">
+
+                <div class="developer-content">
+
+                    <h2>
+                        👨‍💻 Tentang Pengembang
+                    </h2>
+
+                    <p>
+                        <strong>Jauhari Saputra</strong>
+                        adalah pengajar bahasa Jepang, web developer,
+                        dan mahasiswa Informatika Universitas Siber Asia.
+                    </p>
+
+                    <p>
+                        Platform ini dikembangkan untuk membantu siswa
+                        belajar JLPT, J-Test, Kaiwa, dan Choukai secara
+                        modern melalui sistem CBT interaktif.
+                    </p>
+
+                    <a href="cv.html" class="developer-btn">
+                        📄 Profil Lengkap
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+
+            © 2026
+            <strong>Jayadi Global Education Center</strong>
+
+            <br><br>
+
+            Sensei:
+            <strong>Jauhari Saputra</strong>
+
+        </footer>
+
+    </div>
+
+    <script>
+
+        // =====================================
+        // LOGIN GOOGLE
+        // =====================================
+
+        let currentUser = null;
+
+        function handleCredentialResponse(response) {
+
+            currentUser = {
+                token: response.credential
+            };
+
+            localStorage.setItem(
+                'nihongo_user',
+                JSON.stringify(currentUser)
+            );
+
+            document.getElementById('loginStatus').innerHTML =
+                '✅ Login berhasil';
+        }
+
+        // =====================================
+        // TOKEN SYSTEM
+        // =====================================
+
+        const ACCESS_TOKEN = "SENSEI2026";
+
+        function openProtectedPage(pageType) {
+
+            const user = localStorage.getItem('nihongo_user');
+
+            if (!user) {
+                alert('Silakan login Google terlebih dahulu.');
+                return;
+            }
+
+            const token = prompt(
+                'Masukkan token akses dari Sensei:'
+            );
+
+            if (token !== ACCESS_TOKEN) {
+
+                alert('Token salah.');
+                return;
+
+            }
+
+            // =================================
+            // JADWAL AKTIF
+            // =================================
+
+            const now = new Date();
+
+            const allowedStart =
+                new Date('2026-05-17T08:00:00');
+
+            const allowedEnd =
+                new Date('2026-05-17T23:59:00');
+
+            if (now < allowedStart || now > allowedEnd) {
+
+                alert(
+                    'Halaman belum tersedia atau waktu akses telah habis.'
+                );
+
+                return;
+            }
+
+            // =================================
+            // RANDOM FILE
+            // =================================
+
+            const pages = {
+
+                quiz_n5_token:
+                    'qx8K2babN5A91.html',
+
+                quiz_n4_token:
+                    'Lm2N4Qz88x.html',
+
+                fukushuu_token:
+                    'Fk2026xA91.html',
+
+                choukai_token:
+                    'Cho88Lx2026.html',
+
+                tryout_token:
+                    'TOjlpt2026Ax.html'
+            };
+
+            window.location.href =
+                pages[pageType];
+        }
+
+    </script>
+
+</body>
+
+</html>
