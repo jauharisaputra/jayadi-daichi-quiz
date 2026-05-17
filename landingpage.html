@@ -374,9 +374,10 @@
             btn.disabled = disabled;
             if (disabled) {
                 btn.classList.add('loading');
-                btn.textContent = disabled ? 'Memproses...' : btn.dataset.originalText;
+                btn.textContent = disabled ? 'Memproses...' : btn.dataset.originalText || 'Bayar';
             } else {
                 btn.classList.remove('loading');
+                btn.textContent = btn.dataset.originalText || 'Bayar';
             }
         }
 
@@ -395,33 +396,23 @@
         // ==============================
         // ANTI-CHEAT SYSTEM
         // ==============================
-        let cheatDetected = false;
-        let tabSwitched = false;
-        let lastFocus = Date.now();
-
-        // Tab switch detection
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden && !cheatDetected) {
-                tabSwitched = true;
+            if (document.hidden) {
                 showAlert('Tab switch terdeteksi! Gunakan fullscreen.', 'error');
-                setTimeout(() => {
-                    if (tabSwitched) window.location.href = window.location.href;
-                }, 2000);
+                setTimeout(() => window.location.reload(), 2000);
             }
         });
 
-        // Advanced keyblock
         document.addEventListener('keydown', (e) => {
             const blockedKeys = ['F12', 'F11', 'KeyI', 'KeyU', 'KeyC', 'KeyV'];
             if (blockedKeys.includes(e.code) ||
                 (e.ctrlKey && (e.key === 'u' || e.key === 'i' || e.key === 's')) ||
                 (e.key === 'Escape')) {
                 e.preventDefault();
-                showAlert('Aksi diblokir untuk keamanan ujian.', 'error');
+                showAlert('Aksi diblokir untuk keamanan.', 'error');
             }
         }, true);
 
-        // Context menu & copy block
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('copy', e => e.preventDefault());
@@ -431,32 +422,28 @@
         // FREE START
         // ==============================
         async function startFree() {
-            if (!document.fullscreenEnabled) {
-                showAlert('Fullscreen diblokir browser. Tekan F11 atau izinkan fullscreen.', 'error');
-                return;
-            }
-
             try {
                 await document.documentElement.requestFullscreen();
                 localStorage.setItem('trialUsed', 'true');
-                showAlert('Mode FREE aktif! Selamat mengerjakan 🚀');
+                showAlert('Mode FREE aktif! Redirect... 🚀');
                 setTimeout(() => {
                     window.location.href = 'exam.html?trial=1';
                 }, 1500);
             } catch (err) {
-                showAlert('Fullscreen gagal. Tekan F11 manual lalu refresh.', 'error');
+                showAlert('Tekan F11 manual lalu refresh.', 'error');
             }
         }
 
         // ==============================
-        // MIDTRANS PAYMENT
+        // MIDTRANS PAYMENT - FIXED!
         // ==============================
         async function pay() {
+            console.log('🚀 PAYMENT DIMULAI');
+
             const payBtn = document.getElementById('payBtn');
             const nama = document.getElementById('nama').value.trim();
             const email = document.getElementById('email').value.trim();
 
-            // Validation
             if (!nama || nama.length < 2) {
                 showAlert('Nama minimal 2 karakter', 'error');
                 return;
@@ -469,13 +456,12 @@
             payBtn.dataset.originalText = payBtn.textContent;
             disableButton(payBtn, true);
 
-            // Save encrypted user data
             localStorage.setItem('user_email', simpleEncrypt(email));
             localStorage.setItem('user_nama', simpleEncrypt(nama));
             localStorage.setItem('plan', 'premium');
 
             try {
-                showAlert('Membuat token pembayaran...');
+                showAlert('📡 Membuat token Midtrans...');
 
                 const response = await fetch(
                     'https://script.google.com/macros/s/AKfycbyq97f1A4mk95u6nHITqaraoLex0IFxOOfj39risFR_V778LtV33fyAEW0oitAnO0wOXQ/exec', {
@@ -484,70 +470,73 @@
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            nama,
-                            email,
+                            nama: nama,
+                            email: email,
                             plan: 'premium'
                         })
-                    });
+                    }
+                );
+
+                const responseText = await response.text();
+                console.log('🔍 STATUS:', response.status);
+                console.log('🔍 RAW:', responseText);
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
                 }
 
-                const data = await response.json();
+                const data = JSON.parse(responseText);
+                console.log('✅ TOKEN:', data.token ? data.token.substring(0, 30) + '...' : 'TIDAK ADA');
 
                 if (!data.token) {
                     throw new Error('Token tidak ditemukan');
                 }
 
-                // Midtrans Snap
+                console.log('🎯 SNAP.PAY START');
                 snap.pay(data.token, {
-                    onSuccess: () => {
-                        showAlert('✅ Pembayaran sukses! Redirect ke exam...');
+                    onSuccess: (result) => {
+                        console.log('✅ SUCCESS:', result);
+                        showAlert('Pembayaran SUKSES! Redirect...');
                         localStorage.setItem('premium_active', 'true');
-                        setTimeout(() => {
-                            window.location.href = 'exam.html?trial=0';
-                        }, 2000);
+                        setTimeout(() => window.location.href = 'exam.html?trial=0', 2000);
                     },
-                    onPending: () => {
-                        showAlert('⏳ Menunggu konfirmasi pembayaran');
+                    onPending: (result) => {
+                        console.log('⏳ PENDING:', result);
+                        showAlert('Menunggu konfirmasi...');
                         disableButton(payBtn, false);
                     },
                     onError: (result) => {
-                        console.error('Midtrans Error:', result);
-                        showAlert('❌ Pembayaran gagal. Coba lagi atau hubungi support.', 'error');
+                        console.log('❌ ERROR:', result);
+                        showAlert('Pembayaran gagal: ' + (result.status_message || 'Error'), 'error');
                         disableButton(payBtn, false);
                     },
                     onClose: () => {
+                        console.log('❌ CLOSED');
+                        showAlert('Payment dibatalkan');
                         disableButton(payBtn, false);
                     }
                 });
 
             } catch (error) {
-                console.error('Payment Error:', error);
-                showAlert('Server error. Coba lagi dalam 1 menit atau hubungi support@gokaku.engine', 'error');
+                console.error('💥 ERROR:', error);
+                showAlert('Error: ' + error.message, 'error');
                 disableButton(payBtn, false);
             }
         }
 
-        // Auto-focus first input
+        // Auto-focus
         window.addEventListener('load', () => {
             document.getElementById('nama').focus();
         });
 
-        // Prevent zoom on mobile
-        document.addEventListener('touchstart', function (event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        });
-
+        // Prevent zoom mobile
         let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
+        document.addEventListener('touchstart', e => {
+            if (e.touches.length > 1) e.preventDefault();
+        });
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) e.preventDefault();
             lastTouchEnd = now;
         }, false);
     </script>
