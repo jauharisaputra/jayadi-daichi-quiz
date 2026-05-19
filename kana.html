@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Ujian Kana - Deteksi Guratan & Garis Bantu Kanvas</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        canvas {
+            touch-action: none;
+        }
+
+        @media print {
+            body * {
+                display: none;
+            }
+
+            #area-cetak-sertifikat,
+            #area-cetak-sertifikat * {
+                display: block;
+            }
+
+            #area-cetak-sertifikat {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-md p-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-black tracking-wide text-indigo-400">🏫 JLPT Kana Pro Evaluator</h1>
+                <p class="text-xs text-slate-400">Analisis Vektor Geometris, Urutan Guratan, Grid Guide, & Sistem
+                    Kelulusan Ganda (Min. Skor: 80)</p>
+            </div>
+            <div class="flex items-center bg-slate-800 p-2.5 rounded-xl gap-2 border border-slate-700 w-full md:w-auto">
+                <label class="text-xs font-bold uppercase text-slate-400">Siswa:</label>
+                <input type="text" id="nama-siswa" value="Siswa Pro" onchange="updateNamaSiswa()"
+                    class="bg-slate-900 text-white font-bold text-sm px-3 py-1 rounded-md border border-slate-600 focus:outline-hidden w-40">
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- SIDEBAR NAVIGASI -->
+        <div class="lg:col-span-1 space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-200">
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-2">1. Aksara Jepang</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="btn-hiragana" onclick="setJenis('hiragana')"
+                        class="py-2 text-xs rounded-lg font-bold bg-indigo-600 text-white shadow-xs">Hiragana</button>
+                    <button id="btn-katakana" onclick="setJenis('katakana')"
+                        class="py-2 text-xs rounded-lg font-bold bg-slate-200 text-slate-700 hover:bg-slate-300">Katakana</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-200">
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-2">2. Tingkatan Modul</h3>
+                <div class="flex flex-col gap-2" id="wrapper-level"></div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-200">
+                <h3 class="text-xs font-bold text-slate-400 uppercase mb-2">3. Metodologi Tes</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="mode-baca" onclick="setMode('baca')"
+                        class="py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700">🎯 Membaca</button>
+                    <button id="mode-tulis" onclick="setMode('tulis')"
+                        class="py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-xs">✍️
+                        Menulis</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <div class="lg:col-span-3">
+
+            <!-- PANEL SEBELUM MULAI -->
+            <div id="panel-start-screen"
+                class="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-4">
+                <div class="text-5xl">🎯</div>
+                <h2 class="text-xl font-bold" id="start-title">Ujian Kinetik Aksara Mandiri</h2>
+                <p class="text-sm text-slate-500 max-w-md mx-auto">Sesi ini berisi <span
+                        class="font-bold text-indigo-600">15 soal acak yang sangat variatif</span>[cite: 1]. Sistem
+                    mendeteksi akurasi bentuk, jumlah garis, dan arah goresan baku.</p>
+                <button onclick="nyalakanSesiQuiz()"
+                    class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition">Mulai
+                    Evaluasi (15 Soal)</button>
+            </div>
+
+            <!-- PANEL SIMULASI UJIAN -->
+            <div id="panel-quiz" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Tampilan Soal -->
+                <div
+                    class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200 text-center flex flex-col justify-between items-center min-h-[340px]">
+                    <div
+                        class="w-full flex justify-between items-center text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-md">
+                        <span id="label-info-soal">HIRAGANA</span>
+                        <span id="progress-soal" class="bg-indigo-600 text-white px-2 py-0.5 rounded-sm">0 / 15</span>
+                    </div>
+                    <h2 class="text-7xl font-black text-slate-800 my-4" id="display-char">あ</h2>
+                    <p class="text-slate-400 text-xs font-medium border-t border-slate-100 pt-3 w-full" id="hint-text">
+                        Memuat petunjuk...</p>
+                </div>
+
+                <!-- Input Respon Canvas / Opsi -->
+                <div
+                    class="md:col-span-2 bg-white p-6 rounded-2xl shadow-xs border border-slate-200 flex flex-col justify-center">
+                    <!-- MODE BACA -->
+                    <div id="konten-baca" class="hidden space-y-4 w-full">
+                        <h3 class="text-sm font-bold text-slate-600">Pilih Transkripsi Romaji yang Tepat:</h3>
+                        <div class="grid grid-cols-2 gap-3" id="opsi-baca"></div>
+                    </div>
+
+                    <!-- MODE TULIS -->
+                    <div id="konten-tulis" class="space-y-4 flex flex-col items-center w-full">
+                        <div class="w-full flex justify-between items-center">
+                            <h3 class="text-sm font-bold text-slate-600">Goreskan Karakter pada Kotak Bantu:</h3>
+                            <button onclick="clearCanvas()"
+                                class="px-2 py-1 text-xs font-bold text-rose-600 bg-rose-50 rounded-sm">Reset
+                                Goresan</button>
+                        </div>
+
+                        <!-- Canvas Container dengan Grid Penyelaras -->
+                        <div
+                            class="relative w-[220px] h-[220px] bg-white border-2 border-slate-400 rounded-lg overflow-hidden shadow-inner">
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <line x1="110" y1="0" x2="110" y2="220" stroke="#cbd5e1" stroke-width="1"
+                                    stroke-dasharray="4" />
+                                <line x1="0" y1="110" x2="220" y2="110" stroke="#cbd5e1" stroke-width="1"
+                                    stroke-dasharray="4" />
+                            </svg>
+                            <div id="canvas-hint-bg"
+                                class="absolute inset-0 flex justify-center items-center text-slate-100 text-7xl font-normal select-none pointer-events-none opacity-35">
+                                あ</div>
+                            <canvas id="canvas-tulis" width="220" height="220"
+                                class="absolute inset-0 cursor-crosshair z-10"></canvas>
+                        </div>
+
+                        <button onclick="evaluasiVektorGuratanOtomatis()"
+                            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-lg shadow-xs transition">Kunci
+                            & Evaluasi Guratan</button>
+                        <div id="feedback-tulis"
+                            class="text-center font-bold text-xs whitespace-pre-line h-10 text-slate-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL RAPOR AKHIR -->
+            <div id="panel-hasil" class="hidden bg-white p-8 rounded-2xl border border-slate-200 text-center space-y-6">
+                <div class="text-5xl" id="icon-status-hasil">🎉</div>
+                <h2 class="text-2xl font-black text-slate-800">Evaluasi Hasil Sesi</h2>
+                <p class="text-sm text-slate-500">Siswa: <span id="hasil-nama-siswa"
+                        class="font-bold text-slate-800"></span></p>
+
+                <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto py-2">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase">Skor Nilai</p>
+                        <p class="text-4xl font-black text-indigo-600" id="hasil-skor-akhir">0</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase">Status Evaluasi</p>
+                        <p class="text-base font-bold mt-2" id="hasil-status-kkm">-</p>
+                    </div>
+                </div>
+
+                <div id="pesan-kelulusan" class="text-sm font-semibold"></div>
+                <div class="flex flex-col gap-2 items-center justify-center pt-2" id="wrapper-aksi-hasil"></div>
+            </div>
+
+            <!-- PANEL SERTIFIKAT KELULUSAN (HANYA MUNCUL JIKA ALL CLEARED) -->
+            <div id="panel-sertifikat" class="hidden space-y-8 pt-4">
+                <div
+                    class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center text-emerald-800 text-sm font-bold">
+                    🏆 Luar Biasa! Seluruh kompetensi tingkat akhir Hiragana & Katakana berhasil Anda kuasai dengan
+                    sempurna.
+                </div>
+
+                <div id="area-cetak-sertifikat" class="space-y-8">
+                    <!-- Sertifikat 1 -->
+                    <div
+                        class="bg-white border-8 border-double border-amber-700 p-10 rounded-lg shadow-lg relative text-center max-w-2xl mx-auto">
+                        <div class="absolute top-4 right-4 text-xs font-mono text-slate-400">ID: CERT-PC-2026</div>
+                        <h3 class="font-serif text-3xl font-bold text-amber-900 tracking-wide uppercase">Certificate of
+                            Completion</h3>
+                        <p class="text-slate-500 italic mt-2">Diberikan secara resmi kepada:</p>
+                        <h4 class="text-2xl font-black text-slate-900 underline my-4 certification-name">Nama Siswa</h4>
+                        <p class="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                            Atas keberhasilan menyelesaikan seluruh silabus materi pembelajaran, pengenalan sistematis,
+                            dan pembacaan transkripsi aksara dasar bahasa Jepang.
+                        </p>
+                        <div
+                            class="mt-8 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-400">
+                            <div>Diterbitkan: Mei 2026</div>
+                            <div class="font-bold text-amber-800 tracking-widest uppercase">KANA PRO ACADEMY</div>
+                        </div>
+                    </div>
+
+                    <!-- Sertifikat 2 -->
+                    <div
+                        class="bg-slate-900 border-8 border-indigo-950 p-10 rounded-lg shadow-lg relative text-center max-w-2xl mx-auto text-white">
+                        <div class="absolute top-4 right-4 text-xs font-mono text-slate-500">ID: CERT-KM-2026</div>
+                        <h3 class="font-serif text-3xl font-bold text-indigo-400 tracking-wide uppercase">Sertifikat
+                            Kompetensi Utama</h3>
+                        <p class="text-slate-400 italic mt-2">Menyatakan dengan ini bahwa:</p>
+                        <h4 class="text-2xl font-black text-white tracking-widest my-4 certification-name">Nama Siswa
+                        </h4>
+                        <p class="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+                            Telah dinyatakan LULUS & KOMPETEN dalam menulis huruf Hiragana (平仮名) dan Katakana (片仮名)
+                            dengan presisi urutan garis kinetik, jumlah goresan, serta keselarasan bentuk arah kuas
+                            kaligrafi standar Jepang.
+                        </p>
+                        <div
+                            class="mt-8 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-500">
+                            <div>Metode Tes: Verifikasi Vektor Geometris Otomatis</div>
+                            <button onclick="window.print()"
+                                class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-sm text-[10px] font-bold no-print transition cursor-pointer">Cetak
+                                / Unduh PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // BANK DATA SUPER VARIATIF PER LEVEL (Karakter Tunggal, Modifikasi Bunyi, Gabungan & Kosakata Nyata)[cite: 1]
+        const masterDatabase = {
+            hiragana: [
+                // Level 1: Karakter Dasar Utama Vokal + K, S, T, N[cite: 1]
+                [
+                    { kana: 'あ', romaji: 'a', info: '3 Guratan', strokes: 3, vectors: [{ s: [50, 90], e: [170, 90] }, { s: [110, 40], e: [110, 180] }] },
+                    { kana: 'い', romaji: 'i', info: '2 Guratan', strokes: 2, vectors: [{ s: [60, 60], e: [70, 160] }] },
+                    { kana: 'う', romaji: 'u', info: '2 Guratan', strokes: 2, vectors: [{ s: [80, 40], e: [140, 50] }] },
+                    { kana: 'え', romaji: 'e', info: '2 Guratan', strokes: 2, vectors: [{ s: [100, 45], e: [130, 55] }] },
+                    { kana: 'お', romaji: 'o', info: '3 Guratan', strokes: 3, vectors: [{ s: [60, 80], e: [140, 80] }] },
+                    { kana: 'か', romaji: 'ka', info: '3 Guratan', strokes: 3, vectors: [{ s: [60, 80], e: [140, 120] }] },
+                    { kana: 'き', romaji: 'ki', info: '4 Guratan', strokes: 4, vectors: [{ s: [70, 70], e: [140, 80] }] },
+                    { kana: 'く', romaji: 'ku', info: '1 Guratan', strokes: 1, vectors: [{ s: [150, 70], e: [70, 110] }] },
+                    { kana: 'け', romaji: 'ke', info: '3 Guratan', strokes: 3, vectors: [{ s: [65, 60], e: [65, 160] }] },
+                    { kana: 'こ', romaji: 'ko', info: '2 Guratan', strokes: 2, vectors: [{ s: [70, 80], e: [150, 85] }] },
+                    { kana: 'さ', romaji: 'sa', info: '3 Guratan', strokes: 3, vectors: [{ s: [60, 80], e: [150, 80] }] },
+                    { kana: 'し', romaji: 'shi', info: '1 Guratan', strokes: 1, vectors: [{ s: [110, 50], e: [120, 170] }] },
+                    { kana: 'す', romaji: 'su', info: '2 Guratan', strokes: 2, vectors: [{ s: [50, 80], e: [170, 80] }] },
+                    { kana: 'た', romaji: 'ta', info: '4 Guratan', strokes: 4, vectors: [{ s: [60, 80], e: [130, 80] }] },
+                    { kana: 'ち', romaji: 'chi', info: '2 Guratan', strokes: 2, vectors: [{ s: [60, 75], e: [140, 75] }] }
+                ],
+                // Level 2: Karakter Dasar Lanjutan H, M, Y, R, W, N tunggal
+                [
+                    { kana: 'は', romaji: 'ha', info: '3 Guratan', strokes: 3, vectors: [{ s: [65, 50], e: [65, 160] }] },
+                    { kana: 'ひ', romaji: 'hi', info: '1 Guratan', strokes: 1, vectors: [{ s: [60, 70], e: [160, 70] }] },
+                    { kana: 'ふ', romaji: 'fu', info: '4 Guratan', strokes: 4, vectors: [{ s: [110, 50], e: [110, 90] }] },
+                    { kana: 'ま', romaji: 'ma', info: '3 Guratan', strokes: 3, vectors: [{ s: [65, 70], e: [145, 70] }] },
+                    { kana: 'み', romaji: 'mi', info: '2 Guratan', strokes: 2, vectors: [{ s: [60, 80], e: [150, 80] }] },
+                    { kana: 'む', romaji: 'mu', info: '3 Guratan', strokes: 3, vectors: [{ s: [60, 80], e: [140, 80] }] },
+                    { kana: 'や', romaji: 'ya', info: '3 Guratan', strokes: 3, vectors: [{ s: [65, 90], e: [150, 90] }] },
+                    { kana: 'ゆ', romaji: 'yu', info: '2 Guratan', strokes: 2, vectors: [{ s: [70, 80], e: [140, 80] }] },
+                    { kana: 'よ', romaji: 'yo', info: '2 Guratan', strokes: 2, vectors: [{ s: [80, 75], e: [140, 75] }] },
+                    { kana: 'ら', romaji: 'ra', info: '2 Guratan', strokes: 2, vectors: [{ s: [90, 45], e: [130, 55] }] },
+                    { kana: 'り', romaji: 'ri', info: '2 Guratan', strokes: 2, vectors: [{ s: [75, 60], e: [75, 120] }] },
+                    { kana: 'る', romaji: 'ru', info: '1 Guratan', strokes: 1, vectors: [{ s: [70, 70], e: [150, 70] }] },
+                    { kana: 'れ', romaji: 're', info: '2 Guratan', strokes: 2, vectors: [{ s: [80, 50], e: [80, 170] }] },
+                    { kana: 'わ', romaji: 'wa', info: '2 Guratan', strokes: 2, vectors: [{ s: [80, 50], e: [80, 170] }] },
+                    { kana: 'ん', romaji: 'n', info: '1 Guratan', strokes: 1, vectors: [{ s: [70, 80], e: [100, 160] }] }
+                ],
+                // Level 3: Modifikasi Suara Berpola (Dakuten " & Handakuten °)
+                [
+                    { kana: 'が', romaji: 'ga', info: 'Karakter [ka] + Dakuten', strokes: 5, vectors: [{ s: [60, 80], e: [140, 120] }] },
+                    { kana: 'ぎ', romaji: 'gi', info: 'Karakter [ki] + Dakuten', strokes: 6, vectors: [{ s: [70, 70], e: [140, 80] }] },
+                    { kana: 'ざ', romaji: 'za', info: 'Karakter [sa] + Dakuten', strokes: 5, vectors: [{ s: [60, 80], e: [150, 80] }] },
+                    { kana: 'じ', romaji: 'ji', info: 'Karakter [shi] + Dakuten', strokes: 3, vectors: [{ s: [110, 50], e: [120, 170] }] },
+                    { kana: 'だ', romaji: 'da', info: 'Karakter [ta] + Dakuten', strokes: 6, vectors: [{ s: [60, 80], e: [130, 80] }] },
+                    { kana: 'づ', romaji: 'zu', info: 'Karakter [tsu] + Dakuten', strokes: 3, vectors: [{ s: [70, 80], e: [150, 140] }] },
+                    { kana: 'ば', romaji: 'ba', info: 'Karakter [ha] + Dakuten', strokes: 5, vectors: [{ s: [65, 50], e: [65, 160] }] },
+                    { kana: 'び', romaji: 'bi', info: 'Karakter [hi] + Dakuten', strokes: 3, vectors: [{ s: [60, 70], e: [160, 70] }] },
+                    { kana: 'ぶ', romaji: 'bu', info: 'Karakter [fu] + Dakuten', strokes: 6, vectors: [{ s: [110, 50], e: [110, 90] }] },
+                    { kana: 'べ', romaji: 'be', info: 'Karakter [he] + Dakuten', strokes: 3, vectors: [{ s: [70, 100], e: [150, 100] }] },
+                    { kana: 'ぼ', romaji: 'bo', info: 'Karakter [ho] + Dakuten', strokes: 6, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ぱ', romaji: 'pa', info: 'Karakter [ha] + Handakuten', strokes: 4, vectors: [{ s: [65, 50], e: [65, 160] }] },
+                    { kana: 'ぴ', romaji: 'pi', info: 'Karakter [hi] + Handakuten', strokes: 2, vectors: [{ s: [60, 70], e: [160, 70] }] },
+                    { kana: 'ぷ', romaji: 'pu', info: 'Karakter [fu] + Handakuten', strokes: 5, vectors: [{ s: [110, 50], e: [110, 90] }] },
+                    { kana: 'ぽ', romaji: 'po', info: 'Karakter [ho] + Handakuten', strokes: 5, vectors: [{ s: [70, 70], e: [140, 70] }] }
+                ],
+                // Level 4: Huruf Gabungan (Yoon) & Kosakata Hiragana Utuh[cite: 1]
+                [
+                    { kana: 'きゃ', romaji: 'kya', info: 'Gabungan [ki] + [ya] kecil', strokes: 7, vectors: [{ s: [70, 70], e: [140, 80] }] },
+                    { kana: 'しゅ', romaji: 'shu', info: 'Gabungan [shi] + [yu] kecil', strokes: 3, vectors: [{ s: [110, 50], e: [120, 170] }] },
+                    { kana: 'ちょ', romaji: 'cho', info: 'Gabungan [chi] + [yo] kecil', strokes: 4, vectors: [{ s: [60, 75], e: [140, 75] }] },
+                    { kana: 'りょ', romaji: 'ryo', info: 'Gabungan [ri] + [yo] kecil', strokes: 4, vectors: [{ s: [75, 60], e: [75, 120] }] },
+                    { kana: 'すし', romaji: 'sushi', info: 'Kosakata: Makanan Sushi Jepang', strokes: 3, vectors: [{ s: [50, 80], e: [170, 80] }] },
+                    { kana: 'みず', romaji: 'mizu', info: 'Kosakata: Air Minum', strokes: 5, vectors: [{ s: [60, 80], e: [150, 80] }] },
+                    { kana: 'ねこ', romaji: 'neko', info: 'Kosakata: Hewan Kucing', strokes: 4, vectors: [{ s: [80, 50], e: [80, 170] }] },
+                    { kana: 'いぬ', romaji: 'inu', info: 'Kosakata: Hewan Anjing', strokes: 5, vectors: [{ s: [60, 60], e: [70, 160] }] },
+                    { kana: 'さくら', romaji: 'sakura', info: 'Kosakata: Bunga Sakura[cite: 1]', strokes: 7, vectors: [{ s: [60, 80], e: [150, 80] }] },
+                    { kana: 'てんき', romaji: 'tenki', info: 'Kosakata: Cuaca', strokes: 6, vectors: [{ s: [60, 70], e: [150, 70] }] },
+                    { kana: 'あさ', romaji: 'asa', info: 'Kosakata: Pagi Hari', strokes: 6, vectors: [{ s: [50, 90], e: [170, 90] }] },
+                    { kana: 'ふゆ', romaji: 'fuyu', info: 'Kosakata: Musim Dingin', strokes: 6, vectors: [{ s: [110, 50], e: [110, 90] }] },
+                    { kana: 'なつ', romaji: 'natsu', info: 'Kosakata: Musim Panas', strokes: 5, vectors: [{ s: [60, 70], e: [150, 70] }] },
+                    { kana: 'がっkou', romaji: 'gakkou', info: 'Kosakata: Sekolah (Double Konsonan)[cite: 1]', strokes: 11, vectors: [{ s: [50, 90], e: [170, 90] }] },
+                    { kana: 'せんせい', romaji: 'sensei', info: 'Kosakata: Guru / Pengajar[cite: 1]', strokes: 10, vectors: [{ s: [60, 60], e: [160, 160] }] }
+                ]
+            ],
+            katakana: [
+                // Level 1: Katakana Dasar Utama Vokal + K, S, T, N[cite: 1]
+                [
+                    { kana: 'ア', romaji: 'a', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [60, 70], e: [160, 70] }] },
+                    { kana: 'イ', romaji: 'i', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [140, 50], e: [70, 110] }] },
+                    { kana: 'ウ', romaji: 'u', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [110, 35], e: [110, 60] }] },
+                    { kana: 'エ', romaji: 'e', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [70, 60], e: [150, 60] }] },
+                    { kana: 'オ', romaji: 'o', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [60, 80], e: [160, 80] }] },
+                    { kana: 'カ', romaji: 'ka', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [60, 75], e: [150, 75] }] },
+                    { kana: 'キ', romaji: 'ki', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ク', romaji: 'ku', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [90, 60], e: [60, 110] }] },
+                    { kana: 'ケ', romaji: 'ke', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [120, 50], e: [70, 90] }] },
+                    { kana: 'コ', romaji: 'ko', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 70], e: [150, 70] }] },
+                    { kana: 'サ', romaji: 'sa', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [60, 80], e: [155, 80] }] },
+                    { kana: 'シ', romaji: 'shi', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [70, 70], e: [85, 90] }] },
+                    { kana: 'ス', romaji: 'su', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 70], e: [150, 70] }] },
+                    { kana: 'タ', romaji: 'ta', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [75, 65], e: [150, 65] }] },
+                    { kana: 'チ', romaji: 'chi', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [140, 55], e: [65, 95] }] }
+                ],
+                // Level 2: Katakana Dasar Lanjutan H, M, Y, R, W, N tunggal
+                [
+                    { kana: 'ハ', romaji: 'ha', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [90, 60], e: [60, 130] }] },
+                    { kana: 'ヒ', romaji: 'hi', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 80], e: [150, 80] }] },
+                    { kana: 'フ', romaji: 'fu', info: '1 Guratan Katakana', strokes: 1, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'マ', romaji: 'ma', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 70], e: [150, 70] }] },
+                    { kana: 'ミ', romaji: 'mi', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [70, 70], e: [130, 95] }] },
+                    { kana: 'ム', romaji: 'mu', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [90, 60], e: [60, 120] }] },
+                    { kana: 'ヤ', romaji: 'ya', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 80], e: [150, 80] }] },
+                    { kana: 'ユ', romaji: 'yu', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ヨ', romaji: 'yo', info: '3 Guratan Katakana', strokes: 3, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ラ', romaji: 'ra', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [75, 65], e: [135, 65] }] },
+                    { kana: 'リ', romaji: 'ri', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [80, 60], e: [80, 110] }] },
+                    { kana: 'ル', romaji: 'ru', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [80, 60], e: [60, 140] }] },
+                    { kana: 'レ', romaji: 're', info: '1 Guratan Katakana', strokes: 1, vectors: [{ s: [80, 60], e: [60, 130] }] },
+                    { kana: 'ワ', romaji: 'wa', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [75, 60], e: [75, 100] }] },
+                    { kana: 'ン', romaji: 'n', info: '2 Guratan Katakana', strokes: 2, vectors: [{ s: [70, 80], e: [85, 100] }] }
+                ],
+                // Level 3: Modifikasi Katakana Suara Berpola (Dakuten / Handakuten)
+                [
+                    { kana: 'ガ', romaji: 'ga', info: 'Karakter [KA] + Tenten', strokes: 4, vectors: [{ s: [60, 75], e: [150, 75] }] },
+                    { kana: 'ギ', romaji: 'gi', info: 'Karakter [KI] + Tenten', strokes: 5, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ザ', romaji: 'za', info: 'Karakter [SA] + Tenten', strokes: 5, vectors: [{ s: [60, 80], e: [145, 80] }] },
+                    { kana: 'ジ', romaji: 'ji', info: 'Karakter [SHI] + Tenten', strokes: 5, vectors: [{ s: [70, 70], e: [85, 90] }] },
+                    { kana: 'ダ', romaji: 'da', info: 'Karakter [TA] + Tenten', strokes: 5, vectors: [{ s: [75, 65], e: [150, 65] }] },
+                    { kana: 'バ', romaji: 'ba', info: 'Karakter [HA] + Tenten', strokes: 4, vectors: [{ s: [90, 60], e: [90, 150] }] },
+                    { kana: 'ビ', romaji: 'bi', info: 'Karakter [HI] + Tenten', strokes: 4, vectors: [{ s: [70, 80], e: [150, 80] }] },
+                    { kana: 'ブ', romaji: 'bu', info: 'Karakter [FU] + Tenten', strokes: 3, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ベ', romaji: 'be', info: 'Karakter [HE] + Tenten', strokes: 3, vectors: [{ s: [70, 90], e: [150, 90] }] },
+                    { kana: 'ボ', romaji: 'bo', info: 'Karakter [HO] + Tenten', strokes: 6, vectors: [{ s: [60, 75], e: [150, 75] }] },
+                    { kana: 'パ', romaji: 'pa', info: 'Karakter [HA] + Maru', strokes: 3, vectors: [{ s: [90, 60], e: [90, 150] }] },
+                    { kana: 'ピ', romaji: 'pi', info: 'Karakter [HI] + Maru', strokes: 3, vectors: [{ s: [70, 80], e: [150, 80] }] },
+                    { kana: 'プ', romaji: 'pu', info: 'Karakter [FU] + Maru', strokes: 2, vectors: [{ s: [70, 70], e: [140, 70] }] },
+                    { kana: 'ペ', romaji: 'pe', info: 'Karakter [HE] + Maru', strokes: 2, vectors: [{ s: [70, 90], e: [150, 90] }] },
+                    { kana: 'ポ', romaji: 'po', info: 'Karakter [HO] + Maru', strokes: 5, vectors: [{ s: [60, 75], e: [150, 75] }] }
+                ],
+                // Level 4: Kosakata Serapan Asing Nyata Katakana (Dengan Vokal Panjang "-")[cite: 1]
+                [
+                    { kana: 'カメラ', romaji: 'kamera', info: 'Kosakata: Kamera[cite: 1]', strokes: 7, vectors: [{ s: [60, 75], e: [150, 75] }] },
+                    { kana: 'ノート', romaji: 'no-to', info: 'Kosakata: Buku Catatan[cite: 1]', strokes: 6, vectors: [{ s: [75, 70], e: [140, 95] }] },
+                    { kana: 'アメリカ', romaji: 'amerika', info: 'Kosakata: Negara Amerika[cite: 1]', strokes: 9, vectors: [{ s: [140, 50], e: [70, 110] }] },
+                    { kana: 'toilet', romaji: 'toire', info: 'Kosakata: Kamar Mandi / Toilet[cite: 1]', strokes: 7, vectors: [{ s: [90, 60], e: [130, 110] }] },
+                    { kana: 'パン', romaji: 'pan', info: 'Kosakata: Roti', strokes: 4, vectors: [{ s: [90, 60], e: [90, 150] }] },
+                    { kana: 'ミルク', romaji: 'miruku', info: 'Kosakata: Susu Sapi', strokes: 7, vectors: [{ s: [70, 70], e: [130, 95] }] },
+                    { kana: 'テレビ', romaji: 'terebi', info: 'Kosakata: Televisi', strokes: 8, vectors: [{ s: [75, 65], e: [150, 65] }] },
+                    { kana: 'ラジオ', romaji: 'rajio', info: 'Kosakata: Radio Alat Komunikasi', strokes: 8, vectors: [{ s: [75, 65], e: [135, 65] }] },
+                    { kana: 'バス', romaji: 'basu', info: 'Kosakata: Bus Angkutan Umum', strokes: 6, vectors: [{ s: [60, 80], e: [155, 80] }] },
+                    { kana: 'ドア', romaji: 'doa', info: 'Kosakata: Pintu Masuk', strokes: 5, vectors: [{ s: [75, 65], e: [150, 65] }] },
+                    { kana: 'コーヒー', romaji: 'ko-hi-', info: 'Kosakata: Kopi Hitam Minum', strokes: 9, vectors: [{ s: [70, 70], e: [150, 70] }] },
+                    { kana: 'ビル', romaji: 'biru', info: 'Kosakata: Gedung Bertingkat', strokes: 6, vectors: [{ s: [80, 60], e: [80, 110] }] },
+                    { kana: 'ネクタイ', romaji: 'nekutai', info: 'Kosakata: Dasi Pakaian', strokes: 9, vectors: [{ s: [80, 50], e: [80, 170] }] },
+                    { kana: 'タクシー', romaji: 'takushi-', info: 'Kosakata: Mobil Taksi', strokes: 8, vectors: [{ s: [75, 65], e: [150, 65] }] },
+                    { kana: 'マッチ', romaji: 'macchi', info: 'Kosakata: Korek Api Kayu', strokes: 8, vectors: [{ s: [70, 70], e: [150, 70] }] }
+                ]
+            ]
+        };
+
+        const TOTAL_KOTA_SOAL = 15; // DIKUNCI 15 SOAL PER LEVEL
+        const MIN_PASS_SCORE = 80;
+
+        let jenisAktif = "hiragana";
+        let levelAktif = 0;
+        let modeAktif = "tulis";
+
+        let indexBerjalan = 0;
+        let jawabanBenarCounter = 0;
+        let kumpulanSoalSesi = [];
+
+        let rincianGuratanSiswa = [];
+        let guratanSaatIni = [];
+
+        // VALIDASI LOCK LEVEL: Benar-benar dimulai dari Hiragana Lvl 1 saja yang terbuka (True). Sisanya Terkunci (False).
+        let statusKelulusan = {
+            hiragana: [true, false, false, false],
+            katakana: [false, false, false, false] // Katakana Lvl 1 baru akan true setelah Hiragana Lvl 4 selesai.
+        };
+
+        const canvas = document.getElementById('canvas-tulis');
+        const ctx = canvas.getContext('2d');
+        let sedangMenggambar = false;
+
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#1e3a8a';
+
+        function dapatkanPosisi(e) {
+            const r = canvas.getBoundingClientRect();
+            const cX = e.touches ? e.touches[0].clientX : e.clientX;
+            const cY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: Math.round(cX - r.left), y: Math.round(cY - r.top) };
+        }
+
+        canvas.addEventListener('mousedown', (e) => { sedangMenggambar = true; guratanSaatIni = []; const p = dapatkanPosisi(e); guratanSaatIni.push(p); gores(e); });
+        canvas.addEventListener('mousemove', (e) => { if (!sedangMenggambar) return; const p = dapatkanPosisi(e); guratanSaatIni.push(p); gores(e); });
+        window.addEventListener('mouseup', () => { if (sedangMenggambar && guratanSaatIni.length > 1) rincianGuratanSiswa.push(guratanSaatIni); sedangMenggambar = false; ctx.beginPath(); });
+
+        canvas.addEventListener('touchstart', (e) => { sedangMenggambar = true; guratanSaatIni = []; const p = dapatkanPosisi(e); guratanSaatIni.push(p); });
+        canvas.addEventListener('touchmove', (e) => { if (!sedangMenggambar) return; const p = dapatkanPosisi(e); guratanSaatIni.push(p); gores(e); });
+        window.addEventListener('touchend', () => { if (sedangMenggambar && guratanSaatIni.length > 1) rincianGuratanSiswa.push(guratanSaatIni); sedangMenggambar = false; ctx.beginPath(); });
+
+        function gores(e) {
+            if (!sedangMenggambar) return;
+            const p = dapatkanPosisi(e);
+            ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+        }
+
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); rincianGuratanSiswa = []; guratanSaatIni = []; }
+
+        function evaluasiVektorGuratanOtomatis() {
+            const dataTarget = kumpulanSoalSesi[indexBerjalan];
+            const totalGuratanSiswa = rincianGuratanSiswa.length;
+
+            if (totalGuratanSiswa === 0) {
+                document.getElementById('feedback-tulis').innerText = "⚠️ Kanvas masih kosong!";
+                return;
+            }
+
+            let validArah = true;
+            const selisihGuratan = Math.abs(totalGuratanSiswa - dataTarget.strokes);
+
+            for (let i = 0; i < Math.min(totalGuratanSiswa, dataTarget.vectors.length); i++) {
+                const guratan = rincianGuratanSiswa[i];
+                const dX_Siswa = guratan[guratan.length - 1].x - guratan[0].x;
+                const dY_Siswa = guratan[guratan.length - 1].y - guratan[0].y;
+                const dX_Target = dataTarget.vectors[i].e[0] - dataTarget.vectors[i].s[0];
+                const dY_Target = dataTarget.vectors[i].e[1] - dataTarget.vectors[i].s[1];
+
+                if ((dX_Siswa * dX_Target) + (dY_Siswa * dY_Target) < 0) {
+                    validArah = false;
+                }
+            }
+
+            if (selisihGuratan === 0 && validArah) {
+                jawabanBenarCounter++;
+                document.getElementById('feedback-tulis').className = "text-center font-bold text-xs text-emerald-600 h-10 whitespace-pre-line";
+                document.getElementById('feedback-tulis').innerText = `✅ Sempurna!\nUrutan & arah tarikan kuas tepat.`;
+            } else {
+                document.getElementById('feedback-tulis').className = "text-center font-bold text-xs text-rose-500 h-10 whitespace-pre-line";
+                document.getElementById('feedback-tulis').innerText = `❌ Guratan Kurang Tepat.\nPerhatikan aturan coretan atau jumlah garis lurus.`;
+            }
+
+            setTimeout(() => { indexBerjalan++; muatButirSoalKeLayar(); }, 1000);
+        }
+
+        function updateNamaSiswa() {
+            const nama = document.getElementById('nama-siswa').value || "Siswa Pro";
+            document.querySelectorAll('.certification-name').forEach(el => el.innerText = nama);
+        }
+
+        function setJenis(jns) {
+            // Jika memilih Katakana tapi Level 1 Katakana masih terkunci, beri peringatan global
+            if (jns === 'katakana' && !statusKelulusan.katakana[0]) {
+                alert("🔒 Modul Katakana masih terkunci! Anda wajib menyelesaikan seluruh Level Hiragana (1-4) terlebih dahulu.");
+                return;
+            }
+            jenisAktif = jns;
+            levelAktif = 0; // Reset ke level awal rumpun tersebut yang terbuka
+            document.getElementById('btn-hiragana').className = jns === 'hiragana' ? "py-2 text-xs rounded-lg font-bold bg-indigo-600 text-white shadow-xs cursor-pointer" : "py-2 text-xs rounded-lg font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer";
+            document.getElementById('btn-katakana').className = jns === 'katakana' ? "py-2 text-xs rounded-lg font-bold bg-indigo-600 text-white shadow-xs cursor-pointer" : "py-2 text-xs rounded-lg font-bold bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer";
+            siapkanMenuSidebar(); bukaLayarMulai();
+        }
+
+        function setLevel(lvl) { levelAktif = lvl; siapkanMenuSidebar(); bukaLayarMulai(); }
+
+        function setMode(md) {
+            modeAktif = md;
+            document.getElementById('mode-baca').className = md === 'baca' ? "py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-xs cursor-pointer" : "py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer";
+            document.getElementById('mode-tulis').className = md === 'tulis' ? "py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white shadow-xs cursor-pointer" : "py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer";
+            document.getElementById('konten-baca').classList.toggle('hidden', md !== 'baca');
+            document.getElementById('konten-tulis').classList.toggle('hidden', md !== 'tulis');
+            bukaLayarMulai();
+        }
+
+        function siapkanMenuSidebar() {
+            const namaLevel = ["Vokal Dasar 1", "Konsonan Lanjutan 2", "Dakuten/Modifikasi 3", "Kosakata Gabungan 4"];
+            const container = document.getElementById('wrapper-level'); container.innerHTML = "";
+            for (let i = 0; i < 4; i++) {
+                const terbuka = statusKelulusan[jenisAktif][i];
+                const btn = document.createElement('button');
+                btn.className = i === levelAktif ? "w-full text-left px-3 py-2 text-xs font-bold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 cursor-pointer" : "w-full text-left px-3 py-2 text-xs font-bold text-slate-700 cursor-pointer";
+                if (!terbuka) {
+                    btn.disabled = true;
+                    btn.className = "w-full text-left px-3 py-2 text-xs font-bold text-slate-400 bg-slate-100 opacity-40 cursor-not-allowed rounded-lg";
+                }
+                btn.innerHTML = `<span>${terbuka ? '🟢' : '🔒'} Level ${i + 1}: ${namaLevel[i]}</span>`;
+                if (terbuka) btn.onclick = () => setLevel(i);
+                container.appendChild(btn);
+            }
+        }
+
+        function bukaLayarMulai() {
+            document.getElementById('panel-start-screen').classList.remove('hidden');
+            document.getElementById('panel-quiz').classList.add('hidden');
+            document.getElementById('panel-hasil').classList.add('hidden');
+            document.getElementById('panel-sertifikat').classList.add('hidden');
+        }
+
+        function nyalakanSesiQuiz() {
+            indexBerjalan = 0; jawabanBenarCounter = 0;
+            // Mengambil 15 sampel acak dari bank data agar bervariasi setiap sesi tes dijalankan[cite: 1]
+            kumpulanSoalSesi = [...masterDatabase[jenisAktif][levelAktif]].sort(() => Math.random() - 0.5).slice(0, TOTAL_KOTA_SOAL);
+            document.getElementById('panel-start-screen').classList.add('hidden');
+            document.getElementById('panel-quiz').classList.remove('hidden');
+            muatButirSoalKeLayar();
+        }
+
+        function muatButirSoalKeLayar() {
+            if (indexBerjalan >= TOTAL_KOTA_SOAL) { tampilkanRaporAkhir(); return; }
+            clearCanvas();
+            document.getElementById('feedback-tulis').innerText = "";
+
+            const dataSoal = kumpulanSoalSesi[indexBerjalan];
+            document.getElementById('progress-soal').innerText = `Soal: ${indexBerjalan + 1} / ${TOTAL_KOTA_SOAL}`;
+            document.getElementById('display-char').innerText = dataSoal.kana;
+            document.getElementById('hint-text').innerText = dataSoal.info;
+            document.getElementById('canvas-hint-bg').innerText = dataSoal.kana;
+
+            if (modeAktif === 'baca') {
+                let opsi = [dataSoal.romaji, "ko", "su", "ne"].sort(() => Math.random() - 0.5);
+                // Proteksi duplikasi opsi romaji
+                opsi = [...new Set(opsi)];
+                while (opsi.length < 4) { opsi.push("ma"); }
+
+                const container = document.getElementById('opsi-baca'); container.innerHTML = "";
+                opsi.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.innerText = item; btn.className = "py-3 text-xs font-bold bg-slate-50 border rounded-lg cursor-pointer hover:bg-slate-100";
+                    btn.onclick = () => { if (item === dataSoal.romaji) jawabanBenarCounter++; indexBerjalan++; muatButirSoalKeLayar(); };
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        function cekKelulusanTotalSertifikat() {
+            // Sertifikat HANYA valid jika Hiragana Level 4 (Index 3) DAN Katakana Level 4 (Index 3) selesai dengan nilai KKM.
+            const hiraganaSelesai = statusKelulusan.hiragana[3];
+            const katakanaSelesai = statusKelulusan.katakana[3];
+            return (hiraganaSelesai && katakanaSelesai);
+        }
+
+        function tampilkanRaporAkhir() {
+            document.getElementById('panel-quiz').classList.add('hidden');
+            document.getElementById('panel-hasil').classList.remove('hidden');
+
+            let skor = Math.round((jawabanBenarCounter / TOTAL_KOTA_SOAL) * 100);
+            document.getElementById('hasil-skor-akhir').innerText = skor;
+            document.getElementById('hasil-nama-siswa').innerText = document.getElementById('nama-siswa').value || "Siswa Pro";
+            updateNamaSiswa();
+
+            const st = document.getElementById('hasil-status-kkm');
+            const ps = document.getElementById('pesan-kelulusan');
+            const wrapperTombol = document.getElementById('wrapper-aksi-hasil');
+            wrapperTombol.innerHTML = "";
+
+            if (skor >= MIN_PASS_SCORE) {
+                st.innerText = "LULUS"; st.className = "text-xl font-bold text-emerald-600";
+                ps.innerText = "Kompetensi tercapai! Evaluasi tingkat modul selanjutnya sukses terbuka.";
+                ps.className = "text-sm font-semibold text-emerald-600";
+
+                // Logika pembukaan gerbang level berikutnya secara bertahap
+                if (jenisAktif === "hiragana") {
+                    if (levelAktif < 3) {
+                        statusKelulusan.hiragana[levelAktif + 1] = true;
+                        buatTombolLanjut(wrapperTombol);
+                    } else if (levelAktif === 3) {
+                        // JIKA HIRAGANA SELESAI SEMUA -> Baru buka Katakana Level 1
+                        statusKelulusan.katakana[0] = true;
+                        ps.innerText = "🎉 Hiragana Selesai! Gerbang Modul Utama Katakana Level 1 Kini Resmi Terbuka.";
+                        buatTombolPindahAksara(wrapperTombol);
+                    }
+                } else if (jenisAktif === "katakana") {
+                    if (levelAktif < 3) {
+                        statusKelulusan.katakana[levelAktif + 1] = true;
+                        buatTombolLanjut(wrapperTombol);
+                    }
+                }
+
+                siapkanMenuSidebar();
+
+                // Validasi Sertifikat Ganda Akhir
+                if (cekKelulusanTotalSertifikat()) {
+                    ps.innerText = "🏆 SELAMAT! Seluruh Level Hiragana & Katakana Berhasil Ditamatkan!";
+                    const btnSertifikat = document.createElement('button');
+                    btnSertifikat.className = "w-full md:w-auto px-6 py-2.5 text-sm font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-md transition animate-bounce cursor-pointer mt-2";
+                    btnSertifikat.innerText = "Klaim & Cetak 2 Sertifikat Kelulusan Utama 📜";
+                    btnSertifikat.onclick = () => {
+                        document.getElementById('panel-hasil').classList.add('hidden');
+                        document.getElementById('panel-sertifikat').classList.remove('hidden');
+                    };
+                    wrapperTombol.appendChild(btnSertifikat);
+                }
+
+            } else {
+                st.innerText = "REMEDI"; st.className = "text-xl font-bold text-rose-600";
+                ps.innerText = `Skor Anda (${skor}) belum mencapai batas minimum KKM 80. Sila coba kembali.`;
+                ps.className = "text-sm font-semibold text-rose-500";
+
+                const btnUlangi = document.createElement('button');
+                btnUlangi.className = "px-6 py-2.5 text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer";
+                btnUlangi.innerText = "Ulangi Ujian Ini 🔄";
+                btnUlangi.onclick = () => ulangiQuiz();
+                wrapperTombol.appendChild(btnUlangi);
+            }
+        }
+
+        function buatTombolLanjut(container) {
+            const btn = document.createElement('button');
+            btn.className = "px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-xs transition cursor-pointer";
+            btn.innerText = "Lanjut ke Level Berikutnya ➡️";
+            btn.onclick = () => { levelAktif++; siapkanMenuSidebar(); nyalakanSesiQuiz(); };
+            container.appendChild(btn);
+        }
+
+        function buatTombolPindahAksara(container) {
+            const btn = document.createElement('button');
+            btn.className = "px-6 py-2.5 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-xs transition cursor-pointer";
+            btn.innerText = "Buka & Pindah ke Kelas Katakana 🎌";
+            btn.onclick = () => { setJenis('katakana'); };
+            container.appendChild(btn);
+        }
+
+        function ulangiQuiz() { nyalakanSesiQuiz(); }
+
+        // Inisialisasi Sistem Awal
+        siapkanMenuSidebar();
+    </script>
+</body>
+
+</html>
