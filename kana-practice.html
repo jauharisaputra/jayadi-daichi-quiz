@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JLPT Kana Master Pro - Belajar & Latihan Hiragana/Katakana</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        canvas {
+            touch-action: none;
+        }
+
+        .grid-bg {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen grid-bg">
+
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-xs">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🎌</span>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight text-slate-900">KanaMaster<span
+                            class="text-teal-600">.pro</span></h1>
+                    <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Gabungan Metode
+                        Kakimashou & Tofugu Quiz</p>
+                </div>
+            </div>
+
+            <!-- Sistem Tab Utama -->
+            <div class="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                <button id="tab-belajar" onclick="gantiTab('belajar')"
+                    class="px-5 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs transition cursor-pointer">
+                    ✍️ Mode Belajar Menulis
+                </button>
+                <button id="tab-latihan" onclick="gantiTab('latihan')"
+                    class="px-5 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 transition cursor-pointer">
+                    🎯 Mode Kuis Membaca
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        <!-- SIDEBAR PENGATURAN (ALIRAN KURIKULUM) -->
+        <div class="lg:col-span-1 space-y-4">
+            <!-- Pilihan Jenis Aksara -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">1. Pilih Kelompok Karakter
+                </h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="btn-hira" onclick="pilihAksara('hiragana')"
+                        class="py-2.5 text-xs font-bold rounded-lg bg-teal-600 text-white shadow-xs cursor-pointer transition">Hiragana
+                        (平仮名)</button>
+                    <button id="btn-kata" onclick="pilihAksara('katakana')"
+                        class="py-2.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer transition">Katakana
+                        (片仮名)</button>
+                </div>
+            </div>
+
+            <!-- Silabus / Level Tingkatan -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">2. Kurikulum Tingkatan</h3>
+                <div id="box-level-list" class="space-y-1.5">
+                    <!-- Diisi dinamis oleh JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- AREA KONTEN INTERAKTIF -->
+        <div class="lg:col-span-3">
+
+            <!-- PANEL 1: MODE BELAJAR MENULIS (Gaya Kakimashou) -->
+            <div id="panel-belajar" class="space-y-6">
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Sisi Kiri: Petunjuk Visual Guratan -->
+                    <div
+                        class="flex flex-col justify-between items-center bg-slate-50 p-6 rounded-xl border border-slate-100 text-center min-h-[300px]">
+                        <div class="w-full text-left">
+                            <span id="badge-lvl-belajar"
+                                class="bg-teal-50 text-teal-700 border border-teal-100 text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider">Level
+                                1: Vokal Dasar</span>
+                        </div>
+
+                        <div class="my-4">
+                            <h2 id="char-target-belajar" class="text-8xl font-black text-slate-900 select-none">あ</h2>
+                            <p id="romaji-target-belajar" class="text-xl font-bold text-teal-600 tracking-widest mt-1">[
+                                a ]</p>
+                        </div>
+
+                        <div
+                            class="w-full bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-500 space-y-1">
+                            <p id="info-stroke-belajar">ℹ️ Total Coretan baku: <b>3 Guratan</b></p>
+                            <p id="tips-belajar" class="italic text-slate-400">Tarik garis dari kiri ke kanan untuk
+                                guratan pertama.</p>
+                        </div>
+                    </div>
+
+                    <!-- Sisi Kanan: Kanvas Menulis Interaktif -->
+                    <div class="flex flex-col items-center justify-center space-y-4">
+                        <div class="w-full flex justify-between items-center">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Goreskan Pada Kotak
+                                Bantu:</h4>
+                            <button onclick="bersihkanKanvas()"
+                                class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md hover:bg-rose-100 transition">Reset
+                                Garis</button>
+                        </div>
+
+                        <!-- Canvas Box -->
+                        <div
+                            class="relative w-[240px] h-[240px] bg-white border-2 border-slate-300 rounded-xl overflow-hidden shadow-sm">
+                            <!-- Garis Bantu Kisi Sumbu X & Y -->
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <line x1="120" y1="0" x2="120" y2="240" stroke="#e2e8f0" stroke-width="1.5"
+                                    stroke-dasharray="4 4" />
+                                <line x1="0" y1="120" x2="240" y2="120" stroke="#e2e8f0" stroke-width="1.5"
+                                    stroke-dasharray="4 4" />
+                                <circle cx="120" cy="120" r="4" fill="#cbd5e1" />
+                            </svg>
+                            <!-- Bayangan transparan petunjuk huruf -->
+                            <div id="shadow-hint-kana"
+                                class="absolute inset-0 flex justify-center items-center text-slate-100 text-8xl font-normal select-none pointer-events-none opacity-40">
+                                あ</div>
+                            <canvas id="canvas-menulis" width="240" height="240"
+                                class="absolute inset-0 cursor-crosshair z-10"></canvas>
+                        </div>
+
+                        <button onclick="validasiTulisanSiswa()"
+                            class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm rounded-xl shadow-xs transition cursor-pointer">
+                            Periksa Akurasi Tulisan 🔬
+                        </button>
+                        <div id="feedback-menulis" class="text-center text-xs font-bold h-5 text-slate-500"></div>
+                    </div>
+                </div>
+
+                <!-- Navigasi Cepat Daftar Karakter Modul -->
+                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Daftar Aksara di Level
+                        Ini (Klik untuk Belajar):</h3>
+                    <div id="list-grid-karakter" class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+                        <!-- Diisi Otomatis -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL 2: MODE LATIHAN KUIS MEMBACA (Gaya Tofugu Flashcard) -->
+            <div id="panel-latihan" class="hidden space-y-6">
+                <!-- Start Screen Kuis -->
+                <div id="quiz-start-screen"
+                    class="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-4 shadow-xs">
+                    <div class="text-5xl">⚡</div>
+                    <h3 class="text-xl font-black text-slate-900">Kuis Evaluasi Kecepatan Membaca</h3>
+                    <p class="text-sm text-slate-500 max-w-md mx-auto">Anda akan diuji dengan <span
+                            class="font-bold text-teal-600">10 soal acak variatif</span> dari level yang dipilih untuk
+                        menguji refleks pembacaan Romaji Anda.</p>
+                    <button onclick="mulaiSesiKuis()"
+                        class="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
+                        Mulai Sesi Tes Sekarang
+                    </button>
+                </div>
+
+                <!-- Game Screen Kuis -->
+                <div id="quiz-game-screen" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div
+                        class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs text-center flex flex-col justify-between items-center min-h-[280px]">
+                        <div class="w-full flex justify-between items-center text-[10px] font-bold text-slate-400">
+                            <span id="quiz-badge-type">HIRAGANA QUIZ</span>
+                            <span id="quiz-progress" class="bg-slate-900 text-white px-2 py-0.5 rounded-md">1 /
+                                10</span>
+                        </div>
+                        <h2 id="quiz-char-display" class="text-7xl font-black text-slate-900 my-4">あ</h2>
+                        <div class="w-full bg-slate-50 py-1.5 px-3 rounded-md text-[11px] text-slate-400"
+                            id="quiz-hint-desc">Karakter Tunggal</div>
+                    </div>
+
+                    <div
+                        class="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-center space-y-4">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pilih Transkripsi Romaji
+                            yang Tepat:</h3>
+                        <div id="quiz-options-wrapper" class="grid grid-cols-2 gap-3">
+                            <!-- Diisi Otomatis -->
+                        </div>
+                        <div id="quiz-feedback-text" class="text-center font-bold text-sm h-6"></div>
+                    </div>
+                </div>
+
+                <!-- Score Screen Kuis -->
+                <div id="quiz-score-screen"
+                    class="hidden bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-6 shadow-xs">
+                    <div class="text-5xl">🎉</div>
+                    <h3 class="text-2xl font-black text-slate-900">Sesi Kuis Selesai!</h3>
+                    <div class="max-w-xs mx-auto bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Skor Perolehan</p>
+                        <p class="text-5xl font-black text-teal-600 mt-1" id="quiz-final-score">0</p>
+                    </div>
+                    <button onclick="kembaliKeAwalKuis()"
+                        class="px-6 py-2.5 text-xs font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition cursor-pointer">
+                        Kembali ke Menu Utama
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-6xl mx-auto p-6 text-center text-xs text-slate-400 border-t border-slate-200 mt-12">
+        <p>&copy; 2026 KanaMaster Pro. Dibuat demi efisiensi latihan menulis presisi dan kecepatan baca.</p>
+    </footer>
+
+    <!-- LOGIKA JAVASCRIPT APLIKASI -->
+    <script>
+        // DATA SILABUS & BANK KATA KOMPLET SUPER VARIATIF
+        const datasetKana = {
+            hiragana: [
+                {
+                    levelName: "Vokal Dasar (A-N)",
+                    items: [
+                        { kana: 'あ', romaji: 'a', strokes: 3, tips: '3 Coretan: Horizontal, vertikal melengkung, lalu buat simpul melingkar di tengah.' },
+                        { kana: 'い', romaji: 'i', strokes: 2, tips: '2 Coretan: Garis kiri menekuk dengan kait kecil bawah, garis kanan lebih pendek.' },
+                        { kana: 'う', romaji: 'u', strokes: 2, tips: '2 Coretan: Titik diagonal atas, lalu lengkungan besar seperti telinga di bawah.' },
+                        { kana: 'え', romaji: 'e', strokes: 2, tips: '2 Coretan: Titik diagonal, lalu satu tarikan zignzag membentuk huruf Z bersambung.' },
+                        { kana: 'お', romaji: 'o', strokes: 3, tips: '3 Coretan: Garis mendatar, garis vertikal berputar ke atas, diakhiri titik kanan atas.' },
+                        { kana: 'ん', romaji: 'n', strokes: 1, tips: '1 Coretan tunggal: Seperti huruf "h" latin yang berekor panjang ke kanan atas.' }
+                    ]
+                },
+                {
+                    levelName: "Konsonan Utama (K, S, T, N)",
+                    items: [
+                        { kana: 'か', romaji: 'ka', strokes: 3, tips: '3 Coretan: Garis melengkung berkait, garis diagonal silang, diakhiri titik kanan.' },
+                        { kana: 'き', romaji: 'ki', strokes: 4, tips: '4 Coretan: Dua garis horizontal sejajar, satu diagonal memotong, lengkungan bawah terpisah.' },
+                        { kana: 'す', romaji: 'su', strokes: 2, tips: '2 Coretan: Garis horizontal panjang, garis vertikal tegak lurus membuat simpul lalu turun.' },
+                        { kana: 'た', romaji: 'ta', strokes: 4, tips: '4 Coretan: Silang miring di kiri, lalu buat guratan mirip huruf "ko" mini di kanan.' },
+                        { kana: 'ぬ', romaji: 'nu', strokes: 2, tips: '2 Coretan: Garis miring kanan, lalu lengkungan silang berputar membentuk ekor melingkar.' }
+                    ]
+                },
+                {
+                    levelName: "Modifikasi Suara (Dakuten)",
+                    items: [
+                        { kana: 'が', romaji: 'ga', strokes: 5, tips: 'Karakter dasar [ka] ditambah dua tanda petik (tenten) di sudut kanan atas.' },
+                        { kana: 'じ', romaji: 'ji', strokes: 3, tips: 'Karakter dasar [shi] ditambah dua tanda petik (tenten) di sudut kanan atas.' },
+                        { kana: 'だ', romaji: 'da', strokes: 6, tips: 'Karakter dasar [ta] ditambah dua tanda petik (tenten) di sudut kanan atas.' },
+                        { kana: 'ば', romaji: 'ba', strokes: 5, tips: 'Karakter dasar [ha] ditambah dua tanda petik (tenten) di sudut kanan atas.' }
+                    ]
+                },
+                {
+                    levelName: "Kosakata Praktis Campuran",
+                    items: [
+                        { kana: 'すし', romaji: 'sushi', strokes: 3, tips: 'Kosakata gabungan utuh: Kombinasi huruf [su] dan huruf [shi].' },
+                        { kana: 'ねこ', romaji: 'neko', strokes: 4, tips: 'Kosakata gabungan utuh: Bermakna hewan kucing.' },
+                        { kana: 'さくら', romaji: 'sakura', strokes: 7, tips: 'Kosakata gabungan utuh: Bermakna bunga sakura.' },
+                        { kana: 'せんせい', romaji: 'sensei', strokes: 10, tips: 'Kosakata gabungan utuh: Bermakna guru atau pengajar.' }
+                    ]
+                }
+            ],
+            katakana: [
+                {
+                    levelName: "Vokal Dasar Katakana",
+                    items: [
+                        { kana: 'ア', romaji: 'a', strokes: 2, tips: '2 Coretan tajam khas Katakana. Tarik siku atas lalu goresan melengkung kiri.' },
+                        { kana: 'イ', romaji: 'i', strokes: 2, tips: '2 Coretan: Garis miring jatuh ke kiri bawah, disambung garis vertikal lurus ke bawah.' },
+                        { kana: 'ウ', romaji: 'u', strokes: 3, tips: '3 Coretan: Titik atas pendek, titik vertikal kiri, lalu garis bersiku memayungi bawah.' },
+                        { kana: 'エ', romaji: 'e', strokes: 3, tips: '3 Coretan kaku: Horizontal atas, tiang tengah, ditutup horizontal bawah lebih panjang.' },
+                        { kana: 'オ', romaji: 'o', strokes: 3, tips: '3 Coretan: Horizontal mendatar, garis tegak patah ke kiri, diakhiri coretan miring kiri.' }
+                    ]
+                },
+                {
+                    levelName: "Konsonan Katakana Lanjutan",
+                    items: [
+                        { kana: 'カ', romaji: 'ka', strokes: 2, tips: 'Mirip hiragana [ka] namun bersudut tajam tanpa goresan titik penyeimbang kanan.' },
+                        { kana: 'キ', romaji: 'ki', strokes: 3, tips: 'Dua garis mendatar sejajar, dipotong lurus satu garis diagonal tajam.' },
+                        { kana: 'サ', romaji: 'sa', strokes: 3, tips: 'Satu garis horizontal panjang, dua tiang pendek tegak lurus di bawahnya.' },
+                        { kana: 'タ', romaji: 'ta', strokes: 3, tips: 'Hampir mirip aksara kuno atau angka 7 bersilang tengah.' }
+                    ]
+                },
+                {
+                    levelName: "Kosakata Katakana Serapan",
+                    items: [
+                        { kana: 'カメラ', romaji: 'kamera', strokes: 7, tips: 'Kosakata Serapan: Kata benda bermakna alat pengambil gambar / kamera.' },
+                        { kana: 'ノート', romaji: 'no-to', strokes: 6, tips: 'Kosakata Serapan: Menggunakan tanda minus (-) memperpanjang vokal romaji.' },
+                        { kana: 'アメリカ', romaji: 'amerika', strokes: 9, tips: 'Kosakata Nama Negara: Bermakna wilayah benua Amerika.' }
+                    ]
+                }
+            ]
+        };
+
+        // KONTROL STATE INTERNAL APLIKASI
+        let tipeAktif = "hiragana";
+        let levelIdxAktif = 0;
+        let karakterIdxAktif = 0;
+        let tabAktif = "belajar";
+
+        // Variabel Sesi Kuis (Tofugu style)
+        let kuisIndex = 0;
+        let kuisSkorBenar = 0;
+        let kuisDaftarSoal = [];
+
+        // Variabel Menggambar Canvas
+        const canvas = document.getElementById('canvas-menulis');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let riwayatKoordinatSiswa = [];
+
+        ctx.lineWidth = 7;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#0d9488'; // Teal-600 bertenaga
+
+        // Dapatkan Posisi Mouse/Touch Presisi
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: Math.round(clientX - rect.left), y: Math.round(clientY - rect.top) };
+        }
+
+        // Event Listener Canvas (Desktop & Mobile)
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; riwayatKoordinatSiswa.push({ mulai: true }); gambar(e); });
+        canvas.addEventListener('mousemove', gambar);
+        window.addEventListener('mouseup', () => { isDrawing = false; ctx.beginPath(); });
+
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; riwayatKoordinatSiswa.push({ mulai: true }); gambar(e); });
+        canvas.addEventListener('touchmove', gambar);
+        window.addEventListener('touchend', () => { isDrawing = false; ctx.beginPath(); });
+
+        function gambar(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const pos = getPos(e);
+            riwayatKoordinatSiswa.push(pos);
+
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function bersihkanKanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            riwayatKoordinatSiswa = [];
+            document.getElementById('feedback-menulis').innerText = "";
+        }
+
+        // ANALISIS AKURASI JALUR GURATAN (Kakimashou Simplicity Engine)
+        function validasiTulisanSiswa() {
+            if (riwayatKoordinatSiswa.length < 5) {
+                document.getElementById('feedback-menulis').className = "text-center text-xs font-bold text-rose-500";
+                document.getElementById('feedback-menulis').innerText = "⚠️ Kanvas kosong atau coretan terlalu pendek!";
+                return;
+            }
+
+            // Menghitung jumlah angkatan kuas kuantitatif siswa
+            const totalAngkatanKuas = riwayatKoordinatSiswa.filter(pt => pt.mulai).length;
+            const targetBaku = datasetKana[tipeAktif][levelIdxAktif].items[karakterIdxAktif];
+
+            const fb = document.getElementById('feedback-menulis');
+
+            // Evaluasi Kesamaan Logika Guratan Kuas Dasar
+            if (totalAngkatanKuas === targetBaku.strokes) {
+                fb.className = "text-center text-xs font-bold text-emerald-600";
+                fb.innerText = "✅ Sempurna! Jumlah urutan guratan Anda sangat akurat.";
+            } else {
+                fb.className = "text-center text-xs font-bold text-amber-500";
+                fb.innerText = `⚠️ Terbaca ${totalAngkatanKuas} guratan (Aturan baku: ${targetBaku.strokes} guratan). Coba ikuti instruksi tips.`;
+            }
+        }
+
+        // KONTROL INTERFACE DAN LEVELING
+        function gantiTab(tab) {
+            tabAktif = tab;
+            document.getElementById('tab-belajar').className = tab === 'belajar' ? "px-5 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs cursor-pointer" : "px-5 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer";
+            document.getElementById('tab-latihan').className = tab === 'latihan' ? "px-5 py-2 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs cursor-pointer" : "px-5 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer";
+
+            document.getElementById('panel-belajar').classList.toggle('hidden', tab !== 'belajar');
+            document.getElementById('panel-latihan').classList.toggle('hidden', tab !== 'latihan');
+
+            if (tab === 'latihan') kembaliKeAwalKuis();
+        }
+
+        function pilihAksara(aksara) {
+            tipeAktif = aksara;
+            levelIdxAktif = 0;
+            karakterIdxAktif = 0;
+
+            document.getElementById('btn-hira').className = aksara === 'hiragana' ? "py-2.5 text-xs font-bold rounded-lg bg-teal-600 text-white shadow-xs cursor-pointer" : "py-2.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer";
+            document.getElementById('btn-kata').className = aksara === 'katakana' ? "py-2.5 text-xs font-bold rounded-lg bg-teal-600 text-white shadow-xs cursor-pointer" : "py-2.5 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer";
+
+            bangunKurikulumSidebar();
+            muatKarakterBelajar();
+            if (tabAktif === 'latihan') kembaliKeAwalKuis();
+        }
+
+        function bangunKurikulumSidebar() {
+            const wrapper = document.getElementById('box-level-list');
+            wrapper.innerHTML = "";
+
+            datasetKana[tipeAktif].forEach((modul, idx) => {
+                const btn = document.createElement('button');
+                btn.className = idx === levelIdxAktif
+                    ? "w-full text-left p-3 text-xs font-bold rounded-xl bg-teal-50 text-teal-800 border border-teal-200 cursor-pointer block"
+                    : "w-full text-left p-3 text-xs font-medium rounded-xl text-slate-600 hover:bg-slate-50 border border-transparent cursor-pointer block";
+
+                btn.innerHTML = `
+                    <div class="text-[10px] uppercase text-slate-400 font-bold">Modul 0${idx + 1}</div>
+                    <div class="truncate mt-0.5">${modul.levelName}</div>
+                `;
+                btn.onclick = () => {
+                    levelIdxAktif = idx;
+                    karakterIdxAktif = 0;
+                    bangunKurikulumSidebar();
+                    muatKarakterBelajar();
+                    if (tabAktif === 'latihan') kembaliKeAwalKuis();
+                };
+                wrapper.appendChild(btn);
+            });
+        }
+
+        function muatKarakterBelajar() {
+            const modulSkg = datasetKana[tipeAktif][levelIdxAktif];
+            const itemSkg = modulSkg.items[karakterIdxAktif];
+
+            document.getElementById('badge-lvl-belajar').innerText = `Modul ${levelIdxAktif + 1}: ${modulSkg.levelName}`;
+            document.getElementById('char-target-belajar').innerText = itemSkg.kana;
+            document.getElementById('romaji-target-belajar').innerText = `[ ${itemSkg.romaji} ]`;
+            document.getElementById('shadow-hint-kana').innerText = itemSkg.kana;
+            document.getElementById('info-stroke-belajar').innerHTML = `ℹ️ Total Coretan baku: <b>${itemSkg.strokes} Guratan</b>`;
+            document.getElementById('tips-belajar').innerText = itemSkg.tips;
+
+            bersihkanKanvas();
+
+            // Render Grid Mini di Bawah
+            const gridContainer = document.getElementById('list-grid-karakter');
+            gridContainer.innerHTML = "";
+            modulSkg.items.forEach((it, i) => {
+                const bGrid = document.createElement('button');
+                bGrid.className = i === karakterIdxAktif
+                    ? "py-2.5 font-bold border-2 border-teal-600 bg-teal-50 text-teal-800 rounded-lg text-sm cursor-pointer shadow-xs"
+                    : "py-2.5 font-bold border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-sm cursor-pointer";
+                bGrid.innerText = it.kana;
+                bGrid.onclick = () => { karakterIdxAktif = i; muatKarakterBelajar(); };
+                gridContainer.appendChild(bGrid);
+            });
+        }
+
+        // SISTEM KUIS FLASHCARD (Tofugu Mechanics)
+        function kembaliKeAwalKuis() {
+            document.getElementById('quiz-start-screen').classList.remove('hidden');
+            document.getElementById('quiz-game-screen').classList.add('hidden');
+            document.getElementById('quiz-score-screen').classList.add('hidden');
+        }
+
+        function mulaiSesiKuis() {
+            kuisIndex = 0;
+            kuisSkorBenar = 0;
+
+            // Kumpulkan bank data dari level aktif saat ini, acak urutannya (Shuffle)
+            const masterList = [...datasetKana[tipeAktif][levelIdxAktif].items];
+            kuisDaftarSoal = masterList.sort(() => Math.random() - 0.5);
+
+            // Batasi maksimal 10 soal per kuis biar cepat dan terfokus
+            if (kuisDaftarSoal.length > 10) kuisDaftarSoal = kuisDaftarSoal.slice(0, 10);
+
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-game-screen').classList.remove('hidden');
+
+            tampilkanButirSoalKuis();
+        }
+
+        function tampilkanButirSoalKuis() {
+            if (kuisIndex >= kuisDaftarSoal.length) {
+                selesaiSesiKuis();
+                return;
+            }
+
+            document.getElementById('quiz-feedback-text').innerText = "";
+            const soalSkg = kuisDaftarSoal[kuisIndex];
+
+            document.getElementById('quiz-badge-type').innerText = `${tipeAktif.toUpperCase()} • MODUL ${levelIdxAktif + 1}`;
+            document.getElementById('quiz-progress').innerText = `${kuisIndex + 1} / ${kuisDaftarSoal.length}`;
+            document.getElementById('quiz-char-display').innerText = soalSkg.kana;
+            document.getElementById('quiz-hint-desc').innerText = `Goresan: ${soalSkg.strokes} stroke`;
+
+            // Membuat Pilihan Jawaban Acak (Dua opsi dummy pengecoh)
+            let opsiPilihan = [soalSkg.romaji, 'ko', 're', 'ma', 'n'];
+            opsiPilihan = [...new Set(opsiPilihan)]; // Eliminasi duplikasi nama sejenis
+
+            let finalOpsi = [soalSkg.romaji, opsiPilihan[1], opsiPilihan[2], opsiPilihan[3]].sort(() => Math.random() - 0.5);
+
+            const wrapperOpsi = document.getElementById('quiz-options-wrapper');
+            wrapperOpsi.innerHTML = "";
+
+            finalOpsi.forEach(jawabanRomaji => {
+                const btnOpsi = document.createElement('button');
+                btnOpsi.className = "py-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-sm font-black text-slate-800 rounded-xl transition cursor-pointer active:scale-95 block w-full text-center";
+                btnOpsi.innerText = jawabanRomaji;
+
+                btnOpsi.onclick = () => verifikasiJawabanKuis(jawabanRomaji, soalSkg.romaji);
+                wrapperOpsi.appendChild(btnOpsi);
+            });
+        }
+
+        function verifikasiJawabanKuis(pilihanSiswa, jawabanBenar) {
+            const fbText = document.getElementById('quiz-feedback-text');
+
+            if (pilihanSiswa === jawabanBenar) {
+                kuisSkorBenar++;
+                fbText.className = "text-center font-bold text-sm text-emerald-600";
+                fbText.innerText = "✨ Tepat Sekali!";
+            } else {
+                fbText.className = "text-center font-bold text-sm text-rose-500";
+                fbText.innerText = `❌ Kurang Tepat! Harusnya: ${jawabanBenar}`;
+            }
+
+            // Delay otomatis jeda masuk ke soal berikutnya agar user sempat membaca koreksi
+            kuisIndex++;
+            setTimeout(tampilkanButirSoalKuis, 800);
+        }
+
+        function selesaiSesiKuis() {
+            document.getElementById('quiz-game-screen').classList.add('hidden');
+            document.getElementById('quiz-score-screen').classList.remove('hidden');
+
+            const totalSkorAngka = Math.round((kuisSkorBenar / kuisDaftarSoal.length) * 100);
+            document.getElementById('quiz-final-score').innerText = totalSkorAngka;
+        }
+
+        // INIT APLIKASI AWAL BERJALAN
+        pilihAksara('hiragana');
+    </script>
+</body>
+
+</html>
