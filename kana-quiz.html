@@ -570,72 +570,47 @@
             return (hiraganaSelesai && katakanaSelesai);
         }
 
-        function tampilkanRaporAkhir() {
-            document.getElementById('panel-quiz').classList.add('hidden');
-            document.getElementById('panel-hasil').classList.remove('hidden');
+    async function simpanNilaiKeSheet(skor, status) {
 
-            let skor = Math.round((jawabanBenarCounter / TOTAL_KOTA_SOAL) * 100);
-            document.getElementById('hasil-skor-akhir').innerText = skor;
-            document.getElementById('hasil-nama-siswa').innerText = document.getElementById('nama-siswa').value || "Siswa Pro";
-            updateNamaSiswa();
+        try {
 
-            const st = document.getElementById('hasil-status-kkm');
-            const ps = document.getElementById('pesan-kelulusan');
-            const wrapperTombol = document.getElementById('wrapper-aksi-hasil');
-            wrapperTombol.innerHTML = "";
+            const formData = new URLSearchParams();
 
-            if (skor >= MIN_PASS_SCORE) {
-                st.innerText = "LULUS"; st.className = "text-xl font-bold text-emerald-600";
-                ps.innerText = "Kompetensi tercapai! Evaluasi tingkat modul selanjutnya sukses terbuka.";
-                ps.className = "text-sm font-semibold text-emerald-600";
+            formData.append(
+                "nama",
+                document.getElementById('nama-siswa').value || "Siswa"
+            );
 
-                // Logika pembukaan gerbang level berikutnya secara bertahap
-                if (jenisAktif === "hiragana") {
-                    if (levelAktif < 3) {
-                        statusKelulusan.hiragana[levelAktif + 1] = true;
-                        buatTombolLanjut(wrapperTombol);
-                    } else if (levelAktif === 3) {
-                        // JIKA HIRAGANA SELESAI SEMUA -> Baru buka Katakana Level 1
-                        statusKelulusan.katakana[0] = true;
-                        ps.innerText = "🎉 Hiragana Selesai! Gerbang Modul Utama Katakana Level 1 Kini Resmi Terbuka.";
-                        buatTombolPindahAksara(wrapperTombol);
-                    }
-                } else if (jenisAktif === "katakana") {
-                    if (levelAktif < 3) {
-                        statusKelulusan.katakana[levelAktif + 1] = true;
-                        buatTombolLanjut(wrapperTombol);
-                    }
+            formData.append("jenis", jenisAktif);
+            formData.append("level", levelAktif + 1);
+            formData.append("mode", modeAktif);
+            formData.append("skor", skor);
+            formData.append("status", status);
+
+            const response = await fetch(
+                "https://script.google.com/macros/s/AKfycbzTJp4IDSI42akRf5W3wSjkhCJ06yG1rB9niZo3ziKIuzOFmd3qJv88kKwg4gzY8cZP/exec",
+                {
+                    method: "POST",
+                    body: formData
                 }
+            );
 
-                siapkanMenuSidebar();
+            const text = await response.text();
 
-                // Validasi Sertifikat Ganda Akhir
-                if (cekKelulusanTotalSertifikat()) {
-                    ps.innerText = "🏆 SELAMAT! Seluruh Level Hiragana & Katakana Berhasil Ditamatkan!";
-                    const btnSertifikat = document.createElement('button');
-                    btnSertifikat.className = "w-full md:w-auto px-6 py-2.5 text-sm font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-md transition animate-bounce cursor-pointer mt-2";
-                    btnSertifikat.innerText = "Klaim & Cetak 2 Sertifikat Kelulusan Utama 📜";
-                    btnSertifikat.onclick = () => {
-                        document.getElementById('panel-hasil').classList.add('hidden');
-                        document.getElementById('panel-sertifikat').classList.remove('hidden');
-                    };
-                    wrapperTombol.appendChild(btnSertifikat);
-                }
+            console.log(text);
 
-            } else {
-                st.innerText = "REMEDI"; st.className = "text-xl font-bold text-rose-600";
-                ps.innerText = `Skor Anda (${skor}) belum mencapai batas minimum KKM 80. Sila coba kembali.`;
-                ps.className = "text-sm font-semibold text-rose-500";
+            alert("✅ Nilai berhasil dikirim ke Google Sheet");
 
-                const btnUlangi = document.createElement('button');
-                btnUlangi.className = "px-6 py-2.5 text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg cursor-pointer";
-                btnUlangi.innerText = "Ulangi Ujian Ini 🔄";
-                btnUlangi.onclick = () => ulangiQuiz();
-                wrapperTombol.appendChild(btnUlangi);
-            }
+        } catch (err) {
+
+            console.error(err);
+
+            alert("❌ Gagal kirim ke Google Sheet");
+
         }
-
-        function buatTombolLanjut(container) {
+    }
+        
+function buatTombolLanjut(container) {
             const btn = document.createElement('button');
             btn.className = "px-6 py-2.5 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-xs transition cursor-pointer";
             btn.innerText = "Lanjut ke Level Berikutnya ➡️";
@@ -653,8 +628,83 @@
 
         function ulangiQuiz() { nyalakanSesiQuiz(); }
 
+        function tampilkanRaporAkhir() {
+
+    document.getElementById('panel-quiz').classList.add('hidden');
+    document.getElementById('panel-hasil').classList.remove('hidden');
+
+    const skor = Math.round((jawabanBenarCounter / TOTAL_KOTA_SOAL) * 100);
+
+    document.getElementById('hasil-skor-akhir').innerText = skor;
+    document.getElementById('hasil-nama-siswa').innerText =
+        document.getElementById('nama-siswa').value || "Siswa";
+
+    const statusLulus = skor >= MIN_PASS_SCORE;
+
+    const statusElement = document.getElementById('hasil-status-kkm');
+    const pesanElement = document.getElementById('pesan-kelulusan');
+    const wrapperAksi = document.getElementById('wrapper-aksi-hasil');
+
+    wrapperAksi.innerHTML = "";
+
+    if (statusLulus) {
+
+        statusElement.innerText = "LULUS";
+        statusElement.className = "text-base font-bold mt-2 text-emerald-600";
+
+        pesanElement.innerHTML =
+            `🎉 Selamat! Anda berhasil menyelesaikan Level ${levelAktif + 1} ${jenisAktif.toUpperCase()} dengan skor ${skor}.`;
+
+        // buka level berikutnya
+        if (levelAktif < 3) {
+            statusKelulusan[jenisAktif][levelAktif + 1] = true;
+            buatTombolLanjut(wrapperAksi);
+        }
+
+        // jika hiragana level 4 selesai -> buka katakana
+        if (jenisAktif === 'hiragana' && levelAktif === 3) {
+            statusKelulusan.katakana[0] = true;
+            buatTombolPindahAksara(wrapperAksi);
+        }
+
+        // cek sertifikat total
+        if (cekKelulusanTotalSertifikat()) {
+            document.getElementById('panel-sertifikat').classList.remove('hidden');
+        }
+
+    } else {
+
+        statusElement.innerText = "BELUM LULUS";
+        statusElement.className = "text-base font-bold mt-2 text-rose-600";
+
+        pesanElement.innerHTML =
+            `❌ Skor Anda ${skor}. Minimal kelulusan adalah ${MIN_PASS_SCORE}.`;
+
+        const btnUlang = document.createElement('button');
+
+        btnUlang.className =
+            "px-6 py-2.5 text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg shadow-xs transition cursor-pointer";
+
+        btnUlang.innerText = "Ulangi Quiz";
+
+        btnUlang.onclick = ulangiQuiz;
+
+        wrapperAksi.appendChild(btnUlang);
+    }
+
+    // simpan ke Google Sheet
+    simpanNilaiKeSheet(
+        skor,
+        statusLulus ? "LULUS" : "BELUM LULUS"
+    );
+
+    // refresh sidebar unlock level
+    siapkanMenuSidebar();
+}
+
         // Inisialisasi Sistem Awal
         siapkanMenuSidebar();
+      
     </script>
 </body>
 
