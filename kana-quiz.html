@@ -104,8 +104,23 @@
                     class="bg-white p-6 rounded-2xl shadow-xs border border-slate-200 text-center flex flex-col justify-between items-center min-h-[340px]">
                     <div
                         class="w-full flex justify-between items-center text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-md">
-                        <span id="label-info-soal">HIRAGANA</span>
-                        <span id="progress-soal" class="bg-indigo-600 text-white px-2 py-0.5 rounded-sm">0 / 15</span>
+                    
+                        <span id="label-info-soal">
+                            HIRAGANA
+                        </span>
+                    
+                        <div class="flex gap-2 items-center">
+                    
+                            <span id="timer-quiz" class="bg-rose-600 text-white px-2 py-0.5 rounded-sm">
+                                ⏰ 15
+                            </span>
+                    
+                            <span id="progress-soal" class="bg-indigo-600 text-white px-2 py-0.5 rounded-sm">
+                                0 / 15
+                            </span>
+                    
+                        </div>
+                    
                     </div>
                     <h2 class="text-7xl font-black text-slate-800 my-4" id="display-char">あ</h2>
                     <p class="text-slate-400 text-xs font-medium border-t border-slate-100 pt-3 w-full" id="hint-text">
@@ -202,7 +217,7 @@
                         <div
                             class="mt-8 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-400">
                             <div>Diterbitkan: Mei 2026</div>
-                            <div class="font-bold text-amber-800 tracking-widest uppercase">KANA PRO ACADEMY</div>
+                    p        <div class="font-bold text-amber-800 tracking-widest uppercase">KANA PRO ACADEMY</div>
                         </div>
                     </div>
 
@@ -307,7 +322,7 @@
                     { kana: 'あさ', romaji: 'asa', info: 'Kosakata: Pagi Hari', strokes: 6, vectors: [{ s: [50, 90], e: [170, 90] }] },
                     { kana: 'ふゆ', romaji: 'fuyu', info: 'Kosakata: Musim Dingin', strokes: 6, vectors: [{ s: [110, 50], e: [110, 90] }] },
                     { kana: 'なつ', romaji: 'natsu', info: 'Kosakata: Musim Panas', strokes: 5, vectors: [{ s: [60, 70], e: [150, 70] }] },
-                    { kana: 'がっkou', romaji: 'gakkou', info: 'Kosakata: Sekolah (Double Konsonan)[cite: 1]', strokes: 11, vectors: [{ s: [50, 90], e: [170, 90] }] },
+                    { kana: 'がっこう', romaji: 'gakkou', info: 'Kosakata: Sekolah (Double Konsonan)[cite: 1]', strokes: 11, vectors: [{ s: [50, 90], e: [170, 90] }] },
                     { kana: 'せんせい', romaji: 'sensei', info: 'Kosakata: Guru / Pengajar[cite: 1]', strokes: 10, vectors: [{ s: [60, 60], e: [160, 160] }] }
                 ]
             ],
@@ -371,7 +386,7 @@
                     { kana: 'カメラ', romaji: 'kamera', info: 'Kosakata: Kamera[cite: 1]', strokes: 7, vectors: [{ s: [60, 75], e: [150, 75] }] },
                     { kana: 'ノート', romaji: 'no-to', info: 'Kosakata: Buku Catatan[cite: 1]', strokes: 6, vectors: [{ s: [75, 70], e: [140, 95] }] },
                     { kana: 'アメリカ', romaji: 'amerika', info: 'Kosakata: Negara Amerika[cite: 1]', strokes: 9, vectors: [{ s: [140, 50], e: [70, 110] }] },
-                    { kana: 'toilet', romaji: 'toire', info: 'Kosakata: Kamar Mandi / Toilet[cite: 1]', strokes: 7, vectors: [{ s: [90, 60], e: [130, 110] }] },
+                    { kana: 'トイレ', romaji: 'toire', info: 'Kosakata: Kamar Mandi / Toilet[cite: 1]', strokes: 7, vectors: [{ s: [90, 60], e: [130, 110] }] },
                     { kana: 'パン', romaji: 'pan', info: 'Kosakata: Roti', strokes: 4, vectors: [{ s: [90, 60], e: [90, 150] }] },
                     { kana: 'ミルク', romaji: 'miruku', info: 'Kosakata: Susu Sapi', strokes: 7, vectors: [{ s: [70, 70], e: [130, 95] }] },
                     { kana: 'テレビ', romaji: 'terebi', info: 'Kosakata: Televisi', strokes: 8, vectors: [{ s: [75, 65], e: [150, 65] }] },
@@ -400,6 +415,8 @@
 
         let rincianGuratanSiswa = [];
         let guratanSaatIni = [];
+        let timerInterval = null;
+            let waktuTersisa = 15;
 
         // VALIDASI LOCK LEVEL: Benar-benar dimulai dari Hiragana Lvl 1 saja yang terbuka (True). Sisanya Terkunci (False).
         let statusKelulusan = {
@@ -462,6 +479,8 @@
                 }
             }
 
+            clearInterval(timerInterval);
+
             if (selisihGuratan === 0 && validArah) {
                 jawabanBenarCounter++;
                 document.getElementById('feedback-tulis').className = "text-center font-bold text-xs text-emerald-600 h-10 whitespace-pre-line";
@@ -473,6 +492,34 @@
 
             setTimeout(() => { indexBerjalan++; muatButirSoalKeLayar(); }, 1000);
         }
+
+        function mulaiTimer() {
+
+                clearInterval(timerInterval);
+
+                waktuTersisa = 15;
+
+                document.getElementById('timer-quiz').innerText =
+                    `⏰ ${waktuTersisa}`;
+
+                timerInterval = setInterval(() => {
+
+                    waktuTersisa--;
+
+                    document.getElementById('timer-quiz').innerText =
+                        `⏰ ${waktuTersisa}`;
+
+                    if (waktuTersisa <= 0) {
+
+                        clearInterval(timerInterval);
+
+                        indexBerjalan++;
+
+                        muatButirSoalKeLayar();
+                    }
+
+                }, 1000);
+            }
 
         function updateNamaSiswa() {
             const nama = document.getElementById('nama-siswa').value || "Siswa Pro";
@@ -542,13 +589,29 @@
             document.getElementById('feedback-tulis').innerText = "";
 
             const dataSoal = kumpulanSoalSesi[indexBerjalan];
+            mulaiTimer();
             document.getElementById('progress-soal').innerText = `Soal: ${indexBerjalan + 1} / ${TOTAL_KOTA_SOAL}`;
             document.getElementById('display-char').innerText = dataSoal.kana;
             document.getElementById('hint-text').innerText = dataSoal.info;
             document.getElementById('canvas-hint-bg').innerText = dataSoal.kana;
 
             if (modeAktif === 'baca') {
-                let opsi = [dataSoal.romaji, "ko", "su", "ne"].sort(() => Math.random() - 0.5);
+               const semuaRomaji = masterDatabase[jenisAktif]
+                    .flat()
+                    .map(x => x.romaji);
+
+                let opsi = [dataSoal.romaji];
+
+                while (opsi.length < 4) {
+                    const random =
+                        semuaRomaji[Math.floor(Math.random() * semuaRomaji.length)];
+
+                    if (!opsi.includes(random)) {
+                        opsi.push(random);
+                    }
+                }
+
+                opsi.sort(() => Math.random() - 0.5);
                 // Proteksi duplikasi opsi romaji
                 opsi = [...new Set(opsi)];
                 while (opsi.length < 4) { opsi.push("ma"); }
@@ -556,7 +619,8 @@
                 const container = document.getElementById('opsi-baca'); container.innerHTML = "";
                 opsi.forEach(item => {
                     const btn = document.createElement('button');
-                    btn.innerText = item; btn.className = "py-3 text-xs font-bold bg-slate-50 border rounded-lg cursor-pointer hover:bg-slate-100";
+                    btn.innerText = item; btn.className = 
+    "py-5 text-2xl font-black bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-indigo-50 hover:border-indigo-400 transition";
                     btn.onclick = () => { if (item === dataSoal.romaji) jawabanBenarCounter++; indexBerjalan++; muatButirSoalKeLayar(); };
                     container.appendChild(btn);
                 });
