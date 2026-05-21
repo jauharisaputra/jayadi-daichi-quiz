@@ -594,20 +594,27 @@
                 }
             indexBerjalan = 0; jawabanBenarCounter = 0;
             // Mengambil 15 sampel acak dari bank data agar bervariasi setiap sesi tes dijalankan[cite: 1]
-            kumpulanSoalSesi = [...masterDatabase[jenisAktif][levelAktif]].sort(() => Math.random() - 0.5).slice(0, TOTAL_KOTA_SOAL);
+           const bankSoal = masterDatabase[jenisAktif][levelAktif];
+
+            kumpulanSoalSesi = [...bankSoal]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, Math.min(TOTAL_KOTA_SOAL, bankSoal.length));
             document.getElementById('panel-start-screen').classList.add('hidden');
             document.getElementById('panel-quiz').classList.remove('hidden');
             muatButirSoalKeLayar();
         }
 
         function muatButirSoalKeLayar() {
-            if (indexBerjalan >= TOTAL_KOTA_SOAL) { tampilkanRaporAkhir(); return; }
+            if (indexBerjalan >= kumpulanSoalSesi.length) {
+                tampilkanRaporAkhir();
+                return;
+            }
             clearCanvas();
             document.getElementById('feedback-tulis').innerText = "";
 
             const dataSoal = kumpulanSoalSesi[indexBerjalan];
             mulaiTimer();
-            document.getElementById('progress-soal').innerText = `Soal: ${indexBerjalan + 1} / ${TOTAL_KOTA_SOAL}`;
+            document.getElementById('progress-soal').innerText = `Soal: ${indexBerjalan + 1} / ${kumpulanSoalSesi.length}`;
             document.getElementById('display-char').innerText = dataSoal.kana;
             document.getElementById('hint-text').innerText = dataSoal.info;
             document.getElementById('canvas-hint-bg').innerText = dataSoal.kana;
