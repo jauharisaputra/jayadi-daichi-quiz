@@ -419,10 +419,14 @@
             let waktuTersisa = 15;
 
         // VALIDASI LOCK LEVEL: Benar-benar dimulai dari Hiragana Lvl 1 saja yang terbuka (True). Sisanya Terkunci (False).
-        let statusKelulusan = {
-            hiragana: [true, false, false, false],
-            katakana: [false, false, false, false] // Katakana Lvl 1 baru akan true setelah Hiragana Lvl 4 selesai.
-        };
+        let statusKelulusan =
+                JSON.parse(localStorage.getItem("statusKelulusan")) || {
+
+                    hiragana: [true, false, false, false],
+
+                    katakana: [false, false, false, false]
+
+                };
 
         const canvas = document.getElementById('canvas-tulis');
         const ctx = canvas.getContext('2d');
@@ -722,12 +726,16 @@ function buatTombolLanjut(container) {
         // buka level berikutnya
         if (levelAktif < 3) {
             statusKelulusan[jenisAktif][levelAktif + 1] = true;
+            // SIMPAN PROGRESS
+            localStorage.setItem('statusKelulusan', JSON.stringify(statusKelulusan));
             buatTombolLanjut(wrapperAksi);
         }
 
         // jika hiragana level 4 selesai -> buka katakana
         if (jenisAktif === 'hiragana' && levelAktif === 3) {
             statusKelulusan.katakana[0] = true;
+            // SIMPAN PROGRESS
+            localStorage.setItem('statusKelulusan', JSON.stringify(statusKelulusan));
             buatTombolPindahAksara(wrapperAksi);
         }
 
