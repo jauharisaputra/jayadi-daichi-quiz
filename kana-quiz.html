@@ -112,7 +112,7 @@
                         <div class="flex gap-2 items-center">
                     
                             <span id="timer-quiz" class="bg-rose-600 text-white px-2 py-0.5 rounded-sm">
-                                ⏰ 15
+                                ⏰ 10
                             </span>
                     
                             <span id="progress-soal" class="bg-indigo-600 text-white px-2 py-0.5 rounded-sm">
@@ -416,7 +416,7 @@
         let rincianGuratanSiswa = [];
         let guratanSaatIni = [];
         let timerInterval = null;
-            let waktuTersisa = 15;
+            let waktuTersisa = 10;
 
         // VALIDASI LOCK LEVEL: Benar-benar dimulai dari Hiragana Lvl 1 saja yang terbuka (True). Sisanya Terkunci (False).
         let statusKelulusan =
@@ -501,7 +501,7 @@
 
                 clearInterval(timerInterval);
 
-                waktuTersisa = 15;
+                waktuTersisa = 10;
 
                 document.getElementById('timer-quiz').innerText =
                     `⏰ ${waktuTersisa}`;
