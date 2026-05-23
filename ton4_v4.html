@@ -1,0 +1,1209 @@
+﻿<!DOCTYPE html>
+<html translate="no" class="notranslate" lang="ja" translate="no">
+
+<head>
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="ja">
+<meta name="translate" content="no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY OUT JLPT N4</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover {
+            background: #217dbb;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+
+        .nav-grid button {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-grid button.answered {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ecf9f1;
+            display: none;
+        }
+
+        .home-bottom {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        u {
+            text-decoration-thickness: 2px;
+            /* garis lebih tebal */
+            text-underline-offset: 4px;
+            /* jarak garis dari huruf */
+            text-decoration-color: #000;
+            /* warna garis */
+        }
+
+        .blank-star {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        .blank-star::after {
+            content: "＿＿";
+            display: block;
+            font-size: 18px;
+        }
+
+        .blank-star span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        html,
+        body {
+            translate: no;
+        }
+    * {
+    user-select: none !important;
+}
+.question, .options {
+    filter: blur(0.3px);
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'>
+    <div id="loginBox">
+
+        <h2>🎓 Login Ujian</h2>
+
+        <div
+            style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:10px;margin-bottom:15px;text-align:left;font-size:14px;line-height:1.6;">
+            <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                <li>Jangan membuka tab baru atau aplikasi lain selama ujian berlangsung.</li>
+                <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis diselesaikan.</li>
+                <li>Jangan mencoba <b>copy, screenshot, inspect element, atau developer tools</b>.</li>
+                <li>Jawaban akan tersimpan hanya selama ujian berlangsung.</li>
+            </ul>
+
+            <b>📱 Jika menggunakan HP:</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Atur waktu layar agar tidak cepat mati.</li>
+                <li>Buka <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                <li>Set minimal <b>10 menit atau lebih</b>.</li>
+            </ul>
+
+            <!-- CHECKBOX DILETAKKAN DI SINI -->
+            <div style="margin-top:12px;padding-left:22px;">
+                <label style="display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:start;">
+                    <input type="checkbox" id="agreeRule" style="margin-top:3px;">
+                    <span>Saya sudah membaca dan memahami semua peringatan di atas.</span>
+                </label>
+            </div>
+
+        </div>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
+    </div>
+
+    <div class="container" id="examContainer" style="display:none;">
+        <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
+        <h1>📚 TRY OUT J.TEST D-E</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
+            <div id="timer">70:00</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div id="passageBox"></div>
+        <div id="kanjiInstruction" style="display:none; 
+            background:#f8f9fa; 
+            padding:15px; 
+            border-radius:10px; 
+            margin-bottom:15px; 
+            font-size:14px; 
+            line-height:1.6;">
+
+            <strong>【漢字 読み方問題】</strong><br><br>
+
+            ・ひらがなは、きれいに書いてください。<br>
+            ・漢字の読み方だけ書いてください。<br><br>
+
+            <span style="color:#1d0b0b;">
+                （例） はやく<strong><u>書</u></strong>いてください。 → れい 答え: か
+            </span>
+
+        </div>
+        <div class="question notranslate" id="questionText"> </div>
+        <div class="options" id="options"></div>
+        <div class="nav-grid" id="navGrid"></div>
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
+        </button>
+        <div id="result"></div>
+        <div class="home-bottom">
+            <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script>
+        const QUIZ_TIME = 4200; // 70 menit
+        let timeLeft = QUIZ_TIME;
+        let timer;
+        let examFinished = false;
+        let current = 0;
+        let studentName = "";
+        let attempt = 1;
+
+        
+function decode(str){return atob(str);}
+
+   const questions = [
+        // 1-30: 文法・語彙問題
+        {
+            text: "1. かい議ぎ室しつのドア（  ）ください。",
+            options: ["開けて", "開ける", "開け", "開けた"],
+            answer: 0
+        },
+        {
+            text: "2. 木曜よう日び (    ),もう一いち度ど事じ務む所しょ に来てください",
+            options: [" まで ", " までに ", " までの ", " までで "],
+            answer: 1
+        },
+        {
+            text: "3. そこは危あぶないから、こっちに（   ）ください。",
+            options: ["来る", "来", "来た", "来て"],
+            answer: 3
+        },
+        {
+            text: "4. 日本語が少し（ ）くなりました。",
+            options: [" 上手", "上手な", "上手に", "上手だ"],
+            answer: 2
+        },
+        {
+            text: "5. 私は、先月、この会社に入った（ ）。",
+            options: ["ほどです", "ことがありません", "ことができます", "ばかりです"],
+            answer: 3
+        },
+        {
+            text: "6. 簡単な（ ）なら、手伝いますよ。",
+            options: ["仕事", "仕事だ", "仕事な", "仕事じゃ"],
+            answer: 0
+        },
+        {
+            text: "7. この小説の（ ）は、何年たっても変わりません。",
+            options: ["すばらしく", "すばらしい", "すばらし", "すばらしさ"],
+            answer: 3
+        },
+        {
+            text: "8. あと１点てん足りなくて、合格ごうかくできませんでした。（ ）残念ざんねんです。",
+            options: ["とても", "すごく", "かなり", "すっごく"],
+            answer: 1
+        },
+        {
+            text: "9. Ａ：「今日の映画、おもしろかったね」<br>Ｂ：「うん、実際に合った話（ ）作ったんだって」",
+            options: ["の割に", "をもとに", "向けに", "を通じて"],
+            answer: 1
+        },
+        {
+            text: "10. Ａ：「僕は商売を始めるには、いいチャンスなんだけど」<br>Ｂ：「それは、ぜひ（ ）よ」",
+            options: ["やってみるおそれがある", "やってみるわけだ", "やってみるべきだ", "やってみようがない"],
+            answer: 2
+        },
+        {
+            text: "11. コンサートの（ ）を間違えて、別の場所へ行ってしまいました。",
+            options: ["気分", "郊外", "遠慮", "会場"],
+            answer: 3
+        },
+        {
+            text: "12. 日本語が上手になったら、本当に日本人の友達が（ ）増えました。",
+            options: ["そろそろ", "ちっとも", "どんどん", "なかなか"],
+            answer: 2
+        },
+        {
+            text: "13. 課長は時間に（ ）ですから、遅れないで来てください。",
+            options: ["うつくしい", "はずかしい", "ねむい", "きびしい"],
+            answer: 3
+        },
+        {
+            text: "14. 窓の（ ）を拭きました。",
+            options: ["ライター", "ガラス", "サンダル", "デザイン"],
+            answer: 1
+        },
+        {
+            text: "15. 駅の前に新しい店を出す計画が（ ）います。",
+            options: ["足りて", "過ぎて", "叱って", "進んで"],
+            answer: 3
+        },
+        {
+            text: "16. このアクセサリーは、今年の誕生日に私が恋人から（ ）ものです。",
+            options: ["もらった", "気に入った", "かけた", "別れた"],
+            answer: 0
+        },
+        {
+            text: "17. 部長の家で行われるパーティーに私も（ ）ました。",
+            options: ["見学され", "招待され", "出発され", "故障され"],
+            answer: 1
+        },
+        {
+            text: "18. 休憩に入ったときにちょうど課長に（ ）、いっしょに昼食を食べに行きました。",
+            options: ["止められて", "移されて", "焼かれて", "誘われて"],
+            answer: 3
+        },
+        {
+            text: "19. 会議室に（ ）人が入っています。",
+            options: ["次々と", "もしも", "全く", "どうか"],
+            answer: 0
+        },
+        {
+            text: "20. 部長は、毎週（ ）に行って、運動しています。",
+            options: ["ゴム", "タイヤ", "ジム", "ヨット"],
+            answer: 2
+        },
+        {
+            text: "21. 田中さんは、きっと来ないだろうと思います。",
+            options: ["しばらく", "ずっと", "たぶん", "実は"],
+            answer: 2
+        },
+        {
+            text: "22. この町は、スポーツが盛んです。",
+            options: [
+                "スポーツにお金がかかります",
+                "スポーツをしたくない人が多いです",
+                "スポーツをする人が珍しいです",
+                "スポーツをする人が多いです"
+            ],
+            answer: 3
+        },
+        {
+            text: "23. あぶないですから、そこにいれください。",
+            options: ["きけん", "じゃま", "だいじょうぶ", "しんぱい"],
+            answer: 0
+        },
+        {
+            text: "24. 会議の資料のチェックをお願いします。",
+            options: ["予習", "確認", "用意", "翻訳"],
+            answer: 1
+        },
+        {
+            text: "25. こちらの機械をごぞんじですか。",
+            options: ["知っています", "買います", "うごかします", "持っています"],
+            answer: 0
+        },
+        {
+            text: "26. 友達にお礼を言いました。",
+            options: [
+                "「ありがとう」と言いました",
+                "「失礼します」と言いました",
+                "「ごめんなさい」と言いました",
+                "「こんにちは」と言いました"
+            ],
+            answer: 0
+        },
+        {
+            text: "27. 父は、退院しました。",
+            options: [
+                "病院に入っていましたが、家へ戻りました",
+                "病気になったので、病院へ通いました",
+                "病気になったので、病院に入りました",
+                "前の病院を出て、他の病院に行きました"
+            ],
+            answer: 0
+        },
+        {
+            text: "28. 今日予定されていた会議は、すべて終わりました。",
+            options: ["一部", "全部", "早く", "だいたい"],
+            answer: 1
+        },
+        {
+            text: "29. 毎週彼とテニスをしていますが、最近は、負けっぱなしです。",
+            options: [
+                "負けるほうが多いです",
+                "負けることもあります",
+                "負けていません",
+                "負け続けています"
+            ],
+            answer: 3
+        },
+        {
+            text: "30. あれは、人工の湖です。",
+            options: [
+                "人気のある湖",
+                "人がつくった湖",
+                "秘密の湖",
+                "不思議の湖"
+            ],
+            answer: 1
+        },
+
+        // 31-32: 読解問題
+        {
+            passage: `<strong>【３１－３２】</strong><br><br>
+        これは、山下やました さんとチャンさんのメールです。<br><br>
+        ＜山下さんが書いたメール＞<br>
+        チャンさん、土曜日、私の友達もしょくじに行ってもいいですか。前に話した、映画が好きな友達の岸さんです。<br><br>
+        ＜チャンさんが書いたメール＞<br>
+        いいですよ。山下さんが高校生のときのお友達ですよね。一度、会いたいと思っていました。`,
+            text: "31. 岸さんについて、メールの内容と合っているのは、どれですか。",
+            options: [
+                "少し前にソウザさんと会いました。",
+                "映画のことは、あまり知りません。",
+                "山下さんの高校のときの友達です。",
+                "ソウザさんと土曜日に会う約束をしていました。"
+            ],
+            answer: 2
+        },
+        {
+            text: "32. ソウザさんは、このあとまず、何をしますか。",
+            options: [
+                "しょくじをする場所を探します。",
+                "映画を紹介する文章を山下さんに送ります。",
+                "映画のチケットを予約します。",
+                "岸さんの予定に合う映画を探します。"
+            ],
+            answer: 1
+        },
+
+        // 33-34
+        {
+            passage: `<strong>【３３－３４】</strong><br><br>
+        最近の若者のテレビの見方は、昔と違うそうです。私が若いころは、家ではずっとテレビをつけておき、面白いと思うものが始まったら、ちゃんと見ました。`,
+            text: "33. 「私」は、若い人のテレビの見方について、どう言っていますか。",
+            options: [
+                "若い人は、忙しいので、面白いと思うものしか見ません。",
+                "テレビをずっとつけておいて、見たくないものも見ています。",
+                "テレビ以外に見るものが増えたので、テレビを見ません。",
+                "見る時間が短くなっていますが、見たいものは、見ています。"
+            ],
+            answer: 3
+        },
+        {
+            passage: `<strong>【３４】</strong><br><br>
+        私は、会社の寮に住んでいます。この寮は、新しく会社に入った人が、仕事を教えてもらう間だけ住みます。`,
+            text: "34. 「私」は、どうして「元気になれます」か。",
+            options: [
+                "ひとりでゆっくり休めるからです。",
+                "寮のごはんがおいしいからです。",
+                "仕事をほめてもらえるからです。",
+                "寮に住んでいる人たちに会えるからです。"
+            ],
+            answer: 3
+        },
+        // 35-36
+        {
+            passage: `<strong>【３５－３６】</strong><br><br>
+        ４人に「正月にすること」を聞きました。<br><br>
+        Ａさん：正月は、両親が住んでいる田舎に帰って、ゆっくりします。<br>
+        Ｂさん：正月は、いつも夫と旅行します。<br>
+        Ｃさん：正月も仕事ですが、妻と正月料理を食べながらお酒を飲みます。<br>
+        Ｄさん：家族といっしょにいます。両親の家にも行きます。`,
+            text: "35. 今、一人で生活している人は、誰ですか。",
+            options: [
+                "Ａさんです。",
+                "Ｂさんです。",
+                "Ｃさんです。",
+                "Ｄさんです。"
+            ],
+            answer: 0
+        },
+        {
+            text: "36. 正月に両親に会う人は、誰ですか。",
+            options: [
+                "ＡさんとＢさんです。",
+                "ＡさんとＤさんです。",
+                "ＢさんとＣさんです。",
+                "ＢさんとＤさんです。"
+            ],
+            answer: 1
+        },
+
+        // 37-38
+        {
+            passage: `<strong>【３７－３８】</strong><br><br>
+        新製品「かるがるスーツケース」が来月から店に並びますので、社内説明会を行います。
+        前より軽くなり、荷物もたくさん入ります。`,
+            text: "37. 新しい製品について、お知らせの内容と合っているのは、どれですか。",
+            options: [
+                "前よりたくさん荷物を入れられます。",
+                "３つの大きさの中から選べます。",
+                "今月から店で売っています。",
+                "前のものと同じくらい、おもいです。"
+            ],
+            answer: 0
+        },
+        {
+            text: "38. 説明会に参加できない社員は、どうしますか。",
+            options: [
+                "１月24日までに都合がいい日を総務部の上田さんに伝えます。",
+                "１月24日までに総務部の上田さんに伝えます。",
+                "１月28日までに総務部の上田さんに伝えます。",
+                "１月28日までに都合がいい日を総務部の上田さんに伝えます。"
+            ],
+            answer: 1
+        },
+
+        // 39-40
+        {
+            passage: `<strong>【３９－４０】</strong><br><br>
+        コウさんから伊藤さんへのメールです。<br><br>
+        「電車が止まりました。13時からの会議には、間に合いません。」`,
+            text: "39. コウさんが会議に間に合わないのは、どうしてですか。",
+            options: [
+                "電車がうごいていないからです。",
+                "南東商会に行く時間が変わったからです。",
+                "電車を間違えてしまったからです。",
+                "南東商会との会議が続いているからです。"
+            ],
+            answer: 0
+        },
+        {
+            text: "40. 伊藤さんは、このあとまず、何をしますか。",
+            options: [
+                "会議に出席する人にコウさんが遅れることを伝えます。",
+                "３日前にメールで送った資料の間違えているところを直します。",
+                "新しい資料とメモが、コウさんの机の上にあるかどうかを確認します。",
+                "会議に出席する人に会議の時間が変わることを伝えます。"
+            ],
+            answer: 2
+        },
+
+        // 41-42
+        {
+            passage: `<strong>【４１－４２】</strong><br><br>
+        アルバイト募集のお知らせです。`,
+            text: "41. 鈴木さんは、土、日以外の日に週3日働きたいです。何時からでも働けます。鈴木さんが応募できる仕事は、どれですか。",
+            options: [
+                "「ホテルブロッサム」と「カフェ桜」です。",
+                "「カフェ桜」と「さくら総合病院」です。",
+                "「さくら総合病院」と「スーパーよしの」です。",
+                "「ホテルブロッサム」と「スーパーよしの」です。"
+            ],
+            answer: 1
+        },
+        {
+            text: "42. ホンさんは、平日の午後か週末に働けます。週に働けるのは３日までで、お客さんと話さなくていい仕事を探しています。また、１週間の給料が、たくさんあるほうがいいです。ホンさんは、どれに応募すればいいですか。",
+            options: [
+                "「ホテルブロッサム」です。",
+                "「カフェ桜」です。",
+                "「さくら総合病院」です。",
+                "「スーパーよしの」です。"
+            ],
+            answer: 0
+        },
+
+        // 43-44
+        {
+            passage: `<strong>【４３－４４】</strong><br><br>
+        私は、週に３回、自宅でリモートワークをしています。`,
+            text: "43. 「私」は、以前、どんなときに英会話を習っていましたか。",
+            options: [
+                "仕事に行く前です。",
+                "通勤時間です。",
+                "仕事の後です。",
+                "休憩時間です。"
+            ],
+            answer: 2
+        },
+        {
+            text: "44. 「私」について、文章の内容と合っているのは、どれですか。",
+            options: [
+                "リモートワークの日は、英会話スクールに通っています。",
+                "自宅で仕事をするとき、机の上に仕事に関係のないものがありません。",
+                "会社では、好きな音楽を聞きながら、仕事をしています。",
+                "自宅は、静かな環境ではないので、落ちついて仕事ができません。"
+            ],
+            answer: 1
+        },
+
+        // 45-46
+        {
+            passage: `<strong>【４５－４６】</strong><br><br>
+        今年の夏、カメムシが大量に家の周りや公園に現れました。`,
+            text: "45. 「おかしいと思いました」とありますが、なぜ、おかしいと思ったのですか。",
+            options: [
+                "カメムシは虫だから、天気予報などできないと思ったからです。",
+                "祖母がカメムシについて詳しく知っているはずがないと思ったからです。",
+                "カメムシが夏に現れ、冬にはいなくなるのは、昔から同じことだからです。",
+                "カメムシが大量にいることは、未来と関係がないはずだと思ったからです。"
+            ],
+            answer: 3
+        },
+        {
+            text: "46. 「私」が言っていることと合っているのは、どれですか。",
+            options: [
+                "昔の人の経験から生まれた言い伝えには、科学的に正しいものがあります。",
+                "昔から言い伝えられていることを科学的に調べても、正しいかどうかわかりません。",
+                "専門家が調べたことよりも、昔の人の経験のほうが正しいです。",
+                "昔の人は、今の専門家と同じようなやり方で、自然を調べていました。"
+            ],
+            answer: 0
+        },
+
+        // 47-56 漢字
+        {
+            text: "47. 私わたし は、<u>あるいて</u>会社に行きます。",
+            options: [" 走って", "歩いて", "泳いで", "飛んで"],
+            answer: 1
+        },
+        {
+            text: "48. 会議室は、<u>くらい</u>です。",
+            options: ["強い", "暗い", "悪い", "近い"],
+            answer: 1
+        },
+        {
+            text: "49. 昨日から<u>くび</u>が痛いです。",
+            options: ["県", "心", "首", "体"],
+            answer: 2
+        },
+        {
+            text: "50. 部ぶ 長ちょう は、こえが大きいです。",
+            options: ["声", "足", "手", "目"],
+            answer: 0
+        },
+        {
+            text: "51. <u>ようふく</u>を買います。",
+            options: ["地図", "建物", "兄弟", "洋服"],
+            answer: 3
+        },
+        {
+            text: "52. 夏休みに<u>うみ</u>で泳ぎました。",
+            options: ["もり", "風", "池", "海"],
+            answer: 3
+        },
+        {
+            text: "53. このかばんの<u>いろ</u>が好きです。",
+            options: ["色", "声", "村", "光"],
+            answer: 0
+        },
+        {
+            text: "54. 道路の<u>かたがわ</u>しか通れません。",
+            options: ["危険", "歴史", "片側", "表現"],
+            answer: 2
+        },
+        {
+            text: "55. このお茶は、<u>にがい</u>です。",
+            options: ["甘い", "細い", "固い", "苦い"],
+            answer: 3
+        },
+        {
+            text: "56. うれしくて、<u>なみだ</u>が出ました。",
+            options: ["涙", "奥", "息", "髪"],
+            answer: 0
+        },
+
+        // 57-66 読み方
+        {
+            text: "57. 私は、<u>牛肉</u>が好きです。",
+            options: ["ぎゅうにく", "ぶたにく", "とりにく", "やさい"],
+            answer: 0
+        },
+        {
+            text: "58. 私は、<u>将来</u>、医者になりたいです。",
+            options: ["しょうらい", "しょうきょ", "みらい", "しょうがい"],
+            answer: 0
+        },
+        {
+            text: "59. すみません。ペンを<u>貸</u>してください。",
+            options: ["か", "だ", "た", "が"],
+            answer: 0
+        },
+        {
+            text: "60. 松井社長は、歌が<u>上手</u>です。",
+            options: ["じょうず", "へた", "うまい", "すき"],
+            answer: 0
+        },
+        {
+            text: "61. このレストランは、<u>有名</u>です。",
+            options: ["ゆうめい", "ゆめい", "ゆうみ", "ゆめ"],
+            answer: 0
+        },
+        {
+            text: "62. すこし<u>遠い</u>です。",
+            options: ["とおい", "ちかい", "ながい", "たかい"],
+            answer: 0
+        },
+        {
+            text: "63. いろいろな<u>産業</u>があります。",
+            options: ["さんぎょう", "さんごう", "さんこう", "さんよう"],
+            answer: 0
+        },
+        {
+            text: "64. <u>座って</u>もいいですか。",
+            options: ["たって", "すわって", "はいって", "あるいて"],
+            answer: 1
+        },
+        {
+            text: "65. じしんがありましたが、家族は、みんな<u>無事</u>でした。",
+            options: ["むごと", "ぶじ", "むじ", "ぶこと"],
+            answer: 1
+        },
+        {
+            text: "66. いい<u>夢</u>を見ました。",
+            options: ["ゆめ", "くも", "ほし", "そら"],
+            answer: 0
+        },
+
+        // 67-70 記述
+        {
+            text: "67. 先週のしゅくだいはもう<u>かんせいしました</u>。",
+            options: ["つかいました", "はたらきます", "おわりました", "はじめました"],
+            answer: 2
+        },
+        {
+            text: "68. もうこんな時間ですから、そろそろ<u>もどらない</u>と。",
+            options: ["かわない", "かかない", "かえらない", "いけない"],
+            answer: 2
+        },
+        {
+            text: "69. 先生のせつめいは<u>やさしい</u>です。",
+            options: ["ながい", "じょうずな", "むずかしい", "かんたんな"],
+            answer: 3
+        },
+        {
+            text: "70. <u>バッグ</u>を開けてください。",
+            options: ["かばん", "まど", "ボール", "ドア"],
+            answer: 0
+        },
+
+        // 71-74: 並べ替え問題（susun kalimat）
+
+        {
+            text: "71. 料理が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> いませんか。",
+            options: ["な", "じょうず", "人", "な"],
+            answer: 2
+            // 料理がじょうずな人はいませんか。
+        },
+
+        {
+            text: "72. 冬の朝は、ストーブをつけて、＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ から、勉強します。",
+            options: ["暖かく", "する", "部屋", "を"],
+            answer: 0
+            // 部屋を暖かくするから、勉強します。
+        },
+
+        {
+            text: "73. 社員：社長、＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> しましょうか。<br>社長：そうですね。お願いします。",
+            options: ["持ち", "私", "そのかばん", "を"],
+            answer: 0
+            // 私がそのかばんを持ちましょうか。
+        },
+
+        {
+            text: "74. ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 寝たら、かぜをひきますよ。",
+            options: ["まま", "窓", "あけた", "を"],
+            answer: 0
+            // 窓をあけたまま寝たら、かぜをひきますよ。
+        }
+    ];
+
+
+// ANTI-CHEAT
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener("copy", e => e.preventDefault());
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
+        function startExam() {
+
+            if (!document.getElementById("agreeRule").checked) {
+                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                return;
+            }
+            const name = document.getElementById("studentName").value.trim();
+            if (!name) {
+                alert("❌ Masukkan nama terlebih dahulu!");
+                return;
+            }
+
+            studentName = name;
+            let savedAttempt = localStorage.getItem("attempt_" + name);
+            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+            localStorage.setItem("attempt_" + name, attempt);
+            localStorage.removeItem('quiz_answers_' + name);
+
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examContainer").style.display = "block";
+            openFullscreen();
+
+            // RESET
+            current = 0;
+            answers = new Array(questions.length).fill(null);
+            timeLeft = QUIZ_TIME;
+            examFinished = false;
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
+            generateNav();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (examFinished) return;
+
+            const q = questions[current];
+            // ======================
+            // ======================
+            // TAMPILKAN INSTRUKSI SEBELUM NO 57
+            // ======================
+            const kanjiBox = document.getElementById("kanjiInstruction");
+
+            if (current === 56) { // soal nomor 57
+                kanjiBox.style.display = "block";
+            } else {
+                kanjiBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN PASSAGE
+            ====================== */
+            const passageBox = document.getElementById("passageBox");
+
+            if (q.passage) {
+                passageBox.innerHTML = `<div class="passage">${q.passage}</div>`;
+                passageBox.style.display = "block";
+            } else {
+                passageBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN SOAL
+            ====================== */
+            document.getElementById("questionText").innerHTML = q.text;
+            document.getElementById("counter").innerText =
+                `Soal ${current + 1} / ${questions.length}`;
+
+            document.getElementById("progress").style.width =
+                ((current + 1) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement("button");
+                btn.innerText = (i + 1) + ". " + opt;
+
+                if (answers[current] === i)
+                    btn.classList.add("selected");
+
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    answers[current] = i;
+                    loadQuestion();
+                    updateNav();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function generateNav() {
+            const nav = document.getElementById("navGrid");
+            nav.innerHTML = "";
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    current = i;
+                    loadQuestion();
+                };
+                nav.appendChild(btn);
+            }
+        }
+
+        function updateNav() {
+            const buttons = document.querySelectorAll(".nav-grid button");
+            buttons.forEach((btn, i) => {
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (examFinished) {
+                    clearInterval(timer);
+                    return;
+                }
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById("timer").innerText =
+                    `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+                if (timeLeft <= 0) {
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+        function finishExam(timeUp = false) {
+            if (examFinished) return;
+            examFinished = true;
+            clearInterval(timer);
+
+            // OFFICIAL JLPT N4 SCORING
+            let tataBahasa = 0,
+                dokkai = 0,
+                kanji = 0,
+                kijutsu = 0;
+            let score = 0;
+
+            answers.forEach((a, i) => {
+                if (a === questions[i].answer) {
+                    score++;
+                    if (i < 30) tataBahasa++; // 1-30: 30 soal = 150 pt
+                    else if (i < 46) dokkai++; // 31-46: 16 soal = 80 pt
+                    else if (i < 66) kanji++; // 47-66: 20 soal = 80 pt
+                    else kijutsu++; // 67-74: 8 soal = 40 pt
+                }
+            });
+
+            // Konversi nilai per kompetensi (0-100%)
+            let nilaiTata = Math.round((tataBahasa / 30) * 100);
+            let nilaiDokkai = Math.round((dokkai / 16) * 100);
+            let nilaiKanji = Math.round((kanji / 20) * 100);
+            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
+
+            // ===============================
+            // SISTEM SKOR 350 POIN
+            // ===============================
+            let pointTata = tataBahasa * 5; // 30 × 5 = 150
+            let pointDokkai = dokkai * 5; // 16 × 5 = 80
+            let pointKanji = kanji * 4; // 20 × 4 = 80
+            let pointKijutsu = kijutsu * 5; // 8 × 5 = 40
+
+            let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
+            let nilaiTotal = Math.round((totalPoint / 350) * 100);
+
+            // Kirim ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbxqRPorFRr1IfjElLrXguzkYXq6q0axIvviKhewdGZww4em31SHvmk3UIENMcI6Wtw1/exec", {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    nama: studentName,
+                    attempt,
+                    tataBahasa,
+                    dokkai,
+                    kanji,
+                    kijutsu,
+                    total: score,
+                    nilai_tata: nilaiTata,
+                    nilai_dokkai: nilaiDokkai,
+                    nilai_kanji: nilaiKanji,
+                    nilai_kijutsu: nilaiKijutsu,
+                    nilai_total: nilaiTotal,
+                    point_tata: pointTata,
+                    point_dokkai: pointDokkai,
+                    point_kanji: pointKanji,
+                    point_kijutsu: pointKijutsu,
+                    total_point: totalPoint
+                })
+            });
+
+            // Lock UI
+            document.querySelectorAll("button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.6";
+                btn.style.cursor = "not-allowed";
+            });
+
+            // Tampilkan hasil
+            document.getElementById("result").innerHTML = `
+                <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+                    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+                    <div style="font-size:18px; margin:15px 0;">
+                        <b>👤 Nama:</b> ${studentName} | <b>🔄 Attempt:</b> ${attempt}<br><br>
+                        
+                        📝 <b>Tata Bahasa:</b> ${tataBahasa}/30 (${nilaiTata}%) | ${pointTata}/150 pt<br>
+                        📖 <b>Dokkai:</b> ${dokkai}/16 (${nilaiDokkai}%) | ${pointDokkai}/80 pt<br>
+                        漢字 <b>Kanji:</b> ${kanji}/20 (${nilaiKanji}%) | ${pointKanji}/80 pt<br>
+                        ✍️ <b>Kijutsu:</b> ${kijutsu}/8 (${nilaiKijutsu}%) | ${pointKijutsu}/40 pt<br><br>
+                        
+                        <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
+                            📊 Total: ${totalPoint}/350 (${nilaiTotal}%)
+                        </div>
+                        <div style="font-size:22px; padding:15px 25px; border-radius:12px; 
+                                   ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'} 
+                                   border: 3px solid ${nilaiTotal >= 70 ? '#28a745' : '#dc3545'};">
+                            ${nilaiTotal >= 70 ? "✅ LULUS TO N4" : "📚 REMEDIAL"}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById("result").style.display = "block";
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+
+            setTimeout(() => {
+
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS TO N4" : "📚 REMEDIAL";
+
+                let message = `
+           ==============================
+           HASIL UJIAN JLPT N4
+           ==============================
+
+           👤 Nama : ${studentName}
+           🔄 Attempt : ${attempt}
+
+           📝 Tata Bahasa : ${tataBahasa}/30 (${nilaiTata}%)
+           📖 Dokkai : ${dokkai}/16 (${nilaiDokkai}%)
+           漢字 Kanji : ${kanji}/20 (${nilaiKanji}%)
+           ✍️ Kijutsu : ${kijutsu}/8 (${nilaiKijutsu}%)
+
+           --------------------------------
+           📊 TOTAL POINT : ${totalPoint}/350
+           🎯 NILAI AKHIR : ${nilaiTotal}%
+           --------------------------------
+
+           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+           ${statusText}
+
+           ==============================
+           `;
+
+                alert(message);
+
+            }, 300);
+        }
+    
+
+// ==============================
+// ?? ANTI AI / ANTI CHEAT ADVANCED
+// ==============================
+
+// ?? Disable selection paksa
+document.addEventListener("selectionchange", () => {
+    if (window.getSelection().toString().length > 0) {
+        window.getSelection().removeAllRanges();
+    }
+});
+
+// ?? Detect pindah tab
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+    }
+});
+
+// ?? Detect keluar window
+window.addEventListener("blur", () => {
+    if (!examFinished) {
+        alert("?? Keluar dari halaman terdeteksi!");
+        finishExam(true);
+    }
+});
+
+// ?? Detect DevTools / Sidebar AI
+setInterval(() => {
+    if (window.outerWidth - window.innerWidth > 200) {
+        alert("?? DevTools / AI terdeteksi!");
+        finishExam(true);
+    }
+}, 1000);
+
+
+// ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+setInterval(() => {
+    let suspicious = window.outerWidth - window.innerWidth;
+
+    if (suspicious > 160 && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+    }
+}, 1000);
+
+
+// ?? Auto detect popup translate
+setInterval(() => {
+    let bodyText = document.body.innerText;
+
+    if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+        document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+    }
+}, 1500);
+
+</script>
+</body>
+
+</html>
