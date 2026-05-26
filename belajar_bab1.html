@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Bab 1 - PRO (Premium Edition)</title>
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(118, 75, 162, 0.15) 0px, transparent 50%);
+            color: var(--text-main);
+             overflow-y: auto;
+    overflow-x: hidden;
+
+    min-height: 100vh;
+        }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 100;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* ACTIONS */
+        .fullscreen {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 90;
+            transition: all 0.3s;
+        }
+
+        .fullscreen:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* SLIDE ENGINE */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+       .slide.active {
+    display: flex;
+    opacity: 1;
+    overflow-y: auto;
+    padding-bottom: 120px;
+    gap: 30px;
+}
+
+        /* CONTENT CONTAINER (PREMIUM CARD) */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 24px;
+            max-width: 700px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .slide.active .card {
+            transform: translateY(0);
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 2.8rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .japanese-xl {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .romaji {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        p.description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* FORMULA BOX */
+        .formula-box {
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            text-align: left;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        /* TABLES */
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .vocab-table th {
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .vocab-table td {
+            padding: 14px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .vocab-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--accent-blue);
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        .btn-audio {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            margin: 10px 0;
+        }
+
+        .btn-audio:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-blue);
+        }
+
+        /* NAVIGATION BAR */
+        .nav-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--border-color);
+            z-index: 90;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 45px;
+            text-align: center;
+        }
+
+        /* HIGH-LIGHT CLICKABLE ELEMENT */
+        .clickable-sound {
+            position: relative;
+        }
+
+        .clickable-sound::after {
+            content: " 🔊";
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .japanese-xl {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                padding: 24px;
+            }
+        }
+        /* VIDEO RESPONSIVE */
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* Rasio 16:9 */
+    border-radius: 18px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.video-container iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border: none;
+}
+.example-list {
+    margin-top: 20px;
+}
+
+.example-item {
+
+    padding: 18px 0;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.08);
+}
+
+.example-item:last-child {
+    border-bottom: none;
+}
+
+.jp-text {
+
+    font-size: 1.2rem;
+
+    font-weight: 600;
+
+    color: #ffffff;
+
+    margin-bottom: 8px;
+
+    line-height: 1.7;
+}
+
+.id-text {
+
+    color: var(--text-muted);
+
+    font-size: 1rem;
+
+    line-height: 1.6;
+
+    padding-left: 10px;
+
+    border-left:
+        3px solid rgba(56,189,248,0.4);
+}
+
+.explanation-text {
+
+    margin-top: 25px;
+
+    line-height: 1.8;
+
+    color: var(--text-muted);
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="progress-container">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <button class="fullscreen" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+
+    <div class="slide active">
+        <div class="card">
+            <h1>📘 第一課 (Bab 1)</h1>
+            <p class="description" style="font-size: 1.3rem; margin-bottom: 30px;">
+                Perkenalan Tata Bahasa Dasar Jepang & Partikel Penting
+            </p>
+            <button class="btn btn-primary" onclick="nextSlide()">Mulai Belajar ➔</button>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Pola Kalimat Positif</h1>
+            <div class="formula-box">
+                <strong>Formula:</strong> KB1 (Subjek) <strong>は</strong> KB2 <strong>です</strong>
+            </div>
+            
+            <div class="japanese-xl clickable-sound" onclick="speakJP('わたしはがくせいです')">わたしは がくせいです</div>
+            <div class="romaji">Watashi wa gakusei desu.</div>
+            <p class="description"><strong>Artinya:</strong> "Saya adalah seorang siswa."</p>
+            <button class="btn btn-audio" onclick="speakJP('わたしはがくせいです')">🔊 Dengarkan Pelafalan</button>
+        </div>
+        <div class="card" style="margin-top: 30px;">
+            <h1>Penjelasan Pola Kalimat</h1>
+            <p class="description" style="text-align: left;">
+                Dalam pola kalimat ini, <strong>KB1</strong> adalah kata benda yang berfungsi sebagai subjek/topik utama
+                kalimat, diikuti oleh partikel <strong>は</strong> yang menandai topik, lalu <strong>KB2</strong> adalah kata benda atau kata sifat yang memberikan informasi
+            </p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Kosakata Profesi (名詞)</h1>
+            <p class="description">Klik baris tabel di bawah untuk mendengarkan audio.</p>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>Hiragana</th>
+                        <th>Romaji</th>
+                        <th>Arti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="speakJP('せんせい')">
+                        <td><strong>せんせい</strong></td>
+                        <td>Sensei</td>
+                        <td>Guru / Pengajar</td>
+                    </tr>
+                    <tr onclick="speakJP('がくせい')">
+                        <td><strong>がくせい</strong></td>
+                        <td>Gakusei</td>
+                        <td>Siswa / Mahasiswa</td>
+                    </tr>
+                    <tr onclick="speakJP('いしゃ')">
+                        <td><strong>いしゃ</strong></td>
+                        <td>Isha</td>
+                        <td>Dokter</td>
+                    </tr>
+                    <tr onclick="speakJP('かいしゃいん')">
+                        <td><strong>かいしゃいん</strong></td>
+                        <td>Kaishain</td>
+                        <td>Karyawan Perusahaan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Fungsi Partikel は (wa)</h1>
+            <p class="description" style="text-align: left;">
+                Partikel <strong>は</strong> ditulis dengan huruf hiragana 'ha' tetapi dibaca 'wa'. Berfungsi sebagai
+                penanda <strong>Topik Utama</strong> dalam sebuah kalimat.
+            </p>
+            <div class="formula-box">
+            
+                <strong>
+                    Beberapa Contoh Penerapan dalam Berbagai Profesi:
+                </strong>
+            
+                <div class="example-list">
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('わたしはせんせいです')">
+            
+                            1. わたしは せんせいです
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Saya adalah guru
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('かれはがくせいです')">
+            
+                            2. かれは がくせいです
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Dia adalah siswa
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('かのじょはいしゃです')">
+            
+                            3. かのじょは いしゃです
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Dia adalah dokter
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('わたしはかいしゃいんです')">
+            
+                            4. わたしは かいしゃいんです
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Saya adalah karyawan perusahaan
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('かれはせんせいじゃありません')">
+            
+                            5. かれは せんせいじゃありません
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Dia bukan guru
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('かのじょはがくせいじゃありません')">
+            
+                            6. かのじょは がくせいじゃありません
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Dia bukan siswa
+                        </div>
+            
+                    </div>
+            
+                    <div class="example-item">
+            
+                        <div class="jp-text clickable-sound" onclick="speakJP('わたしはいしゃじゃありません')">
+            
+                            7. わたしは いしゃじゃありません
+            
+                        </div>
+            
+                        <div class="id-text">
+                            Saya bukan dokter
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+                <div class="explanation-text">
+            
+                    Contoh di atas menunjukkan bagaimana partikel
+                    <strong>は</strong>
+                    digunakan untuk menandai topik utama (KB1)
+                    dalam kalimat.
+            
+                </div>
+            
+            </div>
+           </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Partikel の (no) - Kepemilikan</h1>
+            <div class="formula-box">
+                <strong>Formula:</strong> KB1 <strong>の</strong> KB2 (KB2 milik KB1)
+            </div>
+            <p class="description" style="text-align: left;">
+                Partikel <strong>の</strong> berfungsi menghubungkan dua kata benda. Sering digunakan untuk menyatakan
+                <strong>kepemilikan</strong> (seperti 's atau 'of' dalam bahasa Inggris).
+            </p>
+            <table class="vocab-table">
+                <tbody>
+                    <tr onclick="speakJP('わたしのほん')">
+                        <td><strong>わたしの ほん</strong></td>
+                        <td>Buku saya</td>
+                    </tr>
+                    <tr onclick="speakJP('せんせいのくるま')">
+                        <td><strong>せんせいの くるま</strong></td>
+                        <td>Mobilnya Guru</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Partikel の (no) - Penjelas</h1>
+            <p class="description" style="text-align: left;">
+                Selain kepemilikan, <strong>の</strong> juga digunakan ketika KB1 menjelaskan batasan/kategori spesifik
+                dari KB2.
+            </p>
+            <div class="formula-box">
+                <strong>Gabungan Topik & Kepemilikan:</strong><br>
+                <span class="clickable-sound" onclick="speakJP('わたしはにほんごのがくせいです')">わたしは にほんごの がくせいです</span><br>
+                <small style="color:var(--accent-blue)">(Watashi wa nihongo no gakusei desu)</small>
+                <p style="margin: 5px 0 0 0; font-size:0.95rem;">Artinya: "Saya adalah mahasiswa <u>bahasa Jepang</u>."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1>Pola Kalimat Negatif</h1>
+            <div class="formula-box">
+                <strong>Formula:</strong> KB1 は KB2 <strong>じゃありません</strong>
+            </div>
+            <div class="japanese-xl clickable-sound" onclick="speakJP('わたしはがくせいじゃありません')">がくせいじゃありません</div>
+            <div class="romaji">Gakusei ja arimasen.</div>
+            <p class="description"><strong>Artinya:</strong> "(Saya) bukan seorang siswa."</p>
+            <button class="btn btn-audio" onclick="speakJP('わたしはがくせいじゃありません')">🔊 Dengarkan Pelafalan</button>
+        </div>
+    </div>
+    <div class="slide">
+    
+        <div class="card">
+    
+            <h1>Video Pembelajaran</h1>
+    
+            <p class="description">
+                Tonton penjelasan materi berikut.
+            </p>
+    
+            <div class="video-container">
+    
+                <iframe src="https://www.youtube.com/embed/Xt8rQ9niik4" title="Video Pembelajaran" allowfullscreen>
+                </iframe>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+
+    <div class="slide">
+        <div class="card">
+            <h1
+                style="background: linear-gradient(135deg, var(--accent-green) 0%, #6ee7b7 100%); -webkit-background-clip: text;">
+                🎉 お疲れ様でした!</h1>
+            <p class="description" style="font-size: 1.2rem; margin-bottom: 30px;">
+                Hebat! Kamu telah menyelesaikan seluruh materi Bab 1 termasuk penggunaan partikel は dan の.
+            </p>
+            <a href="bab1.html" class="btn btn-primary" id="quizBtn" style="text-decoration:none; display:none;">
+                🚀 Mulai Uji Kemampuan (Kuis)
+            </a>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <button class="nav-btn" onclick="prevSlide()">◀</button>
+        <div class="slide-counter" id="slideCounter">1 / 8</div>
+        <button class="nav-btn" onclick="nextSlide()">▶</button>
+    </div>
+
+    <script>
+        let slides = document.querySelectorAll(".slide");
+        let current = 0;
+
+        function showSlide(i) {
+            slides.forEach(s => s.classList.remove("active"));
+            slides[i].classList.add("active");
+
+            // Update progress bar
+            document.getElementById("progress").style.width = ((i + 1) / slides.length * 100) + "%";
+
+            // Update counter text
+            document.getElementById("slideCounter").innerText = `${i + 1} / ${slides.length}`;
+
+            // Show quiz button on last slide
+            if (i === slides.length - 1) {
+                document.getElementById("quizBtn").style.display = "inline-flex";
+            }
+        }
+
+        function nextSlide() {
+            if (current < slides.length - 1) {
+                current++;
+                showSlide(current);
+            }
+        }
+
+        function prevSlide() {
+            if (current > 0) {
+                current--;
+                showSlide(current);
+            }
+        }
+
+        /* SWIPE GESTURE FOR MOBILE */
+        let startX = 0;
+        document.addEventListener("touchstart", e => { startX = e.touches.clientX; });
+        document.addEventListener("touchend", e => {
+            let endX = e.changedTouches.clientX;
+            if (startX - endX > 60) nextSlide();
+            if (endX - startX > 60) prevSlide();
+        });
+
+        /* FULLSCREEN SYSTEM CONTROL */
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Gagal mengaktifkan mode layar penuh: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        /* TEXT TO SPEECH AUDIO ENGINE */
+        let voicesReady = false;
+        document.body.addEventListener("click", () => {
+            if (!voicesReady) {
+                speechSynthesis.getVoices();
+                voicesReady = true;
+            }
+        });
+
+        function speakJP(text) {
+            if (!window.speechSynthesis) return;
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = "ja-JP";
+
+            let voices = speechSynthesis.getVoices();
+            let jpVoice = voices.find(v => v.lang === "ja-JP") ||
+                voices.find(v => v.lang.includes("ja")) ||
+                voices;
+
+            if (jpVoice) utter.voice = jpVoice;
+            utter.rate = 0.85; // Sedikit diperlambat agar lebih jelas untuk pemula
+
+            speechSynthesis.cancel();
+            setTimeout(() => { speechSynthesis.speak(utter); }, 50);
+        }
+    </script>
+</body>
+
+</html>
