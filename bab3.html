@@ -221,6 +221,15 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+        #result {
+    margin-top: 30px;
+    font-size: 18px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffff;
+    display: none;
+    border: 2px solid #27ae60;
+}
     </style>
 </head>
 
@@ -531,22 +540,22 @@
             {
                 text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
                 options: ["ここ", "は", "どこ", "です"],
-                answer: [0, 1, 2, 3]
+                answer: [2]
             },
             {
                 text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
                 options: ["ぎんこう", "は", "そこ", "です"],
-                answer: [0, 1, 2, 3]
+                answer: [2]
             },
             {
                 text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
                 options: ["えき", "は", "あそこ", "です"],
-                answer: [0, 1, 2, 3]
+                answer: [2]
             },
             {
                 text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
                 options: ["としょかん", "は", "どこ", "です"],
-                answer: [0, 1, 2, 3]
+                answer: [2]
             }
 
         ];
@@ -611,6 +620,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -722,9 +732,79 @@
             clearInterval(timer);
 
             let benar = 0;
-            answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
-            });
+let salahList = "";
+
+answers.forEach((a, i) => {
+
+    // soal pilihan ganda biasa
+    if (typeof questions[i].answer === "number") {
+
+        if (a === questions[i].answer) {
+            benar++;
+        } else {
+
+            let jawabanSiswa =
+                a !== null
+                    ? questions[i].options[a]
+                    : "(Tidak dijawab)";
+
+            let jawabanBenar =
+                questions[i].options[questions[i].answer];
+
+            salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+        }
+
+    }
+// soal model array / susun kata
+else if (Array.isArray(questions[i].answer)) {
+
+    const jawabanBenarIndex = questions[i].answer[0];
+
+    if (a === jawabanBenarIndex) {
+
+        benar++;
+
+    } else {
+
+        let jawabanBenar =
+            questions[i].options[jawabanBenarIndex];
+
+        let jawabanSiswa =
+            a !== null
+                ? questions[i].options[a]
+                : "(Tidak dijawab)";
+
+        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+    }
+}
+
+});
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
             fetch("https://script.google.com/macros/s/AKfycbyEtKKGSQe_v92EHQWdHnfoa7WJzQLRRsYzKJ-LBebPbRBJKGIlA1WMLw1h1w2GvvQzJg/exec", {
@@ -750,26 +830,51 @@
             });
 
             // Tampilkan hasil
-            document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+document.getElementById("result").innerHTML = `
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+        ? 'background:#d4edda; color:#155724;'
+        : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${
+        salahList
+            ? salahList
+            : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+    }
+</div>
+`; 
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
