@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fukushuu Bab 1-4</title>
+    <title>Fukuushuu 1-4</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -266,10 +276,10 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Fukushuu Bab 1-4</h1>
+        <h1>📚 Fukuushuu 1-4</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">30:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 1800; // 30 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,239 +330,242 @@
         function decode(str) {
             return atob(str);
         }
+       const questions = [
 
-        const questions = [
+            // ======================================================
+            // BAB 1 — は・も・の
+            // LEVEL: MUDAH
+            // ======================================================
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (REVIEW BAB 1–4)
-            // ===============================
             {
-                text: "1. わたしは（　）です。",
-                options: ["がくせい", "だいがく", "ほん", "えき"],
-                answer: 0
-            },
-            {
-                text: "2. あのひとは（　）ですか。",
-                options: ["だいがく", "せんせい", "ほん", "つくえ"],
-                answer: 1
-            },
-            {
-                text: "3. これは（　）ですか。",
-                options: ["なん", "だれ", "どこ", "いつ"],
-                answer: 0
-            },
-            {
-                text: "4. それは（　）のですか。",
-                options: ["だれ", "どこ", "なに", "いつ"],
-                answer: 0
-            },
-            {
-                text: "5. あれは（　）です。",
-                options: ["かばん", "いしゃ", "だいがく", "せんせい"],
+                text: "1. わたし（　）学生です。",
+                options: ["は", "も", "の", "を"],
                 answer: 0
             },
 
             {
-                text: "6. わたしは がくせい（　）。",
-                options: ["です", "じゃありません", "でした", "でしょう"],
-                answer: 1
-            },
-            {
-                text: "7. あのひとは にほんじん（　）。",
-                options: ["です", "じゃありません", "でした", "でしょう"],
-                answer: 0
-            },
-            {
-                text: "8. これは わたし（　）ほんです。",
-                options: ["の", "は", "が", "を"],
-                answer: 0
-            },
-            {
-                text: "9. それは だれ（　）かばんですか。",
-                options: ["の", "は", "が", "を"],
-                answer: 0
-            },
-            {
-                text: "10. ペンは（　）ですか。",
-                options: ["どれ", "どこ", "だれ", "なん"],
-                answer: 0
-            },
-
-            {
-                text: "11. ここは（　）ですか。",
-                options: ["どこ", "だれ", "なに", "どれ"],
-                answer: 0
-            },
-            {
-                text: "12. 銀行は（　）ですか。",
-                options: ["そこ", "これ", "だれ", "なん"],
-                answer: 0
-            },
-            {
-                text: "13. 学校は あそこ（　）あります。",
-                options: ["に", "で", "を", "が"],
-                answer: 0
-            },
-            {
-                text: "14. スーパー（　）パンを買います。",
-                options: ["で", "に", "を", "が"],
-                answer: 0
-            },
-            {
-                text: "15. わたしは パン（　）食べます。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-
-            {
-                text: "16. あなたは なに（　）飲みますか。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "17. わたしは コーヒー（　）飲みます。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "18. わたしは なにも（　）。",
-                options: ["食べません", "食べます", "見ます", "行きます"],
-                answer: 0
-            },
-            {
-                text: "19. どようびは なにも（　）。",
-                options: ["しません", "します", "行きます", "見ます"],
-                answer: 0
-            },
-            {
-                text: "20. カフェで コーヒー（　）。",
-                options: ["飲みます", "行きます", "見ます", "来ます"],
-                answer: 0
-            },
-
-            {
-                text: "21. パンと やさい（　）食べます。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "22. にほんご（　）えいごを べんきょうします。",
-                options: ["と", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "23. テレビを見ます。それから、（　）。",
-                options: ["ねます", "行きます", "来ます", "あります"],
-                answer: 0
-            },
-            {
-                text: "24. あさごはんを食べます。それから、（　）。",
-                options: ["学校へ行きます", "寝ます", "見ます", "来ます"],
-                answer: 0
-            },
-            {
-                text: "25. きょうしつ（　）べんきょうします。",
-                options: ["で", "に", "を", "が"],
-                answer: 0
-            },
-
-            {
-                text: "26. えき（　）でんしゃを待ちます。",
-                options: ["で", "に", "を", "が"],
-                answer: 0
-            },
-            {
-                text: "27. これは（　）です。",
-                options: ["じしょ", "いしゃ", "せんせい", "だいがく"],
-                answer: 0
-            },
-            {
-                text: "28. あれは でんわ（　）ありません。",
-                options: ["では", "です", "でした", "でしょう"],
-                answer: 0
-            },
-            {
-                text: "29. それは（　）ざっしですか。",
-                options: ["なんの", "だれの", "どこの", "いつの"],
-                answer: 0
-            },
-            {
-                text: "30. これは わたしのノート（　）。",
-                options: ["です", "じゃありません", "でした", "でしょう"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        わたしは まいあさ パンを 食べます。
-        それから コーヒーを 飲みます。`,
-                text: "31. まいあさ 何を 食べますか。",
-                options: ["ごはん", "パン", "さかな", "にく"],
-                answer: 1
-            },
-            {
-                text: "32. それから 何を 飲みますか。",
-                options: ["ジュース", "コーヒー", "みず", "おちゃ"],
+                text: "2. たなかさん（　）学生です。",
+                options: ["に", "も", "で", "を"],
                 answer: 1
             },
 
             {
-                passage: `【３３－３４】<br><br>
-        きのう スーパーで パンと みずを 買いました。`,
-                text: "33. どこで 買いましたか。",
-                options: ["学校", "スーパー", "えき", "うち"],
+                text: "3. これは わたし（　）ほんです。",
+                
+                options: ["は", "を", "の", "も"],
+                answer: 2
+            },
+
+            {
+                text: "4. 「わたしも せんせいです。」の いみ は？",
+                options: [
+                    "Saya seorang guru",
+                    "Saya juga seorang guru",
+                    "Dia seorang guru",
+                    "Ini guru saya"
+                ],
                 answer: 1
             },
+
             {
-                text: "34. 何を 買いましたか。",
-                options: ["パンとみず", "にく", "ほん", "ペン"],
+                text: "5. 「の」 は なにを あらわしますか。",
+                options: [
+                    "Tempat",
+                    "Kepemilikan",
+                    "Waktu",
+                    "Arah"
+                ],
+                answer: 1
+            },
+
+            // ======================================================
+            // BAB 2 — これ・それ・あれ・どれ
+            // LEVEL: MUDAH → SEDANG
+            // ======================================================
+
+            {
+                text: "6. これは なんですか。",
+                image: "images/fukushuu/bab1-4/q6.png",
+                options: ["ほん", "かばん", "いす", "くつ"],
                 answer: 0
             },
 
             {
-                passage: `【３５－３６】<br><br>
-        どようびは なにも しません。
-        うちで テレビを 見ます。`,
-                text: "35. どようびは 何を しますか。",
-                options: ["勉強します", "テレビを見ます", "仕事します", "行きます"],
-                answer: 1
+                text: "7. A: それは なんですか。 B: これは （　）です。",
+                image: "images/fukushuu/bab1-4/q7.png",
+                options: ["ほん", "かばん", "さいふ", "ペン"],
+                answer: 3
             },
+
             {
-                text: "36. どこで テレビを 見ますか。",
-                options: ["学校", "うち", "スーパー", "えき"],
+                text: "8. あれ は なんですか。",
+                image: "images/fukushuu/bab1-4/q8.png",
+                options: ["テレビ", "つくえ", "とけい", "ほん"],
+                answer: 2
+            },
+
+            {
+                text: "9. ペン は （　）ですか。",
+                
+                options: ["これ", "それ", "どれ", "あれ"],
+                answer: 2
+            },
+
+            {
+                text: "10. （　）ほん は わたしのです。",
+                
+                options: ["この", "それ", "あれ", "どれ"],
+                answer: 0
+            },
+
+            {
+                text: "11. 「どなた」 の いみ は？",
+                options: [
+                    "Apa",
+                    "Siapa (sopan)",
+                    "Di mana",
+                    "Yang mana"
+                ],
                 answer: 1
             },
 
-            // ===============================
-            // 37–40: 並べ替え（ランダム）
-            // ===============================
             {
-                text: "37. わたしは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 食べます。",
-                options: ["パンを", "まいあさ", "は", "です"],
-                answer: [2, 1, 0, 3]
+                text: "12. A: あの人は（　）ですか。",
+                
+                options: ["なに", "どこ", "だれ", "どれ"],
+                answer: 2
             },
+
+            // ======================================================
+            // BAB 3 — ここ・そこ・あそこ・どこ・いくら
+            // LEVEL: SEDANG
+            // ======================================================
+
             {
-                text: "38. スーパーで ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 買いました。",
-                options: ["パンとみずを", "きのう", "は", "です"],
-                answer: [2, 1, 0, 3]
+                text: "13. ここ は どこ ですか。",
+                image: "images/fukushuu/bab1-4/q13.png",
+                options: ["としょしつ", "えき", "びょういん", "スーパー"],
+                answer: 0
             },
+
             {
-                text: "39. どようびは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿。",
-                options: ["なにも", "しません", "は", "です"],
-                answer: [2, 0, 1, 3]
+                text: "14. ぎんこう は （　）ですか。",
+                options: ["どれ", "どこ", "だれ", "なに"],
+                answer: 1
             },
+
             {
-                text: "40. うちで ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 見ます。",
-                options: ["テレビを", "は", "です", "を"],
-                answer: [1, 0, 3, 2]
+                text: "15. それは は （　）です。",
+                image: "images/fukushuu/bab1-4/q15.png",
+                options: ["スーパー", "ぎんこう", "としょしつ", "えき"],
+                answer: 0
+            },
+
+            {
+                text: "16. この かばん は いくらですか。",
+                image: "images/fukushuu/bab1-4/q16.png",
+                options: [
+                    "ごひゃくえん",
+                    "いちまんえん",
+                    "さんぜんえん",
+                    "ななひゃくえん"
+                ],
+                answer: 0
+            },
+
+            {
+                text: "17. A: これは ペンですか。B: はい、（　）。",
+                options: [
+                    "そうです",
+                    "ちがいます",
+                    "どこです",
+                    "だれです"
+                ],
+                answer: 0
+            },
+
+            {
+                text: "18. A: それは ほんですか。B: いいえ、（　）。",
+                options: [
+                    "そうです",
+                    "ちがいます",
+                    "ほんです",
+                    "どれです"
+                ],
+                answer: 1
+            },
+
+            // ======================================================
+            // BAB 4 — は・で・を・何も・と・それから
+            // LEVEL: SEDANG → SULIT
+            // ======================================================
+
+            {
+                text: "19. わたし は がっこう（　）べんきょうします。",
+                
+                options: ["で", "を", "の", "も"],
+                answer: 0
+            },
+
+            {
+                text: "20. パン（　）たべます。",
+                
+                options: ["で", "を", "は", "の"],
+                answer: 1
+            },
+
+            {
+                text: "21. きょう は 何も（　）。",
+                options: [
+                    "たべます",
+                    "たべません",
+                    "のみます",
+                    "いきます"
+                ],
+                answer: 1
+            },
+
+            {
+                text: "22. わたし（　）ともだち は ゲームをします。",
+                options: ["を", "で", "と", "の"],
+                answer: 2
+            },
+
+            {
+                text: "23. あさごはん を たべます。（　）コーヒーをのみます。",
+                options: [
+                    "それから",
+                    "でも",
+                    "そして",
+                    "だから"
+                ],
+                answer: 0
+            },
+
+            // ======================================================
+            // DOKKAI
+            // LEVEL: SULIT
+            // ======================================================
+
+            {
+                passage: `
+【２４】<br><br>
+わたし は まいにち がっこうで にほんごを べんきょうします。<br>
+それから、ともだちと としょしつへ いきます。
+`,
+                text: "24. わたし は だれ と としょしつへ いきますか。",
+                options: [
+                    "せんせい",
+                    "ともだち",
+                    "かぞく",
+                    "たなかさん"
+                ],
+                answer: 1
             }
 
         ];
-        let answers = new Array(questions.length).fill(null);
 
+        let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -611,6 +625,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -668,6 +683,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -722,8 +760,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -737,7 +845,7 @@
                     total_soal: questions.length,
                     nilai: nilaiTotal,
                     total_point: nilaiTotal,
-                    bab: "Fukushuu Bab 1-4",
+                    bab: "Fukuushuu 1-4",
                     status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
@@ -751,33 +859,57 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 1-4" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS FUKUSHUU 1-4" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL FUKUSHUU Bab 1-4
+       HASIL FUKUSHUU 1-4
        ==============================
 
        👤 Nama : ${studentName}
