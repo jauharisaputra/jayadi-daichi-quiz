@@ -303,6 +303,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -333,102 +334,103 @@
             // ===============================
             // 1–30: BUNPOU + GOI (BAB 3)
             // ===============================
+            // SOAL BERGAMBAR NO. 1-8
             {
                 text: "1. ここ は どこ ですか。→（　）です。",
-                Image: "https://i.imgur.com/1nXo7sP.png",
-                options: ["えき", "としょかん", "スーパー", "びょういん"],
+                image: "images/bab3/q1.png",
+                options: ["えき", "としょしつ", "スーパー", "びょういん"],
                 answer: 1
             },
             {
                 text: "2. ぎんこう は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q2.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 1
             },
             {
                 text: "3. しょくどう は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q3.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 2
             },
             {
                 text: "4. ここ は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q4.png",
                 options: ["スーパー", "えき", "こうえん", "ほんや"],
                 answer: 1
             },
             {
                 text: "5. びょういん は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q5.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
-                answer: 1
+                answer: 2
             },
 
             {
                 text: "6. ゆうびんきょく は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q6.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 2
             },
             {
                 text: "7. ここ は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q7.png",
                 options: ["えき", "スーパー", "こうえん", "びょういん"],
                 answer: 1
             },
             {
                 text: "8. こうえん は どこ ですか。→（　）です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                image: "images/bab3/q8.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 2
             },
             {
                 text: "9. ぎんこう／ここ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ぎんこうは そこです", "ぎんこうは ここです", "ぎんこうは あそこです", "ぎんこうは どこです"],
                 answer: 1
             },
             {
                 text: "10. スーパー／そこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["スーパーは あそこです", "スーパーは ここです", "スーパーは そこです", "スーパーは どこです"],
                 answer: 2
             },
 
             {
                 text: "11. ゆうびんきょく／あそこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ゆうびんきょくは あそこです", "ゆうびんきょくは ここです", "ゆうびんきょくは そこです", "ゆうびんきょくは どこです"],
                 answer: 0
             },
             {
                 text: "12. えき／ここ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["えきは あそこです", "えきは そこです", "えきは ここです", "えきは どこです"],
                 answer: 2
             },
             {
                 text: "13. としょかん／そこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["としょかんは ここです", "としょかんは そこです", "としょかんは あそこです", "としょかんは どこです"],
                 answer: 1
             },
             {
                 text: "14. しょくどう／あそこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["しょくどうは ここです", "しょくどうは そこです", "しょくどうは あそこです", "しょくどうは どこです"],
                 answer: 2
             },
             {
                 text: "15. びょういん／ここ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["びょういんは そこです", "びょういんは あそこです", "びょういんは ここです", "びょういんは どこです"],
                 answer: 2
             },
 
             {
                 text: "16. A: ゆうびんきょく は （　）ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 3
             },
@@ -440,19 +442,19 @@
             },
             {
                 text: "18. A: えき は （　）ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 3
             },
             {
                 text: "19. A: くつや は （　）ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 3
             },
             {
                 text: "20. A: スーパー は （　）ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ここ", "そこ", "あそこ", "どこ"],
                 answer: 3
             },
@@ -460,62 +462,62 @@
 
             {
                 text: "21. ぎんこう / どこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ぎんこうは ここです", "ぎんこうは どこですか", "ぎんこうは あそこです", "ぎんこうは そこです"],
                 answer: 1
             },
             {
                 text: "22. あそこ / ぎんこう →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ぎんこうは あそこです", "ぎんこうは ここです", "ぎんこうは そこです", "ぎんこうは どこです"],
                 answer: 0
             },
             {
                 text: "23. としょかん / どこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["としょかんは そこです", "としょかんは あそこです", "としょかんは どこですか", "としょかんは ここです"],
                 answer: 2
             },
             {
                 text: "24. ここ / としょかん →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["としょかんは ここです", "としょかんは そこです", "としょかんは あそこです", "としょかんは どこです"],
                 answer: 0
             },
             {
                 text: "25. スーパー / どこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["スーパーは あそこです", "スーパーは どこですか", "スーパーは ここです", "スーパーは そこです"],
                 answer: 1
             },
 
             {
                 text: "26. そこ / スーパー →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["スーパーは そこです", "スーパーは あそこです", "スーパーは ここです", "スーパーは どこです"],
                 answer: 0
             },
             {
                 text: "27. えき / どこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["えきは ここです", "えきは そこです", "えきは どこですか", "えきは あそこです"],
                 answer: 2
             },
             {
                 text: "28. あそこ / えき →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["えきは あそこです", "えきは そこです", "えきは ここです", "えきは どこです"],
                 answer: 0
             },
             {
                 text: "29. ゆうびんきょく / どこ →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ゆうびんきょくは どこですか", "ゆうびんきょくは ここです", "ゆうびんきょくは あそこです", "ゆうびんきょくは そこです"],
                 answer: 0
             },
             {
                 text: "30. そこ / ゆうびんきょく →（　）",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ゆうびんきょくは そこです", "ゆうびんきょくは あそこです", "ゆうびんきょくは ここです", "ゆうびんきょくは どこです"],
                 answer: 0
             },
@@ -528,13 +530,13 @@
         学校の前にスーパーがあります。
         スーパーのとなりに銀行があります。`,
                 text: "31. スーパーはどこにありますか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["学校の後ろ", "学校の前", "銀行の中", "公園の前"],
                 answer: 1
             },
             {
                 text: "32. 銀行はどこにありますか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["スーパーのとなり", "学校の中", "駅の前", "家の中"],
                 answer: 0
             },
@@ -544,13 +546,13 @@
         駅の近くに郵便局があります。
         郵便局の前に公園があります。`,
                 text: "33. 郵便局はどこですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["駅の近く", "公園の中", "学校の前", "銀行の後ろ"],
                 answer: 0
             },
             {
                 text: "34. 公園はどこですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["駅の中", "郵便局の前", "銀行の前", "学校の中"],
                 answer: 1
             },
@@ -560,13 +562,13 @@
         ここは図書館です。
         あそこは食堂です。`,
                 text: "35. ここはどこですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["図書館", "食堂", "銀行", "駅"],
                 answer: 0
             },
             {
                 text: "36. あそこはどこですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["銀行", "駅", "食堂", "公園"],
                 answer: 2
             },
@@ -576,25 +578,25 @@
             // ===============================
             {
                 text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ここ", "は", "どこ", "です"],
                 answer: [2]
             },
             {
                 text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["ぎんこう", "は", "そこ", "です"],
                 answer: [2]
             },
             {
                 text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                image: "https://i.imgur.com/1nXo7sP.png",   
+                // image: "https://i.imgur.com/1nXo7sP.png",   
                 options: ["えき", "は", "あそこ", "です"],
                 answer: [2]
             },
             {
                 text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                image: "https://i.imgur.com/1nXo7sP.png",
+                // image: "https://i.imgur.com/1nXo7sP.png",
                 options: ["としょかん", "は", "どこ", "です"],
                 answer: [2]
             }
@@ -719,6 +721,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
