@@ -1007,6 +1007,21 @@
 
             let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
             let nilaiTotal = Math.round((totalPoint / 175) * 100);
+            // Simpan hasil TO tertulis
+            localStorage.setItem(
+                "to_n5_v1_score",
+                totalPoint
+            );
+
+            localStorage.setItem(
+                "to_n5_v1_percent",
+                nilaiTotal
+            );
+
+            localStorage.setItem(
+                "student_name",
+                studentName
+            );
 
             // Kirim ke Google Sheet
             fetch("https://script.google.com/macros/s/AKfycbyqxFiAIOIJdrG31whWXfhqI60GWYlyrbs6xZEWBJFqFX1JmyPeferMcYLGejv0Lva3Mw/exec", {
@@ -1042,28 +1057,24 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-                <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-                    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
-                    <div style="font-size:18px; margin:15px 0;">
-                        <b>👤 Nama:</b> ${studentName} | <b>🔄 Attempt:</b> ${attempt}<br><br>
-                        
-                        📝 <b>Tata Bahasa:</b> ${tataBahasa}/25 (${nilaiTata}%) | ${pointTata}/75 pt<br>
-                        📖 <b>Dokkai:</b> ${dokkai}/10 (${nilaiDokkai}%) | ${pointDokkai}/50 pt<br>
-                        漢字 <b>Kanji:</b> ${kanji}/10 (${nilaiKanji}%) | ${pointKanji}/30 pt<br>
-                        ✍️ <b>Kijutsu:</b> ${kijutsu}/5 (${nilaiKijutsu}%) | ${pointKijutsu}/20 pt<br><br>
-                        
-                        <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
-                            📊 Total: ${totalPoint}/175 (${nilaiTotal}%)
-                        </div>
-                        <div style="font-size:22px; padding:15px 25px; border-radius:12px; 
-                                   ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'} 
-                                   border: 3px solid ${nilaiTotal >= 70 ? '#28a745' : '#dc3545'};">
-                            ${nilaiTotal >= 70 ? "✅ LULUS TO J.TEST F-G" : "📚 REMEDIAL"}
-                        </div>
-                    </div>
-                </div>
-            `;
+<div style="text-align:center;padding:25px;background:#e8f5e8;border-radius:15px;">
+    <h2>✅ Bagian Tertulis Selesai</h2>
+
+    <p style="font-size:18px">
+        Skor sementara: <b>${totalPoint}/175</b>
+    </p>
+
+    <p style="font-size:20px;color:#8e44ad">
+        🎧 Choukai akan dimulai dalam 5 detik...
+    </p>
+</div>
+`;
             document.getElementById("result").style.display = "block";
+            setTimeout(() => {
+
+                window.location.href = "choukain5v1.html";
+
+            }, 5000);
             document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
