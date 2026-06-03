@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -269,7 +279,7 @@
         <h1>📚 Kuis Bab 5</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">30:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 1200; // 20 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,239 +330,204 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+   const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (BAB 5)
-            // ===============================
-            {
-                text: "1. ０８：１５（　）",
-                options: ["はちじじゅうごふん", "はちじごふん", "はちじじゅっぷん", "はちじじゅうぷん"],
-                answer: 0
-            },
-            {
-                text: "2. ０４：５０（　）",
-                options: ["よじごじゅうぷん", "よじごじゅっぷん", "よじごじゅうふん", "よじごじゅふん"],
-                answer: 0
-            },
-            {
-                text: "3. １０：３０（　）",
-                options: ["じゅうじさんじゅっぷん", "じゅうじはん", "じゅうじじゅうぷん", "じゅうじごふん"],
-                answer: 1
-            },
-            {
-                text: "4. ０９：４５（　）",
-                options: ["くじよんじゅうごふん", "くじごじゅうごふん", "くじよんじゅうふん", "くじじゅうごふん"],
-                answer: 0
-            },
-            {
-                text: "5. １１：５５（　）",
-                options: ["じゅういちじごじゅうごふん", "じゅういちじごじゅうふん", "じゅういちじごじゅっぷん", "じゅういちじごじゅうぷん"],
-                answer: 0
-            },
+        /* =========================
+           1–5 : JAM (BERGAMBAR)
+        ========================= */
 
-            {
-                text: "6. ０６：４０（　）",
-                options: ["ろくじよんじゅうぷん", "ろくじよんじゅっぷん", "ろくじごじゅうぷん", "ろくじよんじゅうふん"],
-                answer: 0
-            },
-            {
-                text: "7. １２：００（　）",
-                options: ["じゅうにじ", "じゅうにじごふん", "じゅうにじはん", "じゅうにじじゅっぷん"],
-                answer: 0
-            },
-            {
-                text: "8. ０３：１０（　）",
-                options: ["さんじじゅうぷん", "さんじじゅっぷん", "さんじじゅうふん", "さんじじゅうごふん"],
-                answer: 0
-            },
-            {
-                text: "9. ３／４（　）ようび",
-                options: ["ど", "げつ", "か", "にち"],
-                answer: 0
-            },
-            {
-                text: "10. ３／６（　）ようび",
-                options: ["か", "げつ", "すい", "きん"],
-                answer: 1
-            },
+        {
+            text: "1. いま、なんじですか。",
+            image: "images/bab5/q1.jpeg",
+            options: ["くじ", "じゅうじ", "はちじ", "しちじ"],
+            answer: 0
+        },
+        {
+            text: "2. いま、なんじですか。",
+            image: "images/bab5/q2.jpeg",
+            options: ["くじはん", "くじ", "はちじはん", "じゅうじ"],
+            answer: 0
+        },
+        {
+            text: "3. いま、なんじですか。",
+            image: "images/bab5/q3.jpeg",
+            options: ["くさんじ", "んさんじ", "ごごよじ", "ごぜんよじ"],
+            answer: 1
+        },
+        {
+            text: "4. いま、なんじですか。",
+            image: "images/bab5/q4.jpeg",
+            options: ["しちじじゅっぷん", "しちじさんじゅっぷん", "ろくじはん", "はちじ"],
+            answer: 1
+        },
+        {
+            text: "5. いま、なんじですか。",
+            image: "images/bab5/q5.jpeg",
+            options: ["にじ", "はちじはん", "さんじ", "にじはん"],
+            answer: 3
+        },
 
-            {
-                text: "11. ３／１７（　）ようび",
-                options: ["もく", "きん", "ど", "にち"],
-                answer: 1
-            },
-            {
-                text: "12. ３／１９（　）ようび",
-                options: ["にち", "ど", "げつ", "か"],
-                answer: 0
-            },
-            {
-                text: "13. ３／２１（　）ようび",
-                options: ["げつ", "か", "すい", "もく"],
-                answer: 1
-            },
-            {
-                text: "14. ３／３０（　）ようび",
-                options: ["もく", "きん", "ど", "にち"],
-                answer: 0
-            },
-            {
-                text: "15. きのう（　）きょう（　）あした",
-                options: ["→", "と", "や", "も"],
-                answer: 0
-            },
+        /* =========================
+           6–8 : PARTIKEL に
+        ========================= */
 
-            {
-                text: "16. せんしゅう（　）こんしゅう（　）らいしゅう",
-                options: ["→", "と", "や", "も"],
-                answer: 0
-            },
-            {
-                text: "17. せんげつ（　）こんげつ（　）らいげつ",
-                options: ["→", "と", "や", "も"],
-                answer: 0
-            },
-            {
-                text: "18. きょねん（　）ことし（　）らいねん",
-                options: ["→", "と", "や", "も"],
-                answer: 0
-            },
-            {
-                text: "19. わたしは まいあさ たまご（　）パン（　）たべます。",
-                options: ["と・を", "を・と", "に・を", "が・を"],
-                answer: 0
-            },
-            {
-                text: "20. どこ（　）はなみ（　）しませんか。",
-                options: ["で・を", "に・を", "を・で", "が・を"],
-                answer: 0
-            },
+        {
+            text: "6. わたしは ごぜん６じ（　）おきます。",
+            options: ["で", "を", "に", "は"],
+            answer: 2
+        },
+        {
+            text: "7. たなかさんは ７じ（　）ねます。",
+            options: ["に", "で", "を", "も"],
+            answer: 0
+        },
+        {
+            text: "8. わたしは ごご３じ（　）べんきょうします。",
+            options: ["に", "で", "を", "の"],
+            answer: 0
+        },
 
-            {
-                text: "21. けさ なに（　）たべませんでした。",
-                options: ["も", "を", "に", "が"],
-                answer: 0
-            },
-            {
-                text: "22. きのう（　）ごご えいがかん（　）えいが（　）みました。",
-                options: ["の・で・を", "に・で・を", "の・に・を", "が・で・を"],
-                answer: 0
-            },
-            {
-                text: "23. きょう４じ（　）じむしょ（　）せんせい（　）あいました。",
-                options: ["に・で・に", "で・に・を", "に・に・で", "を・で・に"],
-                answer: 0
-            },
-            {
-                text: "24. スーパー（　）にく（　）やさい（　）かいました。",
-                options: ["で・と・を", "に・を・と", "で・を・と", "に・と・を"],
-                answer: 0
-            },
-            {
-                text: "25. おととい やすみましたか。",
-                options: ["はい、やすみました", "いいえ、やすみませんでした", "はい、やすみません", "いいえ、やすみました"],
-                answer: 1
-            },
+        /* =========================
+           9–11 : ～から～まで
+        ========================= */
 
-            {
-                text: "26. にちようび はたらきますか。",
-                options: ["はい、はたらきます", "いいえ、はたらきません", "はい、はたらきません", "いいえ、はたらきます"],
-                answer: 1
-            },
-            {
-                text: "27. きのう およぎましたか。",
-                options: ["はい、およぎました", "いいえ、およぎました", "はい、およぎません", "いいえ、およぎません"],
-                answer: 0
-            },
-            {
-                text: "28. おおさかで やすみは（　）ですか。",
-                options: ["なんようび", "なんじ", "なん", "どこ"],
-                answer: 0
-            },
-            {
-                text: "29. としょかんは（　）までですか。",
-                options: ["なんじ", "なんようび", "どこ", "なん"],
-                answer: 0
-            },
-            {
-                text: "30. けさ（　）たべますか。",
-                options: ["なんじに", "なんようびに", "どこで", "なにで"],
-                answer: 0
-            },
+        {
+            text: "9. べんきょうは ８じ（　）１０じまでです。",
+            options: ["に", "を", "から", "で"],
+            answer: 2
+        },
+        {
+            text: "10. がっこうは げつようびから きんようび（　）です。",
+            options: ["に", "まで", "を", "で"],
+            answer: 1
+        },
+        {
+            text: "11. わたしは ９じから １１じ（　）はたらきます。",
+            options: ["まで", "に", "を", "で"],
+            answer: 0
+        },
 
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        わたしは まいあさ ７じに あさごはんを たべます。
-        それから がっこうへ いきます。`,
-                text: "31. なんじに たべますか。",
-                options: ["６じ", "７じ", "８じ", "９じ"],
-                answer: 1
-            },
-            {
-                text: "32. そのあと なにを しますか。",
-                options: ["ねます", "がっこうへいきます", "べんきょうします", "テレビをみます"],
-                answer: 1
-            },
+        /* =========================
+           12–15 : ～ました
+        ========================= */
 
-            {
-                passage: `【３３－３４】<br><br>
-        にちようびは やすみです。
-        いえで テレビを みます。`,
-                text: "33. にちようびは なんですか。",
-                options: ["しごと", "やすみ", "がっこう", "べんきょう"],
-                answer: 1
-            },
-            {
-                text: "34. どこで テレビを みますか。",
-                options: ["がっこう", "えき", "いえ", "スーパー"],
-                answer: 2
-            },
+        {
+            text: "12. きのう パンを（　）。",
+            options: ["たべます", "たべました", "たべません", "たべる"],
+            answer: 1
+        },
+        {
+            text: "13. せんしゅう にほんへ（　）。",
+            options: [ "いきます", "いきません","いきました", "いく"],
+            answer: 2
+        },
+        {
+            text: "14. おととい ほんを（　）。",
+            options: ["よみます", "よみました", "よみません", "よむ"],
+            answer: 1
+        },
+        {
+            text: "15. きのう サッカーを（　）。",
+            options: ["しました", "します", "しません", "する"],
+            answer: 0
+        },
 
-            {
-                passage: `【３５－３６】<br><br>
-        きのう えいがを みました。
-        とても おもしろかったです。`,
-                text: "35. なにを しましたか。",
-                options: ["テレビをみました", "えいがをみました", "べんきょうしました", "ねました"],
-                answer: 1
-            },
-            {
-                text: "36. えいがは どうでしたか。",
-                options: ["つまらない", "おもしろい", "たいへん", "むずかしい"],
-                answer: 1
-            },
+        /* =========================
+           16–18 : ごろ・くらい
+        ========================= */
 
-            // ===============================
-            // 37–40: 並べ替え
-            // ===============================
-            {
-                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ます。",
-                options: ["わたしは", "あさごはんを", "たべ", "ます"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ます。",
-                options: ["７じに", "たべ", "ます", "わたしは"],
-                answer: [3, 0, 1, 2]
-            },
-            {
-                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ます。",
-                options: ["がっこうへ", "いき", "それから", "ます"],
-                answer: [2, 0, 1, 3]
-            },
-            {
-                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                options: ["なんじに", "たべ", "ます", "あなたは"],
-                answer: [3, 0, 1, 2]
-            }
+        {
+            text: "16. たなかさんは ３じ（　）きます。",
+            options: ["から", "くらい", "まで", "ごろ"],
+            answer: 3
+        },
+        {
+            text: "17. とうきょうまで ２じかん（　）かかります。",
+            options: ["ごろ", "くらい", "に", "まで"],
+            answer: 1
+        },
+        {
+            text: "18. わたしは ７じごろ（　）ます。",
+            options: ["おきる", "おきました", "おきません", "おき"],
+            answer: 3
+        },
 
-        ];
+        /* =========================
+           19–20 : DOKKAI
+        ========================= */
+
+        {
+            passage: `【１９－２０】<br><br>
+わたしは まいあさ ６じに おきます。
+７じから ８じまで にほんごを べんきょうします。`,
+            text: "19. わたしは なんじに おきますか。",
+            options: ["５じ", "６じ", "７じ", "８じ"],
+            answer: 1
+        },
+        {
+            text: "20. にほんごを いつ べんきょうしますか。",
+            options: [
+                "６じから７じまで",
+                "７じから８じまで",
+                "８じから９じまで",
+                "９じから１０じまで"
+            ],
+            answer: 1
+        },
+        {
+           text: "21. Saya belajar dari jam 8 sampai jam 10.",
+           options: [
+               "わたしは ８じに べんきょうします。",
+               "わたしは ８じから１０じまで べんきょうします。",
+               "わたしは １０じから８じまで べんきょうします。",
+               "わたしは ８じごろ べんきょうします。"
+           ],
+           answer: 1
+       },
+       {
+           text: "22. Saya makan sekitar jam 12.",
+           options: [
+               "わたしは １２じに たべます。",
+               "わたしは １２じごろ たべます。",
+               "わたしは １２じまで たべます。",
+               "わたしは １２じから たべます。"
+           ],
+           answer: 1
+       },
+       {
+           text: "23. 何時から何時まで勉強しますか。",
+           options: [
+               "Belajar di mana?",
+               "Belajar dengan siapa?",
+               "Belajar dari jam berapa sampai jam berapa?",
+               "Belajar apa?"
+           ],
+           answer: 2
+       },
+       {
+           text: "24. わたしは きのう にほんごを べんきょうしました。",
+           options: [
+               "Saya akan belajar bahasa Jepang besok",
+               "Saya sedang belajar bahasa Jepang",
+               "Saya belajar bahasa Jepang kemarin",
+               "Saya tidak belajar bahasa Jepang"
+           ],
+           answer: 2
+       },
+       {
+           text: "25. Terjemahkan ke bahasa Jepang: 'Saya tidak makan apa pun.'",
+           options: [
+               "わたしは なにも たべます。",
+               "わたしは なにも たべません。",
+               "わたしは なにも のみません。",
+               "わたしは なにも しました。"
+           ],
+           answer: 1
+       }
+
+    ];
+
         let answers = new Array(questions.length).fill(null);
-
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -611,6 +587,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -668,6 +645,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -722,8 +722,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -751,33 +821,57 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 5" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 5" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL Bab 5
+       HASIL BAB 5
        ==============================
 
        👤 Nama : ${studentName}
