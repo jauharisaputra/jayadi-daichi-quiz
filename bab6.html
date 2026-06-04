@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -269,7 +279,7 @@
         <h1>📚 Kuis Bab 6</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">30:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 1200; // 20 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,237 +330,199 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+    const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (BAB 6)
-            // ===============================
-            {
-                text: "1. ３／３（　）",
-                options: ["さんがつさんにち", "さんがつみっか", "さんがつみつか", "さんがつさんか"],
-                answer: 1
-            },
-            {
-                text: "2. １１／７（　）",
-                options: ["じゅういちがつしちにち", "じゅういちがつなのか", "じゅういちがつななか", "じゅういちがつなのにち"],
-                answer: 1
-            },
-            {
-                text: "3. １２／４（　）",
-                options: ["じゅうにがつよにち", "じゅうにがつよっか", "じゅうにがつしにち", "じゅうにがつよんか"],
-                answer: 1
-            },
-            {
-                text: "4. １／２４（　）",
-                options: ["いちがつにじゅうよにち", "いちがつにじゅうよっか", "いちがつにじゅうしにち", "いちがつにじゅうしか"],
-                answer: 1
-            },
-            {
-                text: "5. ９／６（　）",
-                options: ["くがつろくにち", "くがつむいか", "くがつろっか", "くがつむっか"],
-                answer: 1
-            },
+        /* =========================
+           1–5 TANPA GAMBAR (TEMPAT TUJUAN)
+        ========================= */
 
-            {
-                text: "6. ８／７（　）",
-                options: ["はちがつしちにち", "はちがつなのか", "はちがつななか", "はちがつなのにち"],
-                answer: 1
-            },
-            {
-                text: "7. １０／１４（　）",
-                options: ["じゅうがつじゅうしにち", "じゅうがつじゅうよっか", "じゅうがつじゅうよにち", "じゅうがつじゅうしか"],
-                answer: 1
-            },
-            {
-                text: "8. ９／２０（　）",
-                options: ["くがつにじゅうにち", "くがつはつか", "くがつにじゅうか", "くがつはつにち"],
-                answer: 1
-            },
-            {
-                text: "9. ２／９（　）",
-                options: ["にがつきゅうにち", "にがつここのか", "にがつここのにち", "にがつきゅうか"],
-                answer: 1
-            },
-            {
-                text: "10. ４／８（　）",
-                options: ["しがつはちにち", "しがつようか", "しがつはちか", "しがつようにち"],
-                answer: 1
-            },
+        {
+            text: "1. わたしは（　）へ いきます。",
+            options: ["ほん", "えんぴつ", "くるま", "<ruby>家<rt>いえ</rt></ruby>"],
+            answer: 3
+        },
+        {
+            text: "2. たなかさんは（　）へ かえります。",
+            options: ["ほん", "みず", "つくえ", "<ruby>郵便局<rt>ゆうびんきょく</rt></ruby>"],
+            answer: 3
+        },
+        {
+            text: "3. わたしは（　）へ いきます。",
+            options: ["<ruby>図書館<rt>としょかん</rt></ruby>", "じしょ", "かばん", "りんご"],
+            answer: 0
+        },
+        {
+            text: "4. がくせいは（　）へ いきます。",
+            options: ["えんぴつ", "<ruby>学校<rt>がっこう</rt></ruby>", "テレビ", "くるま"],
+            answer: 1
+        },
+        {
+            text: "5. わたしは（　）へ いきます。",
+            options: ["<ruby>教室<rt>きょうしつ</rt></ruby>", "ほん", "ねこ", "くるま"],
+            answer: 0
+        },
 
-            {
-                text: "11. ５／１０（　）",
-                options: ["ごがつじゅうにち", "ごがつとうか", "ごがつじゅうか", "ごがつとおか"],
-                answer: 1
-            },
-            {
-                text: "12. ６／２（　）",
-                options: ["ろくがつににち", "ろくがつふつか", "ろくがつふたか", "ろくがつにか"],
-                answer: 1
-            },
+        /* =========================
+           6–10 PARTIKEL へ & いつ
+        ========================= */
 
-            // mulai acak
-            {
-                text: "13. せんげつ にほん（　）いきました。",
-                options: ["へ", "に", "で", "と"],
-                answer: 0
-            },
-            {
-                text: "14. きのう １０じ（　）うちへ いきました。",
-                options: ["で", "に", "へ", "と"],
-                answer: 1
-            },
-            {
-                text: "15. らいねん くに（　）かえります。",
-                options: ["に", "へ", "で", "と"],
-                answer: 1
-            },
-            {
-                text: "16. どこ（　）いきませんでした。",
-                options: ["へ", "に", "も", "で"],
-                answer: 2
-            },
-            {
-                text: "17. スーパー（　）いきます。",
-                options: ["に", "へ", "で", "と"],
-                answer: 1
-            },
-            {
-                text: "18. びじゅつかん（　）いきました。",
-                options: ["に", "で", "へ", "と"],
-                answer: 2
-            },
-            {
-                text: "19. 日本（　）きましたか。",
-                options: ["に", "へ", "で", "と"],
-                answer: 0
-            },
-            {
-                text: "20. ４がつ２５にち（　）きました。",
-                options: ["へ", "に", "で", "と"],
-                answer: 1
-            },
+        {
+            text: "6. わたしは <ruby>学校<rt>がっこう</rt></ruby>（　）いきます。",
+            options: ["を", "で", "へ", "と"],
+            answer: 2
+        },
+        {
+            text: "7. <ruby>日本<rt>にほん</rt></ruby>（　）いきます。",
+            options: ["へ", "を", "に", "と"],
+            answer: 0
+        },
+        {
+            text: "8. （　）<ruby>日本<rt>にほん</rt></ruby>へ いきますか。",
+            options: ["どこ", "いつ", "だれ", "なに"],
+            answer: 1
+        },
+        {
+            text: "9. いつ うちへ かえりますか。",
+            options: ["きょう", "あした", "きのう", "ときどき"],
+            answer: 1
+        },
+        {
+            text: "10. （　）デパートへ いきますか。",
+            options: ["いつ", "なに", "だれ", "どこ"],
+            answer: 0
+        },
 
-            {
-                text: "21. でんしゃ（　）いきました。",
-                options: ["に", "で", "へ", "と"],
-                answer: 1
-            },
-            {
-                text: "22. ともだち（　）いきました。",
-                options: ["で", "に", "と", "へ"],
-                answer: 2
-            },
-            {
-                text: "23. きょうは（　）ですか。",
-                options: ["なんじ", "なんようび", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "24. （　）ブラジルへいきますか。",
-                options: ["なんで", "だれと", "いつ", "どこ"],
-                answer: 1
-            },
-            {
-                text: "25. こうべまで（　）ですか。",
-                options: ["なんじ", "いくら", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "26. （　）でいきますか。",
-                options: ["だれと", "なんで", "いつ", "どこ"],
-                answer: 1
-            },
-            {
-                text: "27. たんじょうびは（　）ですか。",
-                options: ["どこ", "だれ", "いつ", "なん"],
-                answer: 2
-            },
-            {
-                text: "28. あした（　）へいきますか。",
-                options: ["いつ", "どこ", "だれ", "なん"],
-                answer: 1
-            },
-            {
-                text: "29. しんかんせん（　）いきました。",
-                options: ["に", "へ", "で", "と"],
-                answer: 2
-            },
-            {
-                text: "30. かぞく（　）いきました。",
-                options: ["で", "に", "と", "へ"],
-                answer: 2
-            },
+        /* =========================
+           11–15 ～で
+        ========================= */
 
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        きのう わたしは びじゅつかんへ いきました。
-        ともだちと でんしゃで いきました。`,
-                text: "31. どこへ いきましたか。",
-                options: ["えき", "びじゅつかん", "がっこう", "スーパー"],
-                answer: 1
-            },
-            {
-                text: "32. だれと いきましたか。",
-                options: ["かぞく", "ともだち", "せんせい", "ひとり"],
-                answer: 1
-            },
-            {
-                passage: `【３３－３４】<br><br>
-        らいねん くにへ かえります。
-        ひこうきで かえります。`,
-                text: "33. いつ かえりますか。",
-                options: ["きょねん", "きのう", "らいねん", "きょう"],
-                answer: 2
-            },
-            {
-                text: "34. なにで かえりますか。",
-                options: ["でんしゃ", "バス", "ひこうき", "あるいて"],
-                answer: 2
-            },
-            {
-                passage: `【３５－３６】<br><br>
-        きょうは １０がつついたちです。
-        かようびです。`,
-                text: "35. なんがつなんにちですか。",
-                options: ["９がつついたち", "１０がつふつか", "１０がつついたち", "９がつふつか"],
-                answer: 2
-            },
-            {
-                text: "36. なんようびですか。",
-                options: ["げつようび", "かようび", "すいようび", "にちようび"],
-                answer: 1
-            },
+        {
+            text: "11. バス（　）<ruby>学校<rt>がっこう</rt></ruby>へ いきます。",
+            options: ["へ", "で", "を", "と"],
+            answer: 1
+        },
+        {
+            text: "12. スーパー（　）やさいを かいます。",
+            options: ["で", "へ", "を", "に"],
+            answer: 0
+        },
+        {
+            text: "13. わたしは じてんしゃ（　）いきます。",
+            options: ["で", "へ", "を", "と"],
+            answer: 0
+        },
+        {
+            text: "14. <ruby>図書館<rt>としょかん</rt></ruby>（　）ほんを よみます。",
+            options: ["へ", "で", "を", "と"],
+            answer: 1
+        },
+        {
+            text: "15. ナイフ（　）りんごを きります。",
+            options: ["へ", "で", "を", "と"],
+            answer: 1
+        },
 
-            // ===============================
-            // 37–40: 並べ替え（完全ランダム）
-            // ===============================
-            {
-                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ました。",
-                options: ["いき", "きのう", "ました", "びじゅつかんへ"],
-                answer: [1, 3, 0, 2]
-            },
-            {
-                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ました。",
-                options: ["いき", "ました", "ともだちと", "でんしゃで"],
-                answer: [2, 3, 0, 1]
-            },
-            {
-                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                options: ["です", "か", "いつ", "たんじょうびは"],
-                answer: [3, 2, 0, 1]
-            },
-            {
-                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ かえります。",
-                options: ["かえり", "ます", "らいねん", "くにへ"],
-                answer: [2, 3, 0, 1]
-            }
+        /* =========================
+           16–19 ～ませんか
+        ========================= */
 
-        ];
-        let answers = new Array(questions.length).fill(null);
+        {
+            text: "16. いっしょに えいがを み（　）。",
+            options: ["ます", "ません", "ませんか", "ました"],
+            answer: 2
+        },
+        {
+            text: "17. こうえんで さんぽしませんか。",
+            options: [
+                "Ajakan berjalan-jalan",
+                "Sedang berjalan-jalan",
+                "Tidak berjalan-jalan",
+                "Sudah berjalan-jalan"
+            ],
+            answer: 0
+        },
+        {
+            text: "18. こんばん しょくじしませんか。",
+            options: [
+                "Maukah makan malam bersama?",
+                "Sudah makan malam",
+                "Tidak makan malam",
+                "Pergi makan malam"
+            ],
+            answer: 0
+        },
+        {
+            text: "19. いっしょに べんきょう（　）。",
+            options: ["しました", "しませんか", "します", "しません"],
+            answer: 1
+        },
 
+        /* =========================
+           20–22 ～と / 一緒に
+        ========================= */
+
+        {
+            text: "20. わたしは ともだち（　）<ruby>学校<rt>がっこう</rt></ruby>へ いきます。",
+            options: ["へ", "で", "と", "を"],
+            answer: 2
+        },
+        {
+            text: "21. わたしは きむらさんと（　）べんきょうします。",
+            options: ["いっしょに", "どこ", "なに", "いつ"],
+            answer: 0
+        },
+        {
+            text: "22. わたしと いっしょに テニスしませんか。",
+            options: [
+                "Maukah bermain tenis bersama saya?",
+                "Saya bermain tenis",
+                "Saya tidak bermain tenis",
+                "Saya belajar tenis"
+            ],
+            answer: 0
+        },
+
+        /* =========================
+           23–24 DOKKAI
+        ========================= */
+
+        {
+            passage: `【23-24】<br><br>
+わたしは にちようびに ともだちと
+デパートへ いきます。
+デパートで かいものを します。`,
+            text: "23. わたしは だれと デパートへ いきますか。",
+            options: ["せんせい", "ともだち", "かぞく", "ひとり"],
+            answer: 1
+        },
+        {
+            text: "24. デパートで なにを しますか。",
+            options: [
+                "べんきょうします",
+                "しごとします",
+                "かいものします",
+                "たべます"
+            ],
+            answer: 2
+        },
+
+        /* =========================
+           25 TERJEMAHAN
+        ========================= */
+
+        {
+            text: "25. Terjemahkan ke bahasa Jepang: 'Saya pergi ke sekolah bersama teman.'",
+            options: [
+                "わたしは ともだちと <ruby>学校<rt>がっこう</rt></ruby>へ いきます。",
+                "わたしは <ruby>学校<rt>がっこう</rt></ruby>で ともだちです。",
+                "わたしは ともだちを <ruby>学校<rt>がっこう</rt></ruby>へ いきます。",
+                "わたしは <ruby>学校<rt>がっこう</rt></ruby>を いきます。"
+            ],
+            answer: 0
+        }
+
+    ];
+    let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -609,6 +582,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -655,7 +629,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -666,6 +640,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -720,8 +717,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -749,33 +816,57 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 6" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 6" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL Bab 6
+       HASIL BAB 6
        ==============================
 
        👤 Nama : ${studentName}
