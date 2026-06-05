@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Bab 7</title>
+    <title>Kuis Bab 6</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -266,10 +276,10 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Kuis Bab 7</h1>
+        <h1>📚 Kuis Bab 6</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">30:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 1200; // 20 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,241 +330,189 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+    const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (BAB 7)
-            // ===============================
-            {
-                text: "1. 新しいかばん（　）古いかばん",
-                options: ["⇔", "＝", "→", "＋"],
-                answer: 0
-            },
-            {
-                text: "2. いい人（　）悪い人",
-                options: ["⇔", "→", "＝", "＋"],
-                answer: 0
-            },
-            {
-                text: "3. むずかしい本（　）簡単な本",
-                options: ["＋", "⇔", "＝", "→"],
-                answer: 1
-            },
-            {
-                text: "4. 安い肉（　）高い肉",
-                options: ["→", "＋", "⇔", "＝"],
-                answer: 2
-            },
-            {
-                text: "5. 高い山（　）低い山",
-                options: ["⇔", "＝", "＋", "→"],
-                answer: 0
-            },
+        /* =========================
+           KATA SIFAT -i dan -na
+        ========================= */
 
-            {
-                text: "6. 忙しい月曜日（　）暇な月曜日",
-                options: ["→", "⇔", "＋", "＝"],
-                answer: 1
-            },
-            {
-                text: "7. 静かな町（　）にぎやかな町",
-                options: ["＋", "＝", "⇔", "→"],
-                answer: 2
-            },
-            {
-                text: "8. 冷たいお茶（　）温かいお茶",
-                options: ["→", "＋", "＝", "⇔"],
-                answer: 3
-            },
+       {
+            text: "1. このケーキは（　）です。とてもおいしいです。",
+            options: ["しずか", "おいしい", "きれい", "ひま"],
+            answer: 1
+        },
+        {
+            text: "2. この<ruby>部屋<rt>へや</rt></ruby>は（　）です。<ruby>音<rt>おと</rt></ruby>がありません。",
+            options: ["しずか", "にぎやか", "たかい", "あつい"],
+            answer: 0
+        },
+        {
+            text: "3. この<ruby>本<rt>ほん</rt></ruby>は（　）くないです。あまり<ruby>新<rt>あたらしい</rt></ruby>しくありません。",
+            options: ["あたらしい", "おもしろい", "おおきい", "やさしい"],
+            answer: 0
+        },
+        {
+            text: "4. この<ruby>町<rt>まち</rt></ruby>は（　）です。とてもきれいです。",
+            options: ["きたない", "きれい", "あぶない", "ふるい"],
+            answer: 1
+        },
+        {
+            text: "5. この<ruby>映画<rt>えいが</rt></ruby>はあまり（　）です。",
+            options: ["おもしろくない", "おもしろい", "たのしい", "ながい"],
+            answer: 0
+        },
+        {
+            text: "6. <ruby>田中さん<rt>たなかさん</rt></ruby>はとても（　）人です。",
+            options: ["しんせつな", "たかい", "あつい", "ひま"],
+            answer: 0
+        },
+        {
+            text: "7. この<ruby>学校<rt>がっこう</rt></ruby>は（　）です。新しいです。",
+            options: ["ふるい", "あたらしい", "たかい", "しずか"],
+            answer: 1
+        },
+        {
+            text: "8. この<ruby>公園<rt>こうえん</rt></ruby>はとても（　）です。子どもがたくさんいます。",
+            options: ["にぎやか", "しずか", "たかい", "きれい"],
+            answer: 0
+        },
+        // 🟨 B. KATA TANYA (どう・どんな・どれ) (9–14)
+{
+text: "9. この<ruby>映画<rt>えいが</rt></ruby>は（　）ですか。",
+options: ["どう", "どれ", "どんな", "だれ"],
+answer: 0
+},
+{
+text: "10. あの<ruby>人<rt>ひと</rt></ruby>は（　）人ですか。",
+options: ["どれ", "どんな", "どう", "なに"],
+answer: 1
+},
+{
+text: "11. どのかばんがあなたのですか。（　）です。",
+options: ["これ", "それ", "あれ", "どれ"],
+answer: 3
+},
+{
+text: "12. <ruby>日本の食べ物<rt>にほんのたべもの</rt></ruby>は（　）ですか。",
+options: ["どれ", "どんな", "だれ", "いつ"],
+answer: 1
+},
+{
+text: "13. この本は（　）ですか。",
+options: ["どれ", "どんな", "どう", "だれ"],
+answer: 2
+},
+{
+text: "14. どれがあなたのスマホですか。",
+options: ["これ", "どれ", "あれ", "それ"],
+answer: 1
+},
+{
+text: "15. わたしはコーヒーをあまり（　）。",
+options: ["のみます", "のみません", "のみました", "のみたい"],
+answer: 1
+},
+{
+text: "16. この<ruby>映画<rt>えいが</rt></ruby>はおもしろい（　）<ruby>長い<rt>ながい</rt></ruby>です。",
+options: ["が", "そして", "ね", "から"],
+answer: 0
+},
+{
+text: "17. この<ruby>家<rt>いえ</rt></ruby>は大きいです。（　）少し高いです。",
+options: ["そして", "が", "ね", "でも"],
+answer: 1
+},
+{
+text: "18. わたしはあまり肉を（　）。",
+options: ["食べます", "食べません", "食べました", "食べたい"],
+answer: 1
+},
+{
+text: "19. この<ruby>部屋<rt>へや</rt></ruby>はきれいです。（　）しずかです。",
+options: ["が", "そして", "ね", "しかし"],
+answer: 1
+},
+{
+text: "20. 彼はあまり日本語を（　）。",
+options: ["はなします", "はなしません", "はなしました", "はなしたい"],
+answer: 1
+},
+{
+text: "21. この<ruby>町<rt>まち</rt></ruby>は<ruby>便利<rt>べんり</rt></ruby>です。（　）人が<ruby>多い<rt>おおい</rt></ruby>です。",
+options: ["そして", "が", "ね", "でも"],
+answer: 1
+},
+{
+text: "22. わたしはあまりテレビを（　）。",
+options: ["みます", "みません", "みました", "みたい"],
+answer: 1
+},
+        {
+            text: "23. <ruby>今日はいい<rt>きょうはいい</rt></ruby><ruby>天気<rt>てんき</rt></ruby>ですね。（　）",
+            options: ["konfirmasi", "perintah", "larangan", "pertanyaan tidak jelas"],
+            answer: 0
+        },
+        {
+            text: "24. このケーキはおいしいですね。",
+            options: ["larangan", "perintah", "konfirmasi", "negatif"],
+            answer: 2
+        },
+        {
+            text: "25. いい<ruby>映画<rt>えいが</rt></ruby>でしたね。",
+            options: ["pertanyaan","konfirmasi", "negatif", "larangan"],
+            answer: 1
+        },
+        {
+            text: "26. きれいな<ruby>部屋<rt>へや</rt></ruby>ですね。",
+            options: ["konfirmasi", "perintah", "pertanyaan", "negatif"],
+            answer: 0
+        },
+        {
+            text: "27. Terjemahkan: 'Saya tidak begitu suka sayur.'",
+            options: [
+                "<ruby>野菜<rt>やさい</rt></ruby>があまり好きです",
+                "<ruby>野菜<rt>やさい</rt></ruby>があまり好きじゃないです",
+                "<ruby>野菜<rt>やさい</rt></ruby>がとても好きです",
+                "<ruby>野菜<rt>やさい</rt></ruby>が好きでした"
+            ],
+            answer: 1
+        },
+        {
+            text: "28. Terjemahkan: 'Rumah ini besar tetapi mahal.'",
+            options: [
+                "<ruby>この家<rt>このいえ</rt></ruby>は大きいですそして高いです",
+                "<ruby>この家<rt>このいえ</rt></ruby>は大きいですが高いです",
+                "<ruby>この家<rt>このいえ</rt></ruby>は小さいですが安いです",
+                "<ruby>この家<rt>このいえ</rt></ruby>は高いですそして大きいです"
+            ],
+            answer: 1
+        },
+        {
+            text: "29. どんな<ruby>人<rt>ひと</rt></ruby>ですか。",
+            options: [
+                "orang seperti apa",
+                "berapa orang",
+                "di mana orang",
+                "kapan orang"
+            ],
+            answer: 0
+        },
+        {
+            text: "30. この<ruby>映画<rt>えいが</rt></ruby>はどうですか。",
+            options: [
+                
+                "siapa film ini",
+                "berapa film ini",
+                "di mana film ini",
+                "bagaimana film ini"
+            ],
+            answer: 3
 
-            // な形容詞・い形容詞
-            {
-                text: "9. これは（　）かばんです。",
-                options: ["便利な", "便利", "便利に", "便利で"],
-                answer: 0
-            },
-            {
-                text: "10. ジョンさんは（　）先生です。",
-                options: ["親切", "親切な", "親切に", "親切で"],
-                answer: 1
-            },
-            {
-                text: "11. （　）花を買いました。",
-                options: ["きれい", "きれいな", "きれいに", "きれいで"],
-                answer: 1
-            },
-            {
-                text: "12. （　）レストランで食べました。",
-                options: ["静か", "静かで", "静かな", "静かに"],
-                answer: 2
-            },
-            {
-                text: "13. ザキさんは（　）学生です。",
-                options: ["ハンサム", "ハンサムに", "ハンサムな", "ハンサムで"],
-                answer: 2
-            },
-            {
-                text: "14. （　）映画を見ました。",
-                options: ["おもしろい", "おもしろな", "おもしろに", "おもしろで"],
-                answer: 0
-            },
-            {
-                text: "15. （　）お茶を飲みました。",
-                options: ["甘い", "甘いな", "甘くな", "甘いで"],
-                answer: 0
-            },
+        }
 
-            // ～ですか
-            {
-                text: "16. 日本の地下鉄は便利ですか。",
-                options: ["はい、とても便利です", "はい、便利じゃありません", "いいえ、とても便利です", "いいえ、便利です"],
-                answer: 0
-            },
-            {
-                text: "17. シャンハイは寒いですか。",
-                options: ["はい、とても寒いです", "いいえ、あまり寒くないです", "はい、寒くないです", "いいえ、とても寒いです"],
-                answer: 1
-            },
-            {
-                text: "18. そのマンガはいいですか。",
-                options: ["はい、とてもいいです", "いいえ、あまりよくないです", "はい、よくないです", "いいえ、とてもいいです"],
-                answer: 1
-            },
-            {
-                text: "19. 日本の生活は楽しいですか。",
-                options: ["いいえ、楽しくないです", "はい、とても楽しいです", "はい、楽しくないです", "いいえ、とても楽しいです"],
-                answer: 1
-            },
-            {
-                text: "20. あなたの町はにぎやかですか。",
-                options: ["はい、とてもにぎやかです", "いいえ、とてもにぎやかです", "いいえ、あまりにぎやかじゃありません", "はい、にぎやかじゃありません"],
-                answer: 2
-            },
 
-            // ～が、～です
-            {
-                text: "21. このカメラはいいですが（　）。",
-                options: ["安いです", "高いです", "便利です", "新しいです"],
-                answer: 1
-            },
-            {
-                text: "22. 日本の生活は忙しいですが（　）。",
-                options: ["楽しいです", "つまらないです", "高いです", "古いです"],
-                answer: 0
-            },
-            {
-                text: "23. サントスさんはハンサムです。そして（　）。",
-                options: ["おもしろいです", "高いです", "寒いです", "古いです"],
-                answer: 0
-            },
-            {
-                text: "24. 勉強は難しいですが（　）。",
-                options: ["つまらないです", "おもしろいです", "安いです", "古いです"],
-                answer: 1
-            },
-            {
-                text: "25. このコンピューターは新しいです。そして（　）。",
-                options: ["便利です", "高いです", "古いです", "寒いです"],
-                answer: 0
-            },
-
-            // 疑問詞
-            {
-                text: "26. 会社の仕事は（　）ですか。",
-                options: ["どれ", "どう", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "27. あなたのかばんは（　）ですか。",
-                options: ["どこ", "だれ", "どれ", "どう"],
-                answer: 2
-            },
-            {
-                text: "28. ジョンさんは（　）人ですか。",
-                options: ["どれ", "どんな", "どう", "どこ"],
-                answer: 1
-            },
-            {
-                text: "29. その手帳は（　）ですか。",
-                options: ["どこ", "どう", "どれ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "30. あれは（　）ですか。",
-                options: ["どこ", "だれ", "なん", "どれ"],
-                answer: 2
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        この町は静かですが、便利です。
-        スーパーもあります。`,
-                text: "31. この町はどうですか。",
-                options: ["にぎやかです", "静かです", "高いです", "寒いです"],
-                answer: 1
-            },
-            {
-                text: "32. 何がありますか。",
-                options: ["学校", "スーパー", "駅", "病院"],
-                answer: 1
-            },
-
-            {
-                passage: `【３３－３４】<br><br>
-        日本の生活は忙しいですが、楽しいです。`,
-                text: "33. 日本の生活はどうですか。",
-                options: ["楽しいです", "つまらないです", "高いです", "寒いです"],
-                answer: 0
-            },
-            {
-                text: "34. 忙しいですか。",
-                options: ["はい、忙しいです", "いいえ、忙しいです", "はい、暇です", "いいえ、楽しいです"],
-                answer: 0
-            },
-
-            {
-                passage: `【３５－３６】<br><br>
-        このレストランはきれいで、おいしいです。`,
-                text: "35. レストランはどうですか。",
-                options: ["きたないです", "きれいです", "高いです", "寒いです"],
-                answer: 1
-            },
-            {
-                text: "36. 食べ物はどうですか。",
-                options: ["まずいです", "おいしいです", "高いです", "古いです"],
-                answer: 1
-            },
-
-            // ===============================
-            // 37–40: 並べ替え（ACAK）
-            // ===============================
-            {
-                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                options: ["この町は", "便利", "です", "静かですが"],
-                answer: [0, 3, 1, 2]
-            },
-            {
-                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                options: ["日本の生活は", "楽しい", "ですが", "忙しい"],
-                answer: [0, 3, 2, 1]
-            },
-            {
-                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                options: ["その手帳は", "どう", "です", "か"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 買いました。",
-                options: ["黒い", "靴を", "買い", "ました"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
-        let answers = new Array(questions.length).fill(null);
-
+    ];
+    let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -613,6 +572,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -659,7 +619,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -670,6 +630,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -724,8 +707,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -739,7 +792,7 @@
                     total_soal: questions.length,
                     nilai: nilaiTotal,
                     total_point: nilaiTotal,
-                    bab: "Bab 7",
+                    bab: "Bab 6",
                     status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
@@ -753,33 +806,57 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 7" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 6" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL Bab 7
+       HASIL BAB 6
        ==============================
 
        👤 Nama : ${studentName}
