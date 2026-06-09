@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fukuushuu 5-8</title>
+    <title>Fukushuu Bab 5-8</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -221,16 +221,6 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
-
-        #result {
-            margin-top: 30px;
-            font-size: 18px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #ffffff;
-            display: none;
-            border: 2px solid #27ae60;
-        }
     </style>
 </head>
 
@@ -276,10 +266,10 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Fukuushuu 5-8</h1>
+        <h1>📚 Fukushuu Bab 5-8</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">30:00</div>
+            <div id="timer">60:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -304,7 +294,6 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
-        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -318,7 +307,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 1800; // 30 menit
+        const QUIZ_TIME = 3600; // 60 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -330,239 +319,240 @@
         function decode(str) {
             return atob(str);
         }
-    const questions = [
 
-        // ===============================
-        // 1–30: BUNPOU + GOI (REVIEW BAB 5–8)
-        // ===============================
-        {
-            text: "1. ８：１５ は（　）です。",
-            options: ["はちじじゅうごふん", "はちじごふん", "はちじじゅうぷん", "はちじごじゅうふん"],
-            answer: 0
-        },
-        {
-            text: "2. １０：３０ は（　）です。",
-            options: ["じゅうじさんじゅっぷん", "じゅうじはん", "じゅうじさんぷん", "じゅうじよんじゅうぷん"],
-            answer: 1
-        },
-        {
-            text: "3. きょうのつぎの<ruby>日<rt>ひ</rt></ruby>は（　）です。",
-            options: ["きのう", "あした", "らいしゅう", "せんしゅう"],
-            answer: 1
-        },
-        {
-            text: "4. せんしゅうのつぎは（　）です。",
-            options: ["らいしゅう", "こんしゅう", "きょう", "きのう"],
-            answer: 1
-        },
-        {
-            text: "5. らいげつのまえは（　）です。",
-            options: ["こんげつ", "せんげつ", "らいねん", "ことし"],
-            answer: 0
-        },
+        const questions = [
 
-        {
-            text: "6. わたしは<ruby>毎朝<rt>まいあさ</rt></ruby>パン（　）<ruby>食べます<rt>たべます</rt></ruby>。",
-            options: ["を", "に", "で", "が"],
-            answer: 0
-        },
-        {
-            text: "7. きのう<ruby>映画館<rt>えいがかん</rt></ruby>（　）<ruby>映画<rt>えいが</rt></ruby>を見ました。",
-            options: ["に", "を", "が", "で"],
-            answer: 3
-        },
-        {
-            text: "8. <ruby>スーパー<rt>すーぱー</rt></ruby>（　）<ruby>肉<rt>にく</rt></ruby>と<ruby>野菜<rt>やさい</rt></ruby>を買いました。",
-            options: ["で", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "9. わたしはバス（　）<ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行きます<rt>いきます</rt></ruby>。",
-            options: ["に", "を", "が", "で"],
-            answer: 3
-        },
-        {
-            text: "10. <ruby>月曜日<rt>げつようび</rt></ruby>（　）<ruby>働きます<rt>はたきます</rt></ruby>。",
-            options: ["で", "を","に","が"],
-            answer: 2
-        },
+            // ===============================
+            // 1–30: BUNPOU + GOI (REVIEW BAB 5–8)
+            // ===============================
+            {
+                text: "1. ８：１５ は（　）です。",
+                options: ["はちじじゅうごふん", "はちじごふん", "はちじじゅうぷん", "はちじごじゅうふん"],
+                answer: 0
+            },
+            {
+                text: "2. １０：３０ は（　）です。",
+                options: ["じゅうじさんじゅっぷん", "じゅうじはん", "じゅうじさんぷん", "じゅうじよんじゅうぷん"],
+                answer: 1
+            },
+            {
+                text: "3. きょうのつぎの日は（　）です。",
+                options: ["きのう", "あした", "らいしゅう", "せんしゅう"],
+                answer: 1
+            },
+            {
+                text: "4. せんしゅうのつぎは（　）です。",
+                options: ["らいしゅう", "こんしゅう", "きょう", "きのう"],
+                answer: 1
+            },
+            {
+                text: "5. らいげつのまえは（　）です。",
+                options: ["こんげつ", "せんげつ", "らいねん", "ことし"],
+                answer: 0
+            },
 
-        {
-            text: "11. <ruby>３月４日<rt>さんがつよんにち</rt></ruby>は（　）<ruby>曜日<rt>ようび</rt></ruby>です。",
-            options: ["ど", "げつ", "か", "すい"],
-            answer: 0
-        },
-        {
-            text: "12. これは<ruby>３月３日<rt>さんがつさんか</rt></ruby>です。（　）</span>",
-            options: ["さんがつみっか", "さんがつさんにち", "さんがつみつか", "さんがつさんか"],
-            answer: 0
-        },
-        {
-            text: "13. あしたスーパーへ（　）",
-            options: ["行きます", "行きました", "行きませんでした", "行きません"],
-            answer: 0
-        },
-        {
-            text: "14. きのうどこへ（　）",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
-            answer: 0
-        },
-        {
-            text: "15. おととい<ruby>美術館<rt>びじゅつかん</rt></ruby>へ（　）",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
-            answer: 0
-        },
+            {
+                text: "6. わたしは毎朝パン（　）食べます。",
+                options: ["を", "に", "で", "が"],
+                answer: 0
+            },
+            {
+                text: "7. きのう映画館（　）映画を見ました。",
+                options: ["で", "に", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "8. スーパー（　）肉と野菜を買いました。",
+                options: ["で", "に", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "9. わたしはバス（　）学校へ行きます。",
+                options: ["で", "に", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "10. 月曜日（　）働きます。",
+                options: ["に", "で", "を", "が"],
+                answer: 0
+            },
 
-        {
-            text: "16. <ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>先生<rt>せんせい</rt></ruby>が（　）。",
-            options: ["います", "あります", "行きます", "来ます"],
-            answer: 0
-        },
-        {
-            text: "17. <ruby>机の上<rt>つくのうえ</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>が（　）。",
-            options: ["あります", "います", "来ます", "行きます"],
-            answer: 0
-        },
-        {
-            text: "18. <ruby>公園<rt>こうえん</rt></ruby>に<ruby>犬<rt>いぬ</rt></ruby>が（　）。",
-            options: ["います", "あります", "行きます", "来ます"],
-            answer: 0
-        },
-        {
-            text: "19. この<ruby>近く<rt>ちかく</rt></ruby>に<ruby>銀行<rt>ぎんこう</rt></ruby>が（　）か。",
-            options: ["あります", "います", "行きます", "<ruby>来<rt>きます</rt></ruby>"],
-            answer: 0
-        },
-        {
-            text: "20. 冷蔵庫にミルクが（　）。",
-            options: ["あります", "います", "行きます", "来ます"],
-            answer: 0
-        },
+            {
+                text: "11. ３月４日は（　）曜日です。",
+                options: ["ど", "げつ", "か", "すい"],
+                answer: 0
+            },
+            {
+                text: "12. これは３月３日です。（　）",
+                options: ["さんがつみっか", "さんがつさんにち", "さんがつみつか", "さんがつさんか"],
+                answer: 0
+            },
+            {
+                text: "13. あしたスーパーへ（　）。",
+                options: ["行きます", "行きました", "行きませんでした", "行きません"],
+                answer: 0
+            },
+            {
+                text: "14. きのうどこへ（　）。",
+                options: ["行きました", "行きます", "行きません", "行きませんでした"],
+                answer: 0
+            },
+            {
+                text: "15. おととい美術館へ（　）。",
+                options: ["行きました", "行きます", "行きません", "行きませんでした"],
+                answer: 0
+            },
 
-        {
-            text: "21. わたしの<ruby>家族<rt>かぞく</rt></ruby>は<ruby>４人<rt>よんにん</rt></ruby>（　）。",
-            options: ["です", "います", "あります", "します"],
-            answer: 0
-        },
-        {
-            text: "22. 両親と弟が２人（　）。",
-            options: ["います", "あります", "です", "します"],
-            answer: 0
-        },
-        {
-            text: "23. <ruby>駅の前<rt>えきのまえ</rt></ruby>（　）<ruby>コンビニ<rt>こんびに</rt></ruby>があります。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "24. <ruby>本屋<rt>ほんや</rt></ruby>は<ruby>図書館<rt>としょかん</rt></ruby>と<ruby>喫茶店<rt>きっさてん</rt></ruby>の間（　）あります。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "25. <ruby>木の下<rt>きのした</rt></ruby>（　）<ruby>猫<rt>ねこ</rt></ruby>がいます。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
+            {
+                text: "16. 教室に先生が（　）。",
+                options: ["います", "あります", "行きます", "来ます"],
+                answer: 0
+            },
+            {
+                text: "17. 机の上に本が（　）。",
+                options: ["あります", "います", "来ます", "行きます"],
+                answer: 0
+            },
+            {
+                text: "18. 公園に犬が（　）。",
+                options: ["います", "あります", "行きます", "来ます"],
+                answer: 0
+            },
+            {
+                text: "19. この近くに銀行が（　）か。",
+                options: ["あります", "います", "行きます", "来ます"],
+                answer: 0
+            },
+            {
+                text: "20. 冷蔵庫にミルクが（　）。",
+                options: ["あります", "います", "行きます", "来ます"],
+                answer: 0
+            },
 
-        {
-            text: "26. <ruby>先月<rt>せんげつ</rt></ruby><ruby>日本<rt>にほん</rt></ruby>へ（　）。",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
-            answer: 0
-        },
-        {
-            text: "27. <ruby>来年<rt>らいねん</rt></ruby><ruby>国<rt>くに</rt></ruby>へ（　）。",
-            options: ["<ruby>帰ります<rt>かえります</rt></ruby>", "帰りました", "帰りません", "帰りませんでした"],
-            answer: 0
-        },
-        {
-            text: "28. <ruby>電車<rt>でんしゃ</rt></ruby>（　）<ruby>学校<rt>がっこう</rt></ruby>へ行きます。",
-            options: ["で", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "29. あしたどこ（　）行きますか。",
-            options: ["へ", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "30. きのうはどこ（　）行きませんでした。",
-            options: ["も", "に", "へ", "を"],
-            answer: 0
-        },
+            {
+                text: "21. わたしの家族は４人（　）。",
+                options: ["です", "います", "あります", "します"],
+                answer: 0
+            },
+            {
+                text: "22. 両親と弟が２人（　）。",
+                options: ["います", "あります", "です", "します"],
+                answer: 0
+            },
+            {
+                text: "23. 駅の前（　）コンビニがあります。",
+                options: ["に", "で", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "24. 本屋は図書館と喫茶店の間（　）あります。",
+                options: ["に", "で", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "25. 木の下（　）猫がいます。",
+                options: ["に", "で", "を", "が"],
+                answer: 0
+            },
 
-        // ===============================
-        // 31–36: DOKKAI
-        // ===============================
-        {
-            passage: `【３１－３２】<br><br>
+            {
+                text: "26. 先月日本へ（　）。",
+                options: ["行きました", "行きます", "行きません", "行きませんでした"],
+                answer: 0
+            },
+            {
+                text: "27. 来年国へ（　）。",
+                options: ["帰ります", "帰りました", "帰りません", "帰りませんでした"],
+                answer: 0
+            },
+            {
+                text: "28. 電車（　）学校へ行きます。",
+                options: ["で", "に", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "29. あしたどこ（　）行きますか。",
+                options: ["へ", "に", "を", "が"],
+                answer: 0
+            },
+            {
+                text: "30. きのうはどこ（　）行きませんでした。",
+                options: ["も", "に", "へ", "を"],
+                answer: 0
+            },
+
+            // ===============================
+            // 31–36: DOKKAI
+            // ===============================
+            {
+                passage: `【３１－３２】<br><br>
         きのう スーパーへ 行きました。
         肉と 野菜を 買いました。`,
-            text: "31. どこへ 行きましたか。",
-            options: ["学校", "スーパー", "駅", "<ruby>病院<rt>びょういん</rt></ruby>"],
-            answer: 1
-        },
-        {
-            text: "32. 何を 買いましたか。",
-            options: ["パン", "肉と野菜", "本", "ペン"],
-            answer: 1
-        },
+                text: "31. どこへ 行きましたか。",
+                options: ["学校", "スーパー", "駅", "病院"],
+                answer: 1
+            },
+            {
+                text: "32. 何を 買いましたか。",
+                options: ["パン", "肉と野菜", "本", "ペン"],
+                answer: 1
+            },
 
-        {
-            passage: `【３３－３４】<br><br>
-        わたしの<ruby>家族<rt>かぞく</rt></ruby>は４人です。
+            {
+                passage: `【３３－３４】<br><br>
+        わたしの家族は４人です。
         父と母と弟がいます。`,
-            text: "33. <ruby>家族<rt>かぞく</rt></ruby>は何人ですか。",
-            options: ["３人", "４人", "５人", "２人"],
-            answer: 1
-        },
-        {
-            text: "34. だれがいますか。",
-            options: ["<ruby>父と母と弟<rt>ちとぼとおとう</rt></ruby>", "<ruby>友達<rt>ともだち</rt></ruby>", "<ruby>先生<rt>せんせい</rt></ruby>", "犬"],
-            answer: 0
-        },
+                text: "33. 家族は何人ですか。",
+                options: ["３人", "４人", "５人", "２人"],
+                answer: 1
+            },
+            {
+                text: "34. だれがいますか。",
+                options: ["父と母と弟", "友達", "先生", "犬"],
+                answer: 0
+            },
 
-        {
-            passage: `【３５－３６】<br><br>
-        <ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>に<ruby>ミルク<rt>みるく</rt></ruby>があります。
-        <ruby>テーブル<rt>てーぶる</rt></ruby>の上に<ruby>本<rt>ほん</rt></ruby>があります。`,
-            text: "35. <ruby>ミルク<rt>みるく</rt></ruby>はどこですか。",
-            options: ["<ruby>テーブル<rt>てーぶる</rt></ruby>", "<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>", "かばん", "<ruby>机<rt>つく</rt></ruby>"],
-            answer: 1
-        },
-        {
-            text: "36. <ruby>本<rt>ほん</rt></ruby>はどこですか。",
-            options: ["<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>", "<ruby>テーブル<rt>てーぶる</rt></ruby>", "かばん", "<ruby>いす<rt>いす</rt></ruby>"],
-            answer: 1
-        },
+            {
+                passage: `【３５－３６】<br><br>
+        冷蔵庫にミルクがあります。
+        テーブルの上に本があります。`,
+                text: "35. ミルクはどこですか。",
+                options: ["テーブル", "冷蔵庫", "かばん", "机"],
+                answer: 1
+            },
+            {
+                text: "36. 本はどこですか。",
+                options: ["冷蔵庫", "テーブル", "かばん", "いす"],
+                answer: 1
+            },
 
-        // ===============================
-        // 37-40 Susun kata acak, jawaban ditandai bintang
-        // ===============================
-       {
-            text: "37. Susun kata berikut menjadi kalimat yang benar: <br><br> います / 先生 / 教室 に",
-            options: ["<ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>先生<rt>せんせい</rt></ruby>がいます", "先生が教室 に います", "います 教室 がに 先生", "教室 がいます 先生 に"],
-            answer: 0
-        },
-        {
-            text: "38. Susun kata berikut menjadi kalimat yang benar: <br><br> <ruby>本<rt>ほん</rt></ruby> / <ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に",
-            options: ["<ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に <ruby>本<rt>ほん</rt></ruby>があります。", "ありますが<ruby>本<rt>ほん</rt></ruby> <ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に", "があります<ruby>テーブル<rt>てーぶる</rt></ruby> <ruby>本<rt>ほん</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に", "の <ruby>上<rt>うえ</rt></ruby> に <ruby>テーブル<rt>てーぶる</rt></ruby> <ruby>本<rt>ほん</rt></ruby>"],
-            answer: 0
-        },
-        {
-            text: "39. Susun kata berikut menjadi kalimat yang benar: <br><br> スーパー で<ruby>肉<rt>にく</rt></ruby> と <ruby>野菜<rt>やさい</rt></ruby> を <ruby>買いました<rt>かいました</rt></ruby>",
-            options: ["肉 と 野菜 を スーパー で 買いました", "スーパー で 肉 と 野菜 を 買いました", "買いました スーパー で 肉 と 野菜 を", "スーパー 肉 と 野菜 を 買いました で"],
-            answer: 1
-        },
-        {
-            text: "40. Susun kata berikut menjadi kalimat yang benar: <br><br> あした <ruby>学校<rt>がっこう</rt></ruby>へ <ruby>行きます<rt>いきます</rt></ruby>",
-            options: ["<ruby>学校<rt>がっこう</rt></ruby>へ あした 行きます", "あした <ruby>学校<rt>がっこう</rt></ruby>へ 行きます", "行きます あした <ruby>学校<rt>がっこう</rt></ruby>へ", "<ruby>学校<rt>がっこう</rt></ruby>へ 行きます あした"],
-            answer: 1
-       }
+            // ===============================
+            // 37–40: 並べ替え（ランダム）
+            // ===============================
+            {
+                text: "37. わたしは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 行きます。",
+                options: ["学校へ", "バスで", "は", "です"],
+                answer: [2, 1, 0, 3]
+            },
+            {
+                text: "38. きのう ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 見ました。",
+                options: ["映画を", "映画館で", "は", "です"],
+                answer: [2, 1, 0, 3]
+            },
+            {
+                text: "39. 冷蔵庫に ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿。",
+                options: ["ミルクが", "あります", "は", "です"],
+                answer: [2, 0, 1, 3]
+            },
+            {
+                text: "40. 家族は ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
+                options: ["４人", "です", "は", "が"],
+                answer: [2, 0, 1, 3]
+            }
 
-    ];
-
+        ];
         let answers = new Array(questions.length).fill(null);
+
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -622,7 +612,6 @@
 
             generateNav();
             loadQuestion();
-            updateNav();
             startTimer();
         }
 
@@ -669,7 +658,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerHTML = (i + 1) + ". " + opt;
+                btn.innerText = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -680,29 +669,6 @@
                     loadQuestion();
                     updateNav();
                 };
-                /* ======================
-TAMPILKAN GAMBAR
-====================== */
-                const imageBox = document.getElementById("questionImageBox");
-
-                if (q.image) {
-
-                    imageBox.innerHTML = `
-        <img src="${q.image}"
-             alt="Question Image"
-             style="
-                max-width:100%;
-                border-radius:12px;
-                box-shadow:0 4px 12px rgba(0,0,0,0.15);
-             ">
-    `;
-
-                    imageBox.style.display = "block";
-
-                } else {
-
-                    imageBox.style.display = "none";
-                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -757,78 +723,8 @@ TAMPILKAN GAMBAR
             clearInterval(timer);
 
             let benar = 0;
-            let salahList = "";
-
             answers.forEach((a, i) => {
-
-                // soal pilihan ganda biasa
-                if (typeof questions[i].answer === "number") {
-
-                    if (a === questions[i].answer) {
-                        benar++;
-                    } else {
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        let jawabanBenar =
-                            questions[i].options[questions[i].answer];
-
-                        salahList += `
-            <div style="
-                background:#fff3f3;
-                border-left:5px solid #e74c3c;
-                padding:12px;
-                margin:10px 0;
-                border-radius:8px;
-                text-align:left;
-            ">
-                <b>❌ Soal ${i + 1}</b><br>
-                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-            </div>
-            `;
-                    }
-
-                }
-                // soal model array / susun kata
-                else if (Array.isArray(questions[i].answer)) {
-
-                    const jawabanBenarIndex = questions[i].answer[0];
-
-                    if (a === jawabanBenarIndex) {
-
-                        benar++;
-
-                    } else {
-
-                        let jawabanBenar =
-                            questions[i].options[jawabanBenarIndex];
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        salahList += `
-        <div style="
-            background:#fff3f3;
-            border-left:5px solid #e74c3c;
-            padding:12px;
-            margin:10px 0;
-            border-radius:8px;
-            text-align:left;
-        ">
-            <b>❌ Soal ${i + 1}</b><br>
-            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-        </div>
-        `;
-                    }
-                }
-
+                if (a === questions[i].answer) benar++;
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -842,7 +738,7 @@ TAMPILKAN GAMBAR
                     total_soal: questions.length,
                     nilai: nilaiTotal,
                     total_point: nilaiTotal,
-                    bab: "Fukuushuu 5-8",
+                    bab: "Fukushuu Bab 5-8",
                     status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
@@ -856,57 +752,33 @@ TAMPILKAN GAMBAR
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-    <div style="font-size:18px; margin:15px 0;">
-        <b>👤 Nama:</b> ${studentName} <br>
-        <b>🔄 Attempt:</b> ${attempt} <br><br>
+              <div style="font-size:18px; margin:15px 0;">
+                  <b>👤 Nama:</b> ${studentName} <br>
+                  <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-        ✅ Benar: ${benar} / ${questions.length} <br>
-        📊 Nilai: <b>${nilaiTotal}%</b>
-    </div>
+                  ✅ Benar: ${benar} / ${questions.length} <br>
+                  📊 Nilai: <b>${nilaiTotal}%</b>
+              </div>
 
-    <div style="font-size:22px; padding:15px; border-radius:12px;
-    ${nilaiTotal >= 70
-                    ? 'background:#d4edda; color:#155724;'
-                    : 'background:#f8d7da; color:#721c24;'}">
-        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-    </div>
-</div>
-
-<div style="margin-top:25px;">
-    <h3>📌 Nomor Soal yang Salah</h3>
-
-    ${salahList
-                    ? salahList
-                    : `
-            <div style="
-                background:#d4edda;
-                color:#155724;
-                padding:15px;
-                border-radius:10px;
-            ">
-                🎉 Semua jawaban benar!
-            </div>
-            `
-                }
-</div>
-`;
+              <div style="font-size:22px; padding:15px; border-radius:12px;
+            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+              </div>
+          </div>
+          `;
             document.getElementById("result").style.display = "block";
-            console.log(salahList);
-
-            document.getElementById("result").scrollIntoView({
-                behavior: "smooth"
-            });
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS FUKUSHUU 5-8" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 5-8" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL FUKUSHUU 5-8
+       HASIL FUKUSHUU Bab 5-8
        ==============================
 
        👤 Nama : ${studentName}
