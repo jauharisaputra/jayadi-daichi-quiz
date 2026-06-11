@@ -221,16 +221,6 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
-
-        #result {
-            margin-top: 30px;
-            font-size: 18px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #ffffff;
-            display: none;
-            border: 2px solid #27ae60;
-        }
     </style>
 </head>
 
@@ -279,7 +269,7 @@
         <h1>📚 Kuis Bab 9</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">30:00</div>
+            <div id="timer">60:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -304,7 +294,6 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
-        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -318,7 +307,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 1200; // 20 menit
+        const QUIZ_TIME = 3600; // 60 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -330,241 +319,242 @@
         function decode(str) {
             return atob(str);
         }
-         const questions = [
+        const questions = [
 
-                // ===============================
-                // 1–30: BUNPOU + GOI (BAB 9)
-                // ===============================
-                {
-                    text: "1. <ruby>山川<rt>やまかわ</rt></ruby>さんの<ruby>奥<rt>おく</rt></ruby>さん（　）<ruby>料理<rt>りょうり</rt></ruby>（　）<ruby>上手<rt>じょうず</rt></ruby>です。",
-                    options: ["は／が", "が／は", "の／が", "は／を"],
-                    answer: 0
-                },
-                {
-                    text: "2. どんな（　）スポーツ（　）好きです。",
-                    options: ["の／が", "が／の", "は／を", "を／が"],
-                    answer: 0
-                },
-                {
-                    text: "3. 野球（　）好きです。",
-                    options: ["を", "に", "が", "で"],
-                    answer: 2
-                },
-                {
-                    text: "4. ひらがな（　）わかりますか。",
-                    options: ["を", "が", "に", "で"],
-                    answer: 1
-                },
-                {
-                    text: "5. はい、だいたい（　）わかります。",
-                    options: ["が", "を", "に", "で"],
-                    answer: 0
-                },
+            // ===============================
+            // 1–30: BUNPOU + GOI (BAB 9)
+            // ===============================
+            {
+                text: "1. 山川さんの奥さん（　）料理（　）上手です。",
+                options: ["は／が", "が／は", "の／が", "は／を"],
+                answer: 0
+            },
+            {
+                text: "2. どんな（　）スポーツ（　）好きです。",
+                options: ["の／が", "が／の", "は／を", "を／が"],
+                answer: 0
+            },
+            {
+                text: "3. 野球（　）好きです。",
+                options: ["を", "に", "が", "で"],
+                answer: 2
+            },
+            {
+                text: "4. ひらがな（　）わかりますか。",
+                options: ["を", "が", "に", "で"],
+                answer: 1
+            },
+            {
+                text: "5. はい、だいたい（　）わかります。",
+                options: ["が", "を", "に", "で"],
+                answer: 0
+            },
 
-                {
-                    text: "6. あしたいっしょに花見（　）しませんか。",
-                    options: ["を", "に", "が", "で"],
-                    answer: 0
-                },
-                {
-                    text: "7. あしたは友達（　）約束（　）あります。",
-                    options: ["に／が", "と／が", "が／を", "と／を"],
-                    answer: 1
-                },
-                {
-                    text: "8. パソコン（　）ありません（　）、借ります。",
-                    options: ["が／から", "を／が", "に／で", "は／を"],
-                    answer: 0
-                },
+            {
+                text: "6. あしたいっしょに花見（　）しませんか。",
+                options: ["を", "に", "が", "で"],
+                answer: 0
+            },
+            {
+                text: "7. あしたは友達（　）約束（　）あります。",
+                options: ["に／が", "と／が", "が／を", "と／を"],
+                answer: 1
+            },
+            {
+                text: "8. パソコン（　）ありません（　）、借ります。",
+                options: ["が／から", "を／が", "に／で", "は／を"],
+                answer: 0
+            },
 
-                // 副詞
-                {
-                    text: "9. ダンスが（　）上手です。",
-                    options: ["とても", "あまり", "ぜんぜん", "すこし"],
-                    answer: 0
-                },
-                {
-                    text: "10. 昨日の夜は（　）寝ました。",
-                    options: ["ぜんぜん", "あまり", "よく", "すこし"],
-                    answer: 2
-                },
-                {
-                    text: "11. 毎晩ワインを（　）飲みます。",
-                    options: ["あまり", "たくさん", "ぜんぜん", "あまりに"],
-                    answer: 1
-                },
-                {
-                    text: "12. カタカナが（　）わかります。",
-                    options: ["ぜんぜん", "だいたい", "あまり", "よくない"],
-                    answer: 1
-                },
-                {
-                    text: "13. 昨日の夜（　）勉強しませんでした。",
-                    options: ["とても", "だいたい", "ぜんぜん", "よく"],
-                    answer: 2
-                },
-                {
-                    text: "14. 図書館に本が（　）あります。",
-                    options: ["よく", "だいたい", "たくさん", "あまり"],
-                    answer: 2
-                },
-                {
-                    text: "15. きのう（　）帰りました。",
-                    options: ["ぜんぜん", "すこし", "あまり", "だいたい"],
-                    answer: 1
-                },
+            // 副詞
+            {
+                text: "9. ダンスが（　）上手です。",
+                options: ["とても", "あまり", "ぜんぜん", "すこし"],
+                answer: 0
+            },
+            {
+                text: "10. 昨日の夜は（　）寝ました。",
+                options: ["ぜんぜん", "あまり", "よく", "すこし"],
+                answer: 2
+            },
+            {
+                text: "11. 毎晩ワインを（　）飲みます。",
+                options: ["あまり", "たくさん", "ぜんぜん", "あまりに"],
+                answer: 1
+            },
+            {
+                text: "12. カタカナが（　）わかります。",
+                options: ["ぜんぜん", "だいたい", "あまり", "よくない"],
+                answer: 1
+            },
+            {
+                text: "13. 昨日の夜（　）勉強しませんでした。",
+                options: ["とても", "だいたい", "ぜんぜん", "よく"],
+                answer: 2
+            },
+            {
+                text: "14. 図書館に本が（　）あります。",
+                options: ["よく", "だいたい", "たくさん", "あまり"],
+                answer: 2
+            },
+            {
+                text: "15. きのう（　）帰りました。",
+                options: ["ぜんぜん", "すこし", "あまり", "だいたい"],
+                answer: 1
+            },
 
-                // 会話表現
-                {
-                    text: "16. 「こんにちは。（　）」",
-                    options: ["お元気ですか", "ありがとう", "さようなら", "すみません"],
-                    answer: 0
-                },
-                {
-                    text: "17. 「元気です。（　）、歌が好きです。」",
-                    options: ["そして", "でも", "だから", "しかし"],
-                    answer: 0
-                },
-                {
-                    text: "18. 「（　）カラオケ、行きませんか。」",
-                    options: ["ぜひ", "たぶん", "あまり", "ぜんぜん"],
-                    answer: 0
-                },
-                {
-                    text: "19. 「いいですね。（　）」",
-                    options: ["いつですか", "だれですか", "どこですか", "なんですか"],
-                    answer: 0
-                },
-                {
-                    text: "20. 「用事がありますから、（　）。」",
-                    options: ["行きます", "行きません", "行きたいです", "行きました"],
-                    answer: 1
-                },
+            // 会話表現
+            {
+                text: "16. 「こんにちは。（　）」",
+                options: ["お元気ですか", "ありがとう", "さようなら", "すみません"],
+                answer: 0
+            },
+            {
+                text: "17. 「元気です。（　）、歌が好きです。」",
+                options: ["そして", "でも", "だから", "しかし"],
+                answer: 0
+            },
+            {
+                text: "18. 「（　）カラオケ、行きませんか。」",
+                options: ["ぜひ", "たぶん", "あまり", "ぜんぜん"],
+                answer: 0
+            },
+            {
+                text: "19. 「いいですね。（　）」",
+                options: ["いつですか", "だれですか", "どこですか", "なんですか"],
+                answer: 0
+            },
+            {
+                text: "20. 「用事がありますから、（　）。」",
+                options: ["行きます", "行きません", "行きたいです", "行きました"],
+                answer: 1
+            },
 
-                // 理由
-                {
-                    text: "21. どうして朝ご飯を食べませんか。",
-                    options: ["時間がありませんから", "おいしいですから", "好きですから", "ありますから"],
-                    answer: 0
-                },
-                {
-                    text: "22. どうしてこのスーパーへ来ますか。",
-                    options: ["便利ですから", "寒いですから", "遠いですから", "高いですから"],
-                    answer: 0
-                },
-                {
-                    text: "23. どうしてダンスをしませんか。",
-                    options: ["好きですから", "きらいですから", "上手ですから", "楽しいですから"],
-                    answer: 1
-                },
-                {
-                    text: "24. （　）、日本語がわかりません。",
-                    options: ["勉強しませんから", "勉強しましたから", "勉強しますから", "勉強ですから"],
-                    answer: 0
-                },
-                {
-                    text: "25. （　）、お金がありません。",
-                    options: ["買いますから", "高いですから", "ありますから", "行きますから"],
-                    answer: 1
-                },
+            // 理由
+            {
+                text: "21. どうして朝ご飯を食べませんか。",
+                options: ["時間がありませんから", "おいしいですから", "好きですから", "ありますから"],
+                answer: 0
+            },
+            {
+                text: "22. どうしてこのスーパーへ来ますか。",
+                options: ["便利ですから", "寒いですから", "遠いですから", "高いですから"],
+                answer: 0
+            },
+            {
+                text: "23. どうしてダンスをしませんか。",
+                options: ["好きですから", "きらいですから", "上手ですから", "楽しいですから"],
+                answer: 1
+            },
+            {
+                text: "24. （　）、日本語がわかりません。",
+                options: ["勉強しませんから", "勉強しましたから", "勉強しますから", "勉強ですから"],
+                answer: 0
+            },
+            {
+                text: "25. （　）、お金がありません。",
+                options: ["買いますから", "高いですから", "ありますから", "行きますから"],
+                answer: 1
+            },
 
-                // 疑問詞
-                {
-                    text: "26. （　）魚を食べませんか。",
-                    options: ["どんな", "どれ", "どこ", "だれ"],
-                    answer: 0
-                },
-                {
-                    text: "27. （　）アニメが好きですか。",
-                    options: ["どんな", "どれ", "どこ", "だれ"],
-                    answer: 0
-                },
-                {
-                    text: "28. 日本語の勉強（　）ですか。",
-                    options: ["どう", "どれ", "どこ", "だれ"],
-                    answer: 0
-                },
-                {
-                    text: "29. 机は（　）ですか。",
-                    options: ["どんな", "どれ", "どこ", "どう"],
-                    answer: 1
-                },
-                {
-                    text: "30. 音楽が好きですから、（　）。",
-                    options: ["よく聞きます", "聞きません", "行きません", "ありません"],
-                    answer: 0
-                },
+            // 疑問詞
+            {
+                text: "26. （　）魚を食べませんか。",
+                options: ["どんな", "どれ", "どこ", "だれ"],
+                answer: 0
+            },
+            {
+                text: "27. （　）アニメが好きですか。",
+                options: ["どんな", "どれ", "どこ", "だれ"],
+                answer: 0
+            },
+            {
+                text: "28. 日本語の勉強（　）ですか。",
+                options: ["どう", "どれ", "どこ", "だれ"],
+                answer: 0
+            },
+            {
+                text: "29. 机は（　）ですか。",
+                options: ["どんな", "どれ", "どこ", "どう"],
+                answer: 1
+            },
+            {
+                text: "30. 音楽が好きですから、（　）。",
+                options: ["よく聞きます", "聞きません", "行きません", "ありません"],
+                answer: 0
+            },
 
-                // ===============================
-                // 31–36: DOKKAI
-                // ===============================
-                {
-                    passage: `【３１－３２】<br><br>
+            // ===============================
+            // 31–36: DOKKAI
+            // ===============================
+            {
+                passage: `【３１－３２】<br><br>
         わたしは音楽が好きです。
         毎日よく聞きます。`,
-                    text: "31. 何が好きですか。",
-                    options: ["映画", "音楽", "スポーツ", "本"],
-                    answer: 1
-                },
-                {
-                    text: "32. どのくらい聞きますか。",
-                    options: ["ぜんぜん聞きません", "毎日よく聞きます", "あまり聞きません", "ときどきです"],
-                    answer: 1
-                },
+                text: "31. 何が好きですか。",
+                options: ["映画", "音楽", "スポーツ", "本"],
+                answer: 1
+            },
+            {
+                text: "32. どのくらい聞きますか。",
+                options: ["ぜんぜん聞きません", "毎日よく聞きます", "あまり聞きません", "ときどきです"],
+                answer: 1
+            },
 
-                {
-                    passage: `【３３－３４】<br><br>
+            {
+                passage: `【３３－３４】<br><br>
         きのうは忙しかったですから、勉強しませんでした。`,
-                    text: "33. なぜ勉強しませんでしたか。",
-                    options: ["暇でしたから", "忙しかったですから", "楽しかったですから", "好きですから"],
-                    answer: 1
-                },
-                {
-                    text: "34. 勉強しましたか。",
-                    options: ["はい、しました", "いいえ、しませんでした", "はい、します", "いいえ、します"],
-                    answer: 1
-                },
+                text: "33. なぜ勉強しませんでしたか。",
+                options: ["暇でしたから", "忙しかったですから", "楽しかったですから", "好きですから"],
+                answer: 1
+            },
+            {
+                text: "34. 勉強しましたか。",
+                options: ["はい、しました", "いいえ、しませんでした", "はい、します", "いいえ、します"],
+                answer: 1
+            },
 
-                {
-                    passage: `【３５－３６】<br><br>
+            {
+                passage: `【３５－３６】<br><br>
         あしたは友達と約束があります。`,
-                    text: "35. あした何がありますか。",
-                    options: ["仕事", "約束", "勉強", "旅行"],
-                    answer: 1
-                },
-                {
-                    text: "36. だれとですか。",
-                    options: ["先生", "友達", "家族", "一人"],
-                    answer: 1
-                },
+                text: "35. あした何がありますか。",
+                options: ["仕事", "約束", "勉強", "旅行"],
+                answer: 1
+            },
+            {
+                text: "36. だれとですか。",
+                options: ["先生", "友達", "家族", "一人"],
+                answer: 1
+            },
 
-                // ===============================
-                // 37–40: 並べ替え（ランダム）
-                // ===============================
-                {
-                    text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 好きです。",
-                    options: ["わたしは", "音楽が", "好き", "とても"],
-                    answer: [0, 3, 1, 2]
-                },
-                {
-                    text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 聞きます。",
-                    options: ["毎日", "音楽を", "よく", "聞きます"],
-                    answer: [0, 2, 1, 3]
-                },
-                {
-                    text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ しませんでした。",
-                    options: ["きのうは", "忙しかったですから", "勉強", "しませんでした"],
-                    answer: [0, 1, 2, 3]
-                },
-                {
-                    text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ あります。",
-                    options: ["あしたは", "友達と", "約束が", "あります"],
-                    answer: [0, 1, 2, 3]
-                }
+            // ===============================
+            // 37–40: 並べ替え（ランダム）
+            // ===============================
+            {
+                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 好きです。",
+                options: ["わたしは", "音楽が", "好き", "とても"],
+                answer: [0, 3, 1, 2]
+            },
+            {
+                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 聞きます。",
+                options: ["毎日", "音楽を", "よく", "聞きます"],
+                answer: [0, 2, 1, 3]
+            },
+            {
+                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ しませんでした。",
+                options: ["きのうは", "忙しかったですから", "勉強", "しませんでした"],
+                answer: [0, 1, 2, 3]
+            },
+            {
+                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ あります。",
+                options: ["あしたは", "友達と", "約束が", "あります"],
+                answer: [0, 1, 2, 3]
+            }
 
-            ];
-            let answers = new Array(questions.length).fill(null);
-// ANTI-CHEAT
+        ];
+        let answers = new Array(questions.length).fill(null);
+
+        // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
             if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
@@ -623,7 +613,6 @@
 
             generateNav();
             loadQuestion();
-            updateNav();
             startTimer();
         }
 
@@ -670,7 +659,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerHTML = (i + 1) + ". " + opt;
+                btn.innerText = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -681,29 +670,6 @@
                     loadQuestion();
                     updateNav();
                 };
-                /* ======================
-TAMPILKAN GAMBAR
-====================== */
-                const imageBox = document.getElementById("questionImageBox");
-
-                if (q.image) {
-
-                    imageBox.innerHTML = `
-        <img src="${q.image}"
-             alt="Question Image"
-             style="
-                max-width:100%;
-                border-radius:12px;
-                box-shadow:0 4px 12px rgba(0,0,0,0.15);
-             ">
-    `;
-
-                    imageBox.style.display = "block";
-
-                } else {
-
-                    imageBox.style.display = "none";
-                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -758,78 +724,8 @@ TAMPILKAN GAMBAR
             clearInterval(timer);
 
             let benar = 0;
-            let salahList = "";
-
             answers.forEach((a, i) => {
-
-                // soal pilihan ganda biasa
-                if (typeof questions[i].answer === "number") {
-
-                    if (a === questions[i].answer) {
-                        benar++;
-                    } else {
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        let jawabanBenar =
-                            questions[i].options[questions[i].answer];
-
-                        salahList += `
-            <div style="
-                background:#fff3f3;
-                border-left:5px solid #e74c3c;
-                padding:12px;
-                margin:10px 0;
-                border-radius:8px;
-                text-align:left;
-            ">
-                <b>❌ Soal ${i + 1}</b><br>
-                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-            </div>
-            `;
-                    }
-
-                }
-                // soal model array / susun kata
-                else if (Array.isArray(questions[i].answer)) {
-
-                    const jawabanBenarIndex = questions[i].answer[0];
-
-                    if (a === jawabanBenarIndex) {
-
-                        benar++;
-
-                    } else {
-
-                        let jawabanBenar =
-                            questions[i].options[jawabanBenarIndex];
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        salahList += `
-        <div style="
-            background:#fff3f3;
-            border-left:5px solid #e74c3c;
-            padding:12px;
-            margin:10px 0;
-            border-radius:8px;
-            text-align:left;
-        ">
-            <b>❌ Soal ${i + 1}</b><br>
-            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-        </div>
-        `;
-                    }
-                }
-
+                if (a === questions[i].answer) benar++;
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -857,49 +753,25 @@ TAMPILKAN GAMBAR
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-    <div style="font-size:18px; margin:15px 0;">
-        <b>👤 Nama:</b> ${studentName} <br>
-        <b>🔄 Attempt:</b> ${attempt} <br><br>
+              <div style="font-size:18px; margin:15px 0;">
+                  <b>👤 Nama:</b> ${studentName} <br>
+                  <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-        ✅ Benar: ${benar} / ${questions.length} <br>
-        📊 Nilai: <b>${nilaiTotal}%</b>
-    </div>
+                  ✅ Benar: ${benar} / ${questions.length} <br>
+                  📊 Nilai: <b>${nilaiTotal}%</b>
+              </div>
 
-    <div style="font-size:22px; padding:15px; border-radius:12px;
-    ${nilaiTotal >= 70
-                    ? 'background:#d4edda; color:#155724;'
-                    : 'background:#f8d7da; color:#721c24;'}">
-        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-    </div>
-</div>
-
-<div style="margin-top:25px;">
-    <h3>📌 Nomor Soal yang Salah</h3>
-
-    ${salahList
-                    ? salahList
-                    : `
-            <div style="
-                background:#d4edda;
-                color:#155724;
-                padding:15px;
-                border-radius:10px;
-            ">
-                🎉 Semua jawaban benar!
-            </div>
-            `
-                }
-</div>
-`;
+              <div style="font-size:22px; padding:15px; border-radius:12px;
+            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+              </div>
+          </div>
+          `;
             document.getElementById("result").style.display = "block";
-            console.log(salahList);
-
-            document.getElementById("result").scrollIntoView({
-                behavior: "smooth"
-            });
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
 
