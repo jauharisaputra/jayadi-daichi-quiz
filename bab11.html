@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -269,7 +279,7 @@
         <h1>📚 Kuis Bab 11</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">50:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 3000; // 50 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,239 +330,244 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+   const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (BAB 11)
-            // ===============================
-            {
-                text: "1. 多い（　）少ない",
-                options: ["⇔", "より", "が", "で"],
-                answer: 0
-            },
-            {
-                text: "2. 近い（　）遠い",
-                options: ["⇔", "に", "が", "を"],
-                answer: 0
-            },
-            {
-                text: "3. 軽い（　）重い",
-                options: ["⇔", "は", "が", "も"],
-                answer: 0
-            },
-            {
-                text: "4. 速い（　）遅い",
-                options: ["⇔", "で", "に", "を"],
-                answer: 0
-            },
-            {
-                text: "5. 広い（　）狭い",
-                options: ["⇔", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "6. 暗い（　）明るい",
-                options: ["⇔", "に", "を", "で"],
-                answer: 0
-            },
-            {
-                text: "7. 古い（　）新しい",
-                options: ["⇔", "で", "に", "が"],
-                answer: 0
-            },
-            {
-                text: "8. 低い（　）高い",
-                options: ["⇔", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "9. 長い（　）短い",
-                options: ["⇔", "に", "で", "を"],
-                answer: 0
-            },
-            {
-                text: "10. 暇（　）忙しい",
-                options: ["⇔", "で", "が", "を"],
-                answer: 0
-            },
+        // ===============================
+        // 1–30: BUNPOU + GOI (BAB 11)
+        // ===============================
+        {
+            passage: `<b>【Petunjuk Soal 1–10: Antonim / Lawan Kata】</b><br>
+Pilihlah kosakata yang memiliki arti berlawanan (antonim) untuk mengisi bagian dalam kurung ( ). <br>
+*Catatan: Tanda <b>⇔</b> berarti lawan kata.`,
+            text: "1. <ruby>多<rt>おお</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>少<rt>すく</rt></ruby>ない", "<ruby>遠<rt>とお</rt></ruby>い", "<ruby>重<rt>おも</rt></ruby>い", "<ruby>遅<rt>おそ</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "2. <ruby>近<rt>ちか</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>遠<rt>とお</rt></ruby>い", "<ruby>狭<rt>せま</rt></ruby>い", "<ruby>暗<rt>くら</rt></ruby>い", "<ruby>古<rt>ふる</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "3. <ruby>軽<rt>かる</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>重<rt>おも</rt></ruby>い", "<ruby>新<rt>あたら</rt></ruby>しい", "<ruby>高<rt>たか</rt></ruby>い", "<ruby>短<rt>みじか</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "4. <ruby>速<rt>はや</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>遅<rt>おそ</rt></ruby>い", "<ruby>忙<rt>いそが</rt></ruby>しい", "<ruby>少<rt>すく</rt></ruby>ない", "<ruby>遠<rt>とお</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "5. <ruby>広<rt>ひろ</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>狭<rt>せま</rt></ruby>い", "<ruby>重<rt>おも</rt></ruby>い", "<ruby>明<rt>あか</rt></ruby>るい", "<ruby>低<rt>ひく</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "6. <ruby>暗<rt>くら</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>明<rt>あか</rt></ruby>るい", "<ruby>古<rt>ふる</rt></ruby>い", "<ruby>高<rt>たか</rt></ruby>い", "<ruby>短<rt>みじか</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "7. <ruby>古<rt>ふる</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>新<rt>あたら</rt></ruby>しい", "<ruby>少<rt>すく</rt></ruby>ない", "<ruby>遠<rt>とお</rt></ruby>い", "<ruby>遅<rt>おそ</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "8. <ruby>低<rt>ひく</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>高<rt>たか</rt></ruby>い", "<ruby>狭<rt>せま</rt></ruby>い", "<ruby>暗<rt>くら</rt></ruby>い", "<ruby>忙<rt>いそが</rt></ruby>しい"],
+            answer: 0
+        },
+        {
+            text: "9. <ruby>長<rt>なが</rt></ruby>い ⇔ （ ）",
+            options: ["<ruby>短<rt>みじか</rt></ruby>い", "<ruby>重<rt>おも</rt></ruby>い", "<ruby>明<rt>あか</rt></ruby>るい", "<ruby>新<rt>あたら</rt></ruby>しい"],
+            answer: 0
+        },
+        {
+            text: "10. <ruby>暇<rt>ひま</rt></ruby> ⇔ （ ）",
+            options: ["<ruby>忙<rt>いそが</rt></ruby>しい", "<ruby>少<rt>すく</rt></ruby>ない", "<ruby>遠<rt>とお</rt></ruby>い", "<ruby>低<rt>ひく</rt></ruby>い"],
+            answer: 0
+        },
 
-            {
-                text: "11. 地下鉄（　）バス（　）安いです。",
-                options: ["は / より", "より / は", "が / を", "で / に"],
-                answer: 0
-            },
-            {
-                text: "12. 暑い季節（　）寒い季節（　）どちら（　）いいですか。",
-                options: ["と / と / が", "は / より / が", "で / に / を", "が / が / を"],
-                answer: 0
-            },
-            {
-                text: "13. 暑い季節（　）ほう（　）いいです。",
-                options: ["の / が", "は / を", "が / に", "で / が"],
-                answer: 0
-            },
-            {
-                text: "14. 一年で（　）何月（　）いちばん雨が多いですか。",
-                options: ["は / が", "に / を", "で / が", "が / を"],
-                answer: 2
-            },
-            {
-                text: "15. 桜（　）日本の花（　）いちばん有名です。",
-                options: ["は / で", "が / に", "を / が", "に / で"],
-                answer: 0
-            },
+        {
+            text: "11. <ruby>地下鉄<rt>ちかてつ</rt></ruby>（ ）バス（ ）<ruby>安<rt>やす</rt></ruby>いです。",
+            options: ["は / より", "より / は", "が / を", "で / に"],
+            answer: 0
+        },
+        {
+            text: "12. <ruby>暑<rt>あつ</rt></ruby>い<ruby>季節<rt>きせつ</rt></ruby>（ ）<ruby>寒<rt>さむ</rt></ruby>い<ruby>季節<rt>きせつ</rt></ruby>（ ）どちら（ ）いいですか。",
+            options: ["と / と / が", "は / より / が", "で / に / を", "が / が / を"],
+            answer: 0
+        },
+        {
+            text: "13. <ruby>暑<rt>あつ</rt></ruby>い<ruby>季節<rt>きせつ</rt></ruby>（ ）ほう（ ）いいです。",
+            options: ["の / が", "は / を", "が / に", "で / が"],
+            answer: 0
+        },
+        {
+            text: "14. <ruby>一年<rt>いちねん</rt></ruby>で（ ）<ruby>何月<rt>なんがつ</rt></ruby>（ ）いちばん<ruby>雨<rt>あめ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いですか。",
+            options: ["は / が", "に / を", "で / が", "が / を"],
+            answer: 2
+        },
+        {
+            text: "15. <ruby>桜<rt>さくら</rt></ruby>（ ）<ruby>日本<rt>にほん</rt></ruby>の<ruby>花<rt>はな</rt></ruby>（ ）いちばん<ruby>有名<rt>ゆうめい</rt></ruby>です。",
+            options: ["は / で", "が / に", "を / が", "に / で"],
+            answer: 0
+        },
 
-            {
-                text: "16. 松本さん（　）山川さん（　）どちら（　）上手ですか。",
-                options: ["と / と / が", "は / より / が", "が / を / に", "で / が / を"],
-                answer: 0
-            },
-            {
-                text: "17. 飛行機と新幹線と（　）が速いですか。",
-                options: ["どちら", "だれ", "どこ", "なん"],
-                answer: 0
-            },
-            {
-                text: "18. スポーツで（　）がいちばんおもしろいですか。",
-                options: ["なに", "どれ", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "19. 来年タイへ行きます。（　）がいちばんいい季節ですか。",
-                options: ["いつ", "どれ", "どこ", "だれ"],
-                answer: 0
-            },
-            {
-                text: "20. 東京の本屋で（　）がいちばん本が多いですか。",
-                options: ["どこ", "どれ", "なに", "だれ"],
-                answer: 0
-            },
+        {
+            text: "16. <ruby>松本<rt>まつもと</rt></ruby>さん（ ）<ruby>山川<rt>やまかわ</rt></ruby>さん（ ）どちら（ ）<ruby>上手<rt>じょうず</rt></ruby>ですか。",
+            options: ["と / と / が", "は / より / が", "が / を / に", "で / が / を"],
+            answer: 0
+        },
+        {
+            text: "17. <ruby>飛行機<rt>ひこうき</rt></ruby>と<ruby>新幹線<rt>しんかんせん</rt></ruby>と（ ）が<ruby>速<rt>はや</rt></ruby>いですか。",
+            options: ["どちら", "だれ", "どこ", "なん"],
+            answer: 0
+        },
+        {
+            text: "18. スポーツで（ ）がいちばんおもしろいですか。",
+            options: ["なに", "どれ", "どこ", "だれ"],
+            answer: 1
+        },
+        {
+            text: "19. <ruby>来年<rt>らいねん</rt></ruby>タイへ<ruby>行<rt>い</rt></ruby>きます。（ ）がいちばんいい<ruby>季節<rt>きせつ</rt></ruby>ですか。",
+            options: ["いつ", "どれ", "どこ", "だれ"],
+            answer: 0
+        },
+        {
+            text: "20. <ruby>東京<rt>とうきょう</rt></ruby>の<ruby>本屋<rt>ほんや</rt></ruby>で（ ）がいちばん<ruby>本<rt>ほん</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いですか。",
+            options: ["どこ", "どれ", "なに", "だれ"],
+            answer: 0
+        },
 
-            {
-                text: "21. 地下鉄はバス（　）速いです。",
-                options: ["より", "が", "を", "で"],
-                answer: 0
-            },
-            {
-                text: "22. 日本料理で寿司（　）いちばんおいしいです。",
-                options: ["が", "を", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "23. 富士大学は愛知大学（　）古いです。",
-                options: ["より", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "24. この店はデパート（　）安いです。",
-                options: ["より", "が", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "25. レニさんは髪が（　）です。",
-                options: ["長い", "長く", "長かった", "長さ"],
-                answer: 0
-            },
+        {
+            text: "21. <ruby>地下鉄<rt>ちかてつ</rt></ruby>はバス（ ）<ruby>速<rt>はや</rt></ruby>いです。",
+            options: ["より", "が", "を", "で"],
+            answer: 0
+        },
+        {
+            text: "22. <ruby>日本料理<rt>にほんりょうり</rt></ruby>で<ruby>寿司<rt>すし</rt></ruby>（ ）いちばんおいしいです。",
+            options: ["が", "を", "に", "で"],
+            answer: 0
+        },
+        {
+            text: "23. <ruby>富士大学<rt>ふじだいがく</rt></ruby>は<ruby>愛知大学<rt>あいちだいがく</rt></ruby>（ ）<ruby>古<rt>ふる</rt></ruby>いです。",
+            options: ["より", "が", "を", "に"],
+            answer: 0
+        },
+        {
+            text: "24. この<ruby>店<rt>みせ</rt></ruby>はデパート（ ）<ruby>安<rt>やす</rt></ruby>いです。",
+            options: ["より", "が", "に", "で"],
+            answer: 0
+        },
+        {
+            text: "25. レニさんは<ruby>髪<rt>かみ</rt></ruby>が（ ）です。",
+            options: ["<ruby>長<rt>なが</rt></ruby>い", "<ruby>長<rt>なが</rt></ruby>く", "<ruby>長<rt>なが</rt></ruby>かった", "<ruby>長<rt>なが</rt></ruby>さ"],
+            answer: 0
+        },
 
-            {
-                text: "26. 北海道は雪の季節（　）きれいです。",
-                options: ["が", "に", "を", "で"],
-                answer: 0
-            },
-            {
-                text: "27. この喫茶店は紅茶（　）おいしいです。",
-                options: ["が", "を", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "28. あの黒くて大きいかばん（　）木村さんのです。",
-                options: ["が", "を", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "29. 目が青くて背が高い人（　）山川さんです。",
-                options: ["が", "を", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "30. 便利で安いパソコン（　）買いました。",
-                options: ["を", "が", "に", "で"],
-                answer: 0
-            },
+        {
+            text: "26. <ruby>北海道<rt>ほっかいどう</rt></ruby>は<ruby>雪<rt>ゆき</rt></ruby>の<ruby>季節<rt>きせつ</rt></ruby>（ ）きれいです。",
+            options: ["が", "に", "を", "で"],
+            answer: 0
+        },
+        {
+            text: "27. この<ruby>喫茶店<rt>きっさてん</rt></ruby>は<ruby>紅茶<rt>こうちゃ</rt></ruby>（ ）おいしいです。",
+            options: ["が", "を", "に", "で"],
+            answer: 0
+        },
+        {
+            text: "28. あの<ruby>黒<rt>くろ</rt></ruby>くて<ruby>大<rt>おお</rt></ruby>きいかばん（ ）<ruby>木村<rt>きむら</rt></ruby>さんのです。",
+            options: ["が", "を", "に", "で"],
+            answer: 0
+        },
+        {
+            text: "29. <ruby>目<rt>め</rt></ruby>が<ruby>青<rt>あお</rt></ruby>くて<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>（ ）<ruby>山川<rt>やまかわ</rt></ruby>さんです。",
+            options: ["が", "を", "に", "で"],
+            answer: 0
+        },
+        {
+            text: "30. <ruby>便利<rt>べんり</rt></ruby>で<ruby>安<rt>やす</rt></ruby>いパソコン（ ）<ruby>買<rt>か</rt></ruby>いました。",
+            options: ["を", "が", "に", "で"],
+            answer: 0
+        },
 
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        日本は春と秋が人気です。
-        春は桜がきれいで、秋は天気がいいです。`,
-                text: "31. 春はどうですか。",
-                options: ["暑い", "寒い", "桜がきれい", "雨が多い"],
-                answer: 2
-            },
-            {
-                text: "32. 秋はどうですか。",
-                options: ["寒い", "天気がいい", "暑い", "雪が多い"],
-                answer: 1
-            },
+        // ===============================
+        // 31–36: DOKKAI
+        // ===============================
+        {
+            passage: `【３１－３２】<br><br>
+<ruby>日本<rt>にほん</rt></ruby>は<ruby>春<rt>はる</rt></ruby>と<ruby>秋<rt>あき</rt></ruby>が<ruby>人気<rt>にんき</rt></ruby>です。<br>
+<ruby>春<rt>はる</rt></ruby>は<ruby>桜<rt>さくら</rt></ruby>がきれいで、<ruby>秋<rt>あき</rt></ruby>は<ruby>天気<rt>てんき</rt></ruby>がいいです。`,
+            text: "31. <ruby>春<rt>はる</rt></ruby>はどうですか。",
+            options: ["<ruby>暑<rt>あつ</rt></ruby>い", "<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>桜<rt>さくら</rt></ruby>がきれい", "<ruby>雨<rt>あめ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>い"],
+            answer: 2
+        },
+        {
+            text: "32. <ruby>秋<rt>あき</rt></ruby>はどうですか。",
+            options: ["<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>天気<rt>てんき</rt></ruby>がいい", "<ruby>暑<rt>あつ</rt></ruby>い", "<ruby>雪<rt>ゆき</rt></ruby>が<ruby>多<rt>おお</rt></ruby>い"],
+            answer: 1
+        },
 
-            {
-                passage: `【３３－３４】<br><br>
-        この店は安いですが、とてもおいしいです。
-        毎日たくさん人が来ます。`,
-                text: "33. この店はどうですか。",
-                options: ["高い", "まずい", "安くておいしい", "静か"],
-                answer: 2
-            },
-            {
-                text: "34. なぜ人が多いですか。",
-                options: ["高いから", "安くておいしいから", "遠いから", "小さいから"],
-                answer: 1
-            },
+        {
+            passage: `【３３－３４】<br><br>
+この<ruby>店<rt>みせ</rt></ruby>は<ruby>安<rt>やす</rt></ruby>いですが、とてもおいしいです。<br>
+<ruby>毎日<rt>まいにち</rt></ruby>たくさん<ruby>人<rt>ひと</rt></ruby>が<ruby>来<rt>き</rt></ruby>ます。`,
+            text: "33. この<ruby>店<rt>みせ</rt></ruby>はどうですか。",
+            options: ["<ruby>高<rt>たか</rt></ruby>い", "まずい", "<ruby>安<rt>やす</rt></ruby>くておいしい", "<ruby>静<rt>しず</rt></ruby>か"],
+            answer: 2
+        },
+        {
+            text: "34. なぜ<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いですか。",
+            options: ["<ruby>高<rt>たか</rt></ruby>いから", "<ruby>安<rt>やす</rt></ruby>くておいしいから", "<ruby>遠<rt>とお</rt></ruby>いから", "<ruby>小<rt>ちい</rt></ruby>さいから"],
+            answer: 1
+        },
 
-            {
-                passage: `【３５－３６】<br><br>
-        わたしは夏が好きです。
-        海で泳ぐことができます。`,
-                text: "35. いつが好きですか。",
-                options: ["冬", "春", "夏", "秋"],
-                answer: 2
-            },
-            {
-                text: "36. なぜですか。",
-                options: ["雪があるから", "泳げるから", "寒いから", "山があるから"],
-                answer: 1
-            },
+        {
+            passage: `【３５－３６】<br><br>
+わたしは<ruby>夏<rt>なつ</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです。<br>
+<ruby>海<rt>うみ</rt></ruby>で<ruby>泳<rt>およ</rt></ruby>ぐことができます。`,
+            text: "35. いつが<ruby>好<rt>す</rt></ruby>きですか。",
+            options: ["<ruby>冬<rt>ふゆ</rt></ruby>", "<ruby>春<rt>はる</rt></ruby>", "<ruby>夏<rt>なつ</rt></ruby>", "<ruby>秋<rt>あき</rt></ruby>"],
+            answer: 2
+        },
+        {
+            text: "36. なぜですか。",
+            options: ["<ruby>雪<rt>ゆき</rt></ruby>があるから", "<ruby>泳<rt>およ</rt></ruby>げるから", "<ruby>寒<rt>さむ</rt></ruby>いから", "<ruby>山<rt>やま</rt></ruby>があるから"],
+            answer: 1
+        },
 
-            // ===============================
-            // 37–40: 並べ替え（ランダム化済）
-            // ===============================
-            {
-                text: "37. 日本 ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ いちばん 有名です。",
-                options: ["の", "花で", "桜が", "は"],
-                answer: [3, 0, 1, 2]
-            },
-            {
-                text: "38. この店は ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ おいしいです。",
-                options: ["安いですが", "とても", "は", "です"],
-                answer: [2, 0, 1, 3]
-            },
-            {
-                text: "39. 夏は ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ できます。",
-                options: ["海で", "泳ぐことが", "です", "は"],
-                answer: [3, 0, 1, 2]
-            },
-            {
-                text: "40. このパソコンは ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                options: ["便利で", "安い", "は", "です"],
-                answer: [2, 0, 1, 3]
-            }
+        // ===============================
+        // 37–40: 並べ替え（ACAK KATA）
+        // ===============================
+        {
+            passage: `<b>【Petunjuk Mengerjakan Soal 37-40】</b><br>
+Susunlah pilihan kata di bawah ini menjadi satu kalimat yang benar. Kemudian, pilihlah jawaban yang menempati posisi tanda bintang (☆).`,
 
-        ];
-        let answers = new Array(questions.length).fill(null);
+            text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["<ruby>日本<rt>にほん</rt></ruby>の", "<ruby>花<rt>はな</rt></ruby>で", "いちばん<ruby>有名<rt>ゆうめい</rt></ruby>です", "<ruby>桜<rt>さくら</rt></ruby>は"],
+            answer: 1
+        },
+        {
+            text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["この<ruby>店<rt>みせ</rt></ruby>は", "<ruby>安<rt>やす</rt></ruby>いですが", "とても", "おいしいです"],
+            answer: 2
+        },
+        {
+            text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["<ruby>夏<rt>なつ</rt></ruby>は", "<ruby>海<rt>うみ</rt></ruby>で", "<ruby>泳<rt>およ</rt></ruby>ぐことが", "できます"],
+            answer: 2
+        },
+        {
+            text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["このパソコンは", "<ruby>便利<rt>べんり</rt></ruby>で", "<ruby>安<rt>やす</rt></ruby>い", "です"],
+            answer: 2
+        }
 
-        // ANTI-CHEAT
+    ];
+    let answers = new Array(questions.length).fill(null);
+            // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
             if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
@@ -610,6 +626,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -656,7 +673,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -667,6 +684,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -721,8 +761,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -750,25 +860,49 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
