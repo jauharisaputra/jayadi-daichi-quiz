@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -269,7 +279,7 @@
         <h1>📚 Kuis Bab 12</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">50:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -307,7 +318,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 3000; // 50 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,240 +330,245 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+  const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI + DOKKAI (BAB 12)
-            // ===============================
-            {
-                text: "1. ユキさんは（　）大阪に引っ越しました。",
-                options: ["去年", "きのう", "来週", "毎日"],
-                answer: 0
-            },
-            {
-                text: "2. 大阪はとても（　）です。",
-                options: ["静か", "にぎやか", "寒い", "暗い"],
-                answer: 1
-            },
-            {
-                text: "3. 私の前の町より人が（　）です。",
-                options: ["少ない", "多い", "静か", "小さい"],
-                answer: 1
-            },
-            {
-                text: "4. 東京と大阪と（　）がにぎやかですか。",
-                options: ["どれ", "どちら", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "5. 東京のほうが（　）だと思います。",
-                options: ["静か", "にぎやか", "寒い", "低い"],
-                answer: 1
-            },
+        // ===============================
+        // 1–30: BUNPOU + GOI + DOKKAI (BAB 12)
+        // ===============================
+        {
+            passage: `<b>【Petunjuk Soal 1–30: Tata Bahasa & Kosakata】</b><br>
+Pilihlah satu jawaban yang paling tepat untuk mengisi bagian yang kosong ( ).`,
+            text: "1. ユキさんは（ ）<ruby>大阪<rt>おおさか</rt></ruby>に<ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しました。",
+            options: ["<ruby>去年<rt>きょねん</rt></ruby>", "きのう", "<ruby>来週<rt>らいしゅう</rt></ruby>", "<ruby>毎日<rt>まいにち</rt></ruby>"],
+            answer: 0
+        },
+        {
+            text: "2. <ruby>大阪<rt>おおさか</rt></ruby>はとても（ ）です。",
+            options: ["<ruby>静<rt>しず</rt></ruby>か", "にぎやか", "<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>暗<rt>くら</rt></ruby>い"],
+            answer: 1
+        },
+        {
+            text: "3. <ruby>私<rt>わたし</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>の<ruby>町<rt>まち</rt></ruby>より<ruby>人<rt>ひと</rt></ruby>が（ ）です。",
+            options: ["<ruby>少<rt>すく</rt></ruby>ない", "<ruby>多<rt>おお</rt></ruby>い", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>小<rt>ちい</rt></ruby>さい"],
+            answer: 1
+        },
+        {
+            text: "4. <ruby>東京<rt>とうきょう</rt></ruby>と<ruby>大阪<rt>おおさか</rt></ruby>と（ ）がにぎやかですか。",
+            options: ["どれ", "どちら", "どこ", "だれ"],
+            answer: 1
+        },
+        {
+            text: "5. <ruby>東京<rt>とうきょう</rt></ruby>のほうが（ ）だと<ruby>思<rt>おも</rt></ruby>います。",
+            options: ["<ruby>静<rt>しず</rt></ruby>か", "にぎやか", "<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>低<rt>ひく</rt></ruby>い"],
+            answer: 1
+        },
 
-            {
-                text: "6. 食べ物は大阪が（　）おいしいです。",
-                options: ["より", "いちばん", "あまり", "ぜんぜん"],
-                answer: 1
-            },
-            {
-                text: "7. きのうの晩ご飯は（　）でした。",
-                options: ["すし", "たこ焼き", "パン", "ラーメン"],
-                answer: 1
-            },
-            {
-                text: "8. とても（　）かったです。",
-                options: ["おいし", "たか", "さむ", "ひく"],
-                answer: 0
-            },
-            {
-                text: "9. 私の町は大阪より（　）です。",
-                options: ["にぎやか", "静か", "多い", "高い"],
-                answer: 1
-            },
-            {
-                text: "10. 先週の週末はとても（　）かったです。",
-                options: ["あつ", "すずし", "さむ", "たか"],
-                answer: 1
-            },
+        {
+            text: "6. <ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>が（ ）おいしいです。",
+            options: ["より", "いちばん", "あまり", "ぜんぜん"],
+            answer: 1
+        },
+        {
+            text: "7. きのうの<ruby>晩<rt>ばん</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>は（ ）でした。",
+            options: ["すし", "たこ<ruby>焼<rt>や</rt></ruby>き", "パン", "ラーメン"],
+            answer: 1
+        },
+        {
+            text: "8. とても（ ）かったです。",
+            options: ["おいし", "<ruby>高<rt>たか</rt></ruby>", "<ruby>寒<rt>さむ</rt></ruby>", "<ruby>低<rt>ひく</rt></ruby>"],
+            answer: 0
+        },
+        {
+            text: "9. <ruby>私<rt>わたし</rt></ruby>の<ruby>町<rt>まち</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>より（ ）です。",
+            options: ["にぎやか", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>多<rt>おお</rt></ruby>い", "<ruby>高<rt>たか</rt></ruby>い"],
+            answer: 1
+        },
+        {
+            text: "10. <ruby>先週<rt>せんしゅう</rt></ruby>の<ruby>週末<rt>しゅうまつ</rt></ruby>はとても（ ）かったです。",
+            options: ["<ruby>暑<rt>あつ</rt></ruby>", "<ruby>涼<rt>すず</rt></ruby>し", "<ruby>寒<rt>さむ</rt></ruby>", "<ruby>高<rt>たか</rt></ruby>"],
+            answer: 1
+        },
 
-            {
-                text: "11. 今週は少し（　）なりました。",
-                options: ["寒く", "暑く", "静かに", "便利に"],
-                answer: 1
-            },
-            {
-                text: "12. 先週のテストは（　）ですか。",
-                options: ["にぎやか", "難しい", "静か", "多い"],
-                answer: 1
-            },
-            {
-                text: "13. あまり難しく（　）です。",
-                options: ["なかった", "ない", "ありません", "でした"],
-                answer: 0
-            },
-            {
-                text: "14. 前のテストより（　）でした。",
-                options: ["難しい", "簡単", "にぎやか", "静か"],
-                answer: 1
-            },
-            {
-                text: "15. それは（　）ですね。",
-                options: ["だめ", "よかった", "たいへん", "むずかしい"],
-                answer: 1
-            },
+        {
+            text: "11. <ruby>今週<rt>こんしゅう</rt></ruby>は<ruby>少<rt>すこ</rt></ruby>し（ ）なりました。",
+            options: ["<ruby>寒<rt>さむ</rt></ruby>く", "<ruby>暑<rt>あつ</rt></ruby>く", "<ruby>静<rt>しず</rt></ruby>かに", "<ruby>便利<rt>べんり</rt></ruby>に"],
+            answer: 1
+        },
+        {
+            text: "12. <ruby>先週<rt>せんしゅう</rt></ruby>のテストは（ ）ですか。",
+            options: ["にぎやか", "<ruby>難<rt>むずか</rt></ruby>しかった", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>多<rt>おお</rt></ruby>かった"],
+            answer: 1
+        },
+        {
+            text: "13. あまり<ruby>難<rt>むずか</rt></ruby>しく（ ）です。",
+            options: ["なかった", "ない", "ありません", "でした"],
+            answer: 0
+        },
+        {
+            text: "14. <ruby>前<rt>まえ</rt></ruby>のテストより（ ）でした。",
+            options: ["<ruby>難<rt>むずか</rt></ruby>しい", "<ruby>簡単<rt>かんたん</rt></ruby>", "にぎやか", "<ruby>静<rt>しず</rt></ruby>か"],
+            answer: 1
+        },
+        {
+            text: "15. それは（ ）ですね。",
+            options: ["だめ", "よかった", "<ruby>大変<rt>たいへん</rt></ruby>", "<ruby>難<rt>むずか</rt></ruby>しい"],
+            answer: 1
+        },
 
-            {
-                text: "16. また電話（　）ますね。",
-                options: ["し", "しに", "して", "する"],
-                answer: 0
-            },
-            {
-                text: "17. 大阪は東京（　）静かです。",
-                options: ["より", "の", "で", "に"],
-                answer: 0
-            },
-            {
-                text: "18. 東京は大阪（　）にぎやかです。",
-                options: ["より", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "19. この町は前の町（　）人が少ないです。",
-                options: ["より", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "20. 食べ物は大阪（　）おいしいです。",
-                options: ["が", "を", "に", "で"],
-                answer: 0
-            },
+        {
+            text: "16. また<ruby>電話<rt>でんわ</rt></ruby>（ ）ますね。",
+            options: ["し", "しに", "して", "する"],
+            answer: 0
+        },
+        {
+            text: "17. <ruby>大阪<rt>おおさか</rt></ruby>は<ruby>東京<rt>とうきょう</rt></ruby>（ ）<ruby>静<rt>しず</rt></ruby>かです。",
+            options: ["より", "の", "で", "に"],
+            answer: 0
+        },
+        {
+            text: "18. <ruby>東京<rt>とうきょう</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>（ ）にぎやかです。",
+            options: ["より", "が", "を", "に"],
+            answer: 0
+        },
+        {
+            text: "19. この<ruby>町<rt>まち</rt></ruby>は<ruby>前<rt>まえ</rt></ruby>の<ruby>町<rt>まち</rt></ruby>（ ）<ruby>人<rt>ひと</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ないです。",
+            options: ["より", "が", "を", "に"],
+            answer: 0
+        },
+        {
+            text: "20. <ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>（ ）おいしいです。",
+            options: ["が", "を", "に", "で"],
+            answer: 0
+        },
 
-            {
-                text: "21. きのうはとても（　）かったです。",
-                options: ["暑", "寒", "高", "低"],
-                answer: 1
-            },
-            {
-                text: "22. この問題は前より（　）です。",
-                options: ["簡単", "にぎやか", "多い", "静か"],
-                answer: 0
-            },
-            {
-                text: "23. 東京は人が（　）です。",
-                options: ["多い", "少ない", "静か", "暗い"],
-                answer: 0
-            },
-            {
-                text: "24. 私は友達と電話で（　）しました。",
-                options: ["話し", "行き", "見", "来"],
-                answer: 0
-            },
-            {
-                text: "25. 勉強はどう（　）か。",
-                options: ["です", "でした", "します", "しますか"],
-                answer: 0
-            },
+        {
+            text: "21. きのうはとても（ ）かったです。",
+            options: ["<ruby>暑<rt>あつ</rt></ruby>", "<ruby>寒<rt>さむ</rt></ruby>", "<ruby>高<rt>たか</rt></ruby>", "<ruby>低<rt>ひく</rt></ruby>"],
+            answer: 1
+        },
+        {
+            text: "22. この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>前<rt>まえ</rt></ruby>より（ ）です。",
+            options: ["<ruby>簡単<rt>かんたん</rt></ruby>", "にぎやか", "<ruby>多<rt>おお</rt></ruby>い", "<ruby>静<rt>しず</rt></ruby>か"],
+            answer: 0
+        },
+        {
+            text: "23. <ruby>東京<rt>とうきょう</rt></ruby>は<ruby>人<rt>ひと</rt></ruby>が（ ）です。",
+            options: ["<ruby>多<rt>おお</rt></ruby>い", "<ruby>少<rt>すく</rt></ruby>ない", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>暗<rt>くら</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "24. <ruby>私<rt>わたし</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>と<ruby>電話<rt>でんわ</rt></ruby>で（ ）しました。",
+            options: ["<ruby>話<rt>はなし</rt></ruby>", "<ruby>行<rt>い</rt></ruby>き", "<ruby>見<rt>み</rt></ruby>", "<ruby>来<rt>き</rt></ruby>"],
+            answer: 0
+        },
+        {
+            text: "25. <ruby>勉強<rt>べんきょう</rt></ruby>はどう（ ）か。",
+            options: ["です", "でした", "します", "しますか"],
+            answer: 0
+        },
 
-            {
-                text: "26. この町は（　）ですか。",
-                options: ["どちら", "どう", "どこ", "だれ"],
-                answer: 1
-            },
-            {
-                text: "27. 前の町より（　）です。",
-                options: ["にぎやか", "静か", "少ない", "多い"],
-                answer: 3
-            },
-            {
-                text: "28. 今週は（　）暑いです。",
-                options: ["とても", "少し", "ぜんぜん", "あまり"],
-                answer: 1
-            },
-            {
-                text: "29. 昨日はとても（　）でした。",
-                options: ["にぎやか", "寒い", "静か", "暑かった"],
-                answer: 3
-            },
-            {
-                text: "30. テストは（　）でした。",
-                options: ["簡単", "にぎやか", "多い", "低い"],
-                answer: 0
-            },
+        {
+            text: "26. この<ruby>町<rt>まち</rt></ruby>は（ ）ですか。",
+            options: ["どちら", "どう", "どこ", "だれ"],
+            answer: 1
+        },
+        {
+            text: "27. <ruby>前<rt>まえ</rt></ruby>の<ruby>町<rt>まち</rt></ruby>より（ ）です。",
+            options: ["にぎやか", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>少<rt>すく</rt></ruby>ない", "<ruby>多<rt>おお</rt></ruby>い"],
+            answer: 3
+        },
+        {
+            text: "28. <ruby>今週<rt>こんしゅう</rt></ruby>は（ ）<ruby>暑<rt>あつ</rt></ruby>いです。",
+            options: ["とても", "<ruby>少<rt>すこ</rt></ruby>し", "ぜんぜん", "あまり"],
+            answer: 1
+        },
+        {
+            text: "29. <ruby>昨日<rt>きのう</rt></ruby>はとても（ ）です。",
+            options: ["にぎやか", "<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>静<rt>しず</rt></ruby>か", "<ruby>暑<rt>あつ</rt></ruby>かった"],
+            answer: 3
+        },
+        {
+            text: "30. テストは（ ）でした。",
+            options: ["<ruby>簡単<rt>かんたん</rt></ruby>", "にぎやか", "<ruby>多<rt>おお</rt></ruby>い", "<ruby>低<rt>ひく</rt></ruby>い"],
+            answer: 0
+        },
 
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-        ユキさんは去年大阪に引っ越しました。
-        大阪はとてもにぎやかで、人が多いです。`,
-                text: "31. ユキさんはいつ大阪に引っ越しましたか。",
-                options: ["きのう", "去年", "来週", "毎日"],
-                answer: 1
-            },
-            {
-                text: "32. 大阪はどうですか。",
-                options: ["静か", "にぎやか", "寒い", "小さい"],
-                answer: 1
-            },
+        // ===============================
+        // 31–36: DOKKAI
+        // ===============================
+        {
+            passage: `<b>【Petunjuk Soal 31–36: Dokkai】</b><br>
+Bacalah teks berikut dan jawablah pertanyaannya!<br><br>
+【３１－３２】<br>
+ユキさんは<ruby>去年<rt>きょねん</rt></ruby><ruby>大阪<rt>おおさか</rt></ruby>に<ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しました。<br>
+<ruby>大阪<rt>おおさか</rt></ruby>はとてもにぎやかで、<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。`,
+            text: "31. ユキさんはいつ<ruby>大阪<rt>おおさか</rt></ruby>に<ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しましたか。",
+            options: ["きのう", "<ruby>去年<rt>きょねん</rt></ruby>", "<ruby>来週<rt>らいしゅう</rt></ruby>", "<ruby>毎日<rt>まいにち</rt></ruby>"],
+            answer: 1
+        },
+        {
+            text: "32. <ruby>大阪<rt>おおさか</rt></ruby>はどうですか。",
+            options: ["<ruby>静<rt>しず</rt></ruby>か", "にぎやか", "<ruby>寒<rt>さむ</rt></ruby>い", "<ruby>小<rt>ちい</rt></ruby>さい"],
+            answer: 1
+        },
 
-            {
-                passage: `【３３－３４】<br><br>
-        食べ物は大阪がいちばんおいしいです。
-        きのうはたこ焼きを食べました。`,
-                text: "33. 食べ物はどこがいちばんおいしいですか。",
-                options: ["東京", "大阪", "京都", "名古屋"],
-                answer: 1
-            },
-            {
-                text: "34. きのう何を食べましたか。",
-                options: ["すし", "パン", "たこ焼き", "ラーメン"],
-                answer: 2
-            },
+        {
+            passage: `【３３－３４】<br>
+<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>がいちばんおいしいです。<br>
+きのうはたこ<ruby>焼<rt>や</rt></ruby>きを<ruby>食<rt>た</rt></ruby>べました。`,
+            text: "33. <ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>はどこがいちばんおいしいですか。",
+            options: ["<ruby>東京<rt>とうきょう</rt></ruby>", "<ruby>大阪<rt>おおさか</rt></ruby>", "<ruby>京都<rt>きょうと</rt></ruby>", "<ruby>名古屋<rt>なごや</rt></ruby>"],
+            answer: 1
+        },
+        {
+            text: "34. きのう<ruby>何<rt>なに</rt></ruby>を<ruby>食<rt>た</rt></ruby>べましたか。",
+            options: ["すし", "パン", "たこ<ruby>焼<rt>や</rt></ruby>き", "ラーメン"],
+            answer: 2
+        },
 
-            {
-                passage: `【３５－３６】<br><br>
-        先週のテストはあまり難しくなかったです。
-        前のテストより簡単でした。`,
-                text: "35. 先週のテストはどうでしたか。",
-                options: ["とても難しい", "あまり難しくない", "にぎやか", "高い"],
-                answer: 1
-            },
-            {
-                text: "36. 前のテストと比べてどうですか。",
-                options: ["難しい", "簡単", "多い", "静か"],
-                answer: 1
-            },
+        {
+            passage: `【３５－３６】<br>
+<ruby>先週<rt>せんしゅう</rt></ruby>のテストはあまり<ruby>難<rt>むずか</rt></ruby>しくなかったです。<br>
+<ruby>前<rt>まえ</rt></ruby>のテストより<ruby>簡単<rt>かんたん</rt></ruby>でした。`,
+            text: "35. <ruby>先週<rt>せんしゅう</rt></ruby>のテストはどうでしたか。",
+            options: ["とても<ruby>難<rt>むずか</rt></ruby>しい", "あまり<ruby>難<rt>むずか</rt></ruby>しくない", "にぎやか", "<ruby>高<rt>たか</rt></ruby>い"],
+            answer: 1
+        },
+        {
+            text: "36. <ruby>前<rt>まえ</rt></ruby>のテストと<ruby>比<rt>くら</rt></ruby>べてどうですか。",
+            options: ["<ruby>難<rt>むずか</rt></ruby>しい", "<ruby>簡単<rt>かんたん</rt></ruby>", "<ruby>多<rt>おお</rt></ruby>い", "<ruby>静<rt>しず</rt></ruby>か"],
+            answer: 1
+        },
 
-            // ===============================
-            // 37–40: 並べ替え（ランダム）
-            // ===============================
-            {
-                text: "37. 東京は ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                options: ["より", "大阪", "にぎやか", "は"],
-                answer: [3, 1, 0, 2]
-            },
-            {
-                text: "38. 大阪は ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ おいしいです。",
-                options: ["食べ物が", "いちばん", "は", "です"],
-                answer: [2, 0, 1, 3]
-            },
-            {
-                text: "39. 先週のテストは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ でした。",
-                options: ["あまり", "難しく", "なかった", "です"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "40. ユキさんは ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 引っ越しました。",
-                options: ["大阪に", "去年", "へ", "は"],
-                answer: [3, 1, 0, 2]
-            }
+        // ===============================
+        // 37–40: 並べ替え（ACAK KATA）
+        // ===============================
+        {
+            passage: `<b>【Petunjuk Mengerjakan Soal 37-40】</b><br>
+Susunlah pilihan kata di bawah ini menjadi satu kalimat yang benar. Kemudian, pilihlah jawaban yang menempati posisi tanda bintang (☆).`,
+            text: "37. <ruby>東京<rt>とうきょう</rt></ruby>は ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["<ruby>大阪<rt>おおさか</rt></ruby>", "より", "にぎやか", "です"],
+            answer: 2
+        },
+        {
+            text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ おいしいです。",
+            options: ["いちばん", "<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>が", "<ruby>大阪<rt>おおさか</rt></ruby>は", "とても"],
+            answer: 0
+        },
+        {
+            text: "39. <ruby>先週<rt>せんしゅう</rt></ruby>のテストは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+            options: ["なかった", "あまり", "です", "<ruby>難<rt>むずか</rt></ruby>しく"],
+            answer: 0
+        },
+        {
+            text: "40. ユキさんは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ <ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しました。",
+            options: ["<ruby>大阪<rt>おおさか</rt></ruby>に", "の", "<ruby>春<rt>はる</rt></ruby>", "<ruby>去年<rt>きょねん</rt></ruby>"],
+            answer: 2
+        }
 
-        ];
-        let answers = new Array(questions.length).fill(null);
-
-        // ANTI-CHEAT
+    ];
+    let answers = new Array(questions.length).fill(null);
+            // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
             if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
@@ -611,6 +627,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -657,7 +674,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -668,6 +685,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -722,8 +762,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -751,25 +861,49 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
