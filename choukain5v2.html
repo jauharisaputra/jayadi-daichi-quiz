@@ -424,25 +424,71 @@
 
     let answerKey = { 1:1,2:3,3:4,4:2,5:2,6:4,7:3,8:3,9:2,10:3,11:3,12:1,13:2,14:1,15:1,16:2,17:3,18:1,19:2,20:2,21:1,22:1,23:2,24:3,25:1,26:2,27:1,28:2,29:3,30:3,31:2 };
 
-    function submitExam(status) {
-        if (submitted) return;
-        submitted = true;
-        clearInterval(timer);
-        let total = 0, detail = "";
-        for (let i = 1; i <= 31; i++) {
-            let s = document.querySelector(`input[name="q${i}"]:checked`);
-            let j = s ? parseInt(s.value) : 0;
-            detail += `Q${i}:${j} `;
-            if (j === answerKey[i]) total += (i <= 21 ? 5 : 7);
+  
+     function submitExam(status) {
+            if (submitted) return;
+            submitted = true;
+
+            clearInterval(timer);
+            sessionStorage.clear();
+
+            let scoreFoto = 0,
+                scoreChoudokukai = 0,
+                scoreOutou = 0,
+                scoreKaiwa = 0;
+
+            let detail = "";
+
+            for (let i = 1; i <= 31; i++) {
+                let s = document.querySelector(`input[name="q${i}"]:checked`);
+                let j = s ? parseInt(s.value) : 0;
+
+                detail += `Q${i}:${j} `;
+
+                if (j === answerKey[i]) {
+                    if (i <= 4) scoreFoto += 5;
+                    else if (i <= 7) scoreChoudokukai += 5;
+                    else if (i <= 21) scoreOutou += 5;
+                    else scoreKaiwa += 7;
+                }
+            }
+
+            let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
+
+            const url = "https://script.google.com/macros/s/AKfycbyLJ-CrhlFirMNbBrxOM-MVi9MCQzL0Xyxk3aoW2F9jNrNUTvC8aSVnWCVKr9y9VcOtzQ/exec";
+
+            const payload = {
+                nama: namaPeserta,
+                kelas: kelasPeserta,
+                foto: scoreFoto,
+                choudokukai: scoreChoudokukai,
+                outou: scoreOutou,
+                kaiwa: scoreKaiwa,
+                total: total,
+                status: status,
+                detail: detail
+            };
+
+            // 🔥 FIX UTAMA: jangan pakai header JSON
+            fetch(url, {
+                method: "POST",
+                body: JSON.stringify(payload),
+                keepalive: true
+            })
+                .then(res => res.text())
+                .then(res => {
+                    console.log("RESPONSE:", res);
+                    alert("✔ Data berhasil dikirim ke Google Sheet");
+                })
+                .catch(err => {
+                    console.error("FETCH ERROR:", err);
+                    alert("❌ Gagal kirim. Kemungkinan Apps Script tidak menerima request.");
+                });
+
+            document.body.innerHTML =
+                "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
         }
-        
-        fetch("https://script.google.com/macros/s/AKfycbyLJ-CrhlFirMNbBrxOM-MVi9MCQzL0Xyxk3aoW2F9jNrNUTvC8aSVnWCVKr9y9VcOtzQ/exec", {
-            method: "POST",
-            body: JSON.stringify({ nama: namaPeserta, kelas: kelasPeserta, total, status, detail })
-        }).then(() => alert("Data berhasil dikirim")).catch(() => alert("Gagal kirim"));
-        
-        document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
-    }
+    
 </script>
 </body>
 
