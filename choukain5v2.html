@@ -181,6 +181,69 @@
     margin-top: 5px;
     font-size: 13px; /* Ukuran font disesuaikan agar tidak terlalu lebar */
 }
+/* Layout Khusus 22-31 */
+.options-container-custom {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* Meratakan ke kiri */
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.custom-option {
+    display: flex;
+    flex-direction: column; /* Radio di atas, teks di bawah */
+    align-items: center;
+    text-align: center;
+}
+
+/* Radio button yang tidak memiliki teks */
+.radio-only {
+    border: 1px solid #1e3a8a;
+    padding: 5px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Teks pilihan yang berada di bawah radio */
+.option-text {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Memperbesar font di PC */
+@media (min-width: 769px) {
+    .option-text { font-size: 18px; }
+}
+/* Tampilan Teks Pilihan 22-31 */
+.options-text-block p {
+    margin: 5px 0;
+    font-size: 16px; /* Ukuran teks normal */
+}
+
+/* Radio Button di bawahnya */
+.radio-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #ccc;
+}
+
+.radio-btn {
+    border: 1px solid #1e3a8a;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Memperbesar font di PC khusus untuk teks soal 22-31 */
+@media (min-width: 769px) {
+    .options-text-block p {
+        font-size: 20px; /* Teks lebih besar di PC */
+    }
+}
     </style>
 </head>
 
@@ -282,7 +345,7 @@
 
     /* ===== GENERATE SOAL ===== */
    /* ===== GENERATE SOAL ===== */
-   function generateQuestions() {
+  function generateQuestions() {
         let c = document.getElementById("questions");
         c.innerHTML = "";
         let nomor = 1;
@@ -291,24 +354,31 @@
             c.innerHTML += `<div class="section-title">${sec.name}</div><div class="section-intro">${sec.intro}</div>`;
 
             sec.questions.forEach(q => {
-                let opsi = "";
-                let kontenGambar = q.type === "image" ? `<img src="${q.content}" alt="Soal ${nomor}">` : "";
                 let judulSoal = q.text ? `<p><b>${q.text}</b></p>` : `<p><b>Soal ${nomor}</b></p>`;
+                let kontenGambar = q.type === "image" ? `<img src="${q.content}" alt="Soal ${nomor}">` : "";
+                let opsi = "";
 
-                // LOGIKA PEMISAHAN LAYOUT
                 if (nomor >= 22 && nomor <= 31) {
-                    // Tampilan KHUSUS 22-31: Radio button di atas, Teks di bawah
-                    opsi = `<div class="options-container-custom">`;
+                    // 1. Tampilkan teks pilihan sebagai teks biasa terlebih dahulu
+                    let teksOpsi = `<div class="options-text-block">`;
                     q.options.forEach((opt, i) => {
-                        opsi += `
-                        <div class="custom-option">
-                            <label><input type="radio" name="q${nomor}" value="${i + 1}"></label>
-                            <div class="option-text">${i + 1}. ${opt}</div>
-                        </div>`;
+                        teksOpsi += `<p>${i + 1}. ${opt}</p>`;
                     });
-                    opsi += `</div>`;
+                    teksOpsi += `</div>`;
+
+                    // 2. Tampilkan radio button di bawah teks tersebut
+                    let radioOpsi = `<div class="radio-container">`;
+                    q.options.forEach((opt, i) => {
+                        radioOpsi += `
+                        <label class="radio-btn">
+                            <input type="radio" name="q${nomor}" value="${i + 1}"> ${i + 1}
+                        </label>`;
+                    });
+                    radioOpsi += `</div>`;
+
+                    opsi = teksOpsi + radioOpsi;
                 } else {
-                    // Tampilan STANDAR 1-21
+                    // Layout Standar 1-21
                     opsi = [1, 2, 3].map(i => `<label><input type="radio" name="q${nomor}" value="${i}"> ${i}</label>`).join('');
                     if (nomor <= 12) opsi += `<label><input type="radio" name="q${nomor}" value="4"> 4</label>`;
                 }
@@ -317,8 +387,8 @@
                 nomor++;
             });
         });
-    } 
-    /* ===== FUNGSI LAINNYA (TIMER, SUBMIT, DLL) ===== */
+    }
+/* ===== FUNGSI LAINNYA (TIMER, SUBMIT, DLL) ===== */
     function startTimer() {
         timer = setInterval(() => {
             let m = Math.floor(duration / 60), s = duration % 60;
