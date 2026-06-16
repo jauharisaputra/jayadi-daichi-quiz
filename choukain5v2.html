@@ -140,20 +140,46 @@
 
         }
 
-        /* Perbesar gambar 29–38 di PC */
-        @media (min-width:769px) {
-            .question-large img {
-                max-width: 85%;
-                display: block;
-                margin: 0 auto 10px auto;
-            }
-        }
+        /* Pengaturan ukuran font khusus PC untuk soal 22-31 */
+@media (min-width: 769px) {
+    .option-text {
+        font-size: 18px !important; /* Ukuran lebih besar untuk PC */
+        line-height: 1.5;           /* Memberi jarak antar baris agar lebih nyaman dibaca */
+    }
+    
+    /* Opsional: Membuat kotak lebih luas di PC agar teks tidak menumpuk */
+    .custom-option {
+        padding: 15px !important;
+    }
+}
         .section-intro img {
     display: block;
     max-width: 100%;
     height: auto;
     margin: 10px auto;
     border: 1px solid #ccc; /* Untuk mempermudah deteksi apakah gambar dimuat */
+}
+/* Layout khusus 22-31 */
+.options-container-custom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.custom-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Nomor di atas, teks di bawah */
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+}
+
+.option-text {
+    margin-top: 5px;
+    font-size: 13px; /* Ukuran font disesuaikan agar tidak terlalu lebar */
 }
     </style>
 </head>
@@ -266,19 +292,23 @@
 
             sec.questions.forEach(q => {
                 let opsi = "";
-                // Jika soal punya gambar, ambil konten gambar
                 let kontenGambar = q.type === "image" ? `<img src="${q.content}" alt="Soal ${nomor}">` : "";
-
-                // Jika soal punya teks judul (22-31), gunakan itu, jika tidak gunakan "Soal X"
                 let judulSoal = q.text ? `<p><b>${q.text}</b></p>` : `<p><b>Soal ${nomor}</b></p>`;
 
-                if (q.options) {
-                    // Untuk soal 22-31 (yang memiliki options)
+                // LOGIKA PEMISAHAN LAYOUT
+                if (nomor >= 22 && nomor <= 31) {
+                    // Tampilan KHUSUS 22-31: Radio button di atas, Teks di bawah
+                    opsi = `<div class="options-container-custom">`;
                     q.options.forEach((opt, i) => {
-                        opsi += `<label class="option-label"><input type="radio" name="q${nomor}" value="${i + 1}"> ${i + 1}. ${opt}</label>`;
+                        opsi += `
+                        <div class="custom-option">
+                            <label><input type="radio" name="q${nomor}" value="${i + 1}"></label>
+                            <div class="option-text">${i + 1}. ${opt}</div>
+                        </div>`;
                     });
+                    opsi += `</div>`;
                 } else {
-                    // Untuk soal 1-21 (pilihan 1, 2, 3, 4)
+                    // Tampilan STANDAR 1-21
                     opsi = [1, 2, 3].map(i => `<label><input type="radio" name="q${nomor}" value="${i}"> ${i}</label>`).join('');
                     if (nomor <= 12) opsi += `<label><input type="radio" name="q${nomor}" value="4"> 4</label>`;
                 }
@@ -287,7 +317,7 @@
                 nomor++;
             });
         });
-    }
+    } 
     /* ===== FUNGSI LAINNYA (TIMER, SUBMIT, DLL) ===== */
     function startTimer() {
         timer = setInterval(() => {
@@ -307,9 +337,9 @@
 
     function startExam() {
         if (!document.getElementById("agree").checked) {
-            alert("Harap centang persetujuan terlebih dahulu!");
-            return;
-        }
+    alert("Harap centang persetujuan terlebih dahulu!");
+    return;
+}
         namaPeserta = document.getElementById("nama").value.trim();
         kelasPeserta = document.getElementById("kelas").value.trim();
         if (!namaPeserta || !kelasPeserta) return alert("Isi nama dan kelas!");
