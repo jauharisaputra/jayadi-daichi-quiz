@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fukushuu Bab 9-12</title>
+    <title>Fukuushuu 9-12</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -221,6 +221,16 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ffffff;
+            display: none;
+            border: 2px solid #27ae60;
+        }
     </style>
 </head>
 
@@ -266,7 +276,7 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Fukushuu Bab 9-12</h1>
+        <h1>📚 Fukuushuu 9-12</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
             <div id="timer">60:00</div>
@@ -294,6 +304,7 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
+        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -319,233 +330,237 @@
         function decode(str) {
             return atob(str);
         }
+       const questions = [
 
-        const questions = [
+    // ===============================
+    // 1–30: BUNPOU + GOI (FUKUSHUU BAB 9–12)
+    // ===============================
+    {
+        passage: `<b>【Petunjuk Soal 1–30: Tata Bahasa & Kosakata】</b><br>
+Pilihlah satu jawaban yang paling tepat untuk mengisi bagian yang kosong ( ).`,
+        text: "1. <ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>（ ）<ruby>好<rt>す</rt></ruby>きです。",
+        options: ["を", "が", "に", "で"],
+        answer: 1
+    },
+    {
+        text: "2. どうして<ruby>日本<rt>にほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ましたか。（ ）",
+        options: ["<ruby>楽<rt>たの</rt></ruby>しいですから", "<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>したいですから", "きれいです", "いいえ"],
+        answer: 1
+    },
+    {
+        text: "3. ひらがなが（ ）わかります。",
+        options: ["たくさん", "だいたい", "とても", "よく"],
+        answer: 1
+    },
+    {
+        text: "4. あした いっしょに<ruby>映画<rt>えいが</rt></ruby>（ ）<ruby>見<rt>み</rt></ruby>ませんか。",
+        options: ["を", "に", "で", "が"],
+        answer: 0
+    },
+    {
+        text: "5. <ruby>私<rt>わたし</rt></ruby>は<ruby>毎日<rt>まいにち</rt></ruby>コーヒー（ ）<ruby>飲<rt>の</rt></ruby>みます。",
+        options: ["が", "に", "を", "で"],
+        answer: 2
+    },
+    {
+        text: "6. ナイフ（ ）<ruby>肉<rt>にく</rt></ruby>を<ruby>切<rt>き</rt></ruby>ります。",
+        options: ["に", "を", "で", "が"],
+        answer: 2
+    },
+    {
+        text: "7. <ruby>母<rt>はは</rt></ruby>（ ）プレゼントをもらいました。",
+        options: ["が", "で", "に", "を"],
+        answer: 2
+    },
+    {
+        text: "8. この<ruby>町<rt>まち</rt></ruby>はあの<ruby>町<rt>まち</rt></ruby>（ ）にぎやかです。",
+        options: ["より", "で", "が", "に"],
+        answer: 0
+    },
+    {
+        text: "9. <ruby>日本<rt>にほん</rt></ruby>と<ruby>韓国<rt>かんこく</rt></ruby>と（ ）どちらが<ruby>大<rt>おお</rt></ruby>きいですか。",
+        options: ["が", "で", "は", "を"],
+        answer: 2
+    },
+    {
+        text: "10. <ruby>夏<rt>なつ</rt></ruby>（ ）<ruby>冬<rt>ふゆ</rt></ruby>のほうが<ruby>好<rt>す</rt></ruby>きです。",
+        options: ["が", "より", "で", "は"],
+        answer: 1
+    },
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (FUKUSHUU BAB 9–12)
-            // ===============================
-            {
-                text: "1. わたしは 音楽（　）好きです。",
-                options: ["を", "が", "に", "で"],
-                answer: 1
-            },
-            {
-                text: "2. どうして 日本へ来ましたか。（　）",
-                options: ["楽しいですから", "日本語を勉強したいですから", "きれいです", "いいえ"],
-                answer: 1
-            },
-            {
-                text: "3. ひらがなが（　）わかります。",
-                options: ["たくさん", "だいたい", "とても", "よく"],
-                answer: 1
-            },
-            {
-                text: "4. あした いっしょに映画（　）見ませんか。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "5. わたしは 毎日 コーヒー（　）飲みます。",
-                options: ["が", "に", "を", "で"],
-                answer: 2
-            },
-            {
-                text: "6. ナイフ（　）肉を切ります。",
-                options: ["に", "を", "で", "が"],
-                answer: 2
-            },
-            {
-                text: "7. 母（　）プレゼントをもらいました。",
-                options: ["が", "で", "に", "を"],
-                answer: 2
-            },
-            {
-                text: "8. この町は あの町（　）にぎやかです。",
-                options: ["より", "で", "が", "に"],
-                answer: 0
-            },
-            {
-                text: "9. 日本と韓国と（　）どちらが大きいですか。",
-                options: ["が", "で", "は", "を"],
-                answer: 2
-            },
-            {
-                text: "10. 夏（　）冬のほうが好きです。",
-                options: ["が", "より", "で", "は"],
-                answer: 1
-            },
+    {
+        text: "11. きのうはあまり<ruby>勉強<rt>べんきょう</rt></ruby>（ ）しませんでした。",
+        options: ["を", "が", "に", "で"],
+        answer: 0
+    },
+    {
+        text: "12. あのレストランはとても（ ）です。",
+        options: ["おいしい", "おいしくない", "おいしかった", "おいしくて"],
+        answer: 0
+    },
+    {
+        text: "13. <ruby>東京<rt>とうきょう</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>より<ruby>人<rt>ひと</rt></ruby>が（ ）です。",
+        options: ["<ruby>多<rt>おお</rt></ruby>い", "<ruby>多<rt>おお</rt></ruby>く", "<ruby>多<rt>おお</rt></ruby>くて", "<ruby>多<rt>おお</rt></ruby>かった"],
+        answer: 0
+    },
+    {
+        text: "14. この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>前<rt>まえ</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>（ ）<ruby>簡単<rt>かんたん</rt></ruby>です。",
+        options: ["より", "で", "が", "に"],
+        answer: 0
+    },
+    {
+        text: "15. きのうのテストはあまり（ ）。",
+        options: ["<ruby>難<rt>むずか</rt></ruby>しいです", "<ruby>難<rt>むずか</rt></ruby>しくないです", "<ruby>難<rt>むずか</rt></ruby>しかったです", "<ruby>難<rt>むずか</rt></ruby>しくありませんでした"],
+        answer: 3
+    },
+    {
+        text: "16. あの<ruby>人<rt>ひと</rt></ruby>はダンス（ ）<ruby>上手<rt>じょうず</rt></ruby>です。",
+        options: ["を", "が", "に", "で"],
+        answer: 1
+    },
+    {
+        text: "17. <ruby>毎日<rt>まいにち</rt></ruby><ruby>日本語<rt>にほんご</rt></ruby>を（ ）います。",
+        options: ["<ruby>勉強<rt>べんきょう</rt></ruby>して", "<ruby>勉強<rt>べんきょう</rt></ruby>し", "<ruby>勉強<rt>べんきょう</rt></ruby>した", "<ruby>勉強<rt>べんきょう</rt></ruby>する"],
+        answer: 0
+    },
+    {
+        text: "18. この<ruby>本<rt>ほん</rt></ruby>は（ ）ですか。",
+        options: ["だれ", "どれ", "なん", "どこ"],
+        answer: 2
+    },
+    {
+        text: "19. <ruby>私<rt>わたし</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>（ ）<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。",
+        options: ["と", "に", "を", "で"],
+        answer: 0
+    },
+    {
+        text: "20. あの<ruby>店<rt>みせ</rt></ruby>でパン（ ）<ruby>買<rt>か</rt></ruby>いました。",
+        options: ["に", "が", "を", "で"],
+        answer: 2
+    },
 
-            {
-                text: "11. きのうは あまり 勉強（　）しませんでした。",
-                options: ["を", "が", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "12. あのレストランは とても（　）です。",
-                options: ["おいしい", "おいしくない", "おいしかった", "おいしくて"],
-                answer: 0
-            },
-            {
-                text: "13. 東京は 大阪より 人が（　）です。",
-                options: ["多い", "多く", "多くて", "多かった"],
-                answer: 0
-            },
-            {
-                text: "14. この問題は 前の問題（　）簡単です。",
-                options: ["より", "で", "が", "に"],
-                answer: 0
-            },
-            {
-                text: "15. きのうのテストは あまり（　）。",
-                options: ["難しいです", "難しくないです", "難しかったです", "難しくありませんでした"],
-                answer: 3
-            },
-            {
-                text: "16. あの人は ダンス（　）上手です。",
-                options: ["を", "が", "に", "で"],
-                answer: 1
-            },
-            {
-                text: "17. 毎日 日本語を（　）います。",
-                options: ["勉強して", "勉強し", "勉強した", "勉強する"],
-                answer: 0
-            },
-            {
-                text: "18. この本は（　）ですか。",
-                options: ["だれ", "どれ", "なん", "どこ"],
-                answer: 2
-            },
-            {
-                text: "19. わたしは 友達（　）映画を見ました。",
-                options: ["と", "に", "を", "で"],
-                answer: 0
-            },
-            {
-                text: "20. あの店で パン（　）買いました。",
-                options: ["に", "が", "を", "で"],
-                answer: 2
-            },
+    {
+        text: "21. あなたはどんな<ruby>音楽<rt>おんがく</rt></ruby>（ ）<ruby>好<rt>す</rt></ruby>きですか。",
+        options: ["を", "に", "が", "で"],
+        answer: 2
+    },
+    {
+        text: "22. この<ruby>町<rt>まち</rt></ruby>は<ruby>静<rt>しず</rt></ruby>か（ ）きれいです。",
+        options: ["で", "に", "が", "を"],
+        answer: 0
+    },
+    {
+        text: "23. <ruby>日本語<rt>にほんご</rt></ruby>は<ruby>英語<rt>えいご</rt></ruby>（ ）<ruby>難<rt>むずか</rt></ruby>しいです。",
+        options: ["より", "が", "に", "で"],
+        answer: 0
+    },
+    {
+        text: "24. <ruby>私<rt>わたし</rt></ruby>は<ruby>日本語<rt>にほんご</rt></ruby>（ ）<ruby>勉強<rt>べんきょう</rt></ruby>します。",
+        options: ["を", "に", "が", "で"],
+        answer: 0
+    },
+    {
+        text: "25. どこ（ ）<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しましたか。",
+        options: ["に", "で", "が", "を"],
+        answer: 1
+    },
+    {
+        text: "26. あの<ruby>人<rt>ひと</rt></ruby>はとても（ ）です。",
+        options: ["<ruby>親切<rt>しんせつ</rt></ruby>", "<ruby>親切<rt>しんせつ</rt></ruby>な", "<ruby>親切<rt>しんせつ</rt></ruby>に", "<ruby>親切<rt>しんせつ</rt></ruby>で"],
+        answer: 0
+    },
+    {
+        text: "27. きのう<ruby>友達<rt>ともだち</rt></ruby>に<ruby>手紙<rt>てがみ</rt></ruby>（ ）<ruby>書<rt>か</rt></ruby>きました。",
+        options: ["を", "に", "で", "が"],
+        answer: 0
+    },
+    {
+        text: "28. <ruby>日本<rt>にほん</rt></ruby>の<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>はとても（ ）です。",
+        options: ["おいしい", "おいしく", "おいしかった", "おいしくて"],
+        answer: 0
+    },
+    {
+        text: "29. この<ruby>町<rt>まち</rt></ruby>は（ ）<ruby>町<rt>まち</rt></ruby>です。",
+        options: ["にぎやか", "にぎやかな", "にぎやかで", "にぎやかに"],
+        answer: 1
+    },
+    {
+        text: "30. あしたスーパー（ ）<ruby>行<rt>い</rt></ruby>きます。",
+        options: ["に", "で", "が", "を"],
+        answer: 0
+    },
 
-            {
-                text: "21. あなたは どんな音楽（　）好きですか。",
-                options: ["を", "に", "が", "で"],
-                answer: 2
-            },
-            {
-                text: "22. この町は 静か（　）きれいです。",
-                options: ["で", "に", "が", "を"],
-                answer: 0
-            },
-            {
-                text: "23. 日本語は 英語（　）難しいです。",
-                options: ["より", "が", "に", "で"],
-                answer: 0
-            },
-            {
-                text: "24. わたしは 日本語（　）勉強します。",
-                options: ["を", "に", "が", "で"],
-                answer: 0
-            },
-            {
-                text: "25. どこ（　）日本語を勉強しましたか。",
-                options: ["に", "で", "が", "を"],
-                answer: 1
-            },
-            {
-                text: "26. あの人は とても（　）です。",
-                options: ["親切", "親切な", "親切に", "親切で"],
-                answer: 1
-            },
-            {
-                text: "27. きのう 友達に 手紙（　）書きました。",
-                options: ["を", "に", "で", "が"],
-                answer: 0
-            },
-            {
-                text: "28. 日本の食べ物は とても（　）です。",
-                options: ["おいしい", "おいしく", "おいしかった", "おいしくて"],
-                answer: 0
-            },
-            {
-                text: "29. この町は（　）町です。",
-                options: ["にぎやか", "にぎやかな", "にぎやかで", "にぎやかに"],
-                answer: 1
-            },
-            {
-                text: "30. あした スーパー（　）行きます。",
-                options: ["に", "で", "が", "を"],
-                answer: 0
-            },
+    // ===============================
+    // 31–36: DOKKAI (BAB 12)
+    // ===============================
+    {
+        passage: `<b>【Petunjuk Soal 31–36: Dokkai】</b><br>
+Bacalah teks berikut dan jawablah pertanyaannya!<br><br>
+【３１－３３】<br>
+きのう、<ruby>私<rt>わたし</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>と<ruby>電話<rt>でんわ</rt></ruby>で<ruby>話<rt>はな</rt></ruby>しました。<ruby>友達<rt>ともだち</rt></ruby>は<ruby>大阪<rt>おおさか</rt></ruby>に<ruby>住<rt>す</rt></ruby>んでいます。<br>
+<ruby>大阪<rt>おおさか</rt></ruby>はとてもにぎやかで、<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>がおいしいです。`,
+        text: "31. <ruby>友達<rt>ともだち</rt></ruby>はどこに<ruby>住<rt>す</rt></ruby>んでいますか。",
+        options: ["<ruby>東京<rt>とうきょう</rt></ruby>", "<ruby>大阪<rt>おおさか</rt></ruby>", "<ruby>京都<rt>きょうと</rt></ruby>", "<ruby>名古屋<rt>なごや</rt></ruby>"],
+        answer: 1
+    },
+    {
+        text: "32. <ruby>大阪<rt>おおさか</rt></ruby>はどうですか。",
+        options: ["<ruby>静<rt>しず</rt></ruby>か", "<ruby>寒<rt>さむ</rt></ruby>い", "にぎやか", "<ruby>小<rt>ちい</rt></ruby>さい"],
+        answer: 2
+    },
+    {
+        text: "33. <ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>はどうですか。",
+        options: ["まずい", "<ruby>高<rt>たか</rt></ruby>い", "おいしい", "<ruby>少<rt>すく</rt></ruby>ない"],
+        answer: 2
+    },
 
-            // ===============================
-            // 31–36: DOKKAI (BAB 12)
-            // ===============================
-            {
-                passage: `【３１－３３】<br><br>
-        きのう、わたしは友達と電話で話しました。友達は大阪に住んでいます。
-        大阪はとてもにぎやかで、食べ物がおいしいです。`,
-                text: "31. 友達はどこに住んでいますか。",
-                options: ["東京", "大阪", "京都", "名古屋"],
-                answer: 1
-            },
-            {
-                text: "32. 大阪はどうですか。",
-                options: ["静か", "寒い", "にぎやか", "小さい"],
-                answer: 2
-            },
-            {
-                text: "33. 食べ物はどうですか。",
-                options: ["まずい", "高い", "おいしい", "少ない"],
-                answer: 2
-            },
+    {
+        passage: `【３４－３６】<br>
+<ruby>先週<rt>せんしゅう</rt></ruby>のテストはあまり<ruby>難<rt>むずか</rt></ruby>しくありませんでした。<br>
+でも、<ruby>前<rt>まえ</rt></ruby>のテストより<ruby>少<rt>すこ</rt></ruby>し<ruby>難<rt>むずか</rt></ruby>しかったです。`,
+        text: "34. <ruby>先週<rt>せんしゅう</rt></ruby>のテストはどうでしたか。",
+        options: ["とても<ruby>難<rt>むずか</rt></ruby>しかった", "やさしかった", "あまり<ruby>難<rt>むずか</rt></ruby>しくなかった", "できなかった"],
+        answer: 2
+    },
+    {
+        text: "35. <ruby>前<rt>まえ</rt></ruby>のテストと<ruby>比<rt>くら</rt></ruby>べてどうですか。",
+        options: ["<ruby>同<rt>おな</rt></ruby>じ", "<ruby>簡単<rt>かんたん</rt></ruby>", "<ruby>少<rt>すこ</rt></ruby>し<ruby>難<rt>むずか</rt></ruby>しい", "わからない"],
+        answer: 2
+    },
+    {
+        text: "36. テストはいつでしたか。",
+        options: ["<ruby>先週<rt>せんしゅう</rt></ruby>", "<ruby>昨日<rt>きのう</rt></ruby>", "<ruby>今日<rt>きょう</rt></ruby>", "<ruby>明日<rt>あした</rt></ruby>"],
+        answer: 0
+    },
 
-            {
-                passage: `【３４－３６】<br><br>
-        先週のテストはあまり難しくありませんでした。
-        でも、前のテストより少し難しかったです。`,
-                text: "34. 先週のテストはどうでしたか。",
-                options: ["とても難しかった", "やさしかった", "あまり難しくなかった", "できなかった"],
-                answer: 2
-            },
-            {
-                text: "35. 前のテストと比べてどうですか。",
-                options: ["同じ", "簡単", "少し難しい", "わからない"],
-                answer: 2
-            },
-            {
-                text: "36. テストはいつですか。",
-                options: ["先週", "昨日", "今日", "明日"],
-                answer: 0
-            },
+    // ===============================
+    // 37–40: 並べ替え（ACAK KATA）
+    // ===============================
+    {
+        passage: `<b>【Petunjuk Mengerjakan Soal 37-40】</b><br>
+Susunlah pilihan kata di bawah ini menjadi satu kalimat yang benar. Kemudian, pilihlah jawaban yang menempati posisi tanda bintang (☆).`,
+        text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+        options: ["<ruby>私<rt>わたし</rt></ruby>は", "<ruby>音楽<rt>おんがく</rt></ruby>が", "とても", "<ruby>好<rt>す</rt></ruby>きです"],
+        answer: 2
+    },
+    {
+        text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ <ruby>行<rt>い</rt></ruby>きました。",
+        options: ["きのう", "<ruby>友達<rt>ともだち</rt></ruby>と", "<ruby>映画<rt>えいが</rt></ruby>を", "<ruby>見<rt>み</rt></ruby>に"],
+        answer: 2
+    },
+    {
+        text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ <ruby>勉強<rt>べんきょう</rt></ruby>します。",
+        options: ["<ruby>毎日<rt>まいにち</rt></ruby>", "<ruby>日本語<rt>にほんご</rt></ruby>を", "<ruby>私<rt>わたし</rt></ruby>は", "<ruby>学校<rt>がっこう</rt></ruby>で"],
+        answer: 3
+    },
+    {
+        text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 。",
+        options: ["この<ruby>店<rt>みせ</rt></ruby>の", "<ruby>料理<rt>りょうり</rt></ruby>は", "とても", "おいしいです"],
+        answer: 2
+    }
 
-            // ===============================
-            // 37–40: 並べ替え（完全シャッフル）
-            // ===============================
-            {
-                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 好きです。",
-                options: ["わたしは", "音楽が", "とても", "です"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 行きました。",
-                options: ["きのう", "友達と", "映画を", "見に"],
-                answer: [0, 1, 3, 2]
-            },
-            {
-                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ 勉強します。",
-                options: ["毎日", "日本語を", "わたしは", "学校で"],
-                answer: [2, 0, 3, 1]
-            },
-            {
-                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ おいしいです。",
-                options: ["この店の", "料理は", "とても", "です"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
-        let answers = new Array(questions.length).fill(null);
-
+];
+let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -605,6 +620,7 @@
 
             generateNav();
             loadQuestion();
+            updateNav();
             startTimer();
         }
 
@@ -651,7 +667,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -662,6 +678,29 @@
                     loadQuestion();
                     updateNav();
                 };
+                /* ======================
+TAMPILKAN GAMBAR
+====================== */
+                const imageBox = document.getElementById("questionImageBox");
+
+                if (q.image) {
+
+                    imageBox.innerHTML = `
+        <img src="${q.image}"
+             alt="Question Image"
+             style="
+                max-width:100%;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.15);
+             ">
+    `;
+
+                    imageBox.style.display = "block";
+
+                } else {
+
+                    imageBox.style.display = "none";
+                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -716,8 +755,78 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salahList = "";
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+
+                // soal pilihan ganda biasa
+                if (typeof questions[i].answer === "number") {
+
+                    if (a === questions[i].answer) {
+                        benar++;
+                    } else {
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        let jawabanBenar =
+                            questions[i].options[questions[i].answer];
+
+                        salahList += `
+            <div style="
+                background:#fff3f3;
+                border-left:5px solid #e74c3c;
+                padding:12px;
+                margin:10px 0;
+                border-radius:8px;
+                text-align:left;
+            ">
+                <b>❌ Soal ${i + 1}</b><br>
+                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+            </div>
+            `;
+                    }
+
+                }
+                // soal model array / susun kata
+                else if (Array.isArray(questions[i].answer)) {
+
+                    const jawabanBenarIndex = questions[i].answer[0];
+
+                    if (a === jawabanBenarIndex) {
+
+                        benar++;
+
+                    } else {
+
+                        let jawabanBenar =
+                            questions[i].options[jawabanBenarIndex];
+
+                        let jawabanSiswa =
+                            a !== null
+                                ? questions[i].options[a]
+                                : "(Tidak dijawab)";
+
+                        salahList += `
+        <div style="
+            background:#fff3f3;
+            border-left:5px solid #e74c3c;
+            padding:12px;
+            margin:10px 0;
+            border-radius:8px;
+            text-align:left;
+        ">
+            <b>❌ Soal ${i + 1}</b><br>
+            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
+            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
+        </div>
+        `;
+                    }
+                }
+
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -731,7 +840,7 @@
                     total_soal: questions.length,
                     nilai: nilaiTotal,
                     total_point: nilaiTotal,
-                    bab: "Fukushuu Bab 9-12",
+                    bab: "Fukuushuu 9-12",
                     status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
@@ -745,33 +854,57 @@
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+    <div style="font-size:18px; margin:15px 0;">
+        <b>👤 Nama:</b> ${studentName} <br>
+        <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        ✅ Benar: ${benar} / ${questions.length} <br>
+        📊 Nilai: <b>${nilaiTotal}%</b>
+    </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
+    <div style="font-size:22px; padding:15px; border-radius:12px;
+    ${nilaiTotal >= 70
+                    ? 'background:#d4edda; color:#155724;'
+                    : 'background:#f8d7da; color:#721c24;'}">
+        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>📌 Nomor Soal yang Salah</h3>
+
+    ${salahList
+                    ? salahList
+                    : `
+            <div style="
+                background:#d4edda;
+                color:#155724;
+                padding:15px;
+                border-radius:10px;
+            ">
+                🎉 Semua jawaban benar!
+            </div>
+            `
+                }
+</div>
+`;
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            console.log(salahList);
+
+            document.getElementById("result").scrollIntoView({
+                behavior: "smooth"
+            });
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS Bab 9-12" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS FUKUSHUU 9-12" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL FUKUSHUU Bab 9-12
+       HASIL FUKUSHUU 9-12
        ==============================
 
        👤 Nama : ${studentName}
