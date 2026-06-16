@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.TEST F-G VERSI 2 聴解試験</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .right-panel {
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .section-intro {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #eef2ff;
+            border-radius: 6px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question img,
+        .question table,
+        .question pre {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .question table {
+            border-collapse: collapse;
+        }
+
+        .question table th,
+        .question table td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162d6b;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+
+        /* Border opsi */
+        .question label {
+            border: 1px solid #1e3a8a;
+            border-radius: 6px;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .question label:hover {
+            background: #eef2ff;
+        }
+
+        /* Mobile */
+        @media (max-width:768px) {
+            .question label {
+                width: 22%;
+                margin-bottom: 5px;
+            }
+        }
+
+        /* ===== FIX KHUSUS SOAL 29–38 DI MOBILE ===== */
+        @media (max-width:768px) {
+
+            .question-large img {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin-bottom: 12px;
+            }
+
+            .question-large label {
+                width: 30% !important;
+                /* override 22% */
+                display: inline-block;
+                margin: 5px 1%;
+                vertical-align: top;
+            }
+
+        }
+
+        /* Perbesar gambar 29–38 di PC */
+        @media (min-width:769px) {
+            .question-large img {
+                max-width: 85%;
+                display: block;
+                margin: 0 auto 10px auto;
+            }
+        }
+        .section-intro img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 10px auto;
+    border: 1px solid #ccc; /* Untuk mempermudah deteksi apakah gambar dimuat */
+}
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>J.TEST F-G VERSI 2 聴解試験</h2>
+        <div>35分 | 175点満点</div>
+        <div class="timer">Sisa Waktu: <span id="time">35:00</span></div>
+    </header>
+
+    <div class="container">
+
+        <div id="loginBox">
+            <h3>Login Peserta</h3>
+
+            <div style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:8px;margin-bottom:15px;">
+                <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+                <ul style="margin-top:10px;">
+                    <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                    <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                    <li>Jangan berpindah tab atau membuka aplikasi lain selama ujian.</li>
+                    <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis dikumpulkan.</li>
+                    <li>Jika halaman <b>direfresh</b>, ujian akan dihentikan.</li>
+                    <li>Gunakan <b>earphone/headset</b> agar audio terdengar jelas.</li>
+                    <li>Pastikan volume perangkat sudah dinyalakan.</li>
+                </ul>
+
+                <b>📱 Jika menggunakan HP:</b>
+                <ul>
+                    <li>Atur waktu layar agar tidak cepat mati.</li>
+                    <li>Masuk ke <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                    <li>Set minimal <b>10 menit atau lebih</b>.</li>
+                </ul>
+
+                <label style="display:block;margin-top:10px;">
+                    <input type="checkbox" id="agree">
+                    Saya sudah membaca dan memahami semua peringatan di atas.
+                </label>
+            </div> <input type="text" id="nama" placeholder="Nama Lengkap"><br><br>
+            <input type="text" id="kelas" placeholder="Kelas"><br><br>
+            <button onclick="startExam()">Mulai Ujian</button>
+        </div>
+
+        <div id="examBox" style="display:none">
+            <div class="right-panel">
+                <h3>Jawaban</h3>
+                <div id="questions"></div><br>
+                <button onclick="submitExam('Selesai')">Kumpulkan</button>
+            </div>
+        </div>
+
+    </div>
+
+    <audio id="audio" style="display:none">
+        <source src="jtestfgv2/audio/jtestfg177.mp3" type="audio/mp3">
+    </audio>
+
+   <script>
+    let namaPeserta = "", kelasPeserta = "";
+    let duration = 35 * 60, timer = null, submitted = false;
+
+    /* ===== Anti Refresh ===== */
+    if (sessionStorage.getItem("examStarted") === "true") {
+        alert("Refresh terdeteksi. Ujian dihentikan.");
+        window.location = "about:blank";
+    }
+
+    /* ===== DATA SOAL ===== */
+    const examSections = [
+        { name: "写真問題", intro: `<p>写真問題</p>` + `<img src="jtestfgv2/img/contoh1.jpeg">`, questions: [
+            { type: "image", content: "jtestfgv2/img/1.jpeg" },
+            { type: "image", content: "jtestfgv2/img/2.jpeg" },
+            { type: "image", content: "jtestfgv2/img/3.jpeg" },
+            { type: "image", content: "jtestfgv2/img/4.jpeg" }
+        ]},
+        { name: "聴読解問題", intro: `<p>マークしてください</p>` + `<img src="jtestfgv2/img/contoh2.jpeg">`, questions: [
+            { type: "image", content: "jtestfgv2/img/5.jpeg" },
+            { type: "image", content: "jtestfgv2/img/6.jpeg" },
+            { type: "image", content: "jtestfgv2/img/7.jpeg" }
+        ]},
+        { name: "応答問題", intro: `<p>（問題だけ聞いて答えてください）</p>` , questions: 
+            Array.from({ length: 14 }, (_, i) => ({ type: "text", content: `問題 ${i + 13}` }))
+        },
+        { name: "会話・説明問題 (22-31)", intro: "会話や説明を聞いて正しいものを選んでください", questions: [
+            { text: "問題 22", options: ["<ruby>公園<rt>こうえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。", "<ruby>池<rt>いけ</rt></ruby>でおよぎました。", "おべんとうを<ruby>買<rt>か</rt></ruby>いました。"] },
+            { text: "問題 23", options: ["きのうは、<ruby>雨<rt>あめ</rt></ruby>がふりました。", "きのう、おんなの<ruby>人<rt>ひと</rt></ruby>は、でかけませんでした。", "きのう、おとこの<ruby>人<rt>ひと</rt></ruby>は、へやのそうじをしました。"] },
+            { text: "問題 24", options: ["いえを<ruby>出<rt>で</rt></ruby>ます。", "<ruby>電車<rt>でんしゃ</rt></ruby>にのります。", "きっさ<ruby>店<rt>てん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。"] },
+            { text: "問題 25", options: ["けさは、いえでりょうりをしませんでした。", "きょうは、いつもよりおそく<ruby>会社<rt>かいしゃ</rt></ruby>につきます。", "きょうは、あさ７<ruby>時<rt>じ</rt></ruby>におきました。"] },
+            { text: "問題 26", options: ["あさは、<ruby>雨<rt>あめ</rt></ruby>がふりました。", "あさも、ひるも、さむかったです。", "ひるからゆきがふりました。"] },
+            { text: "問題 27", options: ["<ruby>今<rt>いま</rt></ruby>、かぜの<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。", "<ruby>今月<rt>こんげつ</rt></ruby>は、<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。", "<ruby>手<rt>て</rt></ruby>をあらわない<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。"] },
+            { text: "問題 28", options: ["てんぷらだけ<ruby>食<rt>た</rt></ruby>べます。", "てんぷらそばを<ruby>食<rt>た</rt></ruby>べます。", "そばだけ<ruby>食<rt>た</rt></ruby>べます。"] },
+            { text: "問題 29", options: ["ラーメンだけ<ruby>食<rt>た</rt></ruby>べます。", "そばとてんぷらを<ruby>食<rt>た</rt></ruby>べます。", "ラーメンとてんぷらを<ruby>食<rt>た</rt></ruby>べます。"] },
+            { text: "問題 30", options: ["きのう、ケンさんにメールをしませんでした。", "きのう、ケンさんにメールをしましたが、ばしょをまちがえて<ruby>書<rt>か</rt></ruby>きました。", "きのう、ケンさんにメールをしましたが、<ruby>時間<rt>じかん</rt></ruby>をまちがえて<ruby>書<rt>か</rt></ruby>きました。"] },
+            { text: "問題 31", options: ["おとこの<ruby>人<rt>ひと</rt></ruby>と、ケンさんがいるところへ<ruby>行<rt>い</rt></ruby>きます。", "ケンさんにメールをして、<ruby>今<rt>いま</rt></ruby>いるところをおしえます。", "ケンさんに<ruby>電話<rt>でんわ</rt></ruby>して、<ruby>何時<rt>なんじ</rt></ruby>に<ruby>駅<rt>えき</rt></ruby>に<ruby>来<rt>く</rt></ruby>ますかと、ききます。"] }
+        ]}
+    ];
+
+    /* ===== GENERATE SOAL ===== */
+   /* ===== GENERATE SOAL ===== */
+   function generateQuestions() {
+        let c = document.getElementById("questions");
+        c.innerHTML = "";
+        let nomor = 1;
+
+        examSections.forEach(sec => {
+            c.innerHTML += `<div class="section-title">${sec.name}</div><div class="section-intro">${sec.intro}</div>`;
+
+            sec.questions.forEach(q => {
+                let opsi = "";
+                // Jika soal punya gambar, ambil konten gambar
+                let kontenGambar = q.type === "image" ? `<img src="${q.content}" alt="Soal ${nomor}">` : "";
+
+                // Jika soal punya teks judul (22-31), gunakan itu, jika tidak gunakan "Soal X"
+                let judulSoal = q.text ? `<p><b>${q.text}</b></p>` : `<p><b>Soal ${nomor}</b></p>`;
+
+                if (q.options) {
+                    // Untuk soal 22-31 (yang memiliki options)
+                    q.options.forEach((opt, i) => {
+                        opsi += `<label class="option-label"><input type="radio" name="q${nomor}" value="${i + 1}"> ${i + 1}. ${opt}</label>`;
+                    });
+                } else {
+                    // Untuk soal 1-21 (pilihan 1, 2, 3, 4)
+                    opsi = [1, 2, 3].map(i => `<label><input type="radio" name="q${nomor}" value="${i}"> ${i}</label>`).join('');
+                    if (nomor <= 12) opsi += `<label><input type="radio" name="q${nomor}" value="4"> 4</label>`;
+                }
+
+                c.innerHTML += `<div class="question">${judulSoal}${kontenGambar}${opsi}</div>`;
+                nomor++;
+            });
+        });
+    }
+    /* ===== FUNGSI LAINNYA (TIMER, SUBMIT, DLL) ===== */
+    function startTimer() {
+        timer = setInterval(() => {
+            let m = Math.floor(duration / 60), s = duration % 60;
+            document.getElementById("time").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+            if (--duration < 0) submitExam("Waktu Habis");
+        }, 1000);
+    }
+
+    function enterFullscreen() { document.documentElement.requestFullscreen?.(); }
+
+    function startAudio() {
+        let audio = document.getElementById("audio");
+        audio.play().catch(() => {});
+        audio.onpause = () => { if (!audio.ended) audio.play(); };
+    }
+
+    function startExam() {
+        if (!document.getElementById("agree").checked) {
+            alert("Harap centang persetujuan terlebih dahulu!");
+            return;
+        }
+        namaPeserta = document.getElementById("nama").value.trim();
+        kelasPeserta = document.getElementById("kelas").value.trim();
+        if (!namaPeserta || !kelasPeserta) return alert("Isi nama dan kelas!");
+        sessionStorage.setItem("examStarted", "true");
+        enterFullscreen();
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("examBox").style.display = "block";
+        generateQuestions();
+        startTimer();
+        startAudio();
+    }
+
+    let answerKey = { 1:1,2:3,3:4,4:2,5:2,6:4,7:3,8:3,9:2,10:3,11:3,12:1,13:2,14:1,15:1,16:2,17:3,18:1,19:2,20:2,21:1,22:1,23:2,24:3,25:1,26:2,27:1,28:2,29:3,30:3,31:2 };
+
+    function submitExam(status) {
+        if (submitted) return;
+        submitted = true;
+        clearInterval(timer);
+        let total = 0, detail = "";
+        for (let i = 1; i <= 31; i++) {
+            let s = document.querySelector(`input[name="q${i}"]:checked`);
+            let j = s ? parseInt(s.value) : 0;
+            detail += `Q${i}:${j} `;
+            if (j === answerKey[i]) total += (i <= 21 ? 5 : 7);
+        }
+        
+        fetch("https://script.google.com/macros/s/AKfycbyLJ-CrhlFirMNbBrxOM-MVi9MCQzL0Xyxk3aoW2F9jNrNUTvC8aSVnWCVKr9y9VcOtzQ/exec", {
+            method: "POST",
+            body: JSON.stringify({ nama: namaPeserta, kelas: kelasPeserta, total, status, detail })
+        }).then(() => alert("Data berhasil dikirim")).catch(() => alert("Gagal kirim"));
+        
+        document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
+    }
+</script>
+</body>
+
+</html>
