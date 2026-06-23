@@ -1383,14 +1383,135 @@ const questions = [
         answer: 3
     },
     {
-        text: "45. 京都には 何が たくさんありますか。",
-        options: ["学校", "病院", "お寺", "駅"],
-        answer: 2
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ９<br>
+    次の文章を読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:20px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        <ruby>図書館<rt>としょかん</rt></ruby>の
+        <ruby>利用者<rt>りようしゃ</rt></ruby>を
+        <ruby>増<rt>ふ</rt></ruby>やすために
+    </div>
+
+    <p>
+        図書館には、
+        <ruby>人生<rt>じんせい</rt></ruby>をもっとおもしろく、
+        <ruby>楽<rt>たの</rt></ruby>しくできる
+        <ruby>本<rt>ほん</rt></ruby>がたくさんあります。
+        そして、
+        <ruby>好<rt>す</rt></ruby>きな本を
+        <ruby>借<rt>か</rt></ruby>りて読むことができます。
+        ところが、
+        <ruby>最近<rt>さいきん</rt></ruby>、
+        図書館を利用する人の
+        <ruby>数<rt>かず</rt></ruby>が
+        <ruby>減<rt>へ</rt></ruby>ってきているそうです。
+        もったいないことだと思います。
+    </p>
+
+    <p>
+        図書館の利用者が減った
+        <ruby>原因<rt>げんいん</rt></ruby>のひとつは、
+        図書館に行かなくても、
+        パソコンやスマートフォンを使えば、
+        <ruby>小説<rt>しょうせつ</rt></ruby>やまんがなどが
+        読めるようになったことだと
+        言われています。
+    </p>
+
+    <p>
+        そこで、
+        図書館も、
+        利用者が減っている問題を
+        <ruby>解決<rt>かいけつ</rt></ruby>するために、
+        <ruby>努力<rt>どりょく</rt></ruby>を
+        始めました。
+    </p>
+
+    <p>
+        ある図書館では、
+        子どものときから図書館に
+        <ruby>親<rt>した</rt></ruby>しみを持ってもらうことが
+        大切だと考えて、
+        子ども向けの
+        <ruby>計画<rt>けいかく</rt></ruby>を
+        行っているそうです。
+    </p>
+
+    <p>
+        何人かの子どもたちに、
+        図書館のことにくわしい
+        <ruby>専門家<rt>せんもんか</rt></ruby>になってもらい、
+        その子どもたちから
+        <ruby>友達<rt>ともだち</rt></ruby>へ、
+        図書館の使い方や、
+        本のおもしろさ、
+        楽しさを
+        <ruby>紹介<rt>しょうかい</rt></ruby>してもらおうとしたのです。
+    </p>
+
+    <p>
+        大人が話すよりも、
+        友達から話を聞いたほうが、
+        子どもたちの心に
+        <ruby>伝<rt>つた</rt></ruby>わるのではないかと
+        考えたわけです。
+    </p>
+
+    <p>
+        それで、
+        小学校4年生から6年生までの子どもを
+        <ruby>募集<rt>ぼしゅう</rt></ruby>したところ、
+        <ruby>興味<rt>きょうみ</rt></ruby>を持つ子どもが、
+        思っていたより多く集まったそうです。
+    </p>
+
+    <p>
+        図書館の専門家になった子どもたちが、
+        本と図書館のことを
+        友達に紹介してくれるとよいですね。
+    </p>
+
+</div>
+`,
+        text: "45. この<ruby>文章<rt>ぶんしょう</rt></ruby>によると、<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>利用者<rt>りようしゃ</rt></ruby>が<ruby>減<rt>へ</rt></ruby>っている<ruby>原因<rt>げんいん</rt></ruby>は、<ruby>何<rt>なん</rt></ruby>ですか。",
+        options: [
+            "<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>数<rt>かず</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なくなったことです。",
+            "<ruby>若<rt>わか</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>が<ruby>小説<rt>しょうせつ</rt></ruby>よりまんがを<ruby>読<rt>よ</rt></ruby>むようになったことです。",
+            "<ruby>図書館<rt>としょかん</rt></ruby>にはまんががあまりないことです。",
+            "スマートフォンなどで、<ruby>本<rt>ほん</rt></ruby>が<ruby>読<rt>よ</rt></ruby>めるようになったことです。"
+        ],
+        answer: 4
     },
     {
-        text: "46. 京都の 食べものは どうでしたか。",
-        options: ["高かった", "まずかった", "少なかった", "おいしかった"],
-        answer: 3
+        text: "46. <ruby>文章<rt>ぶんしょう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
+        options: [
+            "「<ruby>私<rt>わたし</rt></ruby>」は、<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>利用者<rt>りようしゃ</rt></ruby>が<ruby>減<rt>へ</rt></ruby>るのは、<ruby>当<rt>あ</rt></ruby>たり<ruby>前<rt>まえ</rt></ruby>だと思っています。",
+            "ある<ruby>図書館<rt>としょかん</rt></ruby>では、子どもたちに、<ruby>本<rt>ほん</rt></ruby>の<ruby>案内<rt>あんない</rt></ruby>のしかたを<ruby>教<rt>おし</rt></ruby>えることにしました。",
+            "<ruby>友達<rt>ともだち</rt></ruby>から<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>利用<rt>りよう</rt></ruby>をすすめられても、<ruby>大人<rt>おとな</rt></ruby>は<ruby>興味<rt>きょうみ</rt></ruby>を持ちません。",
+            "<ruby>利用者<rt>りようしゃ</rt></ruby>は<ruby>減<rt>へ</rt></ruby>っていますが、<ruby>図書館<rt>としょかん</rt></ruby>は、何もしていません。"
+        ],
+        answer: 2
     },
 
 ];   
