@@ -263,7 +263,7 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 TRY OUT J.TEST D-E</h1>
+        <h1>📚 TRY OUT J.TEST D-E VERSI 5</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
             <div id="timer">70:00</div>
@@ -1816,6 +1816,79 @@ const questions = [
             "（Ａ）だれと　（Ｂ）連絡"
         ],
         answer: 1
+    },
+    {
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    ４ 記述問題 Ｂ<br>
+    次の会話や文章を読んでください。<br>
+    【 】の中の言葉を１→２→３の順に使った正しい文を選んでください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        文を作りましょう
+    </div>
+
+    １ → ２ → ３ の順に言葉を使った文を選んでください。
+
+</div>
+`,
+        text: "71. このはがきは、切手がいりません。切手を【１．貼る → ２．ポスト → ３．入れる】ください。",
+        options: [
+            "切手を貼ってポストに入れてください。",
+            "ポストに入れて切手を貼ってください。",
+            "切手をポストに貼って入れてください。",
+            "ポストを入れて切手を貼ってください。"
+        ],
+        answer: 1
+    },
+    {
+        text: "72. たくさん歩いて、疲れましたね。あそこの【１．喫茶店 → ２．コーヒー → ３．飲む】から、帰りましょう。",
+        options: [
+            "コーヒーを飲む喫茶店から帰りましょう。",
+            "喫茶店でコーヒーを飲んでから、帰りましょう。",
+            "喫茶店を飲んでコーヒーから帰りましょう。",
+            "コーヒーで喫茶店を飲んで帰りましょう。"
+        ],
+        answer: 2
+    },
+    {
+        text: "73. 食事をした後、【１．薬 → ２．飲む → ３．忘れる】ようにしてください。",
+        options: [
+            "薬を飲むのを忘れないようにしてください。",
+            "薬を忘れて飲むようにしてください。",
+            "飲む薬を忘れるようにしてください。",
+            "薬の忘れる飲むようにしてください。"
+        ],
+        answer: 1
+    },
+    {
+        text: "74. （電話で） Ａ：具合はわるいので、【１．今日 → ２．会社 → ３．休む】ください。 Ｂ：わかりました。お大事に。",
+        options: [
+            "会社を今日休んでください。",
+            "今日は会社が休んでください。",
+            "今日は会社を休んでください。",
+            "会社に今日休ませてください。"
+        ],
+        answer: 3
     },
 
 ];   
