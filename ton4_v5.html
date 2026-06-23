@@ -1015,80 +1015,372 @@ const questions = [
     },
 
     /* =====================================================
-       問題39～42
+       問題39～40
        ===================================================== */
 
-    {
+   {
         passage: `
-【問題39～42】
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ６<br>
+    次のメールを読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
 
-きのうは <ruby>日曜日<rt>にちようび</rt></ruby>でした。
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
 
-わたしは 
-<ruby>家族<rt>かぞく</rt></ruby>と 
-デパートへ 行きました。
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        <ruby>メール<rt>mail</rt></ruby>
+    </div>
 
-デパートで 
-<ruby>服<rt>ふく</rt></ruby>と 
-<ruby>靴<rt>くつ</rt></ruby>を 
-買いました。
+    <div style="margin-bottom:15px;">
+        ＜<ruby>高橋<rt>たかはし</rt></ruby>さんからイーさんへ<ruby>送<rt>おく</rt></ruby>ったメール＞
+    </div>
 
-そのあと レストランで
-<ruby>夕食<rt>ゆうしょく</rt></ruby>を 
-食べました。
+    <div style="
+        border:1px solid #ccc;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:15px;
+        background:#fafafa;
+    ">
+
+        イーさん<br><br>
+
+        お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。高橋です。<br>
+
+        イーさんは、先週、<ruby>出張<rt>しゅっちょう</rt></ruby>したと思いますが、そのときのレポートは出しましたか。<br>
+
+        出張のレポートは、出張後1<ruby>週間<rt>しゅうかん</rt></ruby><ruby>以内<rt>いない</rt></ruby>に出すことになっています。<br>
+
+        今日中に出さないと、出張のときに使ったお金をイーさんに払えなくなるかもしれません。<br>
+
+        レポートはメールでは受け取れません。紙に書かれたものを出してください。<br><br>
+
+        よろしくお願いします。<br>
+        高橋
+
+    </div>
+
+    <div style="margin-bottom:15px;">
+        ＜イーさんから高橋さんへ送ったメール＞
+    </div>
+
+    <div style="
+        border:1px solid #ccc;
+        padding:12px;
+        border-radius:8px;
+        background:#fafafa;
+    ">
+
+        高橋さん<br><br>
+
+        お疲れ様です。連絡ありがとうございます。<br>
+
+        すみません。レポートは、課長にメールで送ればいいと思っていました。<br>
+
+        今、外に出ているので、会社に戻ったら、課長に送ったものをすぐに紙にプリントして、高橋さんのところに持って行きます。<br><br>
+
+        イー
+
+    </div>
+
+</div>
 `,
-        text: "39. きのうは 何曜日でしたか。",
-        options: ["日曜日", "月曜日", "土曜日", "金曜日"],
-        answer: 0
-    },
-    {
-        text: "40. だれと デパートへ 行きましたか。",
-        options: ["ともだち", "家族", "先生", "ひとり"],
+        text: "39. イーさんは、これから何をすると言っていますか。",
+        options: [
+            "レポートを高橋さんに渡します。",
+            "高橋さんからレポートをもらいます。",
+            "課長にメールでレポートを送ります。",
+            "出張のレポートを書き直します。"
+        ],
         answer: 1
     },
     {
-        text: "41. デパートで 何を 買いましたか。",
-        options: ["本", "かばん", "服と靴", "時計"],
+        text: "40. メールの内容と合っているのは、どれですか。",
+        options: [
+            "出張のレポートをメールで送らないと、お金がもらえません。",
+            "出張のレポートは、出張後一週間以内に出さなければなりません。",
+            "イーさんは、いつも出張のレポートを出すのを忘れてしまいます。",
+            "イーさんは、今、会社の外にいるので、今日中にレポートが出せません。"
+        ],
         answer: 2
     },
     {
-        text: "42. そのあと どこで 食事しましたか。",
-        options: ["学校", "家", "公園", "レストラン"],
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ７<br>
+    次のお知らせを読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        ビストロ<ruby>吉田<rt>よしだ</rt></ruby> ランチメニュー
+    </div>
+
+    <div style="margin-bottom:15px; text-align:center;">
+        （メニュー画像あり）
+    </div>
+
+    <div style="
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:15px;
+">
+
+    <div style="
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:10px;
+        text-align:center;
+    ">
+        <img src="images/menu1.jpeg"
+             style="width:100%;height:120px;object-fit:cover;border-radius:6px;">
+        <div style="margin-top:8px;">
+            <b>① ハンバーグ</b><br>
+            1,100円
+        </div>
+    </div>
+
+    <div style="
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:10px;
+        text-align:center;
+    ">
+        <img src="images/menu2.jpeg"
+             style="width:100%;height:120px;object-fit:cover;border-radius:6px;">
+        <div style="margin-top:8px;">
+            <b>② お刺身</b><br>
+            1,300円
+        </div>
+    </div>
+
+    <div style="
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:10px;
+        text-align:center;
+    ">
+        <img src="images/menu3.jpeg"
+             style="width:100%;height:120px;object-fit:cover;border-radius:6px;">
+        <div style="margin-top:8px;">
+            <b>③ 野菜炒め</b><br>
+            900円
+        </div>
+    </div>
+
+    <div style="
+        border:1px solid #ccc;
+        border-radius:8px;
+        padding:10px;
+        text-align:center;
+    ">
+        <img src="images/menu4.jpeg"
+             style="width:100%;height:120px;object-fit:cover;border-radius:6px;">
+        <div style="margin-top:8px;">
+            <b>④ からあげ</b><br>
+            1,000円
+        </div>
+    </div>
+
+</div>
+
+    <br>
+
+    ※①、④は肉の料理、②は魚の料理、③は野菜の料理です。<br>
+    どちらかのセットを選んでください。<br><br>
+
+    Ａセット：ごはんと味噌汁<br>
+    Ｂセット：パンとスープ<br><br>
+
+    サラダをつけるかどうか選んでください。<br>
+    ＋200円で野菜サラダがつきます。<br><br>
+
+    飲みものを選んでください：<br>
+    コーヒー・紅茶・ウーロン茶・オレンジジュース<br>
+    ※飲みものを頼まない場合は100円安くなります。<br>
+    水は無料です。
+
+</div>
+`,
+        text: "41. 山下さんは、肉の料理と野菜とごはんが食べたいです。コーヒーも飲みます。次の中で、山下さんに合う注文のしかたは、どれですか。",
+        options: [
+            "野菜炒めランチのＡセットで、飲みものつきです。",
+            "からあげランチのＢセットで、野菜サラダと飲みものつきです。",
+            "ハンバーグランチのＡセットで、野菜サラダと飲みものつきです。",
+            "お刺身ランチのＡセットで、飲みものつきです。"
+        ],
         answer: 3
+    },
+    {
+        text: "42. ソンさんは、できるだけ安くランチを食べたいです。いくらで食べられますか。",
+        options: [
+            "800円です。",
+            "900円です。",
+            "1,000円です。",
+            "1,100円です."
+        ],
+        answer: 2
     },
 
     /* =====================================================
-       問題43～46
+       問題43～44
        ===================================================== */
 
-    {
+  {
         passage: `
-【問題43～46】
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ８<br>
+    次の文章を読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
 
-わたしの しゅみは 
-<ruby>旅行<rt>りょこう</rt></ruby>です。
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:20px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
 
-<ruby>去年<rt>きょねん</rt></ruby>、
-<ruby>京都<rt>きょうと</rt></ruby>へ 行きました。
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        <ruby>不動産会社<rt>ふどうさんがいしゃ</rt></ruby>での
+        <ruby>失敗<rt>しっぱい</rt></ruby>
+    </div>
 
-京都には 
-<ruby>有名<rt>ゆうめい</rt></ruby>な 
-お<ruby>寺<rt>てら</rt></ruby>が 
-たくさんあります。
+    <p>
+        <ruby>私<rt>わたし</rt></ruby>は、
+        <ruby>不動産会社<rt>ふどうさんがいしゃ</rt></ruby>で
+        はたらいています。
+        私の<ruby>仕事<rt>しごと</rt></ruby>は、
+        お<ruby>客<rt>きゃく</rt></ruby><ruby>様<rt>さま</rt></ruby>に
+        <ruby>家<rt>いえ</rt></ruby>を
+        <ruby>貸<rt>か</rt></ruby>したり、
+        <ruby>売<rt>う</rt></ruby>ったりすることです。
+    </p>
 
-<ruby>食<rt>た</rt></ruby>べものも 
-おいしかったです。
+    <p>
+        私は、いつもお客様の
+        <ruby>話<rt>はなし</rt></ruby>をよく
+        <ruby>聞<rt>き</rt></ruby>いて、
+        お客様の
+        <ruby>希望<rt>きぼう</rt></ruby>をよく
+        <ruby>理解<rt>りかい</rt></ruby>し、
+        お客様の希望に
+        <ruby>合<rt>あ</rt></ruby>う家を
+        <ruby>紹介<rt>しょうかい</rt></ruby>しています。
+        しかし、
+        <ruby>以前<rt>いぜん</rt></ruby>
+        <ruby>失敗<rt>しっぱい</rt></ruby>してしまったことがあります。
+    </p>
 
-また 行きたいです。
+    <p>
+        ある日、家を買う
+        <ruby>相談<rt>そうだん</rt></ruby>に来た
+        <ruby>山田<rt>やまだ</rt></ruby>さんというお客様に、
+        「あなたは、私の希望を
+        <ruby>全然<rt>ぜんぜん</rt></ruby>
+        <ruby>聞<rt>き</rt></ruby>いていない」
+        と言われてしまいました。
+    </p>
+
+    <p>
+        山田さんの希望は、
+        家にいても
+        <ruby>景色<rt>けしき</rt></ruby>が
+        <ruby>楽<rt>たの</rt></ruby>しめる家でした。
+        でも、私は、
+        山田さんは
+        お<ruby>年寄<rt>としよ</rt></ruby>りなので、
+        <ruby>生活<rt>せいかつ</rt></ruby>に
+        <ruby>便利<rt>べんり</rt></ruby>な
+        まちの中の家がいいはずだと考えて、
+        家を
+        <ruby>何軒<rt>なんげん</rt></ruby>か紹介しました。
+    </p>
+
+    <p>
+        それらは、
+        スーパーや
+        <ruby>病院<rt>びょういん</rt></ruby>が
+        <ruby>近<rt>ちか</rt></ruby>くて
+        便利な家でした。
+        しかし、山田さんは
+        <ruby>怒<rt>おこ</rt></ruby>って、
+        <ruby>違<rt>ちが</rt></ruby>う
+        不動産会社へ行ってしまったのです。
+    </p>
+
+    <p>
+        私は山田さんのことを
+        <ruby>第一<rt>だいいち</rt></ruby>に考えて
+        家を紹介したつもりだったのですが、
+        それは山田さんの希望に
+        合っていなかったのです。
+    </p>
+
+</div>
 `,
-        text: "43. わたしの しゅみは 何ですか。",
-        options: ["旅行", "読書", "映画", "スポーツ"],
-        answer: 0
+        text: "43. <ruby>山田<rt>やまだ</rt></ruby>さんの<ruby>希望<rt>きぼう</rt></ruby>は、どんな<ruby>家<rt>いえ</rt></ruby>でしたか。",
+        options: [
+            "<ruby>年齢<rt>ねんれい</rt></ruby>や<ruby>仕事<rt>しごと</rt></ruby>に<ruby>合<rt>あ</rt></ruby>った<ruby>家<rt>いえ</rt></ruby>でした。",
+            "<ruby>生活<rt>せいかつ</rt></ruby>するのに<ruby>便利<rt>べんり</rt></ruby>な<ruby>家<rt>いえ</rt></ruby>でした。",
+            "いい<ruby>景色<rt>けしき</rt></ruby>が<ruby>見<rt>み</rt></ruby>える<ruby>家<rt>いえ</rt></ruby>でした。",
+            "にぎやかなまちの<ruby>中<rt>なか</rt></ruby>にある<ruby>家<rt>いえ</rt></ruby>でした。"
+        ],
+        answer: 3
     },
     {
-        text: "44. 去年 どこへ 行きましたか。",
-        options: ["東京", "京都", "大阪", "名古屋"],
-        answer: 1
+        text: "44. 「<ruby>私<rt>わたし</rt></ruby>」は、<ruby>山田<rt>やまだ</rt></ruby>さんがどうして<ruby>怒<rt>おこ</rt></ruby>ってしまったと<ruby>考<rt>かんが</rt></ruby>えていますか。",
+        options: [
+            "「<ruby>私<rt>わたし</rt></ruby>」が、<ruby>山田<rt>やまだ</rt></ruby>さんの<ruby>年齢<rt>ねんれい</rt></ruby>のことを、あまり<ruby>考<rt>かんが</rt></ruby>えなかったからです。",
+            "<ruby>山田<rt>やまだ</rt></ruby>さんが、「<ruby>私<rt>わたし</rt></ruby>」の<ruby>意見<rt>いけん</rt></ruby>を、よく<ruby>聞<rt>き</rt></ruby>こうとしなかったからです。",
+            "「<ruby>私<rt>わたし</rt></ruby>」が、<ruby>山田<rt>やまだ</rt></ruby>さんの<ruby>希望<rt>きぼう</rt></ruby>よりも、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にしたからです。",
+            "<ruby>山田<rt>やまだ</rt></ruby>さんが、どんな<ruby>家<rt>いえ</rt></ruby>が<ruby>自分<rt>じぶん</rt></ruby>に<ruby>合<rt>あ</rt></ruby>っているか、<ruby>理解<rt>りかい</rt></ruby>していなかったからです。"
+        ],
+        answer: 3
     },
     {
         text: "45. 京都には 何が たくさんありますか。",
