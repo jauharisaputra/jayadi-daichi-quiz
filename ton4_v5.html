@@ -1,0 +1,1458 @@
+﻿<!DOCTYPE html>
+<html translate="no" class="notranslate" lang="ja" translate="no">
+
+<head>
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="ja">
+<meta name="translate" content="no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY OUT J.TEST DE VERSI 5</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover {
+            background: #217dbb;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+
+        .nav-grid button {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-grid button.answered {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ecf9f1;
+            display: none;
+        }
+
+        .home-bottom {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        u {
+            text-decoration-thickness: 2px;
+            /* garis lebih tebal */
+            text-underline-offset: 4px;
+            /* jarak garis dari huruf */
+            text-decoration-color: #000;
+            /* warna garis */
+        }
+
+        .blank-star {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        .blank-star::after {
+            content: "＿＿";
+            display: block;
+            font-size: 18px;
+        }
+
+        .blank-star span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        html,
+        body {
+            translate: no;
+        }
+    * {
+    user-select: none !important;
+}
+.question, .options {
+    filter: blur(0.3px);
+    text-shadow: 0 0 1px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'>
+    <div id="loginBox">
+
+        <h2>🎓 Login Ujian</h2>
+
+        <div
+            style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:10px;margin-bottom:15px;text-align:left;font-size:14px;line-height:1.6;">
+            <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                <li>Jangan membuka tab baru atau aplikasi lain selama ujian berlangsung.</li>
+                <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis diselesaikan.</li>
+                <li>Jangan mencoba <b>copy, screenshot, inspect element, atau developer tools</b>.</li>
+                <li>Jawaban akan tersimpan hanya selama ujian berlangsung.</li>
+            </ul>
+
+            <b>📱 Jika menggunakan HP:</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Atur waktu layar agar tidak cepat mati.</li>
+                <li>Buka <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                <li>Set minimal <b>10 menit atau lebih</b>.</li>
+            </ul>
+
+            <!-- CHECKBOX DILETAKKAN DI SINI -->
+            <div style="margin-top:12px;padding-left:22px;">
+                <label style="display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:start;">
+                    <input type="checkbox" id="agreeRule" style="margin-top:3px;">
+                    <span>Saya sudah membaca dan memahami semua peringatan di atas.</span>
+                </label>
+            </div>
+
+        </div>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
+    </div>
+
+    <div class="container" id="examContainer" style="display:none;">
+        <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
+        <h1>📚 TRY OUT J.TEST D-E</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
+            <div id="timer">70:00</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div id="passageBox"></div>
+        <div id="kanjiInstruction" style="display:none; 
+            background:#f8f9fa; 
+            padding:15px; 
+            border-radius:10px; 
+            margin-bottom:15px; 
+            font-size:14px; 
+            line-height:1.6;">
+
+            <strong>【漢字 読み方問題】</strong><br><br>
+
+            ・ひらがなは、きれいに書いてください。<br>
+            ・漢字の読み方だけ書いてください。<br><br>
+
+            <span style="color:#1d0b0b;">
+                （例） はやく<strong><u>書</u></strong>いてください。 → れい 答え: か
+            </span>
+
+        </div>
+        <div class="question notranslate" id="questionText"> </div>
+        <div class="options" id="options"></div>
+        <div class="nav-grid" id="navGrid"></div>
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
+        </button>
+        <div id="result"></div>
+        <div class="home-bottom">
+            <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script>
+        const QUIZ_TIME = 4200; // 70 menit
+        let timeLeft = QUIZ_TIME;
+        let timer;
+        let examFinished = false;
+        let current = 0;
+        let studentName = "";
+        let attempt = 1;
+
+        
+function decode(str){return atob(str);}
+
+const questions = [
+
+/* =========================
+   PART 1 : 文法・語彙問題
+   1 - 10
+========================= */
+
+{
+    text: "1. わたしは <ruby>毎日<rt>まいにち</rt></ruby> <ruby>学校<rt>がっこう</rt></ruby>（　）いきます。",
+    options: ["を", "へ", "が", "で"],
+    answer: 1
+},
+{
+    text: "2. <ruby>昨日<rt>きのう</rt></ruby>は とても（　）です。",
+    options: ["さむい", "さむかった", "さむく", "さむくて"],
+    answer: 1
+},
+{
+    text: "3. このケーキは（　）おいしいです。",
+    options: ["とても", "あまり", "ぜんぜん", "まだ"],
+    answer: 0
+},
+{
+    text: "4. わたしは <ruby>日本語<rt>にほんご</rt></ruby>（　）べんきょうしています。",
+    options: ["を", "が", "に", "へ"],
+    answer: 0
+},
+{
+    text: "5. <ruby>田中<rt>たなか</rt></ruby>さんは <ruby>英語<rt>えいご</rt></ruby>が（　）です。",
+    options: ["じょうず", "じょうずな", "じょうずに", "じょうずで"],
+    answer: 0
+},
+{
+    text: "6. <ruby>図書館<rt>としょかん</rt></ruby>で <ruby>本<rt>ほん</rt></ruby>を（　）。",
+    options: ["よみます", "みます", "ききます", "かいます"],
+    answer: 0
+},
+{
+    text: "7. このかばんは（　）です。でも、あまりじょうぶじゃありません。",
+    options: ["たかい", "やすい", "きれい", "べんり"],
+    answer: 1
+},
+{
+    text: "8. <ruby>日曜日<rt>にちようび</rt></ruby>に <ruby>友達<rt>ともだち</rt></ruby>と（　）。",
+    options: ["あいました", "あいます", "あいません", "あって"],
+    answer: 0
+},
+{
+    text: "9. このへやは <ruby>広<rt>ひろ</rt></ruby>い（　）きれいです。",
+    options: ["ので", "から", "そして", "でも"],
+    answer: 2
+},
+{
+    text: "10. コーヒーは あまり（　）。",
+    options: ["のみます", "のみません", "のんでいます", "のみたいです"],
+    answer: 1
+},
+
+/* =========================
+   11 - 20
+========================= */
+
+{
+    text: "11. <ruby>駅<rt>えき</rt></ruby>まで バス（　）いきます。",
+    options: ["で", "を", "へ", "が"],
+    answer: 0
+},
+{
+    text: "12. わたしの <ruby>兄<rt>あに</rt></ruby>は <ruby>医者<rt>いしゃ</rt></ruby>（　）。",
+    options: ["です", "でした", "では", "が"],
+    answer: 0
+},
+{
+    text: "13. （　）ペンがあなたのですか。",
+    options: ["どんな", "どう", "どれ", "どこ"],
+    answer: 2
+},
+{
+    text: "14. この <ruby>映画<rt>えいが</rt></ruby>は おもしろい（　）ちょっとながいです。",
+    options: ["そして", "が", "ので", "から"],
+    answer: 1
+},
+{
+    text: "15. <ruby>朝<rt>あさ</rt></ruby>ごはんを（　）から、<ruby>会社<rt>かいしゃ</rt></ruby>へいきます。",
+    options: ["たべる", "たべます", "たべて", "たべた"],
+    answer: 3
+},
+{
+    text: "16. <ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>は（　）ですか。",
+    options: ["どれ", "どんな", "どう", "だれ"],
+    answer: 2
+},
+{
+    text: "17. このへやは あまり（　）。",
+    options: ["しずかです", "しずかじゃありません", "しずかでした", "しずかになります"],
+    answer: 1
+},
+{
+    text: "18. <ruby>先生<rt>せんせい</rt></ruby>の <ruby>話<rt>はなし</rt></ruby>を（　）。",
+    options: ["ききます", "みます", "いいます", "かきます"],
+    answer: 0
+},
+{
+    text: "19. <ruby>先週<rt>せんしゅう</rt></ruby> <ruby>京都<rt>きょうと</rt></ruby>へ（　）。",
+    options: ["いきます", "いきました", "いきません", "いって"],
+    answer: 1
+},
+{
+    text: "20. わたしは <ruby>犬<rt>いぬ</rt></ruby>（　）好きです。",
+    options: ["が", "を", "に", "で"],
+    answer: 0
+},
+
+/* =========================
+   21 - 30
+========================= */
+
+{
+    text: "21. <ruby>今日<rt>きょう</rt></ruby>は <ruby>雨<rt>あめ</rt></ruby>ですね。",
+    options: ["larangan", "konfirmasi", "perintah", "ajakan"],
+    answer: 1
+},
+{
+    text: "22. この <ruby>本<rt>ほん</rt></ruby>は（　）ですか。",
+    options: ["どんな", "どう", "どれ", "どこ"],
+    answer: 1
+},
+{
+    text: "23. <ruby>山田<rt>やまだ</rt></ruby>さんは とても（　）ひとです。",
+    options: ["やさしい", "やさしく", "やさしさ", "やさしいな"],
+    answer: 0
+},
+{
+    text: "24. この <ruby>車<rt>くるま</rt></ruby>は <ruby>新<rt>あたら</rt></ruby>しい（　）たかいです。",
+    options: ["ので", "が", "そして", "から"],
+    answer: 1
+},
+{
+    text: "25. わたしは <ruby>野菜<rt>やさい</rt></ruby>が あまり（　）。",
+    options: ["すきです", "すきじゃありません", "すきでした", "すきになります"],
+    answer: 1
+},
+{
+    text: "26. <ruby>週末<rt>しゅうまつ</rt></ruby>に <ruby>何<rt>なに</rt></ruby>を（　）か。",
+    options: ["します", "しました", "しません", "して"],
+    answer: 0
+},
+{
+    text: "27. わたしは <ruby>毎朝<rt>まいあさ</rt></ruby> 6<ruby>時<rt>じ</rt></ruby>（　）おきます。",
+    options: ["を", "が", "に", "へ"],
+    answer: 2
+},
+{
+    text: "28. この <ruby>店<rt>みせ</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>は（　）おいしいです。",
+    options: ["とても", "あまり", "ぜんぜん", "まだ"],
+    answer: 0
+},
+{
+    text: "29. <ruby>日本語<rt>にほんご</rt></ruby>は <ruby>難<rt>むずか</rt></ruby>しいです（　）おもしろいです。",
+    options: ["でも", "から", "ので", "しか"],
+    answer: 0
+},
+{
+    text: "30. わたしは <ruby>来年<rt>らいねん</rt></ruby> <ruby>日本<rt>にほん</rt></ruby>へ（　）たいです。",
+    options: ["いき", "いって", "いく", "いった"],
+    answer: 0
+},
+    /* =====================================================
+       問題31～32
+       ===================================================== */
+
+  /* =====================================================
+     問題31～32
+     ===================================================== */
+
+  {
+        passage: `
+    <div style="font-size:14px; margin-bottom:10px;">
+        問題 １<br>
+        次のメールを読んで問題に答えなさい。<br>
+        答えは１・２・３・４の中から一番いいものを1つ選んでください。<br><br>
+        これは、リンさんと<ruby>山川<rt>やまかわ</rt></ruby>さんのメールです。<br>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+
+        <!-- リン -->
+        <div style="display:flex; align-items:flex-start; gap:6px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">リ</div>
+            <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+                <ruby>山川<rt>やまかわ</rt></ruby>さん、<ruby>今<rt>いま</rt></ruby>どこですか。
+            </div>
+        </div>
+
+        <!-- 山川 -->
+        <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+            <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+                <ruby>電車<rt>でんしゃ</rt></ruby>の
+                <ruby>中<rt>なか</rt></ruby>です。
+            </div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">山</div>
+        </div>
+
+        <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+            <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+                すみません。
+                <ruby>私<rt>わたし</rt></ruby>、
+                <ruby>忘<rt>わす</rt></ruby>れものをしたので、
+                <ruby>家<rt>いえ</rt></ruby>へ
+                <ruby>取<rt>と</rt></ruby>りに
+                <ruby>行<rt>い</rt></ruby>きます。
+                <ruby>少<rt>すこ</rt></ruby>し
+                <ruby>遅<rt>おく</rt></ruby>れそうです。
+            </div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;"></div>
+        </div>
+
+        <!-- リン -->
+        <div style="display:flex; align-items:flex-start; gap:6px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">リ</div>
+            <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+                バス<ruby>停<rt>てい</rt></ruby>の
+                <ruby>近<rt>ちか</rt></ruby>くに
+                <ruby>本屋<rt>ほんや</rt></ruby>があります。
+                そこなら
+                <ruby>雨<rt>あめ</rt></ruby>に
+                <ruby>濡<rt>ぬ</rt></ruby>れませんから、
+                <ruby>本屋<rt>ほんや</rt></ruby>にいてください。
+            </div>
+        </div>
+
+        <!-- 山川 -->
+        <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+            <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+                わかりました。
+                じゃ、
+                <ruby>美術館<rt>びじゅつかん</rt></ruby>
+                <ruby>行<rt>い</rt></ruby>きの
+                バス<ruby>停<rt>てい</rt></ruby>で
+                <ruby>待<rt>ま</rt></ruby>っていますね。
+            </div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;"></div>
+        </div>
+
+        <!-- リン -->
+        <div style="display:flex; align-items:flex-start; gap:6px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">リ</div>
+            <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+                じゃ、そうします。
+                <ruby>急<rt>いそ</rt></ruby>がなくても
+                <ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。
+                <ruby>私<rt>わたし</rt></ruby>は
+                <ruby>本屋<rt>ほんや</rt></ruby>が
+                <ruby>大好<rt>だいす</rt></ruby>きですから。
+            </div>
+        </div>
+
+        <!-- 山川 -->
+        <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+            <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+                わかりました。
+            </div>
+            <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">山</div>
+        </div>
+
+    </div>
+    `,
+        text: "31. リンさんは、どうして<ruby>遅<rt>おく</rt></ruby>れますか。",
+        options: [
+            "<ruby>忘<rt>わす</rt></ruby>れものを<ruby>取<rt>と</rt></ruby>りに<ruby>家<rt>いえ</rt></ruby>へ<ruby>戻<rt>もど</rt></ruby>るからです。",
+            "しばらく<ruby>電車<rt>でんしゃ</rt></ruby>が<ruby>止<rt>と</rt></ruby>まっていたからです。",
+            "<ruby>約束<rt>やくそく</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れたからです。",
+            "<ruby>電車<rt>でんしゃ</rt></ruby>を<ruby>間違<rt>まちが</rt></ruby>えたからです。"
+        ],
+        answer: 0
+    },
+    {
+        text: "32. <ruby>山川<rt>やまかわ</rt></ruby>さんは、この<ruby>後<rt>あと</rt></ruby>、どこでリンさんを<ruby>待<rt>ま</rt></ruby>ちますか。",
+        options: [
+            "<ruby>駅<rt>えき</rt></ruby>です。",
+            "<ruby>美術館<rt>びじゅつかん</rt></ruby>です。",
+            "<ruby>本屋<rt>ほんや</rt></ruby>です。",
+            "<ruby>美術館<rt>びじゅつかん</rt></ruby><ruby>行<rt>い</rt></ruby>きのバス<ruby>停<rt>てい</rt></ruby>です。"
+        ],
+        answer: 3
+    },
+    {
+        passage: `
+    <div style="font-size:14px; margin-bottom:10px;">
+        問題 ２<br>
+        次の文章を読んで、問題に答えてください。<br>
+        答えは１・２・３・４の中から一番いいものを1つ選んでください。<br><br>
+    </div>
+
+    <div style="
+        background:#f8f9fa;
+        border-left:4px solid #3498db;
+        padding:15px;
+        border-radius:10px;
+        line-height:1.9;
+        font-size:15px;
+    ">
+        <ruby>昨日<rt>きのう</rt></ruby>、
+        <ruby>私<rt>わたし</rt></ruby>は、
+        <ruby>日本語学校<rt>にほんごがっこう</rt></ruby>の
+        <ruby>友達<rt>ともだち</rt></ruby>と
+        <ruby>一緒<rt>いっしょ</rt></ruby>に、
+        <ruby>初<rt>はじ</rt></ruby>めて
+        <ruby>日本<rt>にほん</rt></ruby>の
+        ラーメン<ruby>屋<rt>や</rt></ruby>に
+        <ruby>行<rt>い</rt></ruby>きました。<br><br>
+
+        <ruby>店<rt>みせ</rt></ruby>に
+        <ruby>入<rt>はい</rt></ruby>ると、
+        <ruby>店員<rt>てんいん</rt></ruby>に
+        <ruby>大<rt>おお</rt></ruby>きな
+        <ruby>声<rt>こえ</rt></ruby>で
+        「いらっしゃいませ」と
+        <ruby>言<rt>い</rt></ruby>われて、
+        <ruby>驚<rt>おどろ</rt></ruby>きました。<br><br>
+
+        <ruby>入口<rt>いりぐち</rt></ruby>の
+        <ruby>横<rt>よこ</rt></ruby>に
+        チケットを
+        <ruby>買<rt>か</rt></ruby>う
+        <ruby>機械<rt>きかい</rt></ruby>がありました。
+        その
+        <ruby>機械<rt>きかい</rt></ruby>で
+        <ruby>食<rt>た</rt></ruby>べたい
+        ラーメンのチケットを
+        <ruby>買<rt>か</rt></ruby>って、
+        <ruby>店員<rt>てんいん</rt></ruby>に
+        <ruby>渡<rt>わた</rt></ruby>せば、
+        <ruby>何<rt>なに</rt></ruby>も
+        <ruby>話<rt>はな</rt></ruby>さなくても、
+        <ruby>注文<rt>ちゅうもん</rt></ruby>は
+        <ruby>済<rt>す</rt></ruby>みます。<br><br>
+
+        ラーメンはとてもおいしかったです。
+        でも
+        <ruby>友達<rt>ともだち</rt></ruby>は、
+        はしを
+        <ruby>使<rt>つか</rt></ruby>うのが
+        <ruby>初<rt>はじ</rt></ruby>めてだったので、
+        <ruby>食<rt>た</rt></ruby>べにくそうでした。
+    </div>
+    `,
+        text: "33. 「<ruby>私<rt>わたし</rt></ruby>」は、<ruby>文章<rt>ぶんしょう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
+        options: [
+            "<ruby>入口<rt>いりぐち</rt></ruby>に<ruby>機械<rt>きかい</rt></ruby>があって<ruby>驚<rt>おどろ</rt></ruby>きました。",
+            "<ruby>注文<rt>ちゅうもん</rt></ruby>するとき、<ruby>日本語<rt>にほんご</rt></ruby>で<ruby>言<rt>い</rt></ruby>いました。",
+            "<ruby>昨日<rt>きのう</rt></ruby>、<ruby>初<rt>はじ</rt></ruby>めてはしを<ruby>使<rt>つか</rt></ruby>いました。",
+            "<ruby>昨日<rt>きのう</rt></ruby>まで<ruby>日本<rt>にほん</rt></ruby>のラーメン<ruby>屋<rt>や</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったことがありませんでした。"
+        ],
+        answer: 3
+    },
+   {
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ３<br>
+    次の文章を読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを1つ選んでください。<br><br>
+
+    <div style="
+        background:#f8f9fa;
+        padding:12px;
+        border-radius:10px;
+        line-height:1.9;
+        text-align:left;
+    ">
+        <ruby>私<rt>わたし</rt></ruby>の<ruby>会社<rt>かいしゃ</rt></ruby>には、いろいろなところに
+        「<ruby>節電<rt>せつでん</rt></ruby>しよう」と
+        <ruby>書<rt>か</rt></ruby>いた
+        <ruby>紙<rt>かみ</rt></ruby>がはってあります。<br><br>
+
+        「<ruby>節電<rt>せつでん</rt></ruby>しよう」というのは、
+        <ruby>必要<rt>ひつよう</rt></ruby>のない
+        <ruby>電気<rt>でんき</rt></ruby>を
+        <ruby>使<rt>つか</rt></ruby>うのをやめようという
+        <ruby>意味<rt>いみ</rt></ruby>です。<br><br>
+
+        たとえば、
+        <ruby>私<rt>わたし</rt></ruby>の
+        <ruby>会社<rt>かいしゃ</rt></ruby>では、
+        ひる<ruby>休<rt>やす</rt></ruby>みになると
+        <ruby>電灯<rt>でんとう</rt></ruby>を
+        <ruby>消<rt>け</rt></ruby>して
+        <ruby>暗<rt>くら</rt></ruby>くしてしまいます。<br><br>
+
+        このような
+        <ruby>会社<rt>かいしゃ</rt></ruby>は、
+        まだ<ruby>少<rt>すく</rt></ruby>ないです。<br><br>
+
+        しかし、
+        <ruby>日本<rt>にほん</rt></ruby>でどれだけ
+        <ruby>電気<rt>でんき</rt></ruby>を
+        <ruby>作<rt>つく</rt></ruby>れるかは
+        <ruby>決<rt>き</rt></ruby>まっていて、
+        どこかでたくさん
+        <ruby>使<rt>つか</rt></ruby>ってしまうと、
+        <ruby>病院<rt>びょういん</rt></ruby>などの
+        <ruby>必要<rt>ひつよう</rt></ruby>なところで、
+        <ruby>電気<rt>でんき</rt></ruby>が
+        <ruby>使<rt>つか</rt></ruby>えなくなってしまいます。<br><br>
+
+        <ruby>電気<rt>でんき</rt></ruby>をもっと
+        <ruby>多<rt>おお</rt></ruby>く
+        <ruby>作<rt>つく</rt></ruby>ることは、
+        すぐにできません。<br><br>
+
+        だから、
+        <ruby>電気<rt>でんき</rt></ruby>を
+        <ruby>使<rt>つか</rt></ruby>う
+        <ruby>必要<rt>ひつよう</rt></ruby>がないところでは、
+        <ruby>使<rt>つか</rt></ruby>うのをやめて、
+        <ruby>電気<rt>でんき</rt></ruby>を
+        <ruby>使<rt>つか</rt></ruby>う
+        <ruby>量<rt>りょう</rt></ruby>を
+        <ruby>少<rt>すく</rt></ruby>なくすることが
+        <ruby>大切<rt>たいせつ</rt></ruby>だと
+        <ruby>思<rt>おも</rt></ruby>います。
+    </div>
+</div>
+`,
+        text: "34. 「<ruby>私<rt>わたし</rt></ruby>」は、ひる<ruby>休<rt>やす</rt></ruby>みに<ruby>電灯<rt>でんとう</rt></ruby>を<ruby>消<rt>け</rt></ruby>す<ruby>理由<rt>りゆう</rt></ruby>は<ruby>何<rt>なん</rt></ruby>だと<ruby>言<rt>い</rt></ruby>っていますか。",
+        options: [
+            "ほかにも、ひる<ruby>休<rt>やす</rt></ruby>みに<ruby>電気<rt>でんき</rt></ruby>を<ruby>消<rt>け</rt></ruby>している<ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いからです。",
+            "<ruby>節電<rt>せつでん</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>だと<ruby>考<rt>かんが</rt></ruby>えているからです。",
+            "<ruby>会社<rt>かいしゃ</rt></ruby>のひる<ruby>休<rt>やす</rt></ruby>みの<ruby>時間<rt>じかん</rt></ruby>に、<ruby>病院<rt>びょういん</rt></ruby>でたくさんの<ruby>電気<rt>でんき</rt></ruby>を<ruby>使<rt>つか</rt></ruby>うからです。",
+            "もっと<ruby>多<rt>おお</rt></ruby>くの<ruby>電気<rt>でんき</rt></ruby>を、ほかの<ruby>時間<rt>じかん</rt></ruby>に<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>使<rt>つか</rt></ruby>えるようにしたいからです。"
+        ],
+        answer: 1
+    },
+
+    /* =====================================================
+       問題35～36
+       ===================================================== */
+
+   {
+        passage: `【35-36】<br>
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ４<br>
+    次の文章を読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。<br><br>
+
+    ４人に「<ruby>趣味<rt>しゅみ</rt></ruby>」について<ruby>聞<rt>き</rt></ruby>きました。
+</div>
+
+<table style="
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    line-height:1.8;
+">
+<tr>
+    <td style="
+        width:50%;
+        border:1px solid #ccc;
+        padding:12px;
+        vertical-align:top;
+        background:#f8f9fa;
+    ">
+        <b>Ａさん</b><br><br>
+
+        <ruby>外国<rt>がいこく</rt></ruby>
+        <ruby>旅行<rt>りょこう</rt></ruby>です。
+
+        <ruby>子<rt>こ</rt></ruby>どもが
+        <ruby>生<rt>う</rt></ruby>まれる
+        <ruby>前<rt>まえ</rt></ruby>は、
+
+        <ruby>年<rt>ねん</rt></ruby>に２<ruby>回<rt>かい</rt></ruby>、
+
+        <ruby>夫<rt>おっと</rt></ruby>と
+        <ruby>外国<rt>がいこく</rt></ruby>に
+        <ruby>行<rt>い</rt></ruby>っていました。
+
+        ここ<ruby>数年<rt>すうねん</rt></ruby>
+        <ruby>行<rt>い</rt></ruby>っていません。
+
+        <ruby>子<rt>こ</rt></ruby>どもは
+        <ruby>今<rt>いま</rt></ruby>４<ruby>歳<rt>さい</rt></ruby>ですが、
+
+        もっと
+        <ruby>大<rt>おお</rt></ruby>きくなったら、
+
+        <ruby>家族<rt>かぞく</rt></ruby>３<ruby>人<rt>にん</rt></ruby>で
+        また
+        <ruby>行<rt>い</rt></ruby>きたいです。
+    </td>
+
+    <td style="
+        width:50%;
+        border:1px solid #ccc;
+        padding:12px;
+        vertical-align:top;
+        background:#f8f9fa;
+    ">
+        <b>Ｂさん</b><br><br>
+
+        スキーです。
+
+        <ruby>冬<rt>ふゆ</rt></ruby>は
+        <ruby>週末<rt>しゅうまつ</rt></ruby>になると、
+
+        スキー<ruby>場<rt>じょう</rt></ruby>に
+        <ruby>行<rt>い</rt></ruby>きます。
+
+        <ruby>恋人<rt>こいびと</rt></ruby>は、
+
+        さむいのが
+        <ruby>嫌<rt>きら</rt></ruby>いなので、
+
+        スキーはしません。
+
+        <ruby>来年<rt>らいねん</rt></ruby>
+        <ruby>結婚<rt>けっこん</rt></ruby>するんですが、
+
+        <ruby>結婚<rt>けっこん</rt></ruby>したら、
+
+        <ruby>自由<rt>じゆう</rt></ruby>に
+        スキーができなくなるかもしれません。
+    </td>
+</tr>
+
+<tr>
+    <td style="
+        border:1px solid #ccc;
+        padding:12px;
+        vertical-align:top;
+        background:#f8f9fa;
+    ">
+        <b>Ｃさん</b><br><br>
+
+        <ruby>絵<rt>え</rt></ruby>を
+        <ruby>見<rt>み</rt></ruby>るのが
+        <ruby>好<rt>す</rt></ruby>きです。
+
+        よくいろいろな
+        <ruby>美術館<rt>びじゅつかん</rt></ruby>に
+        <ruby>行<rt>い</rt></ruby>きます。
+
+        <ruby>先月<rt>せんげつ</rt></ruby>、
+
+        <ruby>主人<rt>しゅじん</rt></ruby>と
+        <ruby>一緒<rt>いっしょ</rt></ruby>に
+
+        フランスの
+        <ruby>美術館<rt>びじゅつかん</rt></ruby>に
+        <ruby>行<rt>い</rt></ruby>きました。
+
+        <ruby>日本<rt>にほん</rt></ruby>にいたら
+        <ruby>見<rt>み</rt></ruby>られない
+        <ruby>絵<rt>え</rt></ruby>がたくさんあって、
+
+        <ruby>幸<rt>しあわ</rt></ruby>せでした。
+    </td>
+
+    <td style="
+        border:1px solid #ccc;
+        padding:12px;
+        vertical-align:top;
+        background:#f8f9fa;
+    ">
+        <b>Ｄさん</b><br><br>
+
+        コーヒーです。
+
+        <ruby>日本<rt>にほん</rt></ruby>にいても
+        インターネットで
+
+        いろいろな
+        <ruby>国<rt>くに</rt></ruby>の
+        コーヒーが
+        <ruby>買<rt>か</rt></ruby>えるので
+        <ruby>便利<rt>べんり</rt></ruby>です。
+
+        でも、やっぱり、
+
+        その<ruby>国<rt>くに</rt></ruby>で
+        <ruby>飲<rt>の</rt></ruby>むのが
+        <ruby>最高<rt>さいこう</rt></ruby>です。
+
+        この<ruby>前<rt>まえ</rt></ruby>、
+
+        <ruby>妻<rt>つま</rt></ruby>と
+        イタリアで
+        <ruby>飲<rt>の</rt></ruby>んだ
+        コーヒーは
+        <ruby>最高<rt>さいこう</rt></ruby>でした。
+    </td>
+</tr>
+</table>
+`,
+        text: "35. まだ<ruby>結婚<rt>けっこん</rt></ruby>していない<ruby>人<rt>ひと</rt></ruby>は、<ruby>誰<rt>だれ</rt></ruby>ですか。",
+        options: [
+            "Ａさんです。",
+            "Ｂさんです。",
+            "Ｃさんです。",
+            "Ｄさんです。"
+        ],
+        answer: 1
+    },
+    {
+        text: "36. <ruby>最近<rt>さいきん</rt></ruby>、<ruby>外国<rt>がいこく</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったと<ruby>言<rt>い</rt></ruby>っている<ruby>人<rt>ひと</rt></ruby>は、<ruby>誰<rt>だれ</rt></ruby>ですか。",
+        options: [
+            "ＡさんとＢさんです。",
+            "ＡさんとＣさんです。",
+            "ＢさんとＤさんです。",
+            "ＣさんとＤさんです。"
+        ],
+        answer: 3
+    },
+  {
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    問題 ５<br>
+    次のお知らせを読んで、問題に答えてください。<br>
+    答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    line-height:2;
+    font-size:14px;
+    text-align:left;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        お知らせ
+    </div>
+
+    <b>
+        <ruby>西<rt>にし</rt></ruby>エレベーター
+        <ruby>運転<rt>うんてん</rt></ruby><ruby>中止<rt>ちゅうし</rt></ruby>の
+        <ruby>お知らせ<rt>おしらせ</rt></ruby>
+    </b>
+
+    <br><br>
+
+    いつも<ruby>第３安田ビル<rt>だいさんやすだビル</rt></ruby>をご<ruby>利用<rt>りよう</rt></ruby>いただきありがとうございます。<br>
+
+    <ruby>西<rt>にし</rt></ruby>エレベーターが<ruby>古<rt>ふる</rt></ruby>くなったため、<ruby>取<rt>と</rt></ruby>り<ruby>替<rt>か</rt></ruby>えることになりました。<br>
+
+    そのため、<ruby>以下<rt>いか</rt></ruby>のとおり、<ruby>本日<rt>ほんじつ</rt></ruby>から１<ruby>週間<rt>しゅうかん</rt></ruby>、エレベーターがご<ruby>利用<rt>りよう</rt></ruby>いただけません。<br>
+
+    <br>
+
+    <div style="
+        background:#f5f5f5;
+        padding:10px;
+        border-radius:8px;
+        margin:8px 0;
+    ">
+        <b>
+        2024<ruby>年<rt>ねん</rt></ruby>12<ruby>月<rt>がつ</rt></ruby>3<ruby>日<rt>にち</rt></ruby>
+        （<ruby>火<rt>か</rt></ruby>）<br>
+        ～<br>
+        12<ruby>月<rt>がつ</rt></ruby>9<ruby>日<rt>にち</rt></ruby>
+        （<ruby>月<rt>げつ</rt></ruby>）
+        </b>
+    </div>
+
+    ご<ruby>迷惑<rt>めいわく</rt></ruby>をおかけいたしますが、よろしくお<ruby>願<rt>ねが</rt></ruby>いいたします。<br><br>
+
+    ※ <ruby>東<rt>ひがし</rt></ruby>エレベーターは、<ruby>今<rt>いま</rt></ruby>までと<ruby>同<rt>おな</rt></ruby>じようにご<ruby>利用<rt>りよう</rt></ruby>いただけます。
+
+</div>
+`,
+        text: "37. どうして<ruby>西<rt>にし</rt></ruby>エレベーターは、<ruby>使<rt>つか</rt></ruby>えなくなりますか。",
+        options: [
+            "<ruby>新<rt>あたら</rt></ruby>しいものに<ruby>変<rt>か</rt></ruby>える<ruby>工事<rt>こうじ</rt></ruby>をするからです。",
+            "<ruby>地震<rt>じしん</rt></ruby>があったからです。",
+            "<ruby>電気<rt>でんき</rt></ruby>が<ruby>止<rt>と</rt></ruby>まるからです。",
+            "<ruby>故障<rt>こしょう</rt></ruby>していないかチェックするからです。"
+        ],
+        answer: 1
+    },
+    {
+        text: "38. お<ruby>知<rt>し</rt></ruby>らせの<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
+        options: [
+            "12<ruby>月<rt>がつ</rt></ruby>3<ruby>日<rt>にち</rt></ruby>に<ruby>東<rt>ひがし</rt></ruby>エレベーターの<ruby>調子<rt>ちょうし</rt></ruby>がわるくなりました。",
+            "12<ruby>月<rt>がつ</rt></ruby>3<ruby>日<rt>にち</rt></ruby>から1<ruby>週間<rt>しゅうかん</rt></ruby>、すべてのエレベーターが<ruby>使<rt>つか</rt></ruby>えません。",
+            "<ruby>西<rt>にし</rt></ruby>エレベーターの<ruby>次<rt>つぎ</rt></ruby>は、<ruby>東<rt>ひがし</rt></ruby>エレベーターが<ruby>使<rt>つか</rt></ruby>えなくなります。",
+            "<ruby>西<rt>にし</rt></ruby>エレベーターは、12<ruby>月<rt>がつ</rt></ruby>10<ruby>日<rt>にち</rt></ruby>から<ruby>利用<rt>りよう</rt></ruby>できます。"
+        ],
+        answer: 4
+    },
+
+    /* =====================================================
+       問題39～42
+       ===================================================== */
+
+    {
+        passage: `
+【問題39～42】
+
+きのうは <ruby>日曜日<rt>にちようび</rt></ruby>でした。
+
+わたしは 
+<ruby>家族<rt>かぞく</rt></ruby>と 
+デパートへ 行きました。
+
+デパートで 
+<ruby>服<rt>ふく</rt></ruby>と 
+<ruby>靴<rt>くつ</rt></ruby>を 
+買いました。
+
+そのあと レストランで
+<ruby>夕食<rt>ゆうしょく</rt></ruby>を 
+食べました。
+`,
+        text: "39. きのうは 何曜日でしたか。",
+        options: ["日曜日", "月曜日", "土曜日", "金曜日"],
+        answer: 0
+    },
+    {
+        text: "40. だれと デパートへ 行きましたか。",
+        options: ["ともだち", "家族", "先生", "ひとり"],
+        answer: 1
+    },
+    {
+        text: "41. デパートで 何を 買いましたか。",
+        options: ["本", "かばん", "服と靴", "時計"],
+        answer: 2
+    },
+    {
+        text: "42. そのあと どこで 食事しましたか。",
+        options: ["学校", "家", "公園", "レストラン"],
+        answer: 3
+    },
+
+    /* =====================================================
+       問題43～46
+       ===================================================== */
+
+    {
+        passage: `
+【問題43～46】
+
+わたしの しゅみは 
+<ruby>旅行<rt>りょこう</rt></ruby>です。
+
+<ruby>去年<rt>きょねん</rt></ruby>、
+<ruby>京都<rt>きょうと</rt></ruby>へ 行きました。
+
+京都には 
+<ruby>有名<rt>ゆうめい</rt></ruby>な 
+お<ruby>寺<rt>てら</rt></ruby>が 
+たくさんあります。
+
+<ruby>食<rt>た</rt></ruby>べものも 
+おいしかったです。
+
+また 行きたいです。
+`,
+        text: "43. わたしの しゅみは 何ですか。",
+        options: ["旅行", "読書", "映画", "スポーツ"],
+        answer: 0
+    },
+    {
+        text: "44. 去年 どこへ 行きましたか。",
+        options: ["東京", "京都", "大阪", "名古屋"],
+        answer: 1
+    },
+    {
+        text: "45. 京都には 何が たくさんありますか。",
+        options: ["学校", "病院", "お寺", "駅"],
+        answer: 2
+    },
+    {
+        text: "46. 京都の 食べものは どうでしたか。",
+        options: ["高かった", "まずかった", "少なかった", "おいしかった"],
+        answer: 3
+    },
+
+];   
+
+// ANTI-CHEAT
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener("copy", e => e.preventDefault());
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
+        function startExam() {
+
+            if (!document.getElementById("agreeRule").checked) {
+                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                return;
+            }
+            const name = document.getElementById("studentName").value.trim();
+            if (!name) {
+                alert("❌ Masukkan nama terlebih dahulu!");
+                return;
+            }
+
+            studentName = name;
+            let savedAttempt = localStorage.getItem("attempt_" + name);
+            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+            localStorage.setItem("attempt_" + name, attempt);
+            localStorage.removeItem('quiz_answers_' + name);
+
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examContainer").style.display = "block";
+            openFullscreen();
+
+            // RESET
+            current = 0;
+            answers = new Array(questions.length).fill(null);
+            timeLeft = QUIZ_TIME;
+            examFinished = false;
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
+            generateNav();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (examFinished) return;
+
+            const q = questions[current];
+            // ======================
+            // ======================
+            // TAMPILKAN INSTRUKSI SEBELUM NO 57
+            // ======================
+            const kanjiBox = document.getElementById("kanjiInstruction");
+
+            if (current === 56) { // soal nomor 57
+                kanjiBox.style.display = "block";
+            } else {
+                kanjiBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN PASSAGE
+            ====================== */
+            const passageBox = document.getElementById("passageBox");
+
+            if (q.passage) {
+                passageBox.innerHTML = `<div class="passage">${q.passage}</div>`;
+                passageBox.style.display = "block";
+            } else {
+                passageBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN SOAL
+            ====================== */
+            document.getElementById("questionText").innerHTML = q.text;
+            document.getElementById("counter").innerText =
+                `Soal ${current + 1} / ${questions.length}`;
+
+            document.getElementById("progress").style.width =
+                ((current + 1) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement("button");
+                btn.innerHTML = (i + 1) + ". " + opt;
+
+                if (answers[current] === i)
+                    btn.classList.add("selected");
+
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    answers[current] = i;
+                    loadQuestion();
+                    updateNav();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function generateNav() {
+            const nav = document.getElementById("navGrid");
+            nav.innerHTML = "";
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    current = i;
+                    loadQuestion();
+                };
+                nav.appendChild(btn);
+            }
+        }
+
+        function updateNav() {
+            const buttons = document.querySelectorAll(".nav-grid button");
+            buttons.forEach((btn, i) => {
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (examFinished) {
+                    clearInterval(timer);
+                    return;
+                }
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById("timer").innerText =
+                    `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+                if (timeLeft <= 0) {
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+        function finishExam(timeUp = false) {
+            if (examFinished) return;
+            examFinished = true;
+            clearInterval(timer);
+
+            // OFFICIAL J.TEST DE VERSI 5 SCORING
+            let tataBahasa = 0,
+                dokkai = 0,
+                kanji = 0,
+                kijutsu = 0;
+            let score = 0;
+
+            answers.forEach((a, i) => {
+                if (a === questions[i].answer) {
+                    score++;
+                    if (i < 30) tataBahasa++; // 1-30: 30 soal = 150 pt
+                    else if (i < 46) dokkai++; // 31-46: 16 soal = 80 pt
+                    else if (i < 66) kanji++; // 47-66: 20 soal = 80 pt
+                    else kijutsu++; // 67-74: 8 soal = 40 pt
+                }
+            });
+
+            // Konversi nilai per kompetensi (0-100%)
+            let nilaiTata = Math.round((tataBahasa / 30) * 100);
+            let nilaiDokkai = Math.round((dokkai / 16) * 100);
+            let nilaiKanji = Math.round((kanji / 20) * 100);
+            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
+
+            // ===============================
+            // SISTEM SKOR 350 POIN
+            // ===============================
+            let pointTata = tataBahasa * 5; // 30 × 5 = 150
+            let pointDokkai = dokkai * 5; // 16 × 5 = 80
+            let pointKanji = kanji * 4; // 20 × 4 = 80
+            let pointKijutsu = kijutsu * 5; // 8 × 5 = 40
+
+            let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
+            let nilaiTotal = Math.round((totalPoint / 350) * 100);
+
+            // Kirim ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbxqRPorFRr1IfjElLrXguzkYXq6q0axIvviKhewdGZww4em31SHvmk3UIENMcI6Wtw1/exec", {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    nama: studentName,
+                    attempt,
+                    tataBahasa,
+                    dokkai,
+                    kanji,
+                    kijutsu,
+                    total: score,
+                    nilai_tata: nilaiTata,
+                    nilai_dokkai: nilaiDokkai,
+                    nilai_kanji: nilaiKanji,
+                    nilai_kijutsu: nilaiKijutsu,
+                    nilai_total: nilaiTotal,
+                    point_tata: pointTata,
+                    point_dokkai: pointDokkai,
+                    point_kanji: pointKanji,
+                    point_kijutsu: pointKijutsu,
+                    total_point: totalPoint
+                })
+            });
+
+            // Lock UI
+            document.querySelectorAll("button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.6";
+                btn.style.cursor = "not-allowed";
+            });
+
+            // Tampilkan hasil
+            document.getElementById("result").innerHTML = `
+                <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+                    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+                    <div style="font-size:18px; margin:15px 0;">
+                        <b>👤 Nama:</b> ${studentName} | <b>🔄 Attempt:</b> ${attempt}<br><br>
+                        
+                        📝 <b>Tata Bahasa:</b> ${tataBahasa}/30 (${nilaiTata}%) | ${pointTata}/150 pt<br>
+                        📖 <b>Dokkai:</b> ${dokkai}/16 (${nilaiDokkai}%) | ${pointDokkai}/80 pt<br>
+                        漢字 <b>Kanji:</b> ${kanji}/20 (${nilaiKanji}%) | ${pointKanji}/80 pt<br>
+                        ✍️ <b>Kijutsu:</b> ${kijutsu}/8 (${nilaiKijutsu}%) | ${pointKijutsu}/40 pt<br><br>
+                        
+                        <div style="font-size:28px; color:#2c3e50; margin:20px 0; font-weight:bold;">
+                            📊 Total: ${totalPoint}/350 (${nilaiTotal}%)
+                        </div>
+                        <div style="font-size:22px; padding:15px 25px; border-radius:12px; 
+                                   ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'} 
+                                   border: 3px solid ${nilaiTotal >= 70 ? '#28a745' : '#dc3545'};">
+                            ${nilaiTotal >= 70 ? "✅ LULUS TO N4" : "📚 REMEDIAL"}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById("result").style.display = "block";
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+
+            setTimeout(() => {
+
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS TO N4" : "📚 REMEDIAL";
+
+                let message = `
+           ==============================
+           HASIL UJIAN J.TEST DE VERSI 5
+           ==============================
+
+           👤 Nama : ${studentName}
+           🔄 Attempt : ${attempt}
+
+           📝 Tata Bahasa : ${tataBahasa}/30 (${nilaiTata}%)
+           📖 Dokkai : ${dokkai}/16 (${nilaiDokkai}%)
+           漢字 Kanji : ${kanji}/20 (${nilaiKanji}%)
+           ✍️ Kijutsu : ${kijutsu}/8 (${nilaiKijutsu}%)
+
+           --------------------------------
+           📊 TOTAL POINT : ${totalPoint}/350
+           🎯 NILAI AKHIR : ${nilaiTotal}%
+           --------------------------------
+
+           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+           ${statusText}
+
+           ==============================
+           `;
+
+                alert(message);
+
+            }, 300);
+        }
+    
+
+// ==============================
+// ?? ANTI AI / ANTI CHEAT ADVANCED
+// ==============================
+
+// ?? Disable selection paksa
+document.addEventListener("selectionchange", () => {
+    if (window.getSelection().toString().length > 0) {
+        window.getSelection().removeAllRanges();
+    }
+});
+
+// ?? Detect pindah tab
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+    }
+});
+
+// ?? Detect keluar window
+window.addEventListener("blur", () => {
+    if (!examFinished) {
+        alert("?? Keluar dari halaman terdeteksi!");
+        finishExam(true);
+    }
+});
+
+// ?? Detect DevTools / Sidebar AI
+setInterval(() => {
+    if (window.outerWidth - window.innerWidth > 200) {
+        alert("?? DevTools / AI terdeteksi!");
+        finishExam(true);
+    }
+}, 1000);
+
+
+// ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+setInterval(() => {
+    let suspicious = window.outerWidth - window.innerWidth;
+
+    if (suspicious > 160 && !examFinished) {
+        document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+    }
+}, 1000);
+
+
+// ?? Auto detect popup translate
+setInterval(() => {
+    let bodyText = document.body.innerText;
+
+    if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+        document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+    }
+}, 1500);
+
+</script>
+</body>
+
+</html>
