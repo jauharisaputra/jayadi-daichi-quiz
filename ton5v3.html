@@ -1035,61 +1035,299 @@ const questions = [
     },
 
     // --- 問題 ３ ---
+   
     {
-        passage: `<b>問題 ３</b><br>
-<ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えなさい。<br><br>
-ジムさんは、イギリス<ruby>人<rt>じん</rt></ruby>です。きょねん、<ruby>美代町<rt>みしろまち</rt></ruby>という<ruby>日本<rt>にほん</rt></ruby>の<ruby>小<rt>ちい</rt></ruby>さいまちに<ruby>来<rt>き</rt></ruby>ました。ジムさんは、おとなたちに、えいごをおしえています。<ruby>美代町<rt>みしろまち</rt></ruby>は、この５<ruby>年<rt>ねん</rt></ruby>で<ruby>外国人<rt>がいこくじん</rt></ruby>が<ruby>多<rt>おお</rt></ruby>くなりました。おおぜいの<ruby>外国人<rt>がいこくじん</rt></ruby>が<ruby>来<rt>き</rt></ruby>ますから、<ruby>美代町<rt>みしろまち</rt></ruby>のおとなたちは、えいごのべんきょうをはじめました。はじめは、えいごで<ruby>話<rt>はな</rt></ruby>す<ruby>先生<rt>せんせい</rt></ruby>がいませんでしたから、<ruby>話<rt>はな</rt></ruby>すれんしゅうができませんでした。そこで、<ruby>美代町<rt>みしろまち</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>たちは、ジムさんをよびました。ジムさんは、それまで<ruby>大阪<rt>おおさか</rt></ruby>のせまいアパートにすんでいましたが、<ruby>今<rt>いま</rt></ruby>は、ひろいいえにすんでいます。`,
-        text: "30. ジムさんについて、<ruby>話<rt>はな</rt></ruby>しとあっているのはどれですか。",
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    <b>
+        <ruby>問題<rt>もんだい</rt></ruby>３
+    </b>
+    <br>
+
+    <ruby>次<rt>つぎ</rt></ruby>の
+    <ruby>図<rt>ず</rt></ruby>を
+    <ruby>読<rt>よ</rt></ruby>んで
+    <ruby>問題<rt>もんだい</rt></ruby>に
+    <ruby>答<rt>こた</rt></ruby>えなさい。
+    <br>
+    <ruby>答<rt>こた</rt></ruby>えは
+    １・２・３・４の
+    <ruby>中<rt>なか</rt></ruby>から
+    <ruby>一番<rt>いちばん</rt></ruby>いいものを
+    １つ
+    <ruby>選<rt>えら</rt></ruby>んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    font-size:14px;
+    line-height:2;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:12px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        ３<ruby>人兄弟<rt>にんきょうだい</rt></ruby>
+    </div>
+
+    <div style="
+        display:flex;
+        justify-content:center;
+        gap:20px;
+        margin-bottom:15px;
+        flex-wrap:wrap;
+    ">
+
+        <div style="
+            border:1px solid #999;
+            border-radius:10px;
+            padding:10px;
+            min-width:150px;
+            text-align:center;
+        ">
+            <b>ミナさん</b><br>
+            ♀<br>
+            24さい<br>
+            <ruby>会社<rt>かいしゃ</rt></ruby>ではたらいている
+        </div>
+
+        <div style="
+            border:1px solid #999;
+            border-radius:10px;
+            padding:10px;
+            min-width:150px;
+            text-align:center;
+        ">
+            <b>ケンさん</b><br>
+            ♂<br>
+            21さい<br>
+            <ruby>大学生<rt>だいがくせい</rt></ruby><br>
+            <ruby>中国<rt>ちゅうごく</rt></ruby>へりゅうがく
+        </div>
+
+        <div style="
+            border:1px solid #999;
+            border-radius:10px;
+            padding:10px;
+            min-width:150px;
+            text-align:center;
+        ">
+            <b>ユウさん</b><br>
+            ♂<br>
+            18さい<br>
+            <ruby>高校生<rt>こうこうせい</rt></ruby><br>
+            サッカーがじょうず
+        </div>
+
+    </div>
+
+    <div style="
+        text-align:center;
+        font-size:20px;
+        margin:10px 0;
+    ">
+        ミナさん
+        <br>
+        ↓
+        <br>
+        ケンさん
+        ・
+        ユウさん
+    </div>
+
+    <div style="
+        background:#f8f8f8;
+        border-radius:8px;
+        padding:10px;
+        margin-top:10px;
+    ">
+        ・ミナさんは、ケンさんとユウさんのおねえさんです。<br>
+        ・ケンさんは、<ruby>中国<rt>ちゅうごく</rt></ruby>の
+        <ruby>大学<rt>だいがく</rt></ruby>でべんきょうしています。<br>
+        ・ユウさんは、らいげつからブラジルへ
+        <ruby>行<rt>い</rt></ruby>って、
+        ゆうめいなサッカーのチームに
+        <ruby>入<rt>はい</rt></ruby>ります。
+    </div>
+
+</div>
+`,
+        text: "30. ケンさんについて、<ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
         options: [
-            "<ruby>美代町<rt>みしろまち</rt></ruby>に<ruby>来<rt>く</rt></ruby>る<ruby>前<rt>まえ</rt></ruby>は、イギリスにいました。",
-            "<ruby>美代町<rt>みしろまち</rt></ruby>で、せまいアパートにすんでいます。",
-            "<ruby>小<rt>ちい</rt></ruby>さいまちで、えいごをおしえています。",
-            "<ruby>子<rt>こ</rt></ruby>どもたちに、えいごをおしえています。"
-        ],
-        answer: 2
-    },
-    {
-        text: "31. <ruby>美代町<rt>みしろまち</rt></ruby>について、<ruby>話<rt>はな</rt></ruby>しとあっているのはどれですか。",
-        options: [
-            "５<ruby>年前<rt>ねんまえ</rt></ruby>も、<ruby>外国人<rt>がいこくじん</rt></ruby>がとても<ruby>多<rt>おお</rt></ruby>かったです。",
-            "<ruby>今<rt>いま</rt></ruby>は、<ruby>外国人<rt>がいこくじん</rt></ruby>がおおぜい<ruby>来<rt>き</rt></ruby>ます。",
-            "<ruby>子<rt>こ</rt></ruby>どもたちは、えいごがじょうずです。",
-            "５<ruby>年前<rt>ねんまえ</rt></ruby>から、イギリス<ruby>人<rt>じん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>がいました。"
+            "<ruby>中国<rt>ちゅうごく</rt></ruby>へりゅうがくしています。",
+            "ユウさんのおとうとです。",
+            "おにいさんが、ひとりいます。",
+            "３<ruby>人兄弟<rt>にんきょうだい</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で、いちばんわかいです。"
         ],
         answer: 1
     },
-
-    // --- 問題 ４ ---
     {
-        passage: `<b>問題 ４</b><br>
-<ruby>次<rt>つぎ</rt></ruby>のメールを<ruby>読<rt>よ</rt></ruby>んで、<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えなさい。<br>
-これは、キムさんと、<ruby>森<rt>もり</rt></ruby>さんのメールです。<br><br>
-<b>キム：</b>「<ruby>森<rt>もり</rt></ruby>さん、<ruby>今<rt>いま</rt></ruby>どこにいますか。」<br>
-<b><ruby>森<rt>もり</rt></ruby> ：</b>「<ruby>駅<rt>えき</rt></ruby>にいます。20<ruby>分前<rt>ぷんまえ</rt></ruby>から、キムさんをまっていますが。」<br>
-<b>キム：</b>「えっ？わたしも20<ruby>分前<rt>ぷんまえ</rt></ruby>から<ruby>駅<rt>えき</rt></ruby>にいますよ。あっ、<ruby>森<rt>もり</rt></ruby>さんは、<ruby>駅<rt>えき</rt></ruby>の<ruby>外<rt>そと</rt></ruby>にいますか。」<br>
-<b><ruby>森<rt>もり</rt></ruby> ：</b>「はい。きっぷを<ruby>買<rt>か</rt></ruby>ってから、そのちかくにいます。」<br>
-<b>キム：</b>「あっ、ごめんなさい。<ruby>駅<rt>えき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってください。わたしは、ホームにいます。」<br>
-<b><ruby>森<rt>もり</rt></ruby> ：</b>「わかりました。すぐ<ruby>行<rt>い</rt></ruby>きます。」`,
-        text: "32. キムさんは、どこにいますか。",
+        text: "31. ３<ruby>人兄弟<rt>にんきょうだい</rt></ruby>について、<ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
         options: [
-            "じぶんのいえです。",
-            "でんしゃの<ruby>中<rt>なか</rt></ruby>です。",
-            "きっぷを<ruby>買<rt>か</rt></ruby>うところです。",
-            "<ruby>駅<rt>えき</rt></ruby>のホームです。"
+            "３<ruby>人<rt>にん</rt></ruby>とも<ruby>男<rt>おとこ</rt></ruby>のきょうだいです。",
+            "３<ruby>人<rt>にん</rt></ruby>とも、<ruby>会社<rt>かいしゃ</rt></ruby>ではたらいています。",
+            "<ruby>今<rt>いま</rt></ruby>、３<ruby>人<rt>にん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で、ひとりが、<ruby>外国<rt>がいこく</rt></ruby>にいます。",
+            "<ruby>今<rt>いま</rt></ruby>、３<ruby>人<rt>にん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で、ふたりが、<ruby>大学生<rt>だいがくせい</rt></ruby>です。"
         ],
         answer: 3
     },
-    {
-        text: "33. <ruby>森<rt>もり</rt></ruby>さんは、これからまず<ruby>何<rt>なに</rt></ruby>をしますか。",
-        options: [
-            "キムさんがいるところへ<ruby>行<rt>い</rt></ruby>きます。",
-            "<ruby>今<rt>いま</rt></ruby>いるところでキムさんをまちます。",
-            "きっぷを<ruby>買<rt>か</rt></ruby>います。",
-            "でんしゃにのります。"
-        ],
-        answer: 0
-    },
 
+    // --- 問題 ４ ---
+   
+    {
+        passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+    <b>
+        <ruby>問題<rt>もんだい</rt></ruby>４
+    </b>
+    <br>
+
+    <ruby>次<rt>つぎ</rt></ruby>のメールを
+    <ruby>読<rt>よ</rt></ruby>んで、
+    <ruby>問題<rt>もんだい</rt></ruby>に
+    <ruby>答<rt>こた</rt></ruby>えなさい。
+    <br>
+    <ruby>答<rt>こた</rt></ruby>えは
+    １・２・３・４の
+    <ruby>中<rt>なか</rt></ruby>から
+    <ruby>一番<rt>いちばん</rt></ruby>いいものを
+    １つ
+    <ruby>選<rt>えら</rt></ruby>んでください。
+</div>
+
+<div style="
+    border:2px solid #333;
+    border-radius:10px;
+    padding:18px;
+    background:#fff;
+    font-size:14px;
+    line-height:2;
+">
+
+    <div style="
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:15px;
+        border-bottom:1px solid #ccc;
+        padding-bottom:8px;
+    ">
+        メール
+    </div>
+
+    <div style="
+        background:#f5f5f5;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:12px;
+    ">
+        <b>グエンさん → <ruby>森<rt>もり</rt></ruby>さん</b>
+        <hr>
+        <ruby>森<rt>もり</rt></ruby>さん、おはようございます。<br>
+        きょう、わたしは、
+        9<ruby>時<rt>じ</rt></ruby>に
+        <ruby>会社<rt>かいしゃ</rt></ruby>につきません。<br>
+        9<ruby>時半<rt>じはん</rt></ruby>につきます。
+    </div>
+
+    <div style="
+        background:#eef6ff;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:12px;
+    ">
+        <b><ruby>森<rt>もり</rt></ruby>さん → グエンさん</b>
+        <hr>
+        グエンさん、おはようございます。<br>
+        どうしましたか。<br>
+        <ruby>電車<rt>でんしゃ</rt></ruby>がとまりましたか。
+    </div>
+
+    <div style="
+        background:#f5f5f5;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:12px;
+    ">
+        <b>グエンさん → <ruby>森<rt>もり</rt></ruby>さん</b>
+        <hr>
+        いいえ、<ruby>電車<rt>でんしゃ</rt></ruby>のもんだいじゃありません。<br>
+        わたしが、おそくおきました。<br>
+        おきた
+        <ruby>時間<rt>じかん</rt></ruby>が、
+        いつもより30<ruby>分<rt>ぷん</rt></ruby>
+        おそかったです。<br>
+        ごめんなさい。
+    </div>
+
+    <div style="
+        background:#eef6ff;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:12px;
+    ">
+        <b><ruby>森<rt>もり</rt></ruby>さん → グエンさん</b>
+        <hr>
+        そうでしたか。わかりました。<br>
+        ゆうべ、おそくまでおきていましたか。
+    </div>
+
+    <div style="
+        background:#f5f5f5;
+        padding:12px;
+        border-radius:8px;
+        margin-bottom:12px;
+    ">
+        <b>グエンさん → <ruby>森<rt>もり</rt></ruby>さん</b>
+        <hr>
+        ええ。ひさしぶりに
+        <ruby>友<rt>とも</rt></ruby>だちと
+        <ruby>会<rt>あ</rt></ruby>って、
+        おさけをのみました。
+    </div>
+
+    <div style="
+        background:#eef6ff;
+        padding:12px;
+        border-radius:8px;
+    ">
+        <b><ruby>森<rt>もり</rt></ruby>さん → グエンさん</b>
+        <hr>
+        はい。すみません。<br>
+        じゃ、まっていますね。<br>
+        はやく
+        <ruby>来<rt>き</rt></ruby>てください。
+    </div>
+
+</div>
+`,
+        text: "32. グエンさんは、どうして、<ruby>森<rt>もり</rt></ruby>さんにメールしましたか。",
+        options: [
+            "きょうは、<ruby>会社<rt>かいしゃ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きたくないからです。",
+            "ひさしぶりに、いっしょに<ruby>食事<rt>しょくじ</rt></ruby>をしたいからです。",
+            "<ruby>今<rt>いま</rt></ruby>、のっている<ruby>電車<rt>でんしゃ</rt></ruby>が、とまっているからです。",
+            "いつもの<ruby>時間<rt>じかん</rt></ruby>に<ruby>会社<rt>かいしゃ</rt></ruby>につかないからです。"
+        ],
+        answer: 4
+    },
+    {
+        text: "33. <ruby>森<rt>もり</rt></ruby>さんは、このあと<ruby>何<rt>なに</rt></ruby>をしますか。",
+        options: [
+            "<ruby>会社<rt>かいしゃ</rt></ruby>でグエンさんをまちます。",
+            "<ruby>友<rt>とも</rt></ruby>だちと<ruby>会<rt>あ</rt></ruby>います。",
+            "グエンさんのところへ<ruby>行<rt>い</rt></ruby>きます。",
+            "<ruby>電車<rt>でんしゃ</rt></ruby>をおりて、あるきます。"
+        ],
+        answer: 1
+    },
     // --- 問題 ５ ---
     {
         passage: `<b>問題 ５</b><br>
