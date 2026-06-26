@@ -329,18 +329,92 @@
         { name: "応答問題", intro: `<p>（問題だけ聞いて答えてください）</p>` , questions: 
             Array.from({ length: 14 }, (_, i) => ({ type: "text", content: `問題 ${i + 13}` }))
         },
-        { name: "会話・説明問題 (22-31)", intro: "会話や説明を聞いて正しいものを選んでください", questions: [
-            { text: "問題 22", options: ["<ruby>公園<rt>こうえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。", "<ruby>池<rt>いけ</rt></ruby>でおよぎました。", "おべんとうを<ruby>買<rt>か</rt></ruby>いました。"] },
-            { text: "問題 23", options: ["きのうは、<ruby>雨<rt>あめ</rt></ruby>がふりました。", "きのう、おんなの<ruby>人<rt>ひと</rt></ruby>は、でかけませんでした。", "きのう、おとこの<ruby>人<rt>ひと</rt></ruby>は、へやのそうじをしました。"] },
-            { text: "問題 24", options: ["いえを<ruby>出<rt>で</rt></ruby>ます。", "<ruby>電車<rt>でんしゃ</rt></ruby>にのります。", "きっさ<ruby>店<rt>てん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。"] },
-            { text: "問題 25", options: ["けさは、いえでりょうりをしませんでした。", "きょうは、いつもよりおそく<ruby>会社<rt>かいしゃ</rt></ruby>につきます。", "きょうは、あさ７<ruby>時<rt>じ</rt></ruby>におきました。"] },
-            { text: "問題 26", options: ["あさは、<ruby>雨<rt>あめ</rt></ruby>がふりました。", "あさも、ひるも、さむかったです。", "ひるからゆきがふりました。"] },
-            { text: "問題 27", options: ["<ruby>今<rt>いま</rt></ruby>、かぜの<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。", "<ruby>今月<rt>こんげつ</rt></ruby>は、<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。", "<ruby>手<rt>て</rt></ruby>をあらわない<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。"] },
-            { text: "問題 28", options: ["てんぷらだけ<ruby>食<rt>た</rt></ruby>べます。", "てんぷらそばを<ruby>食<rt>た</rt></ruby>べます。", "そばだけ<ruby>食<rt>た</rt></ruby>べます。"] },
-            { text: "問題 29", options: ["ラーメンだけ<ruby>食<rt>た</rt></ruby>べます。", "そばとてんぷらを<ruby>食<rt>た</rt></ruby>べます。", "ラーメンとてんぷらを<ruby>食<rt>た</rt></ruby>べます。"] },
-            { text: "問題 30", options: ["きのう、ケンさんにメールをしませんでした。", "きのう、ケンさんにメールをしましたが、ばしょをまちがえて<ruby>書<rt>か</rt></ruby>きました。", "きのう、ケンさんにメールをしましたが、<ruby>時間<rt>じかん</rt></ruby>をまちがえて<ruby>書<rt>か</rt></ruby>きました。"] },
-            { text: "問題 31", options: ["おとこの<ruby>人<rt>ひと</rt></ruby>と、ケンさんがいるところへ<ruby>行<rt>い</rt></ruby>きます。", "ケンさんにメールをして、<ruby>今<rt>いま</rt></ruby>いるところをおしえます。", "ケンさんに<ruby>電話<rt>でんわ</rt></ruby>して、<ruby>何時<rt>なんじ</rt></ruby>に<ruby>駅<rt>えき</rt></ruby>に<ruby>来<rt>く</rt></ruby>ますかと、ききます。"] }
-        ]}
+        {
+            name: "会話・説明問題 (22-31)",
+            intro: "会話や説明を聞いて正しいものを選んでください",
+            questions: [
+                {
+                    text: "問題 22",
+                    options: [
+                        "2こです。",
+                        "3こです。",
+                        "5こです。"
+                    ]
+                },
+                {
+                    text: "問題 23",
+                    options: [
+                        "2こです。",
+                        "3こです。",
+                        "5こです。"
+                    ]
+                },
+                {
+                    text: "問題 24",
+                    options: [
+                        "テレビで<ruby>見<rt>み</rt></ruby>てしりました。",
+                        "ＣＤの<ruby>店<rt>みせ</rt></ruby>で<ruby>見<rt>み</rt></ruby>てしりました。",
+                        "こうえんで<ruby>見<rt>み</rt></ruby>てしりました。"
+                    ]
+                },
+                {
+                    text: "問題 25",
+                    options: [
+                        "ことし、はじめてＣＤをつくりました。",
+                        "<ruby>今<rt>いま</rt></ruby>は、とてもゆうめいな<ruby>人<rt>ひと</rt></ruby>です。",
+                        "５ねん<ruby>前<rt>まえ</rt></ruby>に、テレビに<ruby>出<rt>で</rt></ruby>ました。"
+                    ]
+                },
+                {
+                    text: "問題 26",
+                    options: [
+                        "<ruby>今<rt>いま</rt></ruby>、<ruby>日<rt>に</rt></ruby><ruby>本<rt>ほん</rt></ruby>にいます。",
+                        "まい<ruby>日<rt>にち</rt></ruby>ひとりで、<ruby>魚<rt>さかな</rt></ruby>をとります。",
+                        "うみのちかくに、すんでいます。"
+                    ]
+                },
+                {
+                    text: "問題 27",
+                    options: [
+                        "<ruby>日<rt>に</rt></ruby><ruby>本<rt>ほん</rt></ruby>の<ruby>魚<rt>さかな</rt></ruby>やへ<ruby>行<rt>い</rt></ruby>って、<ruby>魚<rt>さかな</rt></ruby>を<ruby>見<rt>み</rt></ruby>ることです。",
+                        "<ruby>日<rt>に</rt></ruby><ruby>本<rt>ほん</rt></ruby>のうみへ<ruby>行<rt>い</rt></ruby>って、<ruby>魚<rt>さかな</rt></ruby>をとることです。",
+                        "<ruby>日<rt>に</rt></ruby><ruby>本<rt>ほん</rt></ruby>で<ruby>魚<rt>さかな</rt></ruby>のりょうりを<ruby>食<rt>た</rt></ruby>べることです。"
+                    ]
+                },
+                {
+                    text: "問題 28",
+                    options: [
+                        "<ruby>男<rt>おとこ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>のいえへ<ruby>行<rt>い</rt></ruby>きます。",
+                        "いえでパーティーをします。",
+                        "カレーをすこしだけつくります。"
+                    ]
+                },
+                {
+                    text: "問題 29",
+                    options: [
+                        "こんばんは、いそがしいです。",
+                        "<ruby>今<rt>いま</rt></ruby>は、あまりごはんを<ruby>食<rt>た</rt></ruby>べません。",
+                        "カレーは、すきじゃありません。"
+                    ]
+                },
+                {
+                    text: "問題 30",
+                    options: [
+                        "ちかてつです。",
+                        "モノレールです。",
+                        "ひこうきです。"
+                    ]
+                },
+                {
+                    text: "問題 31",
+                    options: [
+                        "アイル<ruby>駅<rt>えき</rt></ruby>です。",
+                        "くうこう<ruby>駅<rt>えき</rt></ruby>です。",
+                        "なかす<ruby>駅<rt>えき</rt></ruby>です。"
+                    ]
+                }
+            ]
+        }
     ];
 
     /* ===== GENERATE SOAL ===== */
