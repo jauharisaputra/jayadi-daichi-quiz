@@ -320,172 +320,329 @@
             return atob(str);
         }
 
-        const questions = [
+const questions = [
 
-            // ===============================
-            // 1–30: BUNPOU + GOI
-            // ===============================
-            {
-                text: "1. １０じに　なったら、（　）。",
-                options: ["べんきょうを　はじめました", "べんきょうを　はじめます", "べんきょうを　はじめる", "べんきょうを　はじめて"],
-                answer: 1
-            },
-            {
-                text: "2. いえに　かえったら、（　）。",
-                options: ["ごはんを　たべる", "ごはんを　たべて", "ごはんを　たべます", "ごはんを　たべました"],
-                answer: 2
-            },
-            {
-                text: "3. つかれたら、（　）。",
-                options: ["やすみました", "やすむ", "やすみます", "やすんで"],
-                answer: 2
-            },
-            {
-                text: "4. ひまに　なったら、（　）。",
-                options: ["えいがを　みて", "えいがを　みました", "えいがを　みる", "えいがを　みます"],
-                answer: 3
-            },
-            {
-                text: "5. でんしゃが　きたら、（　）。",
-                options: ["のる", "のりました", "のって", "のります"],
-                answer: 3
-            },
+    // ===============================
+    // 1–20 : FUKUSHUU BAB 21
+    // ===============================
 
-            {
-                text: "6. あめが　ふっても、（　）。",
-                options: ["でかける", "でかけて", "でかけます", "でかけました"],
-                answer: 2
-            },
-            {
-                text: "7. たかくても、（　）。",
-                options: ["かいました", "かって", "かう", "かいます"],
-                answer: 3
-            },
-            {
-                text: "8. さむくても、（　）。",
-                options: ["はしる", "はしりました", "そとで　はしります", "はしって"],
-                answer: 2
-            },
-            {
-                text: "9. にちようびでも、（　）。",
-                options: ["はたらく", "はたらきます", "はたらいて", "はたらきました"],
-                answer: 1
-            },
-            {
-                text: "10. びょうきでも、（　）。",
-                options: ["いきます", "いきました", "いく", "いって"],
-                answer: 0
-            },
+    {
+        text: "1. 雨が（　）、家にいます。",
+        options: ["降っても", "降ったら", "降る", "降れば"],
+        answer: 1
+    },
+    {
+        text: "2. 日本へ（　）、すしを食べたいです。",
+        options: ["行ったら", "行っても", "行くまで", "行きながら"],
+        answer: 0
+    },
+    {
+        text: "3. 忙しく（　）、毎日日本語を勉強します。",
+        options: ["ても", "たら", "ながら", "まで"],
+        answer: 0
+    },
+    {
+        text: "4. ここで写真を（　）もいいです。",
+        options: ["撮って", "撮った", "撮る", "撮り"],
+        answer: 0
+    },
+    {
+        text: "5. この部屋でたばこを（　）はいけません。",
+        options: ["吸った", "吸って", "吸う", "吸い"],
+        answer: 1
+    },
+    {
+        text: "6. 九時（　）学校へ来てください。",
+        options: ["まで", "から", "までに", "へ"],
+        answer: 2
+    },
+    {
+        text: "7. 宿題が終わったら、テレビを（　）。",
+        options: ["見ます", "見て", "見ました", "見る"],
+        answer: 0
+    },
+    {
+        text: "8. 暑く（　）、エアコンをつけます。",
+        options: ["ても", "たら", "なって", "まで"],
+        answer: 1
+    },
+    {
+        text: "9. 誰（　）来ましたか。",
+        options: ["は", "に", "を", "が"],
+        answer: 3
+    },
+    {
+        text: "10. 先生（　）日本語を教えています。",
+        options: ["が", "を", "へ", "で"],
+        answer: 0
+    },
+    {
+        text: "11. 日本語が難しく（　）、あきらめません。",
+        options: ["たら", "ても", "まで", "ので"],
+        answer: 1
+    },
+    {
+        text: "12. この本を（　）もいいですか。",
+        options: ["借りた", "借り", "借りて", "借ります"],
+        answer: 2
+    },
+    {
+        text: "13. ご飯を食べたら、薬を（　）。",
+        options: ["飲みます", "飲んで", "飲みたい", "飲みました"],
+        answer: 0
+    },
+    {
+        text: "14. 試験（　）レポートを出してください。",
+        options: ["まで", "までに", "から", "より"],
+        answer: 1
+    },
+    {
+        text: "15. 子ども（　）できる仕事です。",
+        options: ["たら", "でも", "まで", "しか"],
+        answer: 1
+    },
+    {
+        text: "16. 雨が降って（　）、サッカーをします。",
+        options: ["たら", "も", "から", "ので"],
+        answer: 1
+    },
+    {
+        text: "17. この教室で携帯電話を使って（　）。",
+        options: ["いいです", "はいけません", "ください", "あります"],
+        answer: 1
+    },
+    {
+        text: "18. 家へ帰ったら、すぐ宿題を（　）。",
+        options: ["しました", "します", "して", "しよう"],
+        answer: 1
+    },
+    {
+        text: "19. これは父（　）買った車です。",
+        options: ["は", "を", "が", "に"],
+        answer: 2
+    },
+    {
+        text: "20. 八時（　）会社に着かなければなりません。",
+        options: ["まで", "までに", "から", "より"],
+        answer: 1
+    },
+        // ===============================
+    // 21–40 : FUKUSHUU BAB 22
+    // ===============================
 
-            {
-                text: "11. にほんごが　むずかしくても、（　）。",
-                options: ["つづける", "つづけました", "つづけて", "つづけます"],
-                answer: 3
-            },
-            {
-                text: "12. ５じ（　）いえに　かえります。",
-                options: ["に", "まで", "までに", "から"],
-                answer: 2
-            },
-            {
-                text: "13. レポートは　げつようび（　）だします。",
-                options: ["までに", "から", "に", "まで"],
-                answer: 0
-            },
-            {
-                text: "14. あさごはんは　８じ（　）たべます。",
-                options: ["から", "までに", "に", "まで"],
-                answer: 1
-            },
-            {
-                text: "15. あしたの　あさ（　）しゅくだいを　おわります。",
-                options: ["までに", "まで", "に", "から"],
-                answer: 0
-            },
+    {
+        text: "21. 先生は私に日本語を（　）くれました。",
+        options: ["教えて", "教えた", "教える", "教え"],
+        answer: 0
+    },
+    {
+        text: "22. 私は先生に日本語を（　）もらいました。",
+        options: ["教え", "教えて", "教える", "教えた"],
+        answer: 1
+    },
+    {
+        text: "23. 私は友達に宿題を（　）あげました。",
+        options: ["手伝った", "手伝って", "手伝う", "手伝い"],
+        answer: 1
+    },
+    {
+        text: "24. 母がケーキを（　）くれました。",
+        options: ["作る", "作った", "作って", "作り"],
+        answer: 2
+    },
+    {
+        text: "25. 私は父に車を（　）もらいました。",
+        options: ["直した", "直す", "直して", "直し"],
+        answer: 2
+    },
+    {
+        text: "26. 私は弟に英語を（　）あげました。",
+        options: ["教えて", "教える", "教え", "教えた"],
+        answer: 0
+    },
+    {
+        text: "27. 友達が写真を（　）くれました。",
+        options: ["撮る", "撮って", "撮り", "撮った"],
+        answer: 1
+    },
+    {
+        text: "28. 私は友達に駅まで（　）もらいました。",
+        options: ["送って", "送る", "送り", "送った"],
+        answer: 0
+    },
+    {
+        text: "29. 私は子どもに本を（　）あげました。",
+        options: ["読んで", "読む", "読んだ", "読み"],
+        answer: 0
+    },
+    {
+        text: "30. お客様に荷物を（　）差し上げます。",
+        options: ["運ぶ", "運んだ", "運んで", "運び"],
+        answer: 2
+    },
+    {
+        text: "31. 姉が新しいバッグを（　）くれました。",
+        options: ["買って", "買う", "買った", "買い"],
+        answer: 0
+    },
+    {
+        text: "32. 私は母に料理を（　）もらいました。",
+        options: ["作る", "作って", "作った", "作り"],
+        answer: 1
+    },
+    {
+        text: "33. 私は友達に日本語を（　）あげます。",
+        options: ["教えた", "教える", "教えて", "教え"],
+        answer: 2
+    },
+    {
+        text: "34. 先生が漢字を（　）くれました。",
+        options: ["説明する", "説明して", "説明した", "説明し"],
+        answer: 1
+    },
+    {
+        text: "35. 私は先生に作文を（　）もらいました。",
+        options: ["見て", "見る", "見た", "見"],
+        answer: 0
+    },
+    {
+        text: "36. 私は友達に荷物を（　）あげました。",
+        options: ["持って", "持つ", "持った", "持ち"],
+        answer: 0
+    },
+    {
+        text: "37. 父が自転車を（　）くれました。",
+        options: ["直す", "直した", "直して", "直し"],
+        answer: 2
+    },
+    {
+        text: "38. 私は先生に発音を（　）もらいました。",
+        options: ["直して", "直す", "直った", "直し"],
+        answer: 0
+    },
+    {
+        text: "39. 私は祖母に薬を（　）あげました。",
+        options: ["飲ませて", "飲む", "飲ませた", "飲み"],
+        answer: 0
+    },
+    {
+        text: "40. 店員はお客様に部屋を（　）差し上げます。",
+        options: ["案内した", "案内する", "案内して", "案内し"],
+        answer: 2
+    },
+        // ===============================
+    // 41–45 : TERJEMAHAN INDONESIA → JEPANG
+    // ===============================
 
-            {
-                text: "16. １２がつ３１にち（　）そうじを　します。",
-                options: ["に", "までに", "まで", "から"],
-                answer: 1
-            },
-            {
-                text: "17. びょうきに　なったら、（　）。",
-                options: ["いきました", "いく", "びょういんへ　いきます", "いって"],
-                answer: 2
-            },
-            {
-                text: "18. びょうきに　なっても、（　）。",
-                options: ["する", "しました", "しごとを　します", "して"],
-                answer: 2
-            },
-            {
-                text: "19. おかねが　あったら、（　）。",
-                options: ["いきました", "いって", "いく", "いきたいです"],
-                answer: 3
-            },
-            {
-                text: "20. おかねが　なくても、（　）。",
-                options: ["くらして", "くらしました", "たのしく　くらせます", "くらす"],
-                answer: 2
-            },
+    {
+        text: "41. Terjemahkan ke bahasa Jepang: 'Kalau hujan, saya tidak pergi.'",
+        options: [
+            "雨が降っても行きません。",
+            "雨が降ったら行きません。",
+            "雨が降るまで行きません。",
+            "雨が降ってはいけません。"
+        ],
+        answer: 1
+    },
+    {
+        text: "42. Terjemahkan ke bahasa Jepang: 'Walaupun sibuk, saya belajar bahasa Jepang setiap hari.'",
+        options: [
+            "忙しかったら毎日日本語を勉強します。",
+            "忙しくても毎日日本語を勉強します。",
+            "忙しいまでに毎日日本語を勉強します。",
+            "忙しいから毎日日本語を勉強します。"
+        ],
+        answer: 1
+    },
+    {
+        text: "43. Terjemahkan ke bahasa Jepang: 'Guru mengajari saya bahasa Jepang.'",
+        options: [
+            "私は先生に日本語を教えてもらいました。",
+            "先生は私に日本語を教えてくれました。",
+            "私は先生に日本語を教えてあげました。",
+            "先生は私に日本語を教えて差し上げました。"
+        ],
+        answer: 1
+    },
+    {
+        text: "44. Terjemahkan ke bahasa Jepang: 'Saya dibantu teman mengerjakan PR.'",
+        options: [
+            "友達は私に宿題を手伝ってくれました。",
+            "私は友達に宿題を手伝ってもらいました。",
+            "私は友達に宿題を手伝ってあげました。",
+            "友達は宿題を手伝いました。"
+        ],
+        answer: 1
+    },
+    {
+        text: "45. Terjemahkan ke bahasa Jepang: 'Tolong datang sebelum jam sembilan.'",
+        options: [
+            "九時まで来てください。",
+            "九時までに来てください。",
+            "九時から来てください。",
+            "九時へ来てください。"
+        ],
+        answer: 1
+    },
 
-            {
-                text: "21. にほんへ　いったら、（　）。",
-                options: ["する", "しました", "して", "べんきょうしたいです"],
-                answer: 3
-            },
-            {
-                text: "22. 友だちが　本を（　）。",
-                options: ["もらいました", "くれました", "あげました", "しました"],
-                answer: 1
-            },
-            {
-                text: "23. わたしは　ともだちに　本を（　）。",
-                options: ["もらいました", "あげました", "くれました", "しました"],
-                answer: 1
-            },
-            {
-                text: "24. ともだちに　本を（　）。",
-                options: ["くれました", "もらいました", "あげました", "しました"],
-                answer: 1
-            },
-            {
-                text: "25. せんせいが　おしえて（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
+    // ===============================
+    // 46–50 : TERJEMAHAN JEPANG → INDONESIA
+    // ===============================
 
-            {
-                text: "26. わたしは　ともだちに　てつだって（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "27. ともだちに　にほんごを　おしえて（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 2
-            },
-            {
-                text: "28. ははが　ごはんを　つくって（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "29. わたしは　ははに　ケーキを（　）。",
-                options: ["もらいました", "あげました", "くれました", "しました"],
-                answer: 1
-            },
-            {
-                text: "30. ともだちが　てつだって（　）。",
-                options: ["もらいました", "あげました", "くれました", "しました"],
-                answer: 2
-            },
+    {
+        text: "46. 日本へ行ったら、すしを食べたいです。",
+        options: [
+            "Saya ingin makan sushi di Jepang.",
+            "Kalau pergi ke Jepang, saya ingin makan sushi.",
+            "Saya sudah makan sushi di Jepang.",
+            "Saya akan pergi ke Jepang bersama sushi."
+        ],
+        answer: 1
+    },
+    {
+        text: "47. 私は先生に作文を見てもらいました。",
+        options: [
+            "Saya membantu guru memeriksa karangan.",
+            "Guru meminta saya memeriksa karangan.",
+            "Saya dibantu guru memeriksa karangan.",
+            "Guru sedang menulis karangan saya."
+        ],
+        answer: 2
+    },
+    {
+        text: "48. 父が新しいパソコンを買ってくれました。",
+        options: [
+            "Ayah membeli komputer baru untuk saya.",
+            "Saya membeli komputer baru untuk ayah.",
+            "Ayah sedang membeli komputer.",
+            "Komputer baru membeli ayah."
+        ],
+        answer: 0
+    },
+    {
+        text: "49. 雨が降ってもサッカーをします。",
+        options: [
+            "Kalau hujan saya bermain sepak bola.",
+            "Walaupun hujan, saya tetap bermain sepak bola.",
+            "Setelah hujan saya bermain sepak bola.",
+            "Karena hujan saya bermain sepak bola."
+        ],
+        answer: 1
+    },
+    {
+        text: "50. 私は友達に日本語を教えてあげました。",
+        options: [
+            "Teman mengajari saya bahasa Jepang.",
+            "Saya diajari teman bahasa Jepang.",
+            "Saya mengajari teman bahasa Jepang.",
+            "Teman dan saya belajar bahasa Jepang."
+        ],
+        answer: 2
+    }
 
-            // ===============================
-            // 31–40 tetap sama (sudah variatif)
-            // ===============================
+];
 
-        ];
+
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
