@@ -858,7 +858,9 @@ B：その 隣です。
                     benar: benar,
                     total_soal: questions.length,
                     nilai: nilaiTotal,
-                    total_point: nilaiTotal // kalau belum pakai point system, samakan dulu
+                    total_point: nilaiTotal, // kalau belum pakai point system, samakan dulu
+                    bab: "BAB 23",
+                    status: nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"
                 })
             });
 
