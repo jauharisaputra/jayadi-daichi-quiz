@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html translate="no" class="notranslate" lang="ja" translate="no">
 
 <head>
@@ -321,238 +321,508 @@
         }
 
         const questions = [
+                {
+                    text: "部屋が暗いですね。電気をつけると、明るく（   ）。",
+                    options: [
+                        "します",
+                        "なります",
+                        "あります",
+                        "います"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "ちょっとコンビニへお弁当を買って（   ）。",
+                    options: [
+                        "みます",
+                        "おきます",
+                        "いきます",
+                        "きます"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "この町（   ）有名な神社があります。",
+                    options: [
+                        "には",
+                        "では",
+                        "へは",
+                        "とは"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "私は日本語が少し（   ）。",
+                    options: [
+                        "話します",
+                        "話させます",
+                        "話されます",
+                        "話せます"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "毎日練習して、泳げる（   ）。",
+                    options: [
+                        "ようにしました",
+                        "ようになりました",
+                        "ことにしました",
+                        "ことになりました"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "最近、あまりお酒を（   ）。",
+                    options: [
+                        "飲まないようにします",
+                        "飲むようになりました",
+                        "飲めなくなります",
+                        "飲まなくなりました"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "今、財布の中に1,000円（   ）。",
+                    options: [
+                        "しかありません",
+                        "だけありません",
+                        "がありません",
+                        "しかあります"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "今日は日曜日（   ）、会社は休みです。",
+                    options: [
+                        "だから",
+                        "なので",
+                        "なから",
+                        "ので"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "あの人が誰（   ）知っていますか。",
+                    options: [
+                        "が",
+                        "か",
+                        "は",
+                        "を"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "明日、雨が降る（   ）分かりません。",
+                    options: [
+                        "か",
+                        "そうか",
+                        "かどうか",
+                        "だか"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "田中さんは（   ）昼ご飯を食べていません。",
+                    options: [
+                        "もう",
+                        "すぐ",
+                        "まだ",
+                        "よく"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "図書館で本を（   ）とき、学生証が必要です。",
+                    options: [
+                        "借りる",
+                        "借り",
+                        "借りて",
+                        "借りた"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "（   ）とき、よくこの公園で遊びました。",
+                    options: [
+                        "子ども",
+                        "子どもな",
+                        "子どもに",
+                        "子どもの"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "明日はテストがありますから、勉強し（   ）。",
+                    options: [
+                        "なくてもいいです",
+                        "てはいけません",
+                        "なければなりません",
+                        "るでしょう"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "もう遅いから、早く家に（   ）。",
+                    options: [
+                        "帰らなきゃ",
+                        "帰るなきゃ",
+                        "帰りなきゃ",
+                        "帰れなきゃ"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "A「外は寒いですか。」\nB「ええ、夜になるともっと（   ）。」",
+                    options: [
+                        "寒くなります",
+                        "寒くします",
+                        "寒いです",
+                        "寒いになります"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "A「駅の前に新しいパン屋ができましたね。」\nB「はい、（   ）パン屋はおいしいですよ。」",
+                    options: [
+                        "この",
+                        "あの",
+                        "その",
+                        "どの"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "A「ちょっとスーパーへ行って（   ）。」\nB「いってらっしゃい。」",
+                    options: [
+                        "みます",
+                        "おきます",
+                        "しまいます",
+                        "きます"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "A「山田さんの家（   ）犬がいますか。」\nB「はい、2匹います。」",
+                    options: [
+                        "では",
+                        "とは",
+                        "へは",
+                        "には"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "A「佐藤さんは英語が（   ）か。」\nB「はい、少しだけ。」",
+                    options: [
+                        "話せます",
+                        "話します",
+                        "話させます",
+                        "話されます"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "A「ここでタバコを吸う（   ）。」\nB「いいえ、外で吸ってください。」",
+                    options: [
+                        "ことになりますか",
+                        "ことにしますか",
+                        "ことができますか",
+                        "ことですか"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "A「日本に来てから、納豆が（   ）。」\nB「それはよかったですね。」",
+                    options: [
+                        "食べられるようになりました",
+                        "食べるようにしました",
+                        "食べていました",
+                        "食べなくなりました"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "A「パーティーには何人来ましたか。」\nB「雨が降っていたので、5人（   ）。」",
+                    options: [
+                        "だけ来ませんでした",
+                        "しか来ませんでした",
+                        "しか来ました",
+                        "くらい来ませんでした"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "A「どうして遅れたんですか。」\nB「バスが（   ）、遅くなりました。すみません。」",
+                    options: [
+                        "来なかったのに",
+                        "来ないので",
+                        "来なかったからで",
+                        "来なかったので"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "A「田中さんがパーティーに来る（   ）、知っていますか。」\nB「いいえ、まだ聞いていません。」",
+                    options: [
+                        "が",
+                        "か",
+                        "そうか",
+                        "を"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "A「レポートはもう出しましたか。」\nB「いいえ、（   ）出していません。」",
+                    options: [
+                        "もう",
+                        "すぐ",
+                        "まだ",
+                        "ずっと"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "A「（   ）とき、何をしますか。」\nB「よく本を読みます。」",
+                    options: [
+                        "暇の",
+                        "暇な",
+                        "暇だ",
+                        "暇"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "A「パスポートはいつ見せますか。」\nB「飛行機に（   ）ときに見せてください。」",
+                    options: [
+                        "乗った",
+                        "乗って",
+                        "乗る",
+                        "乗り"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "A「明日は日曜日ですが、仕事ですか。」\nB「はい、会社に（   ）。」",
+                    options: [
+                        "行かなくてもいいです",
+                        "行かないでください",
+                        "行ってはいけません",
+                        "行かなければなりません"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "A「もう11時ですよ。」\nB「本当だ。早く（   ）。」",
+                    options: [
+                        "寝なきゃ",
+                        "寝るなきゃ",
+                        "寝りなきゃ",
+                        "寝れなきゃ"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【31】\n私は毎日、自転車で学校へ行きます。雨の日はバスに乗りますが、最近はずっと晴れている（ 31 ）、毎日自転車に乗っています。\n\n【31】（ 31 ）に入る言葉はどれですか。",
+                    options: [
+                        "ので",
+                        "なので",
+                        "のに",
+                        "でも"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【32】\n昨日、新しいスマートフォンを買いましたが、このアプリが使える（ 32 ）分かりません。あとで友達に聞きます。\n\n【32】（ 32 ）に入る言葉はどれですか。",
+                    options: [
+                        "が",
+                        "そうか",
+                        "かどうか",
+                        "を"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "【33】\n道が分からないときは、スマートフォンで地図を見ます。地図を見ても分からない（ 33 ）、交番で警察に聞きます。\n\n【33】（ 33 ）に入る言葉はどれですか。",
+                    options: [
+                        "まえに",
+                        "ながら",
+                        "ときは",
+                        "あとに"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "【34】\n日本に来たばかりのころは、漢字が読めませんでしたが、今は（ 34 ）。\n\n【34】（ 34 ）に入る言葉はどれですか。",
+                    options: [
+                        "読めるようにしました",
+                        "読めるようになりました",
+                        "読めなくなりました",
+                        "読まなくなりました"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "【35】\n昔はタバコを吸っていましたが、病気になってから（ 35 ）。\n\n【35】（ 35 ）に入る言葉はどれですか。",
+                    options: [
+                        "吸わなくなりました",
+                        "吸うようになりました",
+                        "吸っていませんでした",
+                        "吸いませんでした"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【36】\n鈴木さんは会議室に入りました。（ 36 ）会議室には誰もいませんでした。\n\n【36】（ 36 ）に入る言葉はどれですか。",
+                    options: [
+                        "この",
+                        "その",
+                        "あの",
+                        "どの"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "【37】\n明日は大切なテストがあります。今日は早く（ 37 ）。\n\n【37】（ 37 ）に入る言葉はどれですか。",
+                    options: [
+                        "寝てはいけません",
+                        "寝なくてもいいです",
+                        "寝るでしょう",
+                        "寝なければなりません"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "【38】\n風邪を引いて、喉が痛いです。冷たいジュースを飲むと痛く（ 38 ）から、温かいお茶を飲みます。\n\n【38】（ 38 ）に入る言葉はどれですか。",
+                    options: [
+                        "なります",
+                        "します",
+                        "あります",
+                        "います"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【39】\n私は毎朝、公園を散歩します。この公園（ 39 ）きれいな桜の木があります。\n\n【39】（ 39 ）に入る言葉はどれですか。",
+                    options: [
+                        "とは",
+                        "へは",
+                        "をは",
+                        "には"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "【40】\nパーティーの飲み物を買いに行きました。でも、お金が500円（ 40 ）から、少ししか買えませんでした。\n\n【40】（ 40 ）に入る言葉はどれですか。",
+                    options: [
+                        "しかありました",
+                        "だけありませんでした",
+                        "ぐらいありませんでした",
+                        "しかありませんでした"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "【文章1】\n来週から冬休み（ 41 ）、家族で北海道へスキーに行くことにしました。\n私は子ども（ 42 ）、北海道に住んでいました。そのときは毎日雪で遊んでいましたが、東京に引っ越してから、全然スキーを（ 43 ）。\nだから、今スキーが（ 44 ）分かりません。少し心配ですが、北海道に着いたら、まず新しいスキーの靴を買って（ 45 ）。\n\n【41】（ 41 ）に入る言葉はどれですか。",
+                    options: [
+                        "なので",
+                        "ので",
+                        "なから",
+                        "のから"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【文章1】\n来週から冬休み（ 41 ）、家族で北海道へスキーに行くことにしました。\n私は子ども（ 42 ）、北海道に住んでいました。そのときは毎日雪で遊んでいましたが、東京に引っ越してから、全然スキーを（ 43 ）。\nだから、今スキーが（ 44 ）分かりません。少し心配ですが、北海道に着いたら、まず新しいスキーの靴を買って（ 45 ）。\n\n【42】（ 42 ）に入る言葉はどれですか。",
+                    options: [
+                        "とき",
+                        "のとき",
+                        "なとき",
+                        "にとき"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "【文章1】\n来週から冬休み（ 41 ）、家族で北海道へスキーに行くことにしました。\n私は子ども（ 42 ）、北海道に住んでいました。そのときは毎日雪で遊んでいましたが、東京に引っ越してから、全然スキーを（ 43 ）。\nだから、今スキーが（ 44 ）分かりません。少し心配ですが、北海道に着いたら、まず新しいスキーの靴を買って（ 45 ）。\n\n【43】（ 43 ）に入る言葉はどれですか。",
+                    options: [
+                        "しませんでした",
+                        "するようになりました",
+                        "しなくなりました",
+                        "しなければなりません"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "【文章1】\n来週から冬休み（ 41 ）、家族で北海道へスキーに行くことにしました。\n私は子ども（ 42 ）、北海道に住んでいました。そのときは毎日雪で遊んでいましたが、東京に引っ越してから、全然スキーを（ 43 ）。\nだから、今スキーが（ 44 ）分かりません。少し心配ですが、北海道に着いたら、まず新しいスキーの靴を買って（ 45 ）。\n\n【44】（ 44 ）に入る言葉はどれですか。",
+                    options: [
+                        "できる",
+                        "できるか",
+                        "できるを",
+                        "できるが"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "【文章1】\n来週から冬休み（ 41 ）、家族で北海道へスキーに行くことにしました。\n私は子ども（ 42 ）、北海道に住んでいました。そのときは毎日雪で遊んでいましたが、東京に引っ越してから、全然スキーを（ 43 ）。\nだから、今スキーが（ 44 ）分かりません。少し心配ですが、北海道に着いたら、まず新しいスキーの靴を買って（ 45 ）。\n\n【45】（ 45 ）に入る言葉はどれですか。",
+                    options: [
+                        "みます",
+                        "おきます",
+                        "しまいます",
+                        "きます"
+                    ],
+                    answer: 3
+                },
+                {
+                    text: "【文章2】\n図書館の利用について\n・本を借りる（ 46 ）、学生証を見せてください。\n・一人3冊（ 47 ）借りることができません。\n・借りた本は、2週間以内に（ 48 ）。\n・借りた本を（ 49 ）読んでいないときは、もう一度借りることができます。\n・図書館（ 50 ）カフェがあります。そこで飲み物を飲むことができます。\n\n【46】（ 46 ）に入る言葉はどれですか。",
+                    options: [
+                        "とき",
+                        "のとき",
+                        "なとき",
+                        "にとき"
+                    ],
+                    answer: 0
+                },
+                {
+                    text: "【文章2】\n図書館の利用について\n・本を借りる（ 46 ）、学生証を見せてください。\n・一人3冊（ 47 ）借りることができません。\n・借りた本は、2週間以内に（ 48 ）。\n・借りた本を（ 49 ）読んでいないときは、もう一度借りることができます。\n・図書館（ 50 ）カフェがあります。そこで飲み物を飲むことができます。\n\n【47】（ 47 ）に入る言葉はどれですか。",
+                    options: [
+                        "だけ",
+                        "しか",
+                        "まで",
+                        "から"
+                    ],
+                    answer: 1
+                },
+                {
+                    text: "【文章2】\n図書館の利用について\n・本を借りる（ 46 ）、学生証を見せてください。\n・一人3冊（ 47 ）借りることができません。\n・借りた本は、2週間以内に（ 48 ）。\n・借りた本を（ 49 ）読んでいないときは、もう一度借りることができます。\n・図書館（ 50 ）カフェがあります。そこで飲み物を飲むことができます。\n\n【48】（ 48 ）に入る言葉はどれですか。",
+                    options: [
+                        "返します",
+                        "返してもいいです",
+                        "返さなければなりません",
+                        "返さないでください"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "【文章2】\n図書館の利用について\n・本を借りる（ 46 ）、学生証を見せてください。\n・一人3冊（ 47 ）借りることができません。\n・借りた本は、2週間以内に（ 48 ）。\n・借りた本を（ 49 ）読んでいないときは、もう一度借りることができます。\n・図書館（ 50 ）カフェがあります。そこで飲み物を飲むことができます。\n\n【49】（ 49 ）に入る言葉はどれですか。",
+                    options: [
+                        "もう",
+                        "すぐ",
+                        "まだ",
+                        "ずっと"
+                    ],
+                    answer: 2
+                },
+                {
+                    text: "【文章2】\n図書館の利用について\n・本を借りる（ 46 ）、学生証を見せてください。\n・一人3冊（ 47 ）借りることができません。\n・借りた本は、2週間以内に（ 48 ）。\n・借りた本を（ 49 ）読んでいないときは、もう一度借りることができます。\n・図書館（ 50 ）カフェがあります。そこで飲み物を飲むことができます。\n\n【50】（ 50 ）に入る言葉はどれですか。",
+                    options: [
+                        "では",
+                        "には",
+                        "へは",
+                        "とは"
+                    ],
+                    answer: 1
+                }
+            ];
 
-            // ===============================
-            // 1-30: BUNPOU + GOI
-            // ===============================
-            {
-                text: "1. 雨が降っている（　）、出かけません。",
-                options: ["でも", "ので", "のに", "しか"],
-                answer: 1
-            },
-            {
-                text: "2. 明日は休み（　）、友達と遊びます。",
-                options: ["ので", "から", "でも", "のに"],
-                answer: 0
-            },
-            {
-                text: "3. 彼が来る（　）かどうか、分かりません。",
-                options: ["を", "に", "か", "が"],
-                answer: 2
-            },
-            {
-                text: "4. 日本語が話せる（　）なりました。",
-                options: ["に", "で", "を", "が"],
-                answer: 0
-            },
-            {
-                text: "5. 毎日練習して、泳げる（　）なりました。",
-                options: ["ように", "ために", "ことに", "みたいに"],
-                answer: 0
-            },
-            {
-                text: "6. もう宿題をしましたか。→いいえ、まだ（　）。",
-                options: ["しました", "していません", "します", "しません"],
-                answer: 1
-            },
-            {
-                text: "7. このボタンを押すと、電気が（　）。",
-                options: ["つきます", "なります", "します", "いきます"],
-                answer: 0
-            },
-            {
-                text: "8. 春になると、暖かく（　）。",
-                options: ["なります", "します", "いきます", "できます"],
-                answer: 0
-            },
-            {
-                text: "9. その話が本当（　）かどうか分かりません。",
-                options: ["だ", "に", "で", "を"],
-                answer: 0
-            },
-            {
-                text: "10. 音を大きく（　）。",
-                options: ["なります", "します", "いきます", "できます"],
-                answer: 1
-            },
-
-            {
-                text: "11. 子供が大きく（　）。",
-                options: ["なりました", "しました", "できました", "いきました"],
-                answer: 0
-            },
-            {
-                text: "12. 明日行く（　）かどうか、まだ決めていません。",
-                options: ["とき", "ので", "か", "でも"],
-                answer: 2
-            },
-            {
-                text: "13. 彼が何を言った（　）、分かりませんでした。",
-                options: ["か", "ので", "でも", "のに"],
-                answer: 0
-            },
-            {
-                text: "14. 疲れた（　）、早く寝ます。",
-                options: ["でも", "ので", "のに", "しか"],
-                answer: 1
-            },
-            {
-                text: "15. 日本語が少し（　）ようになりました。",
-                options: ["話す", "話せる", "話した", "話します"],
-                answer: 1
-            },
-
-            {
-                text: "16. この道を行くと、駅が（　）。",
-                options: ["あります", "します", "なります", "いきます"],
-                answer: 0
-            },
-            {
-                text: "17. この薬を飲むと、元気に（　）。",
-                options: ["なります", "します", "いきます", "できます"],
-                answer: 0
-            },
-            {
-                text: "18. 雨が降っている（　）、試合は続きます。",
-                options: ["ので", "でも", "のに", "しか"],
-                answer: 1
-            },
-            {
-                text: "19. 明日雨が降る（　）かどうか分かりません。",
-                options: ["を", "か", "に", "が"],
-                answer: 1
-            },
-            {
-                text: "20. この店ではカードが（　）。",
-                options: ["使えます", "使います", "使いました", "使えません"],
-                answer: 3
-            },
-
-            {
-                text: "21. 夜になると暗く（　）。",
-                options: ["なります", "します", "いきます", "できます"],
-                answer: 0
-            },
-            {
-                text: "22. 日本へ行ったことが（　）。",
-                options: ["あります", "します", "いきます", "なります"],
-                answer: 0
-            },
-            {
-                text: "23. ドアを開けると、部屋が（　）。",
-                options: ["明るくなります", "します", "いきます", "できます"],
-                answer: 0
-            },
-            {
-                text: "24. 彼が来る（　）、パーティーは始まりません。",
-                options: ["まで", "ので", "でも", "のに"],
-                answer: 0
-            },
-            {
-                text: "25. どこへ行く（　）、まだ決めていません。",
-                options: ["を", "か", "に", "が"],
-                answer: 1
-            },
-
-            {
-                text: "26. 秋になると葉が（　）。",
-                options: ["赤くなります", "します", "いきます", "できます"],
-                answer: 0
-            },
-            {
-                text: "27. 病気がよく（　）。",
-                options: ["なりました", "しました", "できました", "いきました"],
-                answer: 0
-            },
-            {
-                text: "28. 何を食べる（　）、決めましたか。",
-                options: ["か", "ので", "でも", "のに"],
-                answer: 0
-            },
-            {
-                text: "29. この映画はとても（　）です。",
-                options: ["おいしい", "楽しい", "重い", "静か"],
-                answer: 1
-            },
-            {
-                text: "30. 毎日勉強して、日本語が（　）。",
-                options: ["上手になります", "上手します", "上手いきます", "上手できます"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31-33: DOKKAI 1
-            // ===============================
-            {
-                passage: `<strong>【３１－３３】</strong><br><br>
-        私は毎日日本語を勉強しています。
-        最初はとても難しかったですが、今は少し分かるようになりました。
-        毎日勉強することが大切だと思います。`,
-
-                text: "31. 「私」は毎日何をしていますか。",
-                options: ["運動", "勉強", "仕事", "旅行"],
-                answer: 1
-            },
-            {
-                text: "32. 日本語は最初どうでしたか。",
-                options: ["簡単でした", "面白かったです", "難しかったです", "楽しかったです"],
-                answer: 2
-            },
-            {
-                text: "33. どうすればいいと思っていますか。",
-                options: ["遊ぶ", "休む", "毎日勉強する", "寝る"],
-                answer: 2
-            },
-
-            // ===============================
-            // 34-36: DOKKAI 2
-            // ===============================
-            {
-                passage: `<strong>【３４－３６】</strong><br><br>
-        昨日、友達とレストランに行きました。
-        料理はとてもおいしかったですが、値段が少し高かったです。
-        でも、楽しかったです。`,
-
-                text: "34. 昨日どこへ行きましたか。",
-                options: ["学校", "レストラン", "会社", "公園"],
-                answer: 1
-            },
-            {
-                text: "35. 料理はどうでしたか。",
-                options: ["まずかった", "高かった", "おいしかった", "少なかった"],
-                answer: 2
-            },
-            {
-                text: "36. 全体的にどう思いましたか。",
-                options: ["つまらなかった", "楽しかった", "疲れた", "悲しかった"],
-                answer: 1
-            },
-
-            // ===============================
-            // 37-40: SUSUN KALIMAT
-            // ===============================
-            {
-                text: "37. 日本語 ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> なりました。",
-                options: ["話せる", "ように", "が", "少し"],
-                answer: [2, 3, 0, 1]
-            },
-            {
-                text: "38. 明日 ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> かどうか分かりません。",
-                options: ["行く", "に", "か", "学校"],
-                answer: [3, 1, 0, 2]
-            },
-            {
-                text: "39. 雨が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 出かけません。",
-                options: ["ので", "降っている", "は", "今日"],
-                answer: [3, 2, 1, 0]
-            },
-            {
-                text: "40. 毎日 ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 上手になります。",
-                options: ["勉強", "すれば", "日本語が", "を"],
-                answer: [2, 3, 0, 1]
-            }
-
-        ];
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -719,88 +989,95 @@
             }, 1000);
         }
 
-        function finishExam(timeUp = false) {
-            if (examFinished) return;
-            examFinished = true;
-            clearInterval(timer);
+    function finishExam(timeUp = false) {
+        if (examFinished) return;
+        examFinished = true;
+        clearInterval(timer);
 
-            let benar = 0;
-            answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
-            });
-            let nilaiTotal = Math.round((benar / questions.length) * 100);
+        let benar = 0;
+        let salah = [];
 
-            fetch("https://script.google.com/macros/s/AKfycbyEtKKGSQe_v92EHQWdHnfoa7WJzQLRRsYzKJ-LBebPbRBJKGIlA1WMLw1h1w2GvvQzJg/exec", {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify({
-                    nama: studentName,
-                    attempt: attempt,
-                    benar: benar,
-                    total_soal: questions.length,
-                    nilai: nilaiTotal,
-                    total_point: nilaiTotal,
-                    bab: "Fukushuu Bab 23-26",
-                    status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
-                })
-            });
+        // PERBAIKAN DI SINI: Tambahkan else untuk mencatat nomor yang salah
+        answers.forEach((a, i) => {
+            if (a === questions[i].answer) {
+                benar++;
+            } else {
+                salah.push(i + 1); // i + 1 agar nomor soal dimulai dari 1 (bukan index 0)
+            }
+        });
 
-            // Lock UI
-            document.querySelectorAll("button").forEach(btn => {
-                btn.disabled = true;
-                btn.style.opacity = "0.6";
-                btn.style.cursor = "not-allowed";
-            });
+        let nilaiTotal = Math.round((benar / questions.length) * 100);
 
-            // Tampilkan hasil
-            document.getElementById("result").innerHTML = `
-          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+        fetch("https://script.google.com/macros/s/AKfycbyEtKKGSQe_v92EHQWdHnfoa7WJzQLRRsYzKJ-LBebPbRBJKGIlA1WMLw1h1w2GvvQzJg/exec", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({
+                nama: studentName,
+                attempt: attempt,
+                benar: benar,
+                total_soal: questions.length,
+                nilai: nilaiTotal,
+                total_point: nilaiTotal,
+                bab: "Fukushuu Bab 23-26",
+                status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
+            })
+        });
 
-              <div style="font-size:18px; margin:15px 0;">
-                  <b>👤 Nama:</b> ${studentName} <br>
-                  <b>🔄 Attempt:</b> ${attempt} <br><br>
+        // Lock UI
+        document.querySelectorAll("button").forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
+            btn.style.cursor = "not-allowed";
+        });
 
-                  ✅ Benar: ${benar} / ${questions.length} <br>
-                  📊 Nilai: <b>${nilaiTotal}%</b>
-              </div>
+        // Tampilkan hasil
+        document.getElementById("result").innerHTML = `
+            <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+                <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
-          </div>
-          `;
-            document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+                <div style="font-size:18px; margin:15px 0;">
+                    <b>👤 Nama:</b> ${studentName} <br>
+                    <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-            setTimeout(() => {
+                    ✅ Benar: ${benar} /${questions.length} <br>
+                    📊 Nilai: <b>${nilaiTotal}%</b>
+                </div>
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 26" : "📚 REMEDIAL";
+                <div style="font-size:22px; padding:15px; border-radius:12px;
+                    ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                    ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+                    ${salah.length > 0 ? "<br><span style='font-size:16px;'>❌ Soal Salah: Nomor " + salah.join(", ") + "</span>" : ""}
+                </div>
+            </div>
+            `;
+        document.getElementById("result").style.display = "block";
+        document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
-                let message = `
-       ==============================
-       HASIL FUKUSHUU BAB 23-26
-       ==============================
+        setTimeout(() => {
 
-       👤 Nama : ${studentName}
-       🔄 Attempt : ${attempt}
+            let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 26" : "📚 REMEDIAL";
 
-       ✅ Benar : ${benar} / ${questions.length}
-       📊 Nilai : ${nilaiTotal}%
+            let message = `
+==============================
+HASIL FUKUSHUU BAB 23-26
+==============================
 
-       --------------------------------
+👤 Nama : ${studentName}
+🔄 Attempt : ${attempt}
 
-       ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-       ${statusText}
+✅ Benar : ${benar} /${questions.length}
+📊 Nilai : ${nilaiTotal}%
 
-       ==============================
-       `;
-                alert(message);
+------------------------------
 
-            }, 300);
-        }
+${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+${statusText}${salah.length > 0 ? "❌ Soal Salah: Nomor " + salah.join(", ") + "\n" : ""}
+==============================
+`;
+            alert(message);
 
+        }, 300);
+    }
 
         // ==============================
         // ?? ANTI AI / ANTI CHEAT ADVANCED
