@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Bab 28</title>
+    <title>LATIHAN BAB 28</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -266,10 +266,10 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Kuis Bab 28</h1>
+        <h1>📚 LATIHAN BAB 28</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">60:00</div>
+            <div id="timer">40:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
@@ -307,7 +307,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 3600; // 60 menit
+        const QUIZ_TIME = 2400; // 40 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -319,227 +319,310 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
 
-            // ===============================
-            // 1–25: BUNPOU + GOI (BAB 28) - jawaban tersebar
-            // ===============================
+       const questions = [
             {
-                text: "1. この建物は1959年から建（　）。",
-                options: ["ます", "でした", "ています", "ません"],
-                answer: 2
-            },
-            {
-                text: "2. 干せた服はもう乾い（　）から中に入れてね。",
-                options: ["ました", "ます", "ています", "ません"],
-                answer: 2
-            },
-            {
-                text: "3. 誰かが窓を開けたままにしたから、今も窓が開い（　）。",
-                options: ["ました", "ています", "です", "ません"],
-                answer: 1
-            },
-            {
-                text: "4. 夜遅く帰ってきたら、ドアがしっかり閉まっ（　）、安心しました。",
-                options: ["でした", "ていて", "ます", "ません"],
-                answer: 1
-            },
-            {
-                text: "5. 誰も部屋にいないのに、電気がつい（　）少し不思議でした。",
-                options: ["ます", "ました", "ていて", "でした"],
-                answer: 2
-            },
-            {
-                text: "6. 強い風でカーテンが外れて（　）、窓の外に揺れています。",
-                options: ["ています", "ました", "ます", "ません"],
+                text: "この花はとてもいい（   ）がします。",
+                options: [
+                    "におい",
+                    "あじ",
+                    "おと",
+                    "こえ"
+                ],
                 answer: 0
             },
             {
-                text: "7. 猫が走り回ったせいで、椅子が倒れて（　）とても危なかったです。",
-                options: ["ました", "ていて", "ます", "ません"],
+                text: "もっと（   ）書いてください。",
+                options: [
+                    "大き",
+                    "大きく",
+                    "大きに",
+                    "大きな"
+                ],
                 answer: 1
             },
             {
-                text: "8. 天気予報によると、明日は雪が降る（　）。",
-                options: ["ます", "そうです", "でした", "ません"],
-                answer: 1
-            },
-            {
-                text: "9. あの店のラーメンは美味しい（　）。",
-                options: ["ます", "です", "そうです", "でした"],
+                text: "風で木が（   ）います。",
+                options: [
+                    "こわれて",
+                    "おちて",
+                    "たおれて",
+                    "きえて"
+                ],
                 answer: 2
             },
             {
-                text: "10. 田中さんは来月、結婚する（　）。",
-                options: ["ました", "です", "そうです", "ません"],
-                answer: 2
-            },
-            {
-                text: "11. 山田さんは横浜に引っ越す（　）。",
-                options: ["そうです", "ます", "です", "ました"],
-                answer: 0
-            },
-            {
-                text: "12. あの映画はすごく感動する（　）。",
-                options: ["ます", "そうです", "でした", "ません"],
-                answer: 1
-            },
-            {
-                text: "13. この料理はちょっと苦い味が（　）。",
-                options: ["ました", "します", "ます", "ません"],
-                answer: 1
-            },
-            {
-                text: "14. 台所からカレーの匂いが（　）。",
-                options: ["します", "ました", "ます", "ません"],
-                answer: 0
-            },
-            {
-                text: "15. 隣の部屋から誰かの声が（　）。",
-                options: ["ました", "します", "ます", "ません"],
-                answer: 1
-            },
-            {
-                text: "16. 窓の外で変な音が（　）。",
-                options: ["ます", "します", "ました", "ません"],
-                answer: 1
-            },
-            {
-                text: "17. 公園に行（　）？",
-                options: ["ます", "ましょうか", "ました", "ません"],
-                answer: 1
-            },
-            {
-                text: "18. 一緒に昼ごはんを食べ（　）？",
-                options: ["ます", "ましょうか", "ました", "ません"],
-                answer: 1
-            },
-            {
-                text: "19. 暇ですから、ゲームでもし（　）？",
-                options: ["ます", "ましょうか", "しましょうか", "ました"],
-                answer: 2
-            },
-            {
-                text: "20. 風邪（　）学校に行けません。",
-                options: ["で", "が", "に", "を"],
-                answer: 0
-            },
-            {
-                text: "21. 地震（　）建物が倒れました。",
-                options: ["が", "を", "で", "に"],
-                answer: 2
-            },
-            {
-                text: "22. 万引き（　）捕まりました。",
-                options: ["で", "が", "を", "に"],
-                answer: 0
-            },
-            {
-                text: "23. 吹雪（　）電車が遅くなりました。",
-                options: ["に", "が", "を", "で"],
+                text: "田中さんは「あの店のカレーはおいしいです」と言っていました。あの店のカレーはとても（   ）。",
+                options: [
+                    "おいしそうです",
+                    "おいしいでした",
+                    "おいしいだそうです",
+                    "おいしいそうです"
+                ],
                 answer: 3
             },
             {
-                text: "24. 夜更かし（　）今は頭がとても痛いんです。",
-                options: ["が", "で", "を", "に"],
+                text: "隣の部屋からピアノの（   ）がします。",
+                options: [
+                    "こえ",
+                    "おと",
+                    "におい",
+                    "あじ"
+                ],
                 answer: 1
             },
             {
-                text: "25. 停電（　）授業が進めなくなりました。",
-                options: ["で", "が", "に", "を"],
-                answer: 0
-            },
-
-            // ===============================
-            // 26–32: DOKKAI
-            // ===============================
-            {
-                passage: `<strong>【２６－２８】</strong><br><br>
-        私は毎朝音楽を聞きながらジョギングをします。
-        とても気持ちがいいです。`,
-                text: "26. 「私」は何をしながらジョギングしますか。",
-                options: ["テレビ", "音楽", "勉強", "会話"],
-                answer: 1
-            },
-            {
-                text: "27. いつジョギングしますか。",
-                options: ["夜", "昼", "朝", "週末"],
+                text: "エアコンが（   ）いますから、部屋が涼しいです。",
+                options: [
+                    "あいて",
+                    "しまって",
+                    "ついて",
+                    "きえて"
+                ],
                 answer: 2
             },
             {
-                text: "28. 気持ちはどうですか。",
-                options: ["悪い", "普通", "いい", "疲れる"],
+                text: "部屋を（   ）掃除しました。",
+                options: [
+                    "きれい",
+                    "きれいな",
+                    "きれいだ",
+                    "きれいに"
+                ],
+                answer: 3
+            },
+            {
+                text: "コップが（   ）いますから、危ないですよ。",
+                options: [
+                    "われて",
+                    "きえて",
+                    "やぶれて",
+                    "おれて"
+                ],
+                answer: 0
+            },
+            {
+                text: "ニュースによれば、明日は（   ）。",
+                options: [
+                    "雨そうです",
+                    "雨なそうです",
+                    "雨だそうです",
+                    "雨いそうです"
+                ],
                 answer: 2
             },
             {
-                passage: `<strong>【２９－３２】</strong><br><br>
-        私は財布をなくしました。
-        とても困っています。どうしたらいいですか。`,
-                text: "29. 「私」は何をなくしましたか。",
-                options: ["かばん", "財布", "本", "携帯"],
-                answer: 1
+                text: "電車が止まって（   ）。",
+                options: [
+                    "あります",
+                    "みます",
+                    "おきます",
+                    "います"
+                ],
+                answer: 3
             },
             {
-                text: "30. 今の気持ちは？",
-                options: ["楽しい", "困っている", "眠い", "元気"],
-                answer: 1
-            },
-            {
-                text: "31. 何を聞いていますか。",
-                options: ["理由", "方法", "時間", "場所"],
-                answer: 1
-            },
-            {
-                text: "32. 適切な答えは？",
-                options: ["探したらいいです", "食べたらいいです", "寝たらいいです", "行ったらいいです"],
+                text: "変な味が（   ）から、この肉は食べないほうがいいです。",
+                options: [
+                    "します",
+                    "あります",
+                    "でます",
+                    "なります"
+                ],
                 answer: 0
             },
-
-            // ===============================
-            // 33–40: SUSUN KALIMAT
-            // ===============================
             {
-                text: "33. テレビを ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 食べます。",
-                options: ["ながら", "ご飯を", "見", "ます"],
-                answer: [2, 3, 0, 1]
+                text: "時間がありませんから、（   ）歩きましょう。",
+                options: [
+                    "はやい",
+                    "はやく",
+                    "はやに",
+                    "はやくて"
+                ],
+                answer: 1
             },
             {
-                text: "34. 音楽を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 勉強します。",
-                options: ["ながら", "聞き", "ます", "を"],
-                answer: [3, 1, 2, 0]
+                text: "あそこに財布が（   ）いますよ。",
+                options: [
+                    "おとして",
+                    "なくして",
+                    "だして",
+                    "おちて"
+                ],
+                answer: 3
             },
             {
-                text: "35. ちょっと ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> んです。",
-                options: ["熱が", "あります", "今日", "は"],
-                answer: [2, 3, 0, 1]
+                text: "手紙によると、母は来月東京へ（   ）。",
+                options: [
+                    "来るそうです",
+                    "来そうです",
+                    "来だそうです",
+                    "来るのそうです"
+                ],
+                answer: 0
             },
             {
-                text: "36. 電話を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 危ないです。",
-                options: ["する", "ながら", "のは", "運転"],
-                answer: [3, 0, 1, 2]
+                text: "先生はいつも（   ）説明してくれます。",
+                options: [
+                    "ていねい",
+                    "ていねいに",
+                    "ていねいな",
+                    "ていねいで"
+                ],
+                answer: 1
             },
             {
-                text: "37. 同窓会に ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> か。",
-                options: ["出席して", "いただけません", "、", "か"],
-                answer: [0, 2, 1, 3]
+                text: "シャツのボタンが（   ）いますよ。",
+                options: [
+                    "きれて",
+                    "ぬいで",
+                    "とれて",
+                    "おちて"
+                ],
+                answer: 2
             },
             {
-                text: "38. このパソコンは ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> んです。",
-                options: ["壊れている", "、", "です", "は"],
-                answer: [3, 0, 1, 2]
+                text: "A：どうしたんですか。\nB：カバンが（   ）。",
+                options: [
+                    "破れているんです",
+                    "破っているんです",
+                    "破れるんです",
+                    "破られたそうです"
+                ],
+                answer: 0
             },
             {
-                text: "39. 友達と ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 帰ります。",
-                options: ["話し", "ながら", "歩いて", "、"],
-                answer: [2, 3, 0, 1]
+                text: "A：外から大きい（   ）ね。\nB：ええ、あそこで新しいビルを建てているんですよ。",
+                options: [
+                    "においがします",
+                    "音がします",
+                    "味がします",
+                    "声がします"
+                ],
+                answer: 1
             },
             {
-                text: "40. プレゼントは ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> いいですか。",
-                options: ["何を", "あげたら", "、", "です"],
-                answer: [0, 2, 1, 3]
+                text: "A：天気予報、何と言っていましたか。\nB：明日は（   ）。",
+                options: [
+                    "晴れそうです",
+                    "晴れるでしょう",
+                    "晴れるそうです",
+                    "晴れるといいです"
+                ],
+                answer: 2
+            },
+            {
+                text: "A：すみません、ちょっと字が小さくて読めません。\nB：じゃあ、もっと（   ）書きましょうか。",
+                options: [
+                    "大きな",
+                    "大きい",
+                    "大きくて",
+                    "大きく"
+                ],
+                answer: 3
+            },
+            {
+                text: "A：あ、電気が（   ）ね。\nB：本当だ。誰か部屋にいるかもしれませんね。",
+                options: [
+                    "ついています",
+                    "つけています",
+                    "消えています",
+                    "消しています"
+                ],
+                answer: 0
+            },
+            {
+                text: "A：佐藤さん、来週のパーティーに来ますか。\nB：ええ。林さんの話によると、（   ）。",
+                options: [
+                    "来るかもしれません",
+                    "来るそうです",
+                    "来そうです",
+                    "来るはずです"
+                ],
+                answer: 1
+            },
+            {
+                text: "A：このケーキ、古いんじゃないですか。\nB：そうですね。少し変な（   ）。食べるのをやめましょう。",
+                options: [
+                    "においがあります",
+                    "味があります",
+                    "においがします",
+                    "においにします"
+                ],
+                answer: 2
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\nニュースで聞きました。今、南の海に大きい台風があるそうです。明日の朝、この町に来るそうです。今は風が強くて、公園の木が倒れています。雨もたくさん降っています。とても危ないそうですから、今日は外に出ないでください。\n\n質問：台風はいつこの町に来ますか。",
+                options: [
+                    "今日の朝です",
+                    "今日の夜です",
+                    "今日の昼です",
+                    "明日の朝です"
+                ],
+                answer: 3
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\nニュースで聞きました。今、南の海に大きい台風があるそうです。明日の朝、この町に来るそうです。今は風が強くて、公園の木が倒れています。雨もたくさん降っています。とても危ないそうですから、今日は外に出ないでください。\n\n質問：公園はどうなっていますか。",
+                options: [
+                    "木が倒れています",
+                    "木が折れています",
+                    "川の水が多くなっています",
+                    "花が散っています"
+                ],
+                answer: 0
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\nニュースで聞きました。今、南の海に大きい台風があるそうです。明日の朝、この町に来るそうです。今は風が強くて、公園の木が倒れています。雨もたくさん降っています。とても危ないそうですから、今日は外に出ないでください。\n\n質問：この文章で一番言いたいことは何ですか。",
+                options: [
+                    "木が倒れているので、公園に行ってはいけません。",
+                    "台風が来て危ないそうですから、外に出ないでください。",
+                    "明日の朝、南の海に台風が来るそうです。",
+                    "ニュースをよく聞いてください。"
+                ],
+                answer: 1
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\n昨日、友達と一緒に新しいレストランに行きました。雑誌で読みました。そのレストランはピザがとてもおいしいそうです。でも、店に着いたとき、ドアが閉まっていました。店の前に紙が貼ってありました。「今日は休みです」と書いてありました。とても残念でした。来週、もう一度行くつもりです。\n\n質問：この人はどうして新しいレストランに行きましたか。",
+                options: [
+                    "友達がおいしいと言っていたからです。",
+                    "テレビでおいしいピザを見たからです。",
+                    "雑誌でピザがおいしいと読んだからです。",
+                    "店の前に紙が貼ってあったからです。"
+                ],
+                answer: 2
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\n昨日、友達と一緒に新しいレストランに行きました。雑誌で読みました。そのレストランはピザがとてもおいしいそうです。でも、店に着いたとき、ドアが閉まっていました。店の前に紙が貼ってありました。「今日は休みです」と書いてありました。とても残念でした。来週、もう一度行くつもりです。\n\n質問：この人は昨日ピザを食べましたか。",
+                options: [
+                    "はい、とてもおいしかったです。",
+                    "はい、でもあまりおいしくなかったです。",
+                    "いいえ、お金がありませんでしたから。",
+                    "いいえ、店が休みでしたから。"
+                ],
+                answer: 3
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\n昨日、友達と一緒に新しいレストランに行きました。雑誌で読みました。そのレストランはピザがとてもおいしいそうです。でも、店に着いたとき、ドアが閉まっていました。店の前に紙が貼ってありました。「今日は休みです」と書いてありました。とても残念でした。来週、もう一度行くつもりです。\n\n質問：店のドアはどうなっていましたか。",
+                options: [
+                    "閉まっていました。",
+                    "開いていました。",
+                    "壊れていました。",
+                    "汚れていました。"
+                ],
+                answer: 0
+            },
+            {
+                text: "次の文章を読んで、質問に答えてください。\n\n昨日、友達と一緒に新しいレストランに行きました。雑誌で読みました。そのレストランはピザがとてもおいしいそうです。でも、店に着いたとき、ドアが閉まっていました。店の前に紙が貼ってありました。「今日は休みです」と書いてありました。とても残念でした。来週、もう一度行くつもりです。\n\n質問：本文の内容と合っているものはどれですか。",
+                options: [
+                    "昨日はピザを食べましたが、来週もまた行きます。",
+                    "そのレストランはいつもピザがおいしいそうです。",
+                    "昨日はレストランが休みだったので、来週また行くつもりです。",
+                    "友達と一緒に来週新しいレストランを作るつもりです。"
+                ],
+                answer: 2
             }
-
         ];
+
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -712,8 +795,14 @@
             clearInterval(timer);
 
             let benar = 0;
+            let salah = [];
+
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) benar++;
+                if (a === questions[i].answer) {
+                    benar++;
+                } else {
+                    salah.push(i + 1);   // simpan nomor soal yang salah
+                }
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -726,9 +815,9 @@
                     benar: benar,
                     total_soal: questions.length,
                     nilai: nilaiTotal,
-                    total_point: nilaiTotal,
-                    bab: "Bab 28",
-                    status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
+                    total_point: nilaiTotal, // kalau belum pakai point system, samakan dulu
+                    bab: "BAB 28",
+                    status: nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"
                 })
             });
 
@@ -752,10 +841,31 @@
                   📊 Nilai: <b>${nilaiTotal}%</b>
               </div>
 
-              <div style="font-size:22px; padding:15px; border-radius:12px;
-            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
-                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-              </div>
+            <div style="font-size:22px; padding:15px; border-radius:12px;
+${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}>
+    ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+</div>
+
+<hr style="margin:20px 0;">
+
+<div style="font-size:18px;">
+    <b>Nomor soal yang perlu dipelajari kembali:</b><br><br>
+
+    <div style="
+        color:#d32f2f;
+        font-size:22px;
+        font-weight:bold;
+        line-height:2;
+    ">
+        ${salah.length ? salah.join(", ") : "Tidak ada"}
+    </div>
+
+    <br>
+    <small style="color:#777;">
+        Jawaban benar tidak ditampilkan.<br>
+        Silakan pelajari kembali materi dan kerjakan ulang sampai lulus.
+    </small>
+</div>
           </div>
           `;
             document.getElementById("result").style.display = "block";
@@ -763,31 +873,38 @@
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 26" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 28" : "📚 REMEDIAL";
 
                 let message = `
-       ==============================
-       HASIL BAB 28
-       ==============================
+==============================
+HASIL LATIHAN BAB 28
+==============================
 
-       👤 Nama : ${studentName}
-       🔄 Attempt : ${attempt}
+👤 Nama : ${studentName}
+🔄 Attempt : ${attempt}
 
-       ✅ Benar : ${benar} / ${questions.length}
-       📊 Nilai : ${nilaiTotal}%
+✅ Benar : ${benar} / ${questions.length}
+❌ Salah : ${salah.length}
 
-       --------------------------------
+📊 Nilai : ${nilaiTotal}%
 
-       ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-       ${statusText}
+Nomor yang perlu dipelajari:
 
-       ==============================
-       `;
+${salah.join(", ")}
+
+--------------------------------
+
+${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+${statusText}
+
+==============================
+`;
+
+                console.log(message);
                 alert(message);
 
-            }, 300);
+            }, 500);
         }
-
 
         // ==============================
         // ?? ANTI AI / ANTI CHEAT ADVANCED
