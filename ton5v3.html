@@ -1989,8 +1989,8 @@ const questions = [
                 btn.style.cursor = "not-allowed";
             });
 
-            // Tampilkan hasil
-            document.getElementById("result").innerHTML = `
+// Tampilkan hasil
+document.getElementById("result").innerHTML = `
 <div style="text-align:center;padding:25px;background:#e8f5e8;border-radius:15px;">
     <h2>✅ Bagian Tertulis Selesai</h2>
 
@@ -1999,48 +1999,43 @@ const questions = [
     </p>
 
     <p style="font-size:20px;color:#8e44ad">
-        🎧 Choukai akan dimulai dalam 5 detik...
+        🎧 Silakan menunggu instruksi pengawas untuk memulai ujian Choukai.
+    </p>
+
+    <p style="color:#555;">
+        Link ujian Choukai akan diberikan secara terpisah.
     </p>
 </div>
 `;
-            document.getElementById("result").style.display = "block";
-            setTimeout(() => {
 
-                window.location.href = "choukain5v3.html";
+document.getElementById("result").style.display = "block";
 
-            }, 5000);
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
-
-            setTimeout(() => {
-
+document.querySelector('.container').scrollTo(
+    0,
+    document.querySelector('#result').offsetTop
+);
                 // let statusText = nilaiTotal >= 70 ? "✅ LULUS TO J.TEST F-G" : "📚 REMEDIAL";
 
-                let message = `
-           ==============================
-           HASIL UJIAN J.TEST F-G
-           ==============================
-
-           👤 Nama : ${studentName}
-           🔄 Attempt : ${attempt}
-
-           📝 Tata Bahasa : ${tataBahasa}/25 (${nilaiTata}%)
-           📖 Dokkai : ${dokkai}/10 (${nilaiDokkai}%)
-           漢字 Kanji : ${kanji}/10 (${nilaiKanji}%)
-           ✍️ Kijutsu : ${kijutsu}/5 (${nilaiKijutsu}%)
-
-           --------------------------------
-           📊 TOTAL POINT : ${totalPoint}/175
-           🎯 NILAI AKHIR : ${nilaiTotal}%
-           --------------------------------
-
-           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-          ${statusText}
-==============================
-`;
+                let message =
+                    "==============================\n" +
+                    "HASIL UJIAN J.TEST F-G\n" +
+                    "==============================\n\n" +
+                    "Nama : " + studentName + "\n" +
+                    "Attempt : " + attempt + "\n\n" +
+                    "Tata Bahasa : " + tataBahasa + "/25 (" + nilaiTata + "%)\n" +
+                    "Dokkai : " + dokkai + "/10 (" + nilaiDokkai + "%)\n" +
+                    "Kanji : " + kanji + "/10 (" + nilaiKanji + "%)\n" +
+                    "Kijutsu : " + kijutsu + "/5 (" + nilaiKijutsu + "%)\n\n" +
+                    "--------------------------------\n" +
+                    "TOTAL POINT : " + totalPoint + "/175\n" +
+                    "NILAI AKHIR : " + nilaiTotal + "%\n" +
+                    "--------------------------------\n" +
+                    (timeUp ? "WAKTU HABIS\n" : "") +
+                    (typeof statusText !== 'undefined' ? statusText + "\n" : "") +
+                    "==============================";
 
                 alert(message);
 
-            }, 300);
         }
 
 
