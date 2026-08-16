@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html translate="no" class="notranslate" lang="ja" translate="no">
+
+<head>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <meta name="translate" content="no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY OUT J.TEST F-G</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover {
+            background: #217dbb;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+
+        .nav-grid button {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-grid button.answered {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ecf9f1;
+            display: none;
+        }
+
+        .home-bottom {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        u {
+            text-decoration-thickness: 2px;
+            /* garis lebih tebal */
+            text-underline-offset: 4px;
+            /* jarak garis dari huruf */
+            text-decoration-color: #000;
+            /* warna garis */
+        }
+
+        .blank-star {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        .blank-star::after {
+            content: "＿＿";
+            display: block;
+            font-size: 18px;
+        }
+
+        .blank-star span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        html,
+        body {
+            translate: no;
+        }
+
+        * {
+            user-select: none !important;
+        }
+
+        .question,
+        .options {
+            filter: blur(0.3px);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+        .question-image {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin: 15px auto;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.question-image-container{
+    text-align:center;
+    margin-bottom:15px;
+}
+.passage img,
+.question-image {
+    max-width: 100%;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+.passage {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+.passage-scroll{
+    max-height:70vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    border:1px solid #ccc;
+    border-radius:10px;
+
+    padding:10px;
+    background:#fff;
+}
+
+.passage-scroll img{
+    width:100%;
+    height:auto;
+    display:block;
+    margin-bottom:10px;
+}
+.instruction-image{
+    display:block;
+    max-width:100%;
+    height:auto;
+    margin:15px auto;
+    border:1px solid #ddd;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+    </style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'>
+    <div id="loginBox">
+
+        <h2>🎓 Login Ujian</h2>
+
+        <div
+            style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:10px;margin-bottom:15px;text-align:left;font-size:14px;line-height:1.6;">
+            <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                <li>Jangan membuka tab baru atau aplikasi lain selama ujian berlangsung.</li>
+                <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis diselesaikan.</li>
+                <li>Jangan mencoba <b>copy, screenshot, inspect element, atau developer tools</b>.</li>
+                <li>Jawaban akan tersimpan hanya selama ujian berlangsung.</li>
+            </ul>
+
+            <b>📱 Jika menggunakan HP:</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Atur waktu layar agar tidak cepat mati.</li>
+                <li>Buka <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                <li>Set minimal <b>10 menit atau lebih</b>.</li>
+            </ul>
+
+            <!-- CHECKBOX DILETAKKAN DI SINI -->
+            <div style="margin-top:12px;padding-left:22px;">
+                <label style="display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:start;">
+                    <input type="checkbox" id="agreeRule" style="margin-top:3px;">
+                    <span>Saya sudah membaca dan memahami semua peringatan di atas.</span>
+                </label>
+            </div>
+
+        </div>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
+    </div>
+
+    <div class="container" id="examContainer" style="display:none;">
+        <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
+        <h1>📚 TRY OUT J.TEST F-G</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
+            <div id="timer">70:00</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div id="instructionImageBox"></div>
+        <div id="passageBox"></div>
+    <div id="questionImageBox"></div>
+        <div id="kanjiInstruction" style="display:none; 
+            background:#f8f9fa; 
+            padding:15px; 
+            border-radius:10px; 
+            margin-bottom:15px; 
+            font-size:14px; 
+            line-height:1.6;">
+
+            <strong>【漢字 読み方問題】</strong><br><br>
+
+            ・ひらがなは、きれいに書いてください。<br>
+            ・漢字の読み方だけ書いてください。<br><br>
+
+            <span style="color:#1d0b0b;">
+                （例） はやく<strong><u>書</u></strong>いてください。 → れい 答え: か
+            </span>
+
+        </div>
+        <div class="question notranslate" id="questionText"> </div>
+        <div class="options" id="options"></div>
+        <div class="nav-grid" id="navGrid"></div>
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
+        </button>
+        <div id="result"></div>
+        <div class="home-bottom">
+            <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script>
+        const QUIZ_TIME = 4200; // 70 menit
+        let timeLeft = QUIZ_TIME;
+        let timer;
+        let examFinished = false;
+        let current = 0;
+        let studentName = "";
+        let attempt = 1;
+        let answers = [];
+
+
+        function decode(str) { return atob(str); }
+
+    // Bagian 1: 文法・語彙問題 (Soal 1 - 25)
+    const questions = [
+        {
+            text: "Ａ：「そちらの<ruby>本<rt>ほん</rt></ruby>だなに、じしょがありますか」\nＢ：「（ ）には、ありませんね」",
+            options: ["あちら", "あれ", "そっち", "こちら"],
+            answer: "こちら"
+        },
+        {
+            text: "Ａ：「あの<ruby>人<rt>ひと</rt></ruby>は、（ ）ですか」\nＢ：「わたしのおとうとです」",
+            options: ["だれ", "どちら", "なぜ", "いくら"],
+            answer: "だれ"
+        },
+        {
+            text: "わたしは、とけい（ ）ほしいです。",
+            options: ["へ", "に", "が", "と"],
+            answer: "が"
+        },
+        {
+            text: "つぎの<ruby>駅<rt>えき</rt></ruby>で<ruby>電車<rt>でんしゃ</rt></ruby>（ ）おります。",
+            options: ["で", "や", "を", "か"],
+            answer: "を"
+        },
+        {
+            text: "きょうは、すずしいですが、きのうは、とても（ ）です。",
+            options: ["あつかった", "あつい", "あつくない", "あつくなかった"],
+            answer: "あつかった"
+        },
+        {
+            text: "みんながまっていますから、（ ）行きましょう。",
+            options: ["はやく", "はやくて", "はやい", "はやかった"],
+            answer: "はやく"
+        },
+        {
+            text: "あの、おおきい（ ）ください。",
+            options: ["では", "にも", "しか", "のを"],
+            answer: "のを"
+        },
+        {
+            text: "あした、<ruby>会社<rt>かいしゃ</rt></ruby>（ ）行きません。",
+            options: ["とも", "へは", "でも", "とは"],
+            answer: "へは"
+        },
+        {
+            text: "<ruby>島田<rt>しまだ</rt></ruby>さんは、（ ）ながら、<ruby>大学<rt>だいがく</rt></ruby>でべんきょうもしています。",
+            options: ["はたらく", "はたらき", "はたらいた", "はたらいたり"],
+            answer: "はたらき"
+        },
+        {
+            text: "やさいを（ ）りょうりして、食べましょう。",
+            options: ["かんたん", "かんたんだ", "かんたんに", "かんたんで"],
+            answer: "かんたんに"
+        },
+        {
+            text: "きのうは、（ ）でした。きょうは、ふつかです。",
+            options: ["いつか", "はつか", "ついたち", "なのか"],
+            answer: "ついたち"
+        },
+        {
+            text: "かみを 500（ ）<ruby>買<rt>か</rt></ruby>います。",
+            options: ["さつ", "まい", "だい", "にん"],
+            answer: "まい"
+        },
+        {
+            text: "わたしのいえは、（ ）ところにあります。",
+            options: ["しずかな", "ひまな", "げんきな", "じょうずな"],
+            answer: "しずかな"
+        },
+        {
+            text: "いえへかえって、シャワーを（ ）。",
+            options: ["なきます", "しめます", "あびます", "さきます"],
+            answer: "あびます"
+        },
+        {
+            text: "パンとたまごと（ ）で、あさごはんをつくりました。",
+            options: ["セーター", "カレンダー", "エレベーター", "バター"],
+            answer: "バター"
+        },
+        {
+            text: "ごはんのあとで、（ ）を<ruby>飲<rt>の</rt></ruby>みます。",
+            options: ["くすり", "せっけん", "おさら", "めがね"],
+            answer: "くすり"
+        },
+        {
+            text: "クマルさんは、10<ruby>時<rt>じ</rt></ruby>（ ）に<ruby>会社<rt>かいしゃ</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ました。",
+            options: ["ずつ", "ちゅう", "すぎ", "だけ"],
+            answer: "すぎ"
+        },
+        {
+            text: "３<ruby>月<rt>がつ</rt></ruby>は、しごとが<ruby>多<rt>おお</rt></ruby>くて、とても（ ）です。",
+            options: ["かるい", "べんり", "いそがしい", "りっぱ"],
+            answer: "いそがしい"
+        },
+        {
+            text: "ラミレス：「はじめまして、わたしは、ラミレスと（ ）」",
+            options: ["もうします", "わたします", "およぎます", "はしります"],
+            answer: "もうします"
+        },
+        {
+            text: "さあ、（ ）。くるまにのってください。",
+            options: ["どうぞ", "ときどき", "どうして", "どうも"],
+            answer: "どうぞ"
+        },
+        {
+            text: "【だいたい同じ意味の文】\n<ruby>駅<rt>えき</rt></ruby>からちょっととおいです。",
+            options: ["すこし", "もっと", "たいへん", "とても"],
+            answer: "すこし"
+        },
+        {
+            text: "【だいたい同じ意味の文】\nたまごがやっつあります。",
+            options: ["よんこ", "はっこ", "さんこ", "ろっこ"],
+            answer: "はっこ"
+        },
+        {
+            text: "【だいたい同じ意味の文】\nユンさんは、ネクタイをしました。",
+            options: ["うりました", "かりました", "とりました", "しめました"],
+            answer: "しめました"
+        },
+        {
+            text: "【だいたい同じ意味の文】\nキムさんのおとうさんのいもうとは、かんごしです。",
+            options: ["おばあさん", "おじいさん", "おばさん", "おじさん"],
+            answer: "おばさん"
+        },
+        {
+            text: "【だいたい同じ意味の文】\nあの<ruby>先生<rt>せんせい</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>は、つまらないです。",
+            options: ["おもしろいです", "むずかしくないです", "むずかしいです", "おもしろくないです"],
+            answer: "おもしろくないです"
+        },
+        {
+            text: "【問題 １】次の話を読んで、問題に答えなさい。\n\n<ruby>斉藤<rt>さいとう</rt></ruby>さんは、いつも、へやのまどのちかくでねます。へやには、とけいがありません。\n今は、あさ６<ruby>時<rt>じ</rt></ruby>まえに<ruby>空<rt>そら</rt></ruby>があかるくなりますから、<ruby>斉藤<rt>さいとう</rt></ruby>さんも、そのころにおきます。\nテレビをつけて、ニュースを<ruby>見<rt>み</rt></ruby>ます。あさごはんをじぶんでつくって、<ruby>食<rt>た</rt></ruby>べます。そして、８時にいえを<ruby>出<rt>で</rt></ruby>て、<ruby>会社<rt>かいしゃ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。でも、ふゆは、７時ごろまでねています。ふゆの<ruby>間<rt>あいだ</rt></ruby>、あさ６時ごろは、まだ、くらいですから。ふゆは、<ruby>外<rt>そと</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>であさごはんを<ruby>食<rt>た</rt></ruby>べます。\n\n（26） <ruby>斉藤<rt>さいとう</rt></ruby>さんは、どこであさごはんを食べますか。",
+            options: [
+                "<ruby>今<rt>いま</rt></ruby>も、ふゆも、いえで食べます。",
+                "<ruby>今<rt>いま</rt></ruby>も、ふゆも、<ruby>外<rt>そと</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>で食べます。",
+                "<ruby>今<rt>いま</rt></ruby>は、<ruby>外<rt>そと</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>で食べますが、ふゆは、いえで食べます。",
+                "<ruby>今<rt>いま</rt></ruby>は、いえで食べますが、ふゆは、<ruby>外<rt>そと</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>で食べます。"
+            ],
+            answer: "<ruby>今<rt>いま</rt></ruby>は、いえで食べますが、ふゆは、<ruby>外<rt>そと</rt></ruby>の<ruby>店<rt>みせ</rt></ruby>で食べます。"
+        },
+        {
+            text: "（27） <ruby>斉藤<rt>さいとう</rt></ruby>さんのへやについて、<ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
+            options: [
+                "へやには、テレビがありません。",
+                "まどのちかくに、とけいがあります。",
+                "ねるところは、まどのちかくです。",
+                "よるの<ruby>間<rt>あいだ</rt></ruby>も、へやは、あかるいです。"
+            ],
+            answer: "ねるところは、まどのちかくです。"
+        },
+        {
+            text: "【問題 ２】<ruby>次<rt>つぎ</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えなさい。\n\n【たべものマート】\nおにぎり 1こ 130円\nリンゴ 1こ 300円\nとりにく 100グラム 140円\n\n【スーパーおいで】\nおにぎり 2こ 210円\nリンゴ 3こ 720円\nとりにく 100グラム 120円\n\n【クイックいちば】\nおにぎり 1こ 120円\nリンゴ 1こ 250円\nとりにく 200グラム 240円\n\n【きみのストア】\nおにぎり 1こ 110円\nリンゴ 3こ 780円\nとりにく 100グラム 130円\n\n（28） りんごを３こ<ruby>買<rt>か</rt></ruby>うとき、どの<ruby>店<rt>みせ</rt></ruby>がいちばんやすいですか。",
+            options: [
+                "たべものマ一トです。",
+                "ス一パ一おいでです。",
+                "クイックいちばです。",
+                "きみのストアです。"
+            ],
+            answer: "ス一パ一おいでです。"
+        },
+        {
+            text: "（29） チラシとあっているのは、どれですか。",
+            options: [
+                "たべものマ一トは、ス一パ一おいでより、とりにくがやすいです。",
+                "クイックいちばは、たべものマ一トより、おにぎりがやすいです。",
+                "ス一パ一おいでは、きみのストアより、とりにくがたかいです。",
+                "きみのストアは、クイックいちばより、おにぎりがたかいです。"
+            ],
+            answer: "クイックいちばは、たべものマ一トより、おにぎりがやすいです。"
+        },
+        {
+            text: "【問題 ３】<ruby>次<rt>つぎ</rt></ruby>の<ruby>図<rt>ず</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えなさい。\n\nわたしは、スレシュです。22 さいです。わたしの<ruby>国<rt>くに</rt></ruby>は、ネパールです。ネパールのカトマンズにすんでいます。わたしのうちは、レストランで、ネパールのりょうりをつくっています。<ruby>毎年<rt>まいとし</rt></ruby>、たくさんの<ruby>日本<rt>にほん</rt></ruby><ruby>人<rt>じん</rt></ruby>が、うちのレストランへ<ruby>来<rt>き</rt></ruby>て、そのあと、<ruby>山<rt>やま</rt></ruby>にのぼります。そして、山からかえって、また、うちのレストランへ来ます。<ruby>桜井<rt>さくらい</rt></ruby>さんも、そのひとりです。<ruby>桜井<rt>さくらい</rt></ruby>さんは、もう 20かいも、うちのレストランへ来ましたから、わたしの<ruby>友<rt>とも</rt></ruby>だちになりました。でも、このまえ、ほかの日本人から、桜井さんは、日本でとてもゆうめいな<ruby>人<rt>ひと</rt></ruby>だと、はじめて<ruby>聞<rt>き</rt></ruby>きました。わたしは、それをぜんぜんしりませんでした。\n\n（30） スレシュさんについて、<ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
+            options: [
+                "じぶんの<ruby>国<rt>くに</rt></ruby>で、<ruby>桜井<rt>さくらい</rt></ruby>さんに会いました。",
+                "よく、<ruby>日本<rt>にほん</rt></ruby>のりょうりをつくります。",
+                "<ruby>桜井<rt>さくらい</rt></ruby>さんといっしょに<ruby>山<rt>やま</rt></ruby>にのぼりました。",
+                "よく、ネパールの山にのぼります。"
+            ],
+            answer: "じぶんの<ruby>国<rt>くに</rt></ruby>で、<ruby>桜井<rt>さくらい</rt></ruby>さんに会いました。"
+        },
+        {
+            text: "（31） <ruby>桜井<rt>さくらい</rt></ruby>さんについて、<ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
+            options: [
+                "<ruby>今<rt>いま</rt></ruby>、20さいです。",
+                "いつも、<ruby>先<rt>さき</rt></ruby>に<ruby>山<rt>やま</rt></ruby>にのぼってから、スレシュさんのレストランへ<ruby>行<rt>い</rt></ruby>きます。",
+                "ネパールで、ゆうめいです。",
+                "山にのぼるまえも、よくスレシュさんのレストランへ行きます。"
+            ],
+            answer: "山にのぼるまえも、よくスレシュさんのレストランへ行きます。"
+        },
+        {
+            text: "【問題 ４】メッセージを読んで、問題に答えなさい。\n\n橋本：ラオさん、こんにちは。あした 15<ruby>日<rt>にち</rt></ruby>のよる、うちの<ruby>店<rt>みせ</rt></ruby>でアルバイトできませんか。\nラオ：橋本さん、こんにちは。どうしましたか。\n橋本：<ruby>今<rt>いま</rt></ruby>のアルバイトの<ruby>人<rt>ひと</rt></ruby>が、かぜをひきました。ラオさんは、まえにアルバイトをしていましたから、しごとをしっていますよね。おねがいします。\nラオ：ほかの人は、できませんか。わたしは、今、とおくにすんでいます。そちらの店まで、<ruby>電車<rt>でんしゃ</rt></ruby>で１<ruby>時間<rt>じかん</rt></ruby>かかります。\n橋本：<ruby>来<rt>く</rt></ruby>るときの電車のお<ruby>金<rt>かね</rt></ruby>は、わたしが<ruby>出<rt>だ</rt></ruby>します。かえるときは、わたしのくるまにのってください。ラオさんのいえまでうんてんしますから。\nラオ：わかりました。じゃ、あしたのよる６<ruby>時<rt>じ</rt></ruby>に、そちらへ<ruby>行<rt>い</rt></ruby>きます。\n橋本：ありがとうございます。\n\n（32） <ruby>橋本<rt>はしもと</rt></ruby>さんの<ruby>店<rt>みせ</rt></ruby>についてメールとあっているのは、どれですか。",
+            options: [
+                "橋本さんがひとりでやっていて、アルバイトの<ruby>人<rt>ひと</rt></ruby>がいません。",
+                "<ruby>今<rt>いま</rt></ruby>は、アルバイトの人がふたりいます。",
+                "橋本さんがかぜをひいて、やすんでいます。",
+                "まえに、ラオさんがアルバイトをしていました。"
+            ],
+            answer: "まえに、ラオさんがアルバイトをしていました。"
+        },
+        {
+            text: "（33） ラオさんは、15<ruby>日<rt>にち</rt></ruby>にどうしますか。",
+            options: [
+                "アルバイトをしないから、<ruby>橋本<rt>はしもと</rt></ruby>さんの<ruby>店<rt>みせ</rt></ruby>へは<ruby>行<rt>い</rt></ruby>きません。",
+                "アルバイトをしてから橋本さんのくるまをうんてんします。",
+                "<ruby>電車<rt>でんしゃ</rt></ruby>で橋本さんの店へ行って、アルバイトをします。",
+                "橋本さんのくるまで、いっしょに店へ行きます。"
+            ],
+            answer: "<ruby>電車<rt>でんしゃ</rt></ruby>で橋本さんの店へ行って、アルバイトをします。"
+        },
+        {
+            text: "【問題 ５】次の話を読んで、問題に答えなさい。\n\nマリーヌさんは、フランス人です。こんげつ、<ruby>日本<rt>にほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ました。（中略）\n\n（34） マリーヌさんは、何をしたいとおもって<ruby>日本<rt>にほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ましたか。",
+            options: [
+                "アニメを<ruby>見<rt>み</rt></ruby>ることです。",
+                "いなかへ<ruby>行<rt>い</rt></ruby>って、キャンプをすることです。",
+                "アニメにはないところへ行くことです。",
+                "日本のりょうりをつくることです。"
+            ],
+            answer: "いなかへ<ruby>行<rt>い</rt></ruby>って、キャンプをすることです。"
+        },
+        {
+            text: "（35） <ruby>話<rt>はなし</rt></ruby>とあっているのは、どれですか。",
+            options: [
+                "マリーヌさんが見たアニメの<ruby>山<rt>やま</rt></ruby>や<ruby>川<rt>かわ</rt></ruby>や<ruby>道<rt>みち</rt></ruby>は、ほんとうにあります。",
+                "マリーヌさんは、インターネットでキャンプでつかうものを<ruby>買<rt>か</rt></ruby>いました。",
+                "マリーヌさんは、フランスの山や川や道が<ruby>出<rt>で</rt></ruby>ているアニメを見ました。",
+                "マリーヌさんの<ruby>日本<rt>にほん</rt></ruby><ruby>人<rt>じん</rt></ruby>の<ruby>友<rt>とも</rt></ruby>だちは、<ruby>来週<rt>らいしゅう</rt></ruby>、はじめてキャンプをします。"
+            ],
+            answer: "マリーヌさんは、インターネットでキャンプでつかうものを<ruby>買<rt>か</rt></ruby>いました。"
+        },
+        {
+            text: "Ａ：次のひらがなの漢字をそれぞれ１・２・３・４の中から 1つ選んでください。\n\n（36） <u>ろくせん</u><ruby>円<rt>えん</rt></ruby>の<ruby>買<rt>か</rt></ruby>い物をしました。",
+            options: ["六万", "七万", "六千", "七千"],
+            answer: "六千"
+        },
+        {
+            text: "（37） もうすぐ<u>ごじ</u>です。",
+            options: ["二時", "四時", "九時", "五時"],
+            answer: "五時"
+        },
+        {
+            text: "（38） <u>て</u>をあらいます。",
+            options: ["目", "手", "足", "耳"],
+            answer: "手"
+        },
+        {
+            text: "（39） きょうは、<u>きんよう</u><ruby>日<rt>び</rt></ruby>です。",
+            options: ["金", "月", "火", "木"],
+            answer: "金"
+        },
+        {
+            text: "（40） <ruby>駅<rt>えき</rt></ruby>の<u>きたぐち</u>で、<ruby>友<rt>とも</rt></ruby>だちと<ruby>会<rt>あ</rt></ruby>いました。",
+            options: ["南口", "北口", "東口", "西口"],
+            answer: "北口"
+        },
+        {
+            text: "Ｂ：<ruby>次<rt>つぎ</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>読<rt>よ</rt></ruby>み<ruby>方<rt>かた</rt></ruby>を１・２・３・４・５・６の<ruby>中<rt>なか</rt></ruby>から 1つ<ruby>選<rt>えら</rt></ruby>んでください。\n\n（41） <u>父</u>は、へやにいます。",
+            options: ["はは", "あに", "あね", "わたし", "こども", "ちち"],
+            answer: "ちち"
+        },
+        {
+            text: "（42） あと<u>三年</u>まってください。",
+            options: ["さんぷん", "はっぷん", "さんねん", "じっぷん", "はちねん", "じゅうねん"],
+            answer: "さんねん"
+        },
+        {
+            text: "（43） きれいな<u>魚</u>ですね。",
+            options: ["はな", "くるま", "こえ", "さかな", "とり", "うみ"],
+            answer: "さかな"
+        },
+        {
+            text: "（44） <u>高</u>いたてものがあります。",
+            options: ["おおきい", "たかい", "あかい", "しろい", "ちいさい", "ひくい"],
+            answer: "たかい"
+        },
+        {
+            text: "（45） <u>女</u>の<ruby>人<rt>ひと</rt></ruby>が<ruby>話<rt>はな</rt></ruby>しています。",
+            options: ["みぎ", "ひだり", "まえ", "おとこ", "おんな", "うしろい"],
+            answer: "おんな"
+        },
+        {
+            text: "例のように３つの言葉をならべて、ただしい文を作ってください。\n１・２・３・４・５・６の中からいちばんいいものを選んでください。\n\n（46） パクさんより【 １．あしが ２．リーさん ３．ほうが 】はやいです。",
+            options: ["１→２→３", "１→３→２", "２→１→３", "２→３→１", "３→１→２", "３→２→１"],
+            answer: "２→３→１"
+            // Penjelasan urutan: リーさん(2) -> ほうが(3) -> あしが(1)
+            // Kalimat utuh: パクさんよりリーさんのほうがあしがはやいです。
+        },
+        {
+            text: "（47） きょうは、【 １．あまり ２．あつく ３．ありません 】。",
+            options: ["１→２→３", "１→３→２", "２→１→３", "２→３→１", "３→１→２", "３→２→１"],
+            answer: "１→２→３"
+            // Penjelasan urutan: あまり(1) -> あつく(2) -> ありません(3)
+            // Kalimat utuh: きょうは、あまりあつくありません。
+        },
+        {
+            text: "（48） <ruby>毎日<rt>まいにち</rt></ruby>、【 １．つぎの<ruby>日<rt>ひ</rt></ruby>の ２．よるの ３．11<ruby>時<rt>じ</rt></ruby>から 】あさ６時まで、このドアは、あきません。",
+            options: ["１→２→３", "１→３→２", "２→１→３", "２→３→１", "３→１→２", "３→２→１"],
+            answer: "２→３→１"
+            // Penjelasan urutan: よるの(2) -> 11時から(3) -> つぎの日の(1)
+            // Kalimat utuh: 毎日、よるの11時からつぎの日のあさ６時まで、このドアは、あきません。
+        },
+        {
+            text: "（49） ここで、【 １．しないで ２．サッカーなどを ３．やきゅうや 】ください。",
+            options: ["１→２→３", "１→３→２", "２→１→３", "２→３→１", "３→１→２", "３→２→１"],
+            answer: "３→２→１"
+            // Penjelasan urutan: やきゅうや(3) -> サッカーなどを(2) -> しないで(1)
+            // Kalimat utuh: ここで、やきゅうやサッカーなどをしないでください。
+        },
+        {
+            text: "（50） わたしのしごとは、ふねに【 １．うみの ２．のって ３．さかなを 】とることです。",
+            options: ["１→２→３", "１→３→２", "２→１→３", "２→３→１", "３→１→２", "３→２→１"],
+            answer: "２→１→３"
+            // Penjelasan urutan: のって(2) -> うみの(1) -> さかなを(3)
+            // Kalimat utuh: わたしのしごとは、ふねにのってうみのさかなをとることです。
+        }
+    ];
+
+        answers = new Array(questions.length).fill(null);
+        // ANTI-CHEAT
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener("copy", e => e.preventDefault());
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
+        function startExam() {
+
+            if (!document.getElementById("agreeRule").checked) {
+                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                return;
+            }
+            const name = document.getElementById("studentName").value.trim();
+            if (!name) {
+                alert("❌ Masukkan nama terlebih dahulu!");
+                return;
+            }
+
+            studentName = name;
+            let savedAttempt = localStorage.getItem("attempt_" + name);
+            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+            localStorage.setItem("attempt_" + name, attempt);
+            localStorage.removeItem('quiz_answers_' + name);
+
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("examContainer").style.display = "block";
+            openFullscreen();
+
+            // RESET
+            current = 0;
+            answers = new Array(questions.length).fill(null);
+            timeLeft = QUIZ_TIME;
+            examFinished = false;
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
+            generateNav();
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (examFinished) return;
+
+            const q = questions[current];
+            const instructionBox =
+                document.getElementById("instructionImageBox");
+
+            if (q.introImage) {
+                instructionBox.innerHTML = `
+        <div class="instruction-scroll">
+            <img src="${q.introImage}"
+                class="instruction-image">
+        </div>
+    `;
+                instructionBox.style.display = "block";
+            } else {
+                instructionBox.innerHTML = "";
+                instructionBox.style.display = "none";
+            }
+            const imageBox = document.getElementById("questionImageBox");
+
+            if (q.image) {
+                imageBox.innerHTML = `
+        <div class="question-image-container">
+            <img src="${q.image}"
+                class="question-image"
+                alt="Question Image">
+        </div>
+    `;
+                imageBox.style.display = "block";
+            } else {
+                imageBox.innerHTML = "";
+                imageBox.style.display = "none";
+            }
+            // ======================
+            // ======================
+            // TAMPILKAN INSTRUKSI SEBELUM NO 57
+            // ======================
+            const kanjiBox = document.getElementById("kanjiInstruction");
+
+            if (current === 56) { // soal nomor 57
+                kanjiBox.style.display = "block";
+            } else {
+                kanjiBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN PASSAGE
+            ====================== */
+            const passageBox = document.getElementById("passageBox");
+
+            if (q.passage) {
+                passageBox.innerHTML = `<div class="passage">${q.passage}</div>`;
+                passageBox.style.display = "block";
+            } else {
+                passageBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN SOAL
+            ====================== */
+            document.getElementById("questionText").innerHTML = q.text;
+            document.getElementById("counter").innerText =
+                `Soal ${current + 1} / ${questions.length}`;
+
+            document.getElementById("progress").style.width =
+                ((current + 1) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement("button");
+                btn.innerHTML = (i + 1) + ". " + opt;
+
+                if (answers[current] === i)
+                    btn.classList.add("selected");
+
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    answers[current] = i;
+                    loadQuestion();
+                    updateNav();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function generateNav() {
+            const nav = document.getElementById("navGrid");
+            nav.innerHTML = "";
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    current = i;
+                    loadQuestion();
+                };
+                nav.appendChild(btn);
+            }
+        }
+
+        function updateNav() {
+            const buttons = document.querySelectorAll(".nav-grid button");
+            buttons.forEach((btn, i) => {
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (examFinished) {
+                    clearInterval(timer);
+                    return;
+                }
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById("timer").innerText =
+                    `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+                if (timeLeft <= 0) {
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+        function finishExam(timeUp = false) {
+            if (examFinished) return;
+            examFinished = true;
+            clearInterval(timer);
+
+            // OFFICIAL J.TEST F-G SCORING
+            let tataBahasa = 0,
+                dokkai = 0,
+                kanji = 0,
+                kijutsu = 0;
+            let score = 0;
+
+            answers.forEach((a, i) => {
+                if (a === questions[i].answer) {
+                    score++;
+                    if (i < 25) tataBahasa++; // 1-25: 25 soal = 75 pt
+                    else if (i < 35) dokkai++; // 26-35: 10 soal = 50 pt
+                    else if (i < 45) kanji++; // 36-45: 10 soal = 30 pt
+                    else kijutsu++; // 46-50: 5 soal = 20 pt
+                }
+            });
+
+            // Konversi nilai per kompetensi (0-100%)
+            let nilaiTata = Math.round((tataBahasa / 25) * 100);
+            let nilaiDokkai = Math.round((dokkai / 10) * 100);
+            let nilaiKanji = Math.round((kanji / 10) * 100);
+            let nilaiKijutsu = Math.round((kijutsu / 5) * 100);
+
+            // ===============================
+            // SISTEM SKOR 175 POIN
+            // ===============================
+            let pointTata = tataBahasa * 3; // 25 × 3 = 75
+            let pointDokkai = dokkai * 5; // 10 × 5 = 50
+            let pointKanji = kanji * 3; // 10 × 3 = 30
+            let pointKijutsu = kijutsu * 4; // 5 × 4 = 20
+
+            let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
+            let nilaiTotal = Math.round((totalPoint / 175) * 100);
+            // Simpan hasil TO tertulis
+            localStorage.setItem(
+                "to_n5_v1_score",
+                totalPoint
+            );
+
+            localStorage.setItem(
+                "to_n5_v1_percent",
+                nilaiTotal
+            );
+
+            localStorage.setItem(
+                "student_name",
+                studentName
+            );
+
+            // Kirim ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbyqxFiAIOIJdrG31whWXfhqI60GWYlyrbs6xZEWBJFqFX1JmyPeferMcYLGejv0Lva3Mw/exec", {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    nama: studentName,
+                    attempt,
+                    tataBahasa,
+                    dokkai,
+                    kanji,
+                    kijutsu,
+                    total: score,
+                    nilai_tata: nilaiTata,
+                    nilai_dokkai: nilaiDokkai,
+                    nilai_kanji: nilaiKanji,
+                    nilai_kijutsu: nilaiKijutsu,
+                    nilai_total: nilaiTotal,
+                    point_tata: pointTata,
+                    point_dokkai: pointDokkai,
+                    point_kanji: pointKanji,
+                    point_kijutsu: pointKijutsu,
+                    total_point: totalPoint
+                })
+            });
+
+            // Lock UI
+            document.querySelectorAll("button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.6";
+                btn.style.cursor = "not-allowed";
+            });
+
+            // Tampilkan hasil
+            document.getElementById("result").innerHTML = `
+<div style="text-align:center;padding:25px;background:#e8f5e8;border-radius:15px;">
+    <h2>✅ Bagian Tertulis Selesai</h2>
+
+    <p style="font-size:18px">
+        Skor sementara: <b>${totalPoint}/175</b>
+    </p>
+
+    <p style="font-size:20px;color:#8e44ad">
+        🎧 Choukai akan dimulai dalam 5 detik...
+    </p>
+</div>
+`;
+            document.getElementById("result").style.display = "block";
+            setTimeout(() => {
+
+                window.location.href = "choukain5v3.html";
+
+            }, 5000);
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+
+            setTimeout(() => {
+
+                // let statusText = nilaiTotal >= 70 ? "✅ LULUS TO J.TEST F-G" : "📚 REMEDIAL";
+
+                let message = `
+           ==============================
+           HASIL UJIAN J.TEST F-G
+           ==============================
+
+           👤 Nama : ${studentName}
+           🔄 Attempt : ${attempt}
+
+           📝 Tata Bahasa : ${tataBahasa}/25 (${nilaiTata}%)
+           📖 Dokkai : ${dokkai}/10 (${nilaiDokkai}%)
+           漢字 Kanji : ${kanji}/10 (${nilaiKanji}%)
+           ✍️ Kijutsu : ${kijutsu}/5 (${nilaiKijutsu}%)
+
+           --------------------------------
+           📊 TOTAL POINT : ${totalPoint}/175
+           🎯 NILAI AKHIR : ${nilaiTotal}%
+           --------------------------------
+
+           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+          ${statusText}
+==============================
+`;
+
+                alert(message);
+
+            }, 300);
+        }
+
+
+        // ==============================
+        // ?? ANTI AI / ANTI CHEAT ADVANCED
+        // ==============================
+
+        // ?? Disable selection paksa
+        document.addEventListener("selectionchange", () => {
+            if (window.getSelection().toString().length > 0) {
+                window.getSelection().removeAllRanges();
+            }
+        });
+
+        // ?? Detect pindah tab
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden && !examFinished) {
+                document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+            }
+        });
+
+        // ?? Detect keluar window
+        window.addEventListener("blur", () => {
+            if (!examFinished) {
+                alert("?? Keluar dari halaman terdeteksi!");
+                finishExam(true);
+            }
+        });
+
+        // ?? Detect DevTools / Sidebar AI
+        setInterval(() => {
+            if (window.outerWidth - window.innerWidth > 200) {
+                alert("?? DevTools / AI terdeteksi!");
+                finishExam(true);
+            }
+        }, 1000);
+
+
+        // ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
+        setInterval(() => {
+            let suspicious = window.outerWidth - window.innerWidth;
+
+            if (suspicious > 160 && !examFinished) {
+                document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
+            }
+        }, 1000);
+
+
+        // ?? Auto detect popup translate
+        setInterval(() => {
+            let bodyText = document.body.innerText;
+
+            if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
+                document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
+            }
+        }, 1500);
+
+    </script>
+</body>
+
+</html>
