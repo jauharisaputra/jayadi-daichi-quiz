@@ -7,7 +7,7 @@
 <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRY OUT JLPT N4</title>
+    <title>TRY OUT J.TEST VERSI 4</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -217,6 +217,48 @@
 .question, .options {
     filter: blur(0.3px);
     text-shadow: 0 0 1px rgba(0,0,0,0.1);
+}
+/* =========================================
+   OVERRIDE KHUSUS UKURAN FONT (2X LIPAT)
+   ========================================= */
+
+/* 1. Memperbesar Soal */
+.question {
+    font-size: 40px !important; 
+    line-height: 1.6 !important;
+}
+
+/* 2. Memperbesar Pilihan Jawaban */
+.options button {
+    font-size: 32px !important; 
+    line-height: 1.5 !important;
+}
+
+/* 3. Memperbesar Bacaan / Passage / Dokkai */
+#passageBox,
+#passageBox div,
+#passageBox p,
+#passageBox table,
+#passageBox td,
+#passageBox span {
+    font-size: 28px !important; 
+    line-height: 2 !important; 
+}
+
+/* 4. Memperbesar Furigana / Rubi (Huruf kecil di atas Kanji) */
+#passageBox rt {
+    font-size: 16px !important; 
+}
+
+/* 5. Memperbesar Instruksi Kanji (Jika ada) */
+#kanjiInstruction {
+    font-size: 28px !important;
+    line-height: 1.8 !important;
+}
+
+/* 6. Memperbesar Indikator Soal & Waktu di bagian atas */
+#counter, #timer {
+    font-size: 30px !important;
 }
 </style>
 </head>
@@ -1023,7 +1065,7 @@ function decode(str){return atob(str);}
             examFinished = true;
             clearInterval(timer);
 
-            // OFFICIAL JLPT N4 SCORING
+            // OFFICIAL J.TEST VERSI 4 SCORING
             let tataBahasa = 0,
                 dokkai = 0,
                 kanji = 0,
@@ -1121,7 +1163,7 @@ function decode(str){return atob(str);}
 
                 let message = `
            ==============================
-           HASIL UJIAN JLPT N4
+           HASIL UJIAN J.TEST VERSI 4
            ==============================
 
            👤 Nama : ${studentName}
