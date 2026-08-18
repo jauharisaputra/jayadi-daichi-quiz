@@ -803,7 +803,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -824,7 +824,7 @@
             nav.innerHTML = "";
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
-                btn.innerText = i + 1;
+                btn.innerHTML = i + 1;
                 btn.onclick = () => {
                     if (examFinished) return;
                     current = i;
