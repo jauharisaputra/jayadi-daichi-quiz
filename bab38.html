@@ -319,271 +319,434 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+ const questions = [
+        /* =====================================================
+           PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+           問題 1～15 (Fokus: Bab 38 - 命令形, 禁止形, なさい, という意味です, と言っていました)
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+            text: "1. あぶない！あそこへ（ ）。",
+            options: ["行け", "行くな", "行きなさい", "行けな"],
+            answer: 1 // 行くな (Bentuk Larangan)
+        },
+        {
+            text: "2. バスが<ruby>来<rt>き</rt></ruby>たよ。<ruby>早<rt>はや</rt></ruby>く（ ）。",
+            options: ["いそぐ", "いそぎ", "いそげ", "いそが"],
+            answer: 2 // いそげ (Bentuk Perintah)
+        },
+        {
+            text: "3. <ruby>先生<rt>せんせい</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>に「<ruby>答<rt>こた</rt></ruby>えをノートに（ ）なさい」と<ruby>言<rt>い</rt></ruby>いました。",
+            options: ["かく", "かき", "かいて", "かけ"],
+            answer: 1 // かきなさい
+        },
+        {
+            text: "4. このマークはどういう（ ）ですか。",
+            options: ["いみ", "よみ", "かき", "はなし"],
+            answer: 0 // 意味 (いみ)
+        },
+        {
+            text: "5. 「<ruby>立入禁止<rt>たちいりきんし</rt></ruby>」は、ここに<ruby>入<rt>はい</rt></ruby>るなという（ ）です。",
+            options: ["意見", "意味", "約束", "連絡"],
+            answer: 1 // 意味です
+        },
+        {
+            text: "6. アランさんは、<ruby>明日<rt>あした</rt></ruby><ruby>友達<rt>ともだち</rt></ruby>に（ ）と<ruby>言<rt>い</rt></ruby>っていました。",
+            options: ["あう", "あいます", "あって", "あおう"],
+            answer: 0 // あうと言っていました (Bentuk kamus/biasa sebelum と)
+        },
+        {
+            text: "7. <ruby>試合<rt>しあい</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まります。みんな、がんば（ ）！",
+            options: ["る", "れ", "ろ", "な"],
+            answer: 1 // がんばれ
+        },
+        {
+            text: "8. <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>正<rt>ただ</rt></ruby>しい<ruby>答<rt>こた</rt></ruby>えを（ ）なさい。",
+            options: ["えらぶ", "えらべ", "えらび", "えらんで"],
+            answer: 2 // えらびなさい
+        },
+        {
+            text: "9. ここは<ruby>図書館<rt>としょかん</rt></ruby>です。<ruby>大<rt>おお</rt></ruby>きい<ruby>声<rt>こえ</rt></ruby>で（ ）。",
+            options: ["さわぐな", "さわげ", "さわぐ", "さわがない"],
+            answer: 0 // さわぐな
+        },
+        {
+            text: "10. <ruby>田中<rt>たなか</rt></ruby>さんは、<ruby>来週<rt>らいしゅう</rt></ruby><ruby>国<rt>くに</rt></ruby>へ（ ）と<ruby>言<rt>い</rt></ruby>っていました。",
+            options: ["かえり", "かえる", "かえって", "かえれ"],
+            answer: 1 // かえると言っていました
+        },
+        {
+            text: "11. もっとたくさん<ruby>野菜<rt>やさい</rt></ruby>を（ ）なさい。",
+            options: ["たべる", "たべろ", "たべ", "たべて"],
+            answer: 2 // たべなさい
+        },
+        {
+            text: "12. <ruby>火事<rt>かじ</rt></ruby>だ！<ruby>早<rt>はや</rt></ruby>く（ ）！",
+            options: ["にげる", "にげな", "にげろ", "にげて"],
+            answer: 2 // にげろ (Bentuk Perintah dari にげる)
+        },
+        {
+            text: "13. <ruby>私<rt>わたし</rt></ruby>のチームが<ruby>負<rt>ま</rt></ruby>けそうです。あきらめる（ ）！",
+            options: ["な", "ろ", "よ", "ね"],
+            answer: 0 // あきらめるな
+        },
+        {
+            text: "14. A「この<ruby>漢字<rt>かんじ</rt></ruby>は何と（ ）ますか。」<br>B「『とまれ』です。」",
+            options: ["かき", "よみ", "いい", "み"],
+            answer: 1 // 読みますか
+        },
+        {
+            text: "15. こっちへ（ ）。",
+            options: ["くる", "こい", "きれ", "くろ"],
+            answer: 1 // 来い (こい) -> Bentuk Perintah dari くる
+        },
 
-            // ===============================
-            // 1–30: BUNPOU + GOI (命令形・禁止形・～なさい・～という意味・～と言っていました)
-            // ===============================
+        /* =====================================================
+           PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+           問題 16～25 
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【マリアさんとジョンさんのメッセージ】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">マ</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      ジョンさん、あの<ruby>看板<rt>かんばん</rt></ruby>に<ruby>何<rt>なん</rt></ruby>と<ruby>書<rt>か</rt></ruby>いてありますか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      「<ruby>駐車禁止<rt>ちゅうしゃきんし</rt></ruby>」と<ruby>書<rt>か</rt></ruby>いてありますよ。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">マ</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      それはどういう <b>（ 16 ）</b> ですか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      ここに<ruby>車<rt>くるま</rt></ruby>を <b>（ 17 ）</b> という <b>（ 18 ）</b> です。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
+  </div>
+</div>
+`,
+            text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["よみ", "いみ", "こと", "もの"],
+            answer: 1 // いみ
+        },
+        {
+            text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["とめるな", "とめろ", "とめる", "とめない"],
+            answer: 0 // とめるな
+        },
+        {
+            text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["いみ", "よみ", "こと", "もの"],
+            answer: 0 // いみ
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #e67e22; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <b><ruby>図書館<rt>としょかん</rt></ruby>のルール</b><br><br>
+  １．<ruby>借<rt>か</rt></ruby>りた<ruby>本<rt>ほん</rt></ruby>は<ruby>１週間以内<rt>いっしゅうかんいない</rt></ruby>に <b>（ 19 ）</b> なさい。<br>
+  ２．<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>大<rt>おお</rt></ruby>きい<ruby>声<rt>こえ</rt></ruby>で <b>（ 20 ）</b>。<br>
+  ３．<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>や<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>入<rt>はい</rt></ruby>らないでください。
+</div>
+`,
+            text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["かえす", "かえして", "かえせ", "かえし"],
+            answer: 3 // かえし (なさい)
+        },
+        {
+            text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["はなせ", "はなすな", "はなして", "はなさない"],
+            answer: 1 // はなすな (Prohibitive form fitting the rule)
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【メール】
+</div>
+<div style="border:2px solid #333; border-radius:10px; padding:20px; background:#fff; line-height:2; font-size:14px; text-align:left;">
+  <p>
+    <ruby>佐藤<rt>さとう</rt></ruby>さん<br><br>
+    お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。キムです。<br>
+    さっき、<ruby>山田<rt>やまだ</rt></ruby>さんから<ruby>電話<rt>でんわ</rt></ruby>がありました。<br>
+    <ruby>山田<rt>やまだ</rt></ruby>さんは<ruby>熱<rt>ねつ</rt></ruby>があるので、<ruby>今日<rt>きょう</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>を <b>（ 21 ）</b> と<ruby>言<rt>い</rt></ruby>っていました。<br>
+    でも、<ruby>明日<rt>あした</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>には <b>（ 22 ）</b> と<ruby>言<rt>い</rt></ruby>っていました。<br>
+    よろしくお願いします。
+  </p>
+</div>
+`,
+            text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["やすむ", "やすんで", "やすみ", "やすもう"],
+            answer: 0 // やすむ (Plain form + と言っていました)
+        },
+        {
+            text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["でて", "でよう", "でる", "でます"],
+            answer: 2 // でる
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【アンケート】<br>
+  <ruby>町<rt>まち</rt></ruby>の<ruby>新<rt>あたら</rt></ruby>しいルール「<ruby>歩<rt>ある</rt></ruby>きスマホ（※<ruby>歩<rt>ある</rt></ruby>きながらスマートフォンを<ruby>使<rt>つか</rt></ruby>うこと）<ruby>禁止<rt>きんし</rt></ruby>」について４<ruby>人<rt>にん</rt></ruby>に<ruby>聞<rt>き</rt></ruby>きました。<br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えてください。
+</div>
+<table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8; border: 1px solid #000; background-color: #fff;">
+  <tr>
+    <td style="width:50%; border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Aさん</div><br>
+      <ruby>賛成<rt>さんせい</rt></ruby>です。<ruby>危<rt>あぶ</rt></ruby>ないですから、「スマホを<ruby>使<rt>つか</rt></ruby>いながら<ruby>歩<rt>ある</rt></ruby>くな」と<ruby>決<rt>き</rt></ruby>めたほうがいいです。みんなが<ruby>安全<rt>あんぜん</rt></ruby>に<ruby>歩<rt>ある</rt></ruby>けるようになります。
+    </td>
+    <td style="width:50%; border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Bさん</div><br>
+      <ruby>反対<rt>はんたい</rt></ruby>です。「～なさい」「～するな」という<ruby>厳<rt>きび</rt></ruby>しいルールが<ruby>多<rt>おお</rt></ruby>すぎると、この<ruby>町<rt>まち</rt></ruby>に<ruby>住<rt>す</rt></ruby>みにくくなります。<ruby>自由<rt>じゆう</rt></ruby>がなくなるのはいやです。
+    </td>
+  </tr>
+  <tr>
+    <td style="border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Cさん</div><br>
+      <ruby>私<rt>わたし</rt></ruby>はよく<ruby>車<rt>くるま</rt></ruby>を<ruby>運転<rt>うんてん</rt></ruby>するので、<ruby>歩<rt>ある</rt></ruby>きスマホをしている<ruby>人<rt>ひと</rt></ruby>がいるととても<ruby>怖<rt>こわ</rt></ruby>いです。<ruby>絶対<rt>ぜったい</rt></ruby>にやめてほしいですから、このルールはいいと<ruby>思<rt>おも</rt></ruby>います。
+    </td>
+    <td style="border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Dさん</div><br>
+      ルールを<ruby>作<rt>つく</rt></ruby>るより、みんなが<ruby>気<rt>き</rt></ruby>をつけるように「<ruby>注意<rt>ちゅうい</rt></ruby>」の<ruby>意味<rt>いみ</rt></ruby>のポスターを<ruby>貼<rt>は</rt></ruby>るほうがいいと<ruby>思<rt>おも</rt></ruby>います。<ruby>禁止<rt>きんし</rt></ruby>にするのはよくないです。
+    </td>
+  </tr>
+</table>
+`,
+            text: "23. 「<ruby>歩<rt>ある</rt></ruby>きスマホ<ruby>禁止<rt>きんし</rt></ruby>」のルールに<ruby>反対<rt>はんたい</rt></ruby>している<ruby>人<rt>ひと</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか。",
+            options: ["AさんとBさん", "AさんとCさん", "BさんとDさん", "CさんとDさん"],
+            answer: 2 // Bさん (反対です) dan Dさん (禁止にするのはよくないです)
+        },
+        {
+            text: "24. AさんとCさんの<ruby>意見<rt>いけん</rt></ruby>に<ruby>合<rt>あ</rt></ruby>っているものはどれですか。",
+            options: [
+                "<ruby>歩<rt>ある</rt></ruby>きスマホは<ruby>危<rt>あぶ</rt></ruby>ない",
+                "ポスターを<ruby>貼<rt>は</rt></ruby>るほうがいい",
+                "<ruby>厳<rt>きび</rt></ruby>しいルールはよくない",
+                "<ruby>自由<rt>じゆう</rt></ruby>がなくなるのはいやだ"
+            ],
+            answer: 0 // Keduanya setuju itu berbahaya
+        },
+        {
+            text: "25. Dさんは、どうすればいいと<ruby>言<rt>い</rt></ruby>っていますか。",
+            options: [
+                "<ruby>車<rt>くるま</rt></ruby>を<ruby>運転<rt>うんてん</rt></ruby>しないほうがいい",
+                "ポスターを<ruby>貼<rt>は</rt></ruby>って<ruby>注意<rt>ちゅうい</rt></ruby>したほうがいい",
+                "「～するな」というルールを<ruby>作<rt>つく</rt></ruby>ったほうがいい",
+                "もっとスマートフォンを<ruby>使<rt>つか</rt></ruby>ったほうがいい"
+            ],
+            answer: 1
+        },
 
-            {
-                text: "1. 食べる → 命令形はどれですか。",
-                options: ["たべろ", "たべなさい", "たべるな", "たべます"],
-                answer: 0
-            },
-            {
-                text: "2. 行く → 命令形はどれですか。",
-                options: ["いくな", "いけ", "いきます", "いきなさい"],
-                answer: 1
-            },
-            {
-                text: "3. 待つ → 命令形はどれですか。",
-                options: ["まて", "まちなさい", "まつな", "まちます"],
-                answer: 0
-            },
-            {
-                text: "4. 「ここに入るな。」これはどんな意味ですか。",
-                options: ["入ってください", "入ってもいい", "入ってはいけない", "入らなくてもいい"],
-                answer: 2
-            },
-            {
-                text: "5. 「静かにしなさい。」の意味はどれですか。",
-                options: ["うるさくしていい", "静かにしてください", "話してください", "帰ってください"],
-                answer: 1
-            },
+        /* =====================================================
+           PART 3 : 漢字問題 (Kanji - Kosakata Bab 38)
+           BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+            text: "26. ノートに<u>答え</u>を書きなさい。",
+            options: ["おしえ", "こたえ", "おぼえ", "かんがえ"],
+            answer: 1
+        },
+        {
+            text: "27. このマークは、どういう<u>意味</u>ですか。",
+            options: ["いみ", "よみ", "きみ", "あじ"],
+            answer: 0
+        },
+        {
+            text: "28. 明日、<u>友達</u>に会うと言っていました。",
+            options: ["かぞく", "きょうだい", "ともだち", "せんせい"],
+            answer: 2
+        },
+        {
+            text: "29. <u>辞書</u>を引いて、漢字を調べます。",
+            options: ["じしょう", "じしょ", "じしゅ", "じっしょ"],
+            answer: 1
+        },
 
-            {
-                text: "6. 「飲むな」の意味はどれですか。",
-                options: ["飲んでください", "飲みなさい", "飲んではいけない", "飲めます"],
-                answer: 2
-            },
-            {
-                text: "7. 「早く寝なさい。」はどんな意味ですか。",
-                options: ["寝なくてもいい", "早く寝てください（命令）", "寝てはいけない", "寝たい"],
-                answer: 1
-            },
-            {
-                text: "8. このマークは「止まれ」という意味です。",
-                options: ["とまってください", "とまるな", "とまらなくてもいい", "すすめ"],
-                answer: 0
-            },
-            {
-                text: "9. 「触るな」はどういう意味ですか。",
-                options: ["触ってください", "触らないでください", "触りたい", "触ります"],
-                answer: 1
-            },
-            {
-                text: "10. 「危ない」という意味です。",
-                options: ["安全", "きれい", "あぶない", "ひろい"],
-                answer: 2
-            },
+        /* =====================================================
+           PART 3 : 漢字問題 
+           BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+            text: "30. 道路で<u>あそんで</u>はいけません。",
+            options: ["遊んで", "泳んで", "歩んで", "走んで"],
+            answer: 0
+        },
+        {
+            text: "31. あの人はだれかに<u>いそげ</u>と言っています。",
+            options: ["動げ", "働げ", "走げ", "急げ"],
+            answer: 3
+        },
+        {
+            text: "32. 早く国へ<u>かえりたい</u>です。",
+            options: ["帰りたい", "行りたい", "来りたい", "返りたい"],
+            answer: 0
+        },
+        {
+            text: "33. 新しい車を<u>かう</u>つもりです。",
+            options: ["員う", "買う", "見う", "貝う"],
+            answer: 1
+        },
 
-            {
-                text: "11. 先生は「宿題をしなさい」と（　）。",
-                options: ["言います", "言っていました", "言いましたか", "言いません"],
-                answer: 1
-            },
-            {
-                text: "12. 母は「気をつけて」と（　）。",
-                options: ["言っていました", "言います", "言いません", "言いましたか"],
-                answer: 0
-            },
-            {
-                text: "13. 彼は「忙しい」と（　）。",
-                options: ["言っていました", "言います", "言いません", "言いましたか"],
-                answer: 0
-            },
-            {
-                text: "14. 友達は「また会いましょう」と（　）。",
-                options: ["言いましたか", "言っていました", "言いません", "言います"],
-                answer: 1
-            },
-            {
-                text: "15. 彼女は「日本へ行きたい」と（　）。",
-                options: ["言います", "言っていました", "言いません", "言いましたか"],
-                answer: 1
-            },
-
-            {
-                text: "16. 「ここに座りなさい。」の意味はどれですか。",
-                options: ["座らないでください", "座ってください（命令）", "立ってください", "歩いてください"],
-                answer: 1
-            },
-            {
-                text: "17. 「笑うな」はどんな意味ですか。",
-                options: ["笑ってください", "笑ってはいけない", "笑いたい", "笑えます"],
-                answer: 1
-            },
-            {
-                text: "18. 「早く来い」はどんな意味ですか。",
-                options: ["来てください（強い命令）", "来ないでください", "来たくない", "来ます"],
-                answer: 0
-            },
-            {
-                text: "19. 「このボタンを押すな」の意味はどれですか。",
-                options: ["押してください", "押してはいけない", "押したい", "押します"],
-                answer: 1
-            },
-            {
-                text: "20. 「ちゃんと勉強しなさい。」の意味はどれですか。",
-                options: ["勉強しなくてもいい", "勉強してください（命令）", "遊んでください", "休んでください"],
-                answer: 1
-            },
-
-            {
-                text: "21. 「入るな」という意味です。",
-                options: ["入ってください", "入ってもいい", "入ってはいけない", "入らない"],
-                answer: 2
-            },
-            {
-                text: "22. 「書け」は何の形ですか。",
-                options: ["辞書形", "命令形", "て形", "ない形"],
-                answer: 1
-            },
-            {
-                text: "23. 「使うな」は何の意味ですか。",
-                options: ["使ってください", "使ってはいけない", "使えます", "使いました"],
-                answer: 1
-            },
-            {
-                text: "24. 「立ちなさい」はどんな表現ですか。",
-                options: ["丁寧な命令", "禁止", "過去形", "可能形"],
-                answer: 0
-            },
-            {
-                text: "25. 「行け」はどのグループですか。",
-                options: ["命令形", "禁止形", "辞書形", "ます形"],
-                answer: 0
-            },
-
-            {
-                text: "26. 「話すな」の意味はどれですか。",
-                options: ["話してください", "話してはいけない", "話したい", "話します"],
-                answer: 1
-            },
-            {
-                text: "27. 「見るな」の意味はどれですか。",
-                options: ["見てください", "見てはいけない", "見ます", "見たい"],
-                answer: 1
-            },
-            {
-                text: "28. 「急げ」はどんな意味ですか。",
-                options: ["急いでください（命令）", "急がないでください", "急ぎません", "急ぎたい"],
-                answer: 0
-            },
-            {
-                text: "29. 「座るな」の意味はどれですか。",
-                options: ["座ってください", "座ってはいけない", "座ります", "座りたい"],
-                answer: 1
-            },
-            {
-                text: "30. 「やめなさい」の意味はどれですか。",
-                options: ["続けてください", "やめてください（命令）", "始めてください", "見てください"],
-                answer: 1
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-
-            {
-                passage: `<strong>【31–32】</strong><br><br>
-        私は子どものとき、よく母に「早く寝なさい」と言われました。
-        でも、ゲームをしていたので、なかなか寝ませんでした。
-        今は大人になって、早く寝ることが大切だと思っています。`,
-                text: "31. 子どものとき、「私」はどうしましたか。",
-                options: [
-                    "すぐ寝ました",
-                    "ゲームをしました",
-                    "本を読みました",
-                    "外に行きました"
-                ],
-                answer: 1
-            },
-            {
-                text: "32. 今「私」はどう思っていますか。",
-                options: [
-                    "ゲームが大切",
-                    "早く寝ることが大切",
-                    "遊ぶことが大切",
-                    "勉強が大切"
-                ],
-                answer: 1
-            },
-
-            {
-                passage: `<strong>【33–34】</strong><br><br>
-        学校で先生が「ここで走るな」と言いました。
-        でも、一人の学生は走ってしまいました。`,
-                text: "33. 先生は何と言いましたか。",
-                options: [
-                    "走ってください",
-                    "走るな",
-                    "歩きなさい",
-                    "帰りなさい"
-                ],
-                answer: 1
-            },
-            {
-                text: "34. 学生はどうしましたか。",
-                options: [
-                    "歩きました",
-                    "帰りました",
-                    "走りました",
-                    "止まりました"
-                ],
-                answer: 2
-            },
-
-            {
-                passage: `<strong>【35–36】</strong><br><br>
-        このマークは「入るな」という意味です。
-        危ない場所なので、入ってはいけません。`,
-                text: "35. このマークの意味は何ですか。",
-                options: [
-                    "入ってください",
-                    "入ってもいい",
-                    "入ってはいけない",
-                    "止まってください"
-                ],
-                answer: 2
-            },
-            {
-                text: "36. どうして入ってはいけませんか。",
-                options: [
-                    "きれいだから",
-                    "危ないから",
-                    "広いから",
-                    "新しいから"
-                ],
-                answer: 1
-            },
-
-            // ===============================
-            // 37–40: MENYUSUN KALIMAT
-            // ===============================
-
-            {
-                text: "37. ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> なさい。",
-                options: ["早く", "寝", "ください", "は"],
-                answer: [0, 1, 3, 2]
-            },
-            {
-                text: "38. ここで ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> な。",
-                options: ["走る", "は", "な", "で"],
-                answer: [0, 3, 1, 2]
-            },
-            {
-                text: "39. 先生は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["宿題を", "しなさい", "と", "言っていました"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "40. このマークは ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["入るな", "という", "意味", "です"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
+        /* =====================================================
+           PART 4 : 記述問題 (Kijutsu Mondai)
+           問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 38)
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+            text: "34. A「このマークは＿＿(A)＿＿という意味ですか。」<br>B「ここに＿＿(B)＿＿という意味です。」",
+            options: [
+                "（A）どういう （B）入るな",
+                "（A）どうして （B）入って",
+                "（A）なんの （B）入るの",
+                "（A）どんな （B）入れば"
+            ],
+            answer: 0 // どういう意味ですか / 入るなという意味です
+        },
+        {
+            text: "35. <ruby>先生<rt>せんせい</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>に「テストの＿＿(A)＿＿をえんぴつで＿＿(B)＿＿なさい」と<ruby>言<rt>い</rt></ruby>いました。",
+            options: [
+                "（A）質問 （B）かいて",
+                "（A）答え （B）かき",
+                "（A）問題 （B）よみ",
+                "（A）答え （B）かく"
+            ],
+            answer: 1 // 答えをかきなさい
+        },
+        {
+            text: "36. <ruby>田中<rt>たなか</rt></ruby>さんは、<ruby>明日<rt>あした</rt></ruby>のパーティーに＿＿(A)＿＿と＿＿(B)＿＿。",
+            options: [
+                "（A）行かない （B）言っていました",
+                "（A）行きます （B）言います",
+                "（A）行く （B）思っています",
+                "（A）行って （B）言われました"
+            ],
+            answer: 0 // 行かないと言っていました
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+            text: "37. 【１．ここで → ２．タバコ → ３．<ruby>吸<rt>す</rt></ruby><u>う</u>】（※<ruby>禁止<rt>きんし</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください）。",
+            options: [
+                "ここでタバコを<ruby>吸<rt>す</rt></ruby>いなさい。",
+                "ここでタバコを<ruby>吸<rt>す</rt></ruby>ってはいけません。",
+                "ここでタバコを<ruby>吸<rt>す</rt></ruby>うな。",
+                "ここでタバコを<ruby>吸<rt>す</rt></ruby>うという意味です。"
+            ],
+            answer: 2 // ここでタバコを吸うな (Bentuk Larangan Bab 38)
+        },
+        {
+            text: "38. 【１．<ruby>早<rt>はや</rt></ruby>く → ２．<ruby>荷物<rt>にもつ</rt></ruby> → ３．まとめる】（※<ruby>命令<rt>めいれい</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください）。",
+            options: [
+                "<ruby>早<rt>はや</rt></ruby>く<ruby>荷物<rt>にもつ</rt></ruby>をまとめなさい。",
+                "<ruby>早<rt>はや</rt></ruby>く<ruby>荷物<rt>にもつ</rt></ruby>をまとめろ。",
+                "<ruby>早<rt>はや</rt></ruby>く<ruby>荷物<rt>にもつ</rt></ruby>をまとめるな。",
+                "<ruby>早<rt>はや</rt></ruby>く<ruby>荷物<rt>にもつ</rt></ruby>をまとめてください。"
+            ],
+            answer: 1 // 早く荷物をまとめろ (Bentuk Perintah Bab 38)
+        },
+        {
+            text: "39. 【１．<ruby>山田<rt>やまだ</rt></ruby>さん → ２．<ruby>明日<rt>あした</rt></ruby> → ３．<ruby>休<rt>やす</rt></ruby><u>む</u>】（※ほかの<ruby>人<rt>ひと</rt></ruby>に<ruby>伝<rt>つた</rt></ruby>える<ruby>文<rt>ぶん</rt></ruby>）。",
+            options: [
+                "<ruby>山田<rt>やまだ</rt></ruby>さんは<ruby>明日<rt>あした</rt></ruby><ruby>休<rt>やす</rt></ruby>むと<ruby>言<rt>い</rt></ruby>っていました。",
+                "<ruby>山田<rt>やまだ</rt></ruby>さんは<ruby>明日<rt>あした</rt></ruby><ruby>休<rt>やす</rt></ruby>みという意味です。",
+                "<ruby>山田<rt>やまだ</rt></ruby>さんは<ruby>明日<rt>あした</rt></ruby><ruby>休<rt>やす</rt></ruby>みなさい。",
+                "<ruby>山田<rt>やまだ</rt></ruby>さんは<ruby>明日<rt>あした</rt></ruby><ruby>休<rt>やす</rt></ruby>むなと<ruby>言<rt>い</rt></ruby>いました。"
+            ],
+            answer: 0 // 休むと言っていました
+        },
+        {
+            text: "40. <ruby>医者<rt>いしゃ</rt></ruby>「【１．<ruby>毎日<rt>まいにち</rt></ruby> → ２．<ruby>野菜<rt>やさい</rt></ruby> → ３．<ruby>食<rt>た</rt></ruby>べ<u>る</u>】。」",
+            options: [
+                "<ruby>毎日<rt>まいにち</rt></ruby><ruby>野菜<rt>やさい</rt></ruby>を<ruby>食<rt>た</rt></ruby>べるな。",
+                "<ruby>毎日<rt>まいにち</rt></ruby><ruby>野菜<rt>やさい</rt></ruby>を<ruby>食<rt>た</rt></ruby>べろ。",
+                "<ruby>毎日<rt>まいにち</rt></ruby><ruby>野菜<rt>やさい</rt></ruby>を<ruby>食<rt>た</rt></ruby>べなさい。",
+                "<ruby>毎日<rt>まいにち</rt></ruby><ruby>野菜<rt>やさい</rt></ruby>を<ruby>食<rt>た</rt></ruby>べると<ruby>言<rt>い</rt></ruby>っていました。"
+            ],
+            answer: 2 // 毎日野菜を食べなさい (Bentuk saran sopan kuat dari dokter)
+        }
+    ];   
+    // console.log(questions[8].text);    // Menampilkan soal tambahan bagian 1
+        // console.log(questions[8].answer);  // Menampilkan jawaban soal tambahan
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -691,7 +854,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -712,7 +875,7 @@
             nav.innerHTML = "";
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
-                btn.innerText = i + 1;
+                btn.innerHTML = i + 1;
                 btn.onclick = () => {
                     if (examFinished) return;
                     current = i;
@@ -811,7 +974,7 @@
 
                 let message = `
        ==============================
-       HASIL BAB 38
+       HASIL Bab 38
        ==============================
 
        👤 Nama : ${studentName}
