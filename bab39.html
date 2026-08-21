@@ -319,270 +319,410 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+ const questions = [
+  /* =====================================================
+     PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+     問題 1～15 (Fokus: Bab 39 - ようです, のに, たばかりです)
+     ===================================================== */
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+    text: "1. マリーさんは、とても<ruby>疲<rt>つか</rt></ruby>れている（ ）ですね。",
+    options: ["そう", "よう", "みたい", "らしい"],
+    answer: 1 // ようです
+  },
+  {
+    text: "2. <ruby>部屋<rt>へや</rt></ruby>の<ruby>電気<rt>でんき</rt></ruby>が<ruby>消<rt>き</rt></ruby>えていますね。<ruby>留守<rt>るす</rt></ruby>（ ）ようです。",
+    options: ["な", "に", "の", "だ"],
+    answer: 2 // 留守のようです (Noun + の)
+  },
+  {
+    text: "3. あの<ruby>子<rt>こ</rt></ruby>は、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>い（ ）ようです。",
+    options: ["な", "に", "の", "だ"],
+    answer: 0 // 嫌いなようです (Na-adj + な)
+  },
+  {
+    text: "4. 山川さんは、よく<ruby>勉強<rt>べんきょう</rt></ruby>している（ ）、<ruby>成績<rt>せいせき</rt></ruby>がよくないです。",
+    options: ["ので", "から", "のに", "でも"],
+    answer: 2 // のに
+  },
+  {
+    text: "5. ナルコさんは、<ruby>結婚<rt>けっこん</rt></ruby>（ ）ばかりです。",
+    options: ["する", "した", "して", "します"],
+    answer: 1 // 結婚したばかりです (Ta-form)
+  },
+  {
+    text: "6. このレストランは、<ruby>安<rt>やす</rt></ruby>くておいしい（ ）、いつもすいています。",
+    options: ["のに", "なので", "だから", "の"],
+    answer: 0 // おいしいのに (I-adj + のに)
+  },
+  {
+    text: "7. <ruby>彼<rt>かれ</rt></ruby>はまだ<ruby>学生<rt>がくせい</rt></ruby>（ ）のに、<ruby>車<rt>くるま</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。",
+    options: ["だ", "の", "な", "に"],
+    answer: 2 // 学生なのに (Noun + な)
+  },
+  {
+    text: "8. <ruby>私<rt>わたし</rt></ruby>は<ruby>先月<rt>せんげつ</rt></ruby>、<ruby>日本<rt>にほん</rt></ruby>へ（ ）ばかりです。",
+    options: ["くる", "き", "きて", "きた"],
+    answer: 3 // 来たばかりです
+  },
+  {
+    text: "9. <ruby>毎日<rt>まいにち</rt></ruby>とても<ruby>忙<rt>いそが</rt></ruby>しい（ ）ですね。",
+    options: ["よう", "そう", "みたい", "の"],
+    answer: 0 // 忙しいようです (I-adj + よう)
+  },
+  {
+    text: "10. <ruby>山田<rt>やまだ</rt></ruby>さんは、もう<ruby>出<rt>で</rt></ruby>かけた（ ）です。カバンがありません。",
+    options: ["そう", "よう", "の", "みたい"],
+    answer: 1 // 出かけたようです
+  },
+  {
+    text: "11. <ruby>頭<rt>あたま</rt></ruby>がいい（ ）のに、テストの<ruby>点<rt>てん</rt></ruby>が<ruby>悪<rt>わる</rt></ruby>かったです。",
+    options: ["な", "の", "だ", "∅ (Tidak ada)"],
+    answer: 3 // 頭がいいのに (I-adj langsung + のに)
+  },
+  {
+    text: "12. <ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>んだ（ ）、まだ<ruby>熱<rt>ねつ</rt></ruby>が<ruby>下<rt>さ</rt></ruby>がりません。",
+    options: ["から", "ので", "のに", "ても"],
+    answer: 2 // 飲んだのに
+  },
+  {
+    text: "13. <ruby>彼<rt>かれ</rt></ruby>はとてもまじめ（ ）のに、よく<ruby>遅刻<rt>ちこく</rt></ruby>します。",
+    options: ["の", "な", "だ", "に"],
+    answer: 1 // まじめなのに (Na-adj + な)
+  },
+  {
+    text: "14. さっき、お<ruby>昼<rt>ひる</rt></ruby>ごはんを（ ）ばかりなのに、もうお<ruby>腹<rt>なか</rt></ruby>がすきました。",
+    options: ["たべる", "たべて", "たべた", "たべない"],
+    answer: 2 // 食べたばかり
+  },
+  {
+    text: "15. <ruby>隣<rt>となり</rt></ruby>の<ruby>部屋<rt>へや</rt></ruby>に<ruby>誰<rt>だれ</rt></ruby>か（ ）ようです。<ruby>声<rt>こえ</rt></ruby>が<ruby>聞<rt>き</rt></ruby>こえます。",
+    options: ["いる", "ある", "いるの", "あるの"],
+    answer: 0 // いるようです (Verb plain + ようです)
+  },
 
-            // ===============================
-            // 1–30: BUNPOU + GOI（～ようです・～のに・～なのに・～たばかり）
-            // ===============================
+  /* =====================================================
+     PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+     問題 16～25 (Fokus: Bab 39)
+     ===================================================== */
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【マリアさんとジョンさんのメッセージ】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">マ</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>山田<rt>やまだ</rt></ruby>さんはまだ<ruby>来<rt>き</rt></ruby>ませんね。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>電話<rt>でんわ</rt></ruby>しましたが、<ruby>出<rt>で</rt></ruby>ません。まだ<ruby>寝<rt>ね</rt></ruby>ている <b>（ 16 ）</b> です。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">マ</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      ええっ、<ruby>約束<rt>やくそく</rt></ruby>した <b>（ 17 ）</b>！<ruby>仕方<rt>しかた</rt></ruby>がないですね。<ruby>先<rt>さき</rt></ruby>に <b>（ 18 ）</b> か。
+    </div>
+  </div>
+</div>
+`,
+    text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["そう", "みたい", "よう", "らしい"],
+    answer: 2 // よう
+  },
+  {
+    text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["ばかり", "のに", "ので", "から"],
+    answer: 1 // のに
+  },
+  {
+    text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["行きます", "行きましょう", "行って", "行かない"],
+    answer: 1 // 行きましょう
+  },
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>昨日<rt>きのう</rt></ruby><ruby>買<rt>か</rt></ruby>った <b>（ 19 ）</b> なのに、パソコンがもう<ruby>動<rt>うご</rt></ruby>かなくなりました。<ruby>新<rt>あたら</rt></ruby>しいパソコン <b>（ 20 ）</b> 、とても<ruby>残念<rt>ざんねん</rt></ruby>です。<ruby>明日<rt>あした</rt></ruby>、<ruby>店<rt>みせ</rt></ruby>に<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>って<ruby>修理<rt>しゅうり</rt></ruby>してもらう <b>（ 21 ）</b> です。
+</div>
+`,
+    text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["ばかり", "よう", "ところ", "そう"],
+    answer: 0 // 買ったばかり
+  },
+  {
+    text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["な", "に", "なのに", "だ"],
+    answer: 2 // 新しいパソコンなのに (Noun + なのに)
+  },
+  {
+    text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+    options: ["つもり", "はず", "よう", "そう"],
+    answer: 0 // つもりです
+  },
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【アンケート】「<ruby>新<rt>あたら</rt></ruby>しい<ruby>生活<rt>せいかつ</rt></ruby>」について４<ruby>人<rt>にん</rt></ruby>に<ruby>聞<rt>き</rt></ruby>きました。
+</div>
+<table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8; border: 1px solid #000; background-color: #fff;">
+  <tr>
+    <td style="width:50%; border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Aさん</div><br>
+      <ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ったばかりです。まだ<ruby>仕事<rt>しごと</rt></ruby>がわからないのに、たくさん<ruby>仕事<rt>しごと</rt></ruby>を<ruby>頼<rt>たの</rt></ruby>まれて<ruby>大変<rt>たいへん</rt></ruby>です。
+    </td>
+    <td style="width:50%; border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Bさん</div><br>
+      <ruby>給料<rt>きゅうりょう</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いのに、<ruby>休<rt>やす</rt></ruby>みが<ruby>少<rt>すく</rt></ruby>ないです。<ruby>毎日<rt>まいにち</rt></ruby>とても<ruby>忙<rt>いそが</rt></ruby>しいようです。
+    </td>
+  </tr>
+  <tr>
+    <td style="border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Cさん</div><br>
+      <ruby>先週引<rt>せんしゅうひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>ししたばかりです。<ruby>家<rt>いえ</rt></ruby>から<ruby>会社<rt>かいしゃ</rt></ruby>まで<ruby>近<rt>ちか</rt></ruby>くて<ruby>便利<rt>べんり</rt></ruby>なのに、<ruby>電車<rt>でんしゃ</rt></ruby>がいつも<ruby>混<rt>こ</rt></ruby>んでいます。
+    </td>
+    <td style="border:1px solid #000; padding:12px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">Dさん</div><br>
+      <ruby>仕事<rt>しごと</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しいですが、<ruby>先輩<rt>せんぱい</rt></ruby>が<ruby>親切<rt>しんせつ</rt></ruby>なようです。これからもっと<ruby>頑張<rt>がんば</rt></ruby>りたいです。
+    </td>
+  </tr>
+</table>
+`,
+    text: "22. 「<ruby>休<rt>やす</rt></ruby>みが<ruby>少<rt>すく</rt></ruby>ない」と<ruby>言<rt>い</rt></ruby>っている<ruby>人<rt>ひと</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか。",
+    options: ["Aさん", "Bさん", "Cさん", "Dさん"],
+    answer: 1 // Bさん
+  },
+  {
+    text: "23. Aさんについて<ruby>正<rt>ただ</rt></ruby>しいのはどれですか。",
+    options: [
+      "<ruby>給料<rt>きゅうりょう</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い",
+      "<ruby>先輩<rt>せんぱい</rt></ruby>が<ruby>親切<rt>しんせつ</rt></ruby>だ",
+      "<ruby>先週引<rt>せんしゅうひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しをした",
+      "<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ったばかりだ"
+    ],
+    answer: 3 // 会社に入ったばかりです
+  },
+  {
+    text: "24. Cさんは、どうして<ruby>大変<rt>たいへん</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>っていますか。",
+    options: [
+      "<ruby>電車<rt>でんしゃ</rt></ruby>が<ruby>混<rt>こ</rt></ruby>んでいるから",
+      "<ruby>家<rt>いえ</rt></ruby>から<ruby>会社<rt>かいしゃ</rt></ruby>まで<ruby>遠<rt>とお</rt></ruby>いから",
+      "<ruby>仕事<rt>しごと</rt></ruby>がわからないから",
+      "<ruby>仕事<rt>しごと</rt></ruby>が<ruby>難<rt>むずか</rt></ruby>しいから"
+    ],
+    answer: 0 // 電車がいつも混んでいます
+  },
+  {
+    text: "25. 「<ruby>先輩<rt>せんぱい</rt></ruby>が<ruby>親切<rt>しんせつ</rt></ruby>だ」と<ruby>言<rt>い</rt></ruby>っている<ruby>人<rt>ひと</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか。",
+    options: ["Aさん", "Bさん", "Cさん", "Dさん"],
+    answer: 3 // Dさん
+  },
 
-            {
-                text: "1. あの人は疲れている（　）。",
-                options: ["ようです", "のに", "たばかり", "そうです"],
-                answer: 0
-            },
-            {
-                text: "2. この町は静か（　）。",
-                options: ["のに", "ようです", "たばかり", "でも"],
-                answer: 1
-            },
-            {
-                text: "3. 彼は忙しい（　）。",
-                options: ["ようです", "のに", "たばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "4. この食べ物は新しい（　）。",
-                options: ["のに", "ようです", "たばかり", "しか"],
-                answer: 1
-            },
-            {
-                text: "5. この事故は危ない（　）。",
-                options: ["たばかり", "ようです", "のに", "でも"],
-                answer: 1
-            },
+  /* =====================================================
+     PART 3 : 漢字問題 (Kanji - Kosakata Bab 39)
+     BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+     *TIDAK ADA RUBY DI BAGIAN INI*
+     ===================================================== */
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+    text: "26. マリーさんは<u>疲れている</u>ようです。",
+    options: ["つかれている", "おれている", "よごれている", "わすれている"],
+    answer: 0
+  },
+  {
+    text: "27. <u>毎日</u>いそがしいです。",
+    options: ["まいひ", "まいにち", "まいじ", "まいしゅう"],
+    answer: 1
+  },
+  {
+    text: "28. よく勉強しているのに、<u>成績</u>がよくないです。",
+    options: ["せいしゃ", "せいしき", "せいせき", "せいぜき"],
+    answer: 2
+  },
+  {
+    text: "29. あの子は<u>野菜</u>が嫌いなようです。",
+    options: ["のさい", "やさい", "のさい", "やざい"],
+    answer: 1
+  },
 
-            {
-                text: "6. 彼は知っている（　）、教えてくれません。",
-                options: ["ようです", "のに", "たばかり", "ので"],
-                answer: 1
-            },
-            {
-                text: "7. お金がある（　）、何も買いません。",
-                options: ["ようです", "たばかり", "のに", "でも"],
-                answer: 2
-            },
-            {
-                text: "8. 雨が降っている（　）、出かけます。",
-                options: ["のに", "ようです", "たばかり", "しか"],
-                answer: 0
-            },
-            {
-                text: "9. 日曜日（　）、仕事をします。",
-                options: ["のに", "ようです", "たばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "10. 暇（　）のに、手伝ってくれません。",
-                options: ["だ", "で", "なの", "に"],
-                answer: 2
-            },
+  /* =====================================================
+     PART 3 : 漢字問題 
+     BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+     *TIDAK ADA RUBY DI BAGIAN INI*
+     ===================================================== */
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+    text: "30. 毎日とても<u>いそがしい</u>ようです。",
+    options: ["急がしい", "忘がしい", "忙がしい", "忙しい"],
+    answer: 3
+  },
+  {
+    text: "31. <u>あたま</u>がいいのに、テストの点が悪いです。",
+    options: ["顔", "頭", "首", "体"],
+    answer: 1
+  },
+  {
+    text: "32. ナルコさんは<u>けっこん</u>したばかりです。",
+    options: ["結婚", "結婚", "結魂", "結恨"],
+    answer: 0
+  },
+  {
+    text: "33. 山田さんはもう<u>でかけた</u>ようです。",
+    options: ["出がけた", "出かけた", "外かけた", "外がけた"],
+    answer: 1
+  },
 
-            {
-                text: "11. 便利（　）、使いません。",
-                options: ["のに", "なのに", "ようです", "たばかり"],
-                answer: 1
-            },
-            {
-                text: "12. 大切（　）、大切にしません。",
-                options: ["のに", "なのに", "ようです", "でも"],
-                answer: 1
-            },
-            {
-                text: "13. 日本人（　）、日本語が話せません。",
-                options: ["のに", "なのに", "ようです", "でも"],
-                answer: 1
-            },
-            {
-                text: "14. 元気（　）、学校に来ません。",
-                options: ["なのに", "のに", "ようです", "たばかり"],
-                answer: 0
-            },
-            {
-                text: "15. 休み（　）、会社に行きます。",
-                options: ["なのに", "ようです", "たばかり", "でも"],
-                answer: 0
-            },
-
-            {
-                text: "16. 今、食べた（　）です。",
-                options: ["よう", "のに", "ばかり", "だけ"],
-                answer: 2
-            },
-            {
-                text: "17. さっき起きた（　）です。",
-                options: ["ばかり", "のに", "よう", "でも"],
-                answer: 0
-            },
-            {
-                text: "18. 家に帰った（　）です。",
-                options: ["のに", "ばかり", "よう", "でも"],
-                answer: 1
-            },
-            {
-                text: "19. 入院した（　）です。",
-                options: ["ばかり", "のに", "よう", "でも"],
-                answer: 0
-            },
-            {
-                text: "20. 仕事をやめた（　）です。",
-                options: ["よう", "ばかり", "のに", "でも"],
-                answer: 1
-            },
-
-            {
-                text: "21. あの人は先生の（　）です。",
-                options: ["よう", "のに", "ばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "22. 雨が降りそう（　）、傘を持って行きます。",
-                options: ["のに", "ようです", "なので", "ばかり"],
-                answer: 2
-            },
-            {
-                text: "23. たくさん食べた（　）、おなかがすきました。",
-                options: ["のに", "よう", "ばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "24. 静か（　）、よく眠れません。",
-                options: ["なのに", "のに", "ようです", "ばかり"],
-                answer: 0
-            },
-            {
-                text: "25. 今来た（　）ですから、少し待ってください。",
-                options: ["のに", "ばかり", "よう", "でも"],
-                answer: 1
-            },
-
-            {
-                text: "26. あの犬は元気（　）見えます。",
-                options: ["ように", "よう", "のに", "ばかり"],
-                answer: 0
-            },
-            {
-                text: "27. 彼は学生の（　）です。",
-                options: ["よう", "のに", "ばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "28. 新しい（　）、もう壊れました。",
-                options: ["のに", "よう", "ばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "29. 忙しい（　）、遊びに行きます。",
-                options: ["のに", "よう", "ばかり", "でも"],
-                answer: 0
-            },
-            {
-                text: "30. 買った（　）なのに、使いません。",
-                options: ["ばかり", "よう", "のに", "でも"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-
-            {
-                passage: `<strong>【31–32】</strong><br><br>
-昨日、新しいスマホを買ったばかりです。
-でも、使い方がまだよく分かりません。`,
-                text: "31. 「私」はいつスマホを買いましたか。",
-                options: [
-                    "ずっと前",
-                    "昨日",
-                    "来年",
-                    "先週"
-                ],
-                answer: 1
-            },
-            {
-                text: "32. どうして困っていますか。",
-                options: [
-                    "高いから",
-                    "壊れたから",
-                    "使い方が分からないから",
-                    "古いから"
-                ],
-                answer: 2
-            },
-
-            {
-                passage: `<strong>【33–34】</strong><br><br>
-彼はお金があるのに、何も買いません。
-とても節約しています。`,
-                text: "33. 彼はどうして何も買いませんか。",
-                options: [
-                    "お金がないから",
-                    "節約しているから",
-                    "忙しいから",
-                    "買いたくないから"
-                ],
-                answer: 1
-            },
-            {
-                text: "34. 文の意味はどれですか。",
-                options: [
-                    "お金がない",
-                    "お金があるけど買わない",
-                    "お金がほしい",
-                    "お金を使う"
-                ],
-                answer: 1
-            },
-
-            {
-                passage: `<strong>【35–36】</strong><br><br>
-あの人は先生のようです。
-いつも学生に教えています。`,
-                text: "35. あの人は何のようですか。",
-                options: [
-                    "学生",
-                    "先生",
-                    "会社員",
-                    "医者"
-                ],
-                answer: 1
-            },
-            {
-                text: "36. どうしてそう思いますか。",
-                options: [
-                    "遊んでいるから",
-                    "寝ているから",
-                    "教えているから",
-                    "食べているから"
-                ],
-                answer: 2
-            },
-
-            // ===============================
-            // 37–40: MENYUSUN KALIMAT
-            // ===============================
-
-            {
-                text: "37. 彼は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> です。",
-                options: ["先生", "の", "よう", "です"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "38. お金が ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 買いません。",
-                options: ["ある", "のに", "でも", "が"],
-                answer: [0, 1, 3, 2]
-            },
-            {
-                text: "39. 今 ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> です。",
-                options: ["来た", "ばかり", "です", "のに"],
-                answer: [0, 1, 3, 2]
-            },
-            {
-                text: "40. この料理は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> です。",
-                options: ["おいしい", "よう", "です", "のに"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
+  /* =====================================================
+     PART 4 : 記述問題 (Kijutsu Mondai)
+     問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 39)
+     ===================================================== */
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+    text: "34. <ruby>部屋<rt>へや</rt></ruby>の<ruby>電気<rt>でんき</rt></ruby>が<ruby>消<rt>き</rt></ruby>えています。<ruby>山田<rt>やまだ</rt></ruby>さんは＿＿(A)＿＿＿＿(B)＿＿ようです。",
+    options: [
+      "（A）留守 （B）の",
+      "（A）留守 （B）な",
+      "（A）出かけ （B）たの",
+      "（A）いない （B）の"
+    ],
+    answer: 0 // 留守のようです
+  },
+  {
+    text: "35. <ruby>私<rt>わたし</rt></ruby>は<ruby>先月日本<rt>せんげつにほん</rt></ruby>へ＿＿(A)＿＿＿＿(B)＿＿です。",
+    options: [
+      "（A）来た （B）ばかり",
+      "（A）来る （B）ばかり",
+      "（A）来て （B）ばかり",
+      "（A）来た （B）ところ"
+    ],
+    answer: 0 // 来たばかりです
+  },
+  {
+    text: "36. <ruby>薬<rt>くすり</rt></ruby>を＿＿(A)＿＿＿＿(B)＿＿、まだ<ruby>熱<rt>ねつ</rt></ruby>が<ruby>下<rt>さ</rt></ruby>がりません。",
+    options: [
+      "（A）飲んだ （B）のに",
+      "（A）飲む （B）ので",
+      "（A）飲んで （B）から",
+      "（A）飲んだ （B）ばかり"
+    ],
+    answer: 0 // 飲んだのに
+  },
+  {
+    passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+    text: "37. 【１．よく → ２．<ruby>勉強<rt>べんきょう</rt></ruby>す<u>る</u> → ３．<ruby>成績<rt>せいせき</rt></ruby>】（※「～のに」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+    options: [
+      "よく<ruby>勉強<rt>べんきょう</rt></ruby>するのに、<ruby>成績<rt>せいせき</rt></ruby>がよくないです。",
+      "よく<ruby>勉強<rt>べんきょう</rt></ruby>しているのに、<ruby>成績<rt>せいせき</rt></ruby>がよくないです。",
+      "よく<ruby>勉強<rt>べんきょう</rt></ruby>したのに、<ruby>成績<rt>せいせき</rt></ruby>がよかったです。",
+      "よく<ruby>勉強<rt>べんきょう</rt></ruby>するから、<ruby>成績<rt>せいせき</rt></ruby>がいいです。"
+    ],
+    answer: 1 // よく勉強しているのに、成績がよくないです (Berdasarkan teks pelajaran)
+  },
+  {
+    text: "38. 【１．<ruby>彼<rt>かれ</rt></ruby> → ２．<ruby>学生<rt>がくせい</rt></ruby> → ３．<ruby>車<rt>くるま</rt></ruby>】（※「～のに」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+    options: [
+      "<ruby>彼<rt>かれ</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>なのに、<ruby>車<rt>くるま</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。",
+      "<ruby>彼<rt>かれ</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>ののに、<ruby>車<rt>くるま</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。",
+      "<ruby>彼<rt>かれ</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>だのに、<ruby>車<rt>くるま</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。",
+      "<ruby>彼<rt>かれ</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>のに、<ruby>車<rt>くるま</rt></ruby>を<ruby>持<rt>も</rt></ruby>っています。"
+    ],
+    answer: 0 // 彼は学生なのに、車を持っています (Noun + なのに)
+  },
+  {
+    text: "39. 【１．ご<ruby>飯<rt>はん</rt></ruby> → ２．<ruby>食<rt>た</rt></ruby>べ<u>る</u> → ３．ばかり】。",
+    options: [
+      "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べてばかりです。",
+      "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べるばかりです。",
+      "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べたばかりです。",
+      "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べないばかりです。"
+    ],
+    answer: 2 // ご飯を食べたばかりです (Ta-form + ばかりです)
+  },
+  {
+    text: "40. 【１．マリーさん → ２．<ruby>疲<rt>つか</rt></ruby>れ<u>る</u> → ３．<ruby>休<rt>やす</rt></ruby><u>む</u>】（※「～ようです」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+    options: [
+      "マリーさんは<ruby>疲<rt>つか</rt></ruby>れているようですから、<ruby>休<rt>やす</rt></ruby>んだほうがいいです。",
+      "マリーさんは<ruby>疲<rt>つか</rt></ruby>れるようですから、<ruby>休<rt>やす</rt></ruby>むつもりです。",
+      "マリーさんは<ruby>疲<rt>つか</rt></ruby>れたようですから、<ruby>休<rt>やす</rt></ruby>まないでください。",
+      "マリーさんは<ruby>疲<rt>つか</rt></ruby>れているようのに、<ruby>休<rt>やす</rt></ruby>みません。"
+    ],
+    answer: 0 // マリーさんは疲れているようですから、休んだほうがいいです
+  }
+];   
+    // console.log(questions[8].text);    // Menampilkan soal tambahan bagian 1
+        // console.log(questions[8].answer);  // Menampilkan jawaban soal tambahan
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -690,7 +830,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -711,7 +851,7 @@
             nav.innerHTML = "";
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
-                btn.innerText = i + 1;
+                btn.innerHTML = i + 1;
                 btn.onclick = () => {
                     if (examFinished) return;
                     current = i;
@@ -810,7 +950,7 @@
 
                 let message = `
        ==============================
-       HASIL BAB 39
+       HASIL Bab 39
        ==============================
 
        👤 Nama : ${studentName}
