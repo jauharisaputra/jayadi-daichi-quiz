@@ -76,7 +76,7 @@
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
@@ -86,12 +86,17 @@
             border-radius: 12px 12px 0 0;
         }
 
-        /* CUSTOM PROGRESS BAR DI BAWAH VIDEO */
+        /* CUSTOM PROGRESS BAR DIPERTEBAL */
         .progress-container {
             width: 100%;
-            height: 6px;
-            background-color: #334155;
+            height: 28px;
+            /* Dipertebal menjadi 28px */
+            background-color: #cbd5e1;
+            /* Warna dasar abu-abu terang */
             position: relative;
+            border-radius: 0 0 12px 12px;
+            /* Melengkung di sudut bawah mengikuti video */
+            overflow: hidden;
         }
 
         .progress-bar {
@@ -99,6 +104,26 @@
             background-color: var(--primary-color);
             width: 0%;
             transition: width 0.2s linear;
+        }
+
+        /* TEKS PERSENTASE */
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            /* Agar teks terbaca di warna terang/gelap */
+            pointer-events: none;
+            /* Agar tidak mengganggu klik/interaksi */
+            z-index: 10;
         }
 
         /* BUTTON KUIS */
@@ -124,7 +149,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             opacity: 0.5;
-            pointer-events: none; /* Disabled by default */
+            pointer-events: none;
+            /* Disabled by default */
         }
 
         .btn.unlocked {
@@ -140,9 +166,17 @@
         }
 
         @media(max-width: 600px) {
-            .card { padding: 24px; }
-            h1 { font-size: 1.5rem; }
-            .btn { width: 100%; }
+            .card {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -152,7 +186,8 @@
     <div class="card">
         <h1>Bab 41: Sonkeigo (尊敬語)</h1>
         <p class="description">
-            Materi ini membahas penggunaan kata kerja kehormatan khusus (seperti <i>irassharu</i>, <i>meshiagaru</i>, <i>ossharu</i>), pola <i>o~ ni narimasu</i>, dan bentuk pasif sebagai bentuk hormat.
+            Materi ini membahas penggunaan kata kerja kehormatan khusus (seperti <i>irassharu</i>, <i>meshiagaru</i>,
+            <i>ossharu</i>), pola <i>o~ ni narimasu</i>, dan bentuk pasif sebagai bentuk hormat.
         </p>
 
         <div class="alert-info" id="statusMessage">
@@ -165,10 +200,11 @@
                 <source src="video_pembelajaran/Bab_41__Menguasai_Sonkeigo.mp4" type="video/mp4">
                 Maaf, browser Anda tidak mendukung pemutaran video.
             </video>
-            
-            <!-- Progress bar tepat di bawah video -->
+
+            <!-- Progress bar yang sudah dipertebal dan dilengkapi teks persentase -->
             <div class="progress-container">
                 <div class="progress-bar" id="customProgressBar"></div>
+                <div class="progress-text" id="progressText">0%</div>
             </div>
         </div>
 
@@ -182,6 +218,7 @@
     <script>
         const video = document.getElementById('learningVideo');
         const progressBar = document.getElementById('customProgressBar');
+        const progressText = document.getElementById('progressText');
         const quizBtn = document.getElementById('quizBtn');
         const statusMessage = document.getElementById('statusMessage');
 
@@ -199,9 +236,12 @@
                 }
             }
 
-            // Update Progress Bar berdasarkan current time
+            // Update Progress Bar dan Teks Persentase berdasarkan current time
             const percentage = (video.currentTime / video.duration) * 100;
+
             progressBar.style.width = percentage + '%';
+            // Menampilkan persentase dibulatkan tanpa angka desimal
+            progressText.innerText = Math.floor(percentage) + '%';
 
             // Logika Membuka Kuis (Batas 80%)
             if (percentage >= 80 && !isQuizUnlocked) {
@@ -221,7 +261,7 @@
             isQuizUnlocked = true;
             quizBtn.classList.add('unlocked');
             quizBtn.innerHTML = '🚀 Mulai Kuis Bab 41';
-            
+
             statusMessage.style.backgroundColor = '#ecfdf5';
             statusMessage.style.color = '#047857';
             statusMessage.style.borderLeftColor = '#10b981';
