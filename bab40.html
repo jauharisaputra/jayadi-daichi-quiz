@@ -319,270 +319,403 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+  const questions = [
+    /* =====================================================
+       PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+       問題 1～15 (Fokus: Bab 40 - 使役形, ～させていただけませんか)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+      text: "1. <ruby>先輩<rt>せんぱい</rt></ruby>は<ruby>後輩<rt>こうはい</rt></ruby>（ ）トイレの<ruby>掃除<rt>そうじ</rt></ruby>をさせます。",
+      options: ["を", "に", "が", "で"],
+      answer: 1 // に
+    },
+    {
+      text: "2. <ruby>先輩<rt>せんぱい</rt></ruby>は<ruby>後輩<rt>こうはい</rt></ruby>（ ）<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>に<ruby>行<rt>い</rt></ruby>かせます。",
+      options: ["を", "に", "が", "で"],
+      answer: 0 // を
+    },
+    {
+      text: "3. <ruby>母<rt>はは</rt></ruby>は<ruby>妹<rt>いもうと</rt></ruby>に<ruby>好<rt>す</rt></ruby>きなお<ruby>菓子<rt>かし</rt></ruby>を（ ）。",
+      options: ["買います", "買えます", "買わせます", "買われます"],
+      answer: 2 // 買わせます
+    },
+    {
+      text: "4. <ruby>母<rt>はは</rt></ruby>は<ruby>妹<rt>いもうと</rt></ruby>を<ruby>公園<rt>こうえん</rt></ruby>で（ ）。",
+      options: ["あそびます", "あそばせます", "あそばれます", "あそべます"],
+      answer: 1 // あそばせます
+    },
+    {
+      text: "5. <ruby>熱<rt>ねつ</rt></ruby>があるので、<ruby>今日<rt>きょう</rt></ruby>は<ruby>早<rt>はや</rt></ruby>く（ ）いただけませんか。",
+      options: ["帰って", "帰られて", "帰らせて", "帰らせられて"],
+      answer: 2 // 帰らせて
+    },
+    {
+      text: "6. この<ruby>会議室<rt>かいぎしつ</rt></ruby>を（ ）いただけませんか。",
+      options: ["使って", "使わせて", "使わされて", "使われて"],
+      answer: 1 // 使わせて
+    },
+    {
+      text: "7. <ruby>先生<rt>せんせい</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>に<ruby>日本語<rt>にほんご</rt></ruby>で（ ）。",
+      options: ["話します", "話されます", "話せます", "話させます"],
+      answer: 3 // 話させます
+    },
+    {
+      text: "8. <ruby>部長<rt>ぶちょう</rt></ruby>は<ruby>山田<rt>やまだ</rt></ruby>さんを<ruby>大阪<rt>おおさか</rt></ruby>へ<ruby>出張<rt>しゅっちょう</rt></ruby>に（ ）。",
+      options: ["行きます", "行かせます", "行かれます", "行かさせます"],
+      answer: 1 // 行かせます
+    },
+    {
+      text: "9. ずっと<ruby>立<rt>た</rt></ruby>っていて<ruby>疲<rt>つか</rt></ruby>れました。あのいすに（ ）いただけませんか。",
+      options: ["座らせて", "座って", "座られて", "座らされて"],
+      answer: 0 // 座らせて
+    },
+    {
+      text: "10. <ruby>私<rt>わたし</rt></ruby>は<ruby>子<rt>こ</rt></ruby>どもに<ruby>英語<rt>えいご</rt></ruby>を（ ）と<ruby>思<rt>おも</rt></ruby>っています。",
+      options: ["習います", "習わせます", "習われます", "習わせたい"],
+      answer: 3 // 習わせたい
+    },
+    {
+      text: "11. <ruby>明日<rt>あした</rt></ruby>は<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きたいので、<ruby>仕事<rt>しごと</rt></ruby>を（ ）いただけませんか。",
+      options: ["休んで", "休ませて", "休まれて", "休ませられて"],
+      answer: 1 // 休ませて
+    },
+    {
+      text: "12. <ruby>父<rt>ちち</rt></ruby>は<ruby>兄<rt>あに</rt></ruby>に<ruby>車<rt>くるま</rt></ruby>を（ ）。",
+      options: ["洗います", "洗わせます", "洗われます", "洗わせられます"],
+      answer: 1 // 洗わせます
+    },
+    {
+      text: "13. <ruby>子<rt>こ</rt></ruby>どもが<ruby>泣<rt>な</rt></ruby>いているので、ミルクを（ ）。",
+      options: ["飲みます", "飲めます", "飲ませます", "飲まれます"],
+      answer: 2 // 飲ませます
+    },
+    {
+      text: "14. A「コピー<ruby>機<rt>き</rt></ruby>の<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>がわかりません。」<br>B「じゃ、<ruby>私<rt>わたし</rt></ruby>に（ ）ください。」",
+      options: ["やらせて", "やって", "やられて", "やらせられて"],
+      answer: 0 // やらせて
+    },
+    {
+      text: "15. <ruby>先生<rt>せんせい</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>たちにたくさん<ruby>漢字<rt>かんじ</rt></ruby>を（ ）。",
+      options: ["覚えます", "覚えさせます", "覚えられます", "覚えさせられます"],
+      answer: 1 // 覚えさせます
 
-            // ===============================
-            // 1–30: BUNPOU + GOI（使役形）
-            // ===============================
+    },
 
-            {
-                text: "1. 先生は学生を立（ ）ました。",
-                options: ["たせ", "たさせ", "たたせ", "たたさせ"],
-                answer: 0
-            },
-            {
-                text: "2. 母は私に部屋を掃除（ ）ました。",
-                options: ["させ", "させて", "させる", "させた"],
-                answer: 0
-            },
-            {
-                text: "3. 父は弟に仕事を（ ）ます。",
-                options: ["させ", "させる", "させて", "させた"],
-                answer: 1
-            },
-            {
-                text: "4. 彼は子どもを待（ ）ました。",
-                options: ["たせ", "たさせ", "たせて", "たたせ"],
-                answer: 0
-            },
-            {
-                text: "5. 私は友達に手紙を書（ ）ます。",
-                options: ["かせ", "かさせ", "かせる", "かさせる"],
-                answer: 3
-            },
+    /* =====================================================
+       PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+       問題 16～25 (Fokus: 使役形, ～させていただけませんか)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">田</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>佐藤<rt>さとう</rt></ruby>さん、<ruby>新<rt>あたら</rt></ruby>しい<ruby>後輩<rt>こうはい</rt></ruby>はどうですか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      とてもまじめです。<ruby>毎日<rt>まいにち</rt></ruby>、<ruby>後輩<rt>こうはい</rt></ruby> <b>（ 16 ）</b> コピーを <b>（ 17 ）</b> が、よくがんばっています。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">佐</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">田</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      それはいいですね。<ruby>明日<rt>あした</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>準備<rt>じゅんび</rt></ruby>も <b>（ 18 ）</b> か。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      はい、そのつもりです。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">佐</div>
+  </div>
+</div>
+`,
+      text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["が", "を", "に", "で"],
+      answer: 2 // に
+    },
+    {
+      text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["させます", "します", "されます", "させられます"],
+      answer: 0 // させます
+    },
+    {
+      text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["手伝います", "手伝わせます", "手伝われます", "手伝わせられます"],
+      answer: 1 // 手伝わせます
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【メール】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>店長<rt>てんちょう</rt></ruby>へ<br><br>
+  お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。<ruby>木村<rt>きむら</rt></ruby>です。<br>
+  すみません、<ruby>今朝<rt>けさ</rt></ruby>から<ruby>熱<rt>ねつ</rt></ruby>があって、<ruby>体<rt>からだ</rt></ruby>の<ruby>調子<rt>ちょうし</rt></ruby>が悪いです。<br>
+  ですから、<ruby>今日<rt>きょう</rt></ruby>はアルバイトを <b>（ 19 ）</b> いただけませんか。<br>
+  <ruby>明日<rt>あした</rt></ruby>は<ruby>行<rt>い</rt></ruby>けるように、ゆっくり <b>（ 20 ）</b>。<br>
+  よろしくお<ruby>願<rt>ねが</rt></ruby>いします。<br>
+  <ruby>木村<rt>きむら</rt></ruby>
+</div>
+`,
+      text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["休んで", "休まれて", "休ませて", "休まされて"],
+      answer: 2 // 休ませて
+    },
+    {
+      text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["休ませます", "休ませてください", "休みます", "休まれます"],
+      answer: 2 // 休みます
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <b><ruby>子育<rt>こそだ</rt></ruby>てについて</b><br><br>
+  <ruby>私<rt>わたし</rt></ruby>は<ruby>子<rt>こ</rt></ruby>どもが２<ruby>人<rt>ふたり</rt></ruby>います。<ruby>毎日<rt>まいにち</rt></ruby>とても<ruby>忙<rt>いそが</rt></ruby>しいです。<ruby>私<rt>わたし</rt></ruby>は、<ruby>子<rt>こ</rt></ruby>どもに<ruby>好<rt>す</rt></ruby>きなことを <b>（ 21 ）</b> と<ruby>思<rt>おも</rt></ruby>っています。<ruby>晴<rt>は</rt></ruby>れた<ruby>日<rt>ひ</rt></ruby>には、<ruby>外<rt>そと</rt></ruby>でたくさん <b>（ 22 ）</b> 。そして、<ruby>本<rt>ほん</rt></ruby>もたくさん <b>（ 23 ）</b> ようにしています。<ruby>子<rt>こ</rt></ruby>どもたちが<ruby>大<rt>おお</rt></ruby>きくなった時、いろいろなことができるようになってほしいからです。
+</div>
+`,
+      text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["したい", "させたい", "されたい", "させられたい"],
+      answer: 1 // させたい
+    },
+    {
+      text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["あそびます", "あそばれます", "あそばせます", "あそばさせます"],
+      answer: 2 // あそばせます
+    },
+    {
+      text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["よむ", "よまれる", "よませる", "よまさせる"],
+      answer: 2 // よませる
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <b><ruby>店員<rt>てんいん</rt></ruby>の皆様へ</b><br><br>
+  <ruby>来週<rt>らいしゅう</rt></ruby>から、<ruby>新<rt>あたら</rt></ruby>しいアルバイトの<ruby>人<rt>ひと</rt></ruby>が<ruby>入<rt>はい</rt></ruby>ります。<ruby>初<rt>はじ</rt></ruby>めは、<ruby>簡単<rt>かんたん</rt></ruby>な<ruby>仕事<rt>しごと</rt></ruby>をさせてください。たとえば、テーブルの<ruby>掃除<rt>そうじ</rt></ruby>や、お<ruby>皿<rt>さら</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>うことなどです。お<ruby>客様<rt>きゃくさま</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<ruby>仕事<rt>しごと</rt></ruby>は、まだ <b>（ 24 ）</b>。<br>
+  それから、わからないことがあったら、すぐに<ruby>質問<rt>しつもん</rt></ruby> <b>（ 25 ）</b> ください。
+</div>
+`,
+      text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["させないでください", "しないでください", "されないでください", "話さないでください"],
+      answer: 0 // させないでください
+    },
+    {
+      text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["して", "させて", "されて", "させられて"],
+      answer: 1 // させて
+    },
 
-            {
-                text: "6. 部長は彼にレポートを作ら（ ）ました。",
-                options: ["せ", "させ", "させて", "させる"],
-                answer: 1
-            },
-            {
-                text: "7. 先生は学生に本を読ま（ ）ます。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "8. 母は私に野菜を食べ（ ）ました。",
-                options: ["させ", "させる", "させて", "させた"],
-                answer: 0
-            },
-            {
-                text: "9. 社長は社員に働か（ ）ます。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "10. 私は子どもに早く寝（ ）ます。",
-                options: ["させ", "させる", "させて", "させた"],
-                answer: 1
-            },
+    /* =====================================================
+       PART 3 : 漢字問題 (Kanji - Kosakata Bab 40)
+       BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+       *TIDAK ADA RUBY DI BAGIAN INI*
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+      text: "26. 後輩にトイレの<u>掃除</u>をさせます。",
+      options: ["そうし", "しょうじ", "そうじ", "そじ"],
+      answer: 2
+    },
+    {
+      text: "27. 後輩を<u>買い物</u>に行かせます。",
+      options: ["かいもの", "かいもの", "かいもも", "ばいもの"],
+      answer: 0 // かいもの
+    },
+    {
+      text: "28. 会議室を<u>使わせて</u>いただけませんか。",
+      options: ["つかわせて", "もたせて", "あわせて", "かわせて"],
+      answer: 0
+    },
+    {
+      text: "29. 明日<u>休ませて</u>いただけませんか。",
+      options: ["やすませて", "のませて", "はたらかせて", "よませて"],
+      answer: 0
+    },
 
-            {
-                text: "11. この部屋を使（ ）いただけませんか。",
-                options: ["わせて", "わせる", "わせ", "わせた"],
-                answer: 0
-            },
-            {
-                text: "12. 少し休（ ）いただけませんか。",
-                options: ["ませて", "ませる", "ませ", "ました"],
-                answer: 0
-            },
-            {
-                text: "13. 写真を撮ら（ ）いただけませんか。",
-                options: ["せて", "せる", "せ", "せた"],
-                answer: 0
-            },
-            {
-                text: "14. この仕事をやら（ ）いただけませんか。",
-                options: ["せて", "せる", "せ", "せた"],
-                answer: 0
-            },
-            {
-                text: "15. ドアを閉め（ ）いただけませんか。",
-                options: ["させて", "させる", "させ", "させた"],
-                answer: 0
-            },
+    /* =====================================================
+       PART 3 : 漢字問題 
+       BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+       *TIDAK ADA RUBY DI BAGIAN INI*
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+      text: "30. 子供を外で<u>あそばせます</u>。",
+      options: ["遊ばせます", "泳ばせます", "歩ばせます", "走ばせます"],
+      answer: 0
+    },
+    {
+      text: "31. 部長はわたしを<u>またせました</u>。",
+      options: ["持たせました", "待たせました", "特たせました", "侍たせました"],
+      answer: 1
+    },
+    {
+      text: "32. 先生は学生に日本語で<u>はなさせます</u>。",
+      options: ["読させます", "聞させます", "話させます", "語させます"],
+      answer: 2
+    },
+    {
+      text: "33. 母は<u>いもうと</u>にお菓子を買わせます。",
+      options: ["姉", "妹", "娘", "兄"],
+      answer: 1
+    },
 
-            {
-                text: "16. 私は妹に皿を洗（ ）ました。",
-                options: ["わせ", "わせる", "わせて", "わせた"],
-                answer: 0
-            },
-            {
-                text: "17. 父は私に自転車を直（ ）ます。",
-                options: ["させ", "させる", "させて", "させた"],
-                answer: 1
-            },
-            {
-                text: "18. 先生は学生に作文を書（ ）ました。",
-                options: ["かせ", "かさせ", "かせる", "かさせる"],
-                answer: 1
-            },
-            {
-                text: "19. 私は弟に宿題をさ（ ）ました。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "20. 彼は友達に話（ ）ます。",
-                options: ["させ", "させる", "させて", "させた"],
-                answer: 1
-            },
-
-            {
-                text: "21. 子どもにゲームを（ ）ません。",
-                options: ["させる", "させ", "させて", "させた"],
-                answer: 0
-            },
-            {
-                text: "22. 学生に日本語を（ ）ます。",
-                options: ["勉強させる", "勉強させ", "勉強させて", "勉強させた"],
-                answer: 0
-            },
-            {
-                text: "23. 部長は彼に説明を（ ）ました。",
-                options: ["させる", "させ", "させて", "させた"],
-                answer: 1
-            },
-            {
-                text: "24. 母は私に買い物を（ ）ました。",
-                options: ["させる", "させ", "させて", "させた"],
-                answer: 1
-            },
-            {
-                text: "25. 私は友達に車を運転（ ）ました。",
-                options: ["させる", "させ", "させて", "させた"],
-                answer: 1
-            },
-
-            {
-                text: "26. 先生は学生を走（ ）ました。",
-                options: ["らせ", "らさせ", "らせる", "らさせる"],
-                answer: 0
-            },
-            {
-                text: "27. 母は子どもを遊ば（ ）ました。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "28. 父は私に新聞を読ま（ ）ました。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "29. 私は友達に歌を歌わ（ ）ました。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-            {
-                text: "30. 先生は学生に立た（ ）ました。",
-                options: ["せ", "させ", "させる", "させて"],
-                answer: 1
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-
-            {
-                passage: `<strong>【31–32】</strong><br><br>
-        先生は学生に毎日日本語を勉強させます。
-        学生は大変ですが、上手になります。`,
-                text: "31. 先生は何をさせますか。",
-                options: [
-                    "遊び",
-                    "勉強",
-                    "仕事",
-                    "買い物"
-                ],
-                answer: 1
-            },
-            {
-                text: "32. 学生はどうなりますか。",
-                options: [
-                    "疲れます",
-                    "上手になります",
-                    "帰ります",
-                    "休みます"
-                ],
-                answer: 1
-            },
-
-            {
-                passage: `<strong>【33–34】</strong><br><br>
-        私は昨日、母に部屋を掃除させられました。
-        とても疲れました。`,
-                text: "33. 誰が掃除しましたか。",
-                options: [
-                    "母",
-                    "私",
-                    "父",
-                    "友達"
-                ],
-                answer: 1
-            },
-            {
-                text: "34. どうして疲れましたか。",
-                options: [
-                    "遊んだから",
-                    "掃除したから",
-                    "寝たから",
-                    "食べたから"
-                ],
-                answer: 1
-            },
-
-            {
-                passage: `<strong>【35–36】</strong><br><br>
-        私はこの仕事をやらせていただきました。
-        とてもいい経験になりました。`,
-                text: "35. 「私」は何をしましたか。",
-                options: [
-                    "勉強",
-                    "仕事",
-                    "旅行",
-                    "運動"
-                ],
-                answer: 1
-            },
-            {
-                text: "36. どう思いましたか。",
-                options: [
-                    "つまらない",
-                    "いい経験",
-                    "難しい",
-                    "簡単"
-                ],
-                answer: 1
-            },
-
-            // ===============================
-            // 37–40: MENYUSUN KALIMAT
-            // ===============================
-
-            {
-                text: "37. 先生は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> ました。",
-                options: ["学生を", "立たせ", "ました", "に"],
-                answer: [0, 1, 3, 2]
-            },
-            {
-                text: "38. 私は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> ました。",
-                options: ["友達に", "手紙を", "書かせ", "ました"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "39. この部屋を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> か。",
-                options: ["使わせて", "いただけません", "か", "ください"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "40. 母は ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> ました。",
-                options: ["私に", "掃除を", "させ", "ました"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
+    /* =====================================================
+       PART 4 : 記述問題 (Kijutsu Mondai)
+       問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 40)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+      text: "34. <ruby>母<rt>はは</rt></ruby>は<ruby>妹<rt>いもうと</rt></ruby>＿＿(A)＿＿お<ruby>菓子<rt>かし</rt></ruby>を＿＿(B)＿＿せます。",
+      options: [
+        "（A）に （B）買わ",
+        "（A）を （B）買い",
+        "（A）が （B）買って",
+        "（A）へ （B）買われ"
+      ],
+      answer: 0 // 母は妹にお菓子を買わせます。
+    },
+    {
+      text: "35. すみません、<ruby>用事<rt>ようじ</rt></ruby>があるので、＿＿(A)＿＿＿＿(B)＿＿いただけませんか。",
+      options: [
+        "（A）早く （B）帰って",
+        "（A）早く （B）帰らせて",
+        "（A）遅く （B）帰らせて",
+        "（A）早く （B）帰られて"
+      ],
+      answer: 1 // 早く帰らせていただけませんか。
+    },
+    {
+      text: "36. <ruby>先生<rt>せんせい</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>＿＿(A)＿＿<ruby>走<rt>はし</rt></ruby>ら＿＿(B)＿＿。",
+      options: [
+        "（A）を （B）せます",
+        "（A）に （B）せます",
+        "（A）を （B）れます",
+        "（A）に （B）します"
+      ],
+      answer: 0 // 先生は学生を走らせます。
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+      text: "37. 【１．<ruby>部長<rt>ぶちょう</rt></ruby> → ２．<ruby>私<rt>わたし</rt></ruby> → ３．コピーさ<u>せる</u>】。",
+      options: [
+        "<ruby>部長<rt>ぶちょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>をコピーさせます。",
+        "<ruby>部長<rt>ぶちょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>にコピーさせます。",
+        "<ruby>部長<rt>ぶちょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>がコピーさせられます。",
+        "<ruby>部長<rt>ぶちょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>へコピーさせます。"
+      ],
+      answer: 1 // 部長は私にコピーさせます。
+    },
+    {
+      text: "38. 【１．<ruby>今日<rt>きょう</rt></ruby> → ２．<ruby>早<rt>はや</rt></ruby>く → ３．<ruby>帰<rt>かえ</rt></ruby>ら<u>せる</u>】（※<ruby>許可<rt>きょか</rt></ruby>をもらう<ruby>文<rt>ぶん</rt></ruby>）。",
+      options: [
+        "<ruby>今日<rt>きょう</rt></ruby>、<ruby>早<rt>はや</rt></ruby>く<ruby>帰<rt>かえ</rt></ruby>らせてくださいませんか。",
+        "<ruby>今日<rt>きょう</rt></ruby>、<ruby>早<rt>はや</rt></ruby>く<ruby>帰<rt>かえ</rt></ruby>らせてあげませんか。",
+        "<ruby>今日<rt>きょう</rt></ruby>、<ruby>早<rt>はや</rt></ruby>く<ruby>帰<rt>かえ</rt></ruby>らせていただきませんか。",
+        "<ruby>今日<rt>きょう</rt></ruby>、<ruby>早<rt>はや</rt></ruby>く<ruby>帰<rt>かえ</rt></ruby>らせていただけませんか。"
+      ],
+      answer: 3 // 今日、早く帰らせていただけませんか。
+    },
+    {
+      text: "39. 【１．<ruby>子<rt>こ</rt></ruby>ども → ２．<ruby>外<rt>そと</rt></ruby> → ３．<ruby>遊<rt>あそ</rt></ruby>ば<u>せる</u>】。",
+      options: [
+        "<ruby>子<rt>こ</rt></ruby>どもに<ruby>外<rt>そと</rt></ruby>で<ruby>遊<rt>あそ</rt></ruby>ばせます。",
+        "<ruby>子<rt>こ</rt></ruby>どもを<ruby>外<rt>そと</rt></ruby>で<ruby>遊<rt>あそ</rt></ruby>ばせます。",
+        "<ruby>子<rt>こ</rt></ruby>どもが<ruby>外<rt>そと</rt></ruby>で<ruby>遊<rt>あそ</rt></ruby>ばせます。",
+        "<ruby>子<rt>こ</rt></ruby>どもから<ruby>外<rt>そと</rt></ruby>で<ruby>遊<rt>あそ</rt></ruby>ばせます。"
+      ],
+      answer: 1 // 子供を外で遊ばせます。(Intransitive verb -> を)
+    },
+    {
+      text: "40. 【１．<ruby>会議室<rt>かいぎしつ</rt></ruby> → ２．<ruby>少<rt>すこ</rt></ruby>し → ３．<ruby>使<rt>つか</rt></ruby><u>う</u>】（※<ruby>許可<rt>きょか</rt></ruby>をもらう<ruby>文<rt>ぶん</rt></ruby>）。",
+      options: [
+        "<ruby>会議室<rt>かいぎしつ</rt></ruby>を<ruby>少<rt>すこ</rt></ruby>し<ruby>使<rt>つか</rt></ruby>っていただけませんか。",
+        "<ruby>会議室<rt>かいぎしつ</rt></ruby>を<ruby>少<rt>すこ</rt></ruby>し<ruby>使<rt>つか</rt></ruby>わせていただけませんか。",
+        "<ruby>会議室<rt>かいぎしつ</rt></ruby>を<ruby>少<rt>すこ</rt></ruby>し<ruby>使<rt>つか</rt></ruby>わされていただけませんか。",
+        "<ruby>会議室<rt>かいぎしつ</rt></ruby>を<ruby>少<rt>すこ</rt></ruby>し<ruby>使<rt>つか</rt></ruby>われていただけませんか。"
+      ],
+      answer: 1 // 会議室を少し使わせていただけませんか。
+    }
+  ];
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -690,7 +823,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -711,7 +844,7 @@
             nav.innerHTML = "";
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
-                btn.innerText = i + 1;
+                btn.innerHTML = i + 1;
                 btn.onclick = () => {
                     if (examFinished) return;
                     current = i;
@@ -810,7 +943,7 @@
 
                 let message = `
        ==============================
-       HASIL BAB 40
+       HASIL Bab 40
        ==============================
 
        👤 Nama : ${studentName}
