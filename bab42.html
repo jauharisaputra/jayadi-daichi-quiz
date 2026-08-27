@@ -319,271 +319,391 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+ const questions = [
+    /* =====================================================
+       PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+       問題 1～15 (Fokus: Bab 42 - 謙譲語 / Bahasa Merendah)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+      text: "1. <ruby>私<rt>わたし</rt></ruby>は<ruby>来年<rt>らいねん</rt></ruby>、アメリカへ（ ）。",
+      options: ["まいります", "いらっしゃいます", "うかがいます", "いただきます"],
+      answer: 0 // まいります (Merendah untuk 行く)
+    },
+    {
+      text: "2. <ruby>今<rt>いま</rt></ruby>、ロビーに（ ）。",
+      options: ["いらっしゃいます", "おります", "まいります", "いたします"],
+      answer: 1 // おります (Merendah untuk いる)
+    },
+    {
+      text: "3. コーヒーを（ ）。",
+      options: ["めしあがります", "うかがいます", "いただきます", "もうします"],
+      answer: 2 // いただきます (Merendah untuk 飲む)
+    },
+    {
+      text: "4. <ruby>私<rt>わたし</rt></ruby>はマリアと（ ）。",
+      options: ["おっしゃいます", "まいります", "いたします", "もうします"],
+      answer: 3 // もうします (Merendah untuk 言う)
+    },
+    {
+      text: "5. <ruby>社長<rt>しゃちょう</rt></ruby>のメールを（ ）。",
+      options: ["はいけんしました", "ごらんになりました", "うかがいました", "いただきました"],
+      answer: 0 // はいけんしました (Merendah untuk 見る)
+    },
+    {
+      text: "6. コピーは<ruby>私<rt>わたし</rt></ruby>が（ ）。",
+      options: ["なさいます", "いたします", "いただきます", "まいります"],
+      answer: 1 // いたします (Merendah untuk する)
+    },
+    {
+      text: "7. A「あした<ruby>何時<rt>なんじ</rt></ruby>にうちへ<ruby>来<rt>き</rt></ruby>ますか。」<br>B「３<ruby>時<rt>じ</rt></ruby>に（ ）。」",
+      options: ["まいります", "おります", "うかがいます", "もうします"],
+      answer: 2 // うかがいます (Merendah untuk うちへ行く)
+    },
+    {
+      text: "8. そのニュースはよく（ ）。",
+      options: ["ごぞんじです", "ぞんじております", "しっていらっしゃいます", "はいけんします"],
+      answer: 1 // ぞんじております (Merendah untuk 知っている)
+    },
+    {
+      text: "9. <ruby>先生<rt>せんせい</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>を（ ）。",
+      options: ["くださいました", "くれました", "いただきました", "うかがいました"],
+      answer: 2 // いただきました (Merendah untuk もらう)
+    },
+    {
+      text: "10. <ruby>重<rt>おも</rt></ruby>そうですね。<ruby>私<rt>わたし</rt></ruby>がお（ ）しましょう。",
+      options: ["持ち", "持ちに", "持たれ", "持たせ"],
+      answer: 0 // お持ちします (お + masu-stem + します)
+    },
+    {
+      text: "11. この<ruby>機械<rt>きかい</rt></ruby>の<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>をご（ ）します。",
+      options: ["説明", "説明し", "お説明", "説明され"],
+      answer: 0 // ご説明します (ご + Noun + します)
+    },
+    {
+      text: "12. <ruby>社長<rt>しゃちょう</rt></ruby>に<ruby>仕事<rt>しごと</rt></ruby>を<ruby>手伝<rt>てつだ</rt></ruby>って（ ）。",
+      options: ["いただきました", "くださいました", "おりました", "いたしました"],
+      answer: 0 // ていただきました (Merendah untuk てもらう)
+    },
+    {
+      text: "13. ちょっと（ ）ますが、<ruby>駅<rt>えき</rt></ruby>はどちらですか。",
+      options: ["ぞんじ", "うかがい", "もうし", "まいり"],
+      answer: 1 // うかがいます (Merendah untuk 聞く)
+    },
+    {
+      text: "14. <ruby>私<rt>わたし</rt></ruby>が<ruby>町<rt>まち</rt></ruby>をご（ ）します。",
+      options: ["手伝い", "案内", "持ち", "呼び"],
+      answer: 1 // ご案内します
+    },
+    {
+      text: "15. <ruby>仕事<rt>しごと</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>がお（ ）します。",
+      options: ["説明", "手伝い", "案内", "紹介"],
+      answer: 1 // お手伝いします (お + masu-stem + します)
+    },
 
-            // ===============================
-            // 1–30: BUNPOU + GOI（謙譲語）
-            // ===============================
+    /* =====================================================
+       PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+       問題 16～25 (Fokus: Bab 42 - 謙譲語 / Bahasa Merendah)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【ビジネスメール】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>株式会社<rt>かいしゃ</rt></ruby>ABC<br>
+  <ruby>山田部長<rt>やまだぶちょう</rt></ruby><br><br>
+  いつもお<ruby>世話<rt>せわ</rt></ruby>になって <b>（ 16 ）</b>。<br>
+  XYZ<ruby>会社<rt>かいしゃ</rt></ruby>のジョンと <b>（ 17 ）</b>。<br>
+  <ruby>明日<rt>あした</rt></ruby>のミーティングについてですが、１４<ruby>時<rt>じ</rt></ruby>にそちらのオフィスへ <b>（ 18 ）</b>。<br>
+  その<ruby>時<rt>とき</rt></ruby>、<ruby>新<rt>あたら</rt></ruby>しいパンフレットをご <b>（ 19 ）</b> します。<br>
+  よろしくお<ruby>願<rt>ねが</rt></ruby>い <b>（ 20 ）</b>。<br><br>
+  ジョン
+</div>
+`,
+      text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["いらっしゃいます", "おります", "まいります", "いたします"],
+      answer: 1 // おります (Merendah untuk ている)
+    },
+    {
+      text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["おっしゃいます", "もうします", "うかがいます", "ぞんじております"],
+      answer: 1 // もうします (Merendah untuk 言う/memperkenalkan diri)
+    },
+    {
+      text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["うかがいます", "いらっしゃいます", "いただきます", "はいけんします"],
+      answer: 0 // うかがいます (Merendah untuk 行く ke tempat lawan bicara)
+    },
+    {
+      text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["持ち", "説明", "手伝い", "見"],
+      answer: 1 // ご説明します (ご + Noun + します)
+    },
+    {
+      text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["いたします", "なさいます", "まいります", "いただきます"],
+      answer: 0 // いたします (Merendah untuk します)
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">私</div>
+    <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>先生<rt>せんせい</rt></ruby>、<ruby>送<rt>おく</rt></ruby>っていただいた<ruby>写真<rt>しゃしん</rt></ruby>を <b>（ 21 ）</b>。<br>とてもきれいな<ruby>写真<rt>しゃしん</rt></ruby>ですね。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      そうですか。よかったです。あの<ruby>場所<rt>ばしょ</rt></ruby>はご <b>（ 22 ）</b> か。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:10px;">先生</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">私</div>
+    <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      はい、よく <b>（ 23 ）</b>。<ruby>私<rt>わたし</rt></ruby>の<ruby>家<rt>いえ</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くです。<ruby>今度<rt>こんど</rt></ruby>、<ruby>先生<rt>せんせい</rt></ruby>にこの<ruby>町<rt>まち</rt></ruby>をご <b>（ 24 ）</b> したいです。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      ありがとう。その<ruby>時<rt>とき</rt></ruby>はよろしくお<ruby>願<rt>ねが</rt></ruby>いします。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:10px;">先生</div>
+  </div>
+</div>
+`,
+      text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["ごらんになりました", "はいけんしました", "お見になりました", "みられました"],
+      answer: 1 // はいけんしました (Merendah untuk 見る)
+    },
+    {
+      text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["ぞんじです", "ぞんじております", "しっています", "しっていらっしゃいます"],
+      answer: 0 // ぞんじですか (Hormat untuk 知っていますか - Guru bertanya ke murid tapi Guru pakai Sonkeigo? Wait. Teacher says "Do you know that place?". If teacher respects the student or speaks politely: 知っていますか. Or maybe "I know it" = ぞんじております. The blank is Guru speaking. "あの場所はご存知ですか" is Sonkeigo. Yes, acceptable if formal.)
+    },
+    {
+      text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["ぞんじております", "ごぞんじです", "しっております", "しっていらっしゃいます"],
+      answer: 0 // ぞんじております (Murid merendah: Saya tahu)
+    },
+    {
+      text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+      options: ["手伝い", "説明", "案内", "持ち"],
+      answer: 2 // ご案内したいです (Saya ingin memandu)
+    },
+    {
+      text: "25. <ruby>文章<rt>ぶんしょう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているものはどれですか。",
+      options: [
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>先生<rt>せんせい</rt></ruby>の<ruby>写真<rt>しゃしん</rt></ruby>をまだ<ruby>見<rt>み</rt></ruby>ていません。",
+        "<ruby>先生<rt>せんせい</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>家<rt>いえ</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くの<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>送<rt>おく</rt></ruby>りました。",
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>写真<rt>しゃしん</rt></ruby>の<ruby>場所<rt>ばしょ</rt></ruby>を<ruby>知<rt>し</rt></ruby>りません。",
+        "<ruby>先生<rt>せんせい</rt></ruby>が<ruby>私<rt>わたし</rt></ruby>に<ruby>町<rt>まち</rt></ruby>を<ruby>案内<rt>あんない</rt></ruby>します。"
+      ],
+      answer: 1 // 先生は私の家の近くの写真を送りました。(Karena Murid bilang "Itu dekat rumah saya")
+    },
 
-            {
-                text: "1. わたしは日本へ（　）。",
-                options: ["行きます", "参ります", "いらっしゃいます", "行かれます"],
-                answer: 1
-            },
-            {
-                text: "2. わたしは昨日、会議に（　）。",
-                options: ["出ました", "出られました", "出席しました", "参りました"],
-                answer: 3
-            },
-            {
-                text: "3. わたしは田中と（　）。",
-                options: ["言います", "申します", "おっしゃいます", "言われます"],
-                answer: 1
-            },
-            {
-                text: "4. 先生に質問を（　）。",
-                options: ["聞きました", "伺いました", "聞かれました", "お聞きになります"],
-                answer: 1
-            },
-            {
-                text: "5. お客様の仕事を（　）。",
-                options: ["手伝いました", "お手伝いしました", "手伝われました", "手伝います"],
-                answer: 1
-            },
+    /* =====================================================
+       PART 3 : 漢字問題 (Kanji - Kosakata Bab 42)
+       BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+       *TIDAK ADA RUBY DI BAGIAN INI*
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+      text: "26. 私が<u>案内</u>します。",
+      options: ["あんない", "あない", "あんい", "あんな"],
+      answer: 0
+    },
+    {
+      text: "27. この使い方を<u>説明</u>します。",
+      options: ["せつまい", "せつめい", "せめい", "せつみ"],
+      answer: 1
+    },
+    {
+      text: "28. 社長のメールを<u>拝見</u>しました。",
+      options: ["はいけん", "ばいけん", "はけん", "はいげん"],
+      answer: 0
+    },
+    {
+      text: "29. ３時に<u>伺い</u>ます。",
+      options: ["うかがい", "むかい", "うががい", "ねがい"],
+      answer: 0
+    },
 
-            {
-                text: "6. わたしが荷物を（　）。",
-                options: ["持ちます", "お持ちします", "持たれます", "お持ちになります"],
-                answer: 1
-            },
-            {
-                text: "7. ドアを（　）。",
-                options: ["開けます", "お開けします", "開けられます", "お開けになります"],
-                answer: 1
-            },
-            {
-                text: "8. お茶を（　）。",
-                options: ["入れます", "お入れします", "入れられます", "お入れになります"],
-                answer: 1
-            },
-            {
-                text: "9. 皿を（　）。",
-                options: ["運びます", "お運びします", "運ばれます", "お運びになります"],
-                answer: 1
-            },
-            {
-                text: "10. 失礼を（　）。",
-                options: ["言います", "お言いします", "申します", "言われます"],
-                answer: 2
-            },
+    /* =====================================================
+       PART 3 : 漢字問題 
+       BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+       *TIDAK ADA RUBY DI BAGIAN INI*
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+      text: "30. 重そうですね。お<u>てつだい</u>しましょうか。",
+      options: ["手信い", "手伝い", "手会い", "手転い"],
+      answer: 1
+    },
+    {
+      text: "31. すぐ<u>まいり</u>ます。",
+      options: ["来り", "行り", "参り", "歩り"],
+      answer: 2
+    },
+    {
+      text: "32. カバンをお<u>もち</u>します。",
+      options: ["持ち", "特ち", "待ち", "時ち"],
+      answer: 0
+    },
+    {
+      text: "33. 私はジョンと<u>もうし</u>ます。",
+      options: ["言い", "話し", "語し", "申し"],
+      answer: 3
+    },
 
-            {
-                text: "11. わたしが（　）します。",
-                options: ["案内", "ご案内", "お案内", "案内し"],
-                answer: 1
-            },
-            {
-                text: "12. わたしが（　）します。",
-                options: ["紹介", "ご紹介", "お紹介", "紹介し"],
-                answer: 1
-            },
-            {
-                text: "13. （　）します。",
-                options: ["説明", "ご説明", "お説明", "説明し"],
-                answer: 1
-            },
-            {
-                text: "14. （　）します。",
-                options: ["電話", "ご電話", "お電話", "電話し"],
-                answer: 1
-            },
-            {
-                text: "15. （　）します。",
-                options: ["出席", "ご出席", "お出席", "出席し"],
-                answer: 1
-            },
-
-            {
-                text: "16. わたしは先生の家に（　）。",
-                options: ["行きます", "参ります", "いらっしゃいます", "行かれます"],
-                answer: 1
-            },
-            {
-                text: "17. わたしが先生に（　）。",
-                options: ["会います", "お会いします", "会われます", "会いますか"],
-                answer: 1
-            },
-            {
-                text: "18. わたしが社長に（　）。",
-                options: ["聞きます", "伺います", "聞かれます", "お聞きになります"],
-                answer: 1
-            },
-            {
-                text: "19. わたしが部長に（　）。",
-                options: ["言います", "申します", "おっしゃいます", "言われます"],
-                answer: 1
-            },
-            {
-                text: "20. わたしが資料を（　）。",
-                options: ["見せます", "お見せします", "見られます", "ご覧になります"],
-                answer: 1
-            },
-
-            {
-                text: "21. わたしが説明を（　）。",
-                options: ["します", "ご説明します", "説明されます", "お説明になります"],
-                answer: 1
-            },
-            {
-                text: "22. わたしが電話を（　）。",
-                options: ["します", "ご電話します", "電話されます", "お電話になります"],
-                answer: 1
-            },
-            {
-                text: "23. わたしが案内を（　）。",
-                options: ["します", "ご案内します", "案内されます", "お案内になります"],
-                answer: 1
-            },
-            {
-                text: "24. わたしが先生に（　）。",
-                options: ["会います", "お会いします", "会われます", "会いますか"],
-                answer: 1
-            },
-            {
-                text: "25. わたしが部長に（　）。",
-                options: ["話します", "お話しします", "話されます", "お話しになります"],
-                answer: 1
-            },
-
-            {
-                text: "26. わたしが荷物を（　）。",
-                options: ["運びます", "お運びします", "運ばれます", "お運びになります"],
-                answer: 1
-            },
-            {
-                text: "27. わたしが手紙を（　）。",
-                options: ["書きます", "お書きします", "書かれます", "お書きになります"],
-                answer: 1
-            },
-            {
-                text: "28. わたしが説明を（　）。",
-                options: ["します", "ご説明します", "説明されます", "お説明になります"],
-                answer: 1
-            },
-            {
-                text: "29. わたしが先生に（　）。",
-                options: ["聞きます", "伺います", "聞かれます", "お聞きになります"],
-                answer: 1
-            },
-            {
-                text: "30. わたしが名前を（　）。",
-                options: ["言います", "申します", "おっしゃいます", "言われます"],
-                answer: 1
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-
-            {
-                passage: `<strong>【31–32】</strong><br><br>
-        わたしがご案内します。
-        どうぞこちらへお越しください。`,
-                text: "31. 誰が案内しますか。",
-                options: [
-                    "先生",
-                    "社長",
-                    "わたし",
-                    "お客様"
-                ],
-                answer: 2
-            },
-            {
-                text: "32. 「こちらへお越しください」は何の言葉ですか。",
-                options: [
-                    "普通形",
-                    "命令形",
-                    "尊敬語",
-                    "謙譲語"
-                ],
-                answer: 2
-            },
-
-            {
-                passage: `<strong>【33–34】</strong><br><br>
-        わたしは昨日、先生に伺いました。
-        そして、質問をしました。`,
-                text: "33. 「伺いました」はどういう意味ですか。",
-                options: [
-                    "聞いた",
-                    "行った・聞いた",
-                    "見た",
-                    "話した"
-                ],
-                answer: 1
-            },
-            {
-                text: "34. 誰に質問しましたか。",
-                options: [
-                    "友達",
-                    "先生",
-                    "社長",
-                    "家族"
-                ],
-                answer: 1
-            },
-
-            {
-                passage: `<strong>【35–36】</strong><br><br>
-        わたしがご説明します。
-        分からないことがあったら、聞いてください。`,
-                text: "35. 誰が説明しますか。",
-                options: [
-                    "先生",
-                    "お客様",
-                    "わたし",
-                    "友達"
-                ],
-                answer: 2
-            },
-            {
-                text: "36. 分からないとき、何をしますか。",
-                options: [
-                    "帰る",
-                    "聞く",
-                    "寝る",
-                    "食べる"
-                ],
-                answer: 1
-            },
-
-            // ===============================
-            // 37–40: MENYUSUN KALIMAT
-            // ===============================
-
-            {
-                text: "37. わたしは ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["日本へ", "参り", "ます", "明日"],
-                answer: [3, 0, 1, 2]
-            },
-            {
-                text: "38. わたしが ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["ご案内", "します", "こちらへ", "どうぞ"],
-                answer: [3, 2, 0, 1]
-            },
-            {
-                text: "39. わたしが ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["説明を", "ご説明", "します", "今"],
-                answer: [3, 0, 1, 2]
-            },
-            {
-                text: "40. わたしは ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span>。",
-                options: ["先生に", "伺い", "ました", "昨日"],
-                answer: [3, 0, 1, 2]
-            }
-
-        ];
-        let answers = new Array(questions.length).fill(null);
+    /* =====================================================
+       PART 4 : 記述問題 (Kijutsu Mondai)
+       問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 42)
+       ===================================================== */
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+      text: "34. <ruby>重<rt>おも</rt></ruby>そうですね。<ruby>私<rt>わたし</rt></ruby>が荷物を＿＿(A)＿＿＿＿(B)＿＿。",
+      options: [
+        "（A）お持ち （B）します",
+        "（A）お持ち （B）になります",
+        "（A）持ち （B）します",
+        "（A）持たれ （B）ます"
+      ],
+      answer: 0 // 私が荷物をお持ちします。
+    },
+    {
+      text: "35. <ruby>私<rt>わたし</rt></ruby>が<ruby>町<rt>まち</rt></ruby>を＿＿(A)＿＿＿＿(B)＿＿。",
+      options: [
+        "（A）ご案内 （B）になります",
+        "（A）ご案内 （B）します",
+        "（A）お案内 （B）します",
+        "（A）案内 （B）されます"
+      ],
+      answer: 1 // 私が町をご案内します。
+    },
+    {
+      text: "36. <ruby>明日<rt>あした</rt></ruby>の３<ruby>時<rt>じ</rt></ruby>にそちらへ＿＿(A)＿＿＿＿(B)＿＿。",
+      options: [
+        "（A）うかがい （B）ます",
+        "（A）いらっしゃい （B）ます",
+        "（A）おいでし （B）ます",
+        "（A）まいられ （B）ます"
+      ],
+      answer: 0 // 明日の3時にうかがいます。
+    },
+    {
+      passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+      text: "37. 【１．<ruby>私<rt>わたし</rt></ruby> → ２．<ruby>荷物<rt>にもつ</rt></ruby> → ３．<ruby>持<rt>も</rt></ruby><u>つ</u>】（※「<ruby>謙譲語<rt>けんじょうご</rt></ruby>」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+      options: [
+        "<ruby>私<rt>わたし</rt></ruby>が<ruby>荷物<rt>にもつ</rt></ruby>をお<ruby>持<rt>も</rt></ruby>ちします。",
+        "<ruby>私<rt>わたし</rt></ruby>が<ruby>荷物<rt>にもつ</rt></ruby>をお<ruby>持<rt>も</rt></ruby>ちになります。",
+        "<ruby>私<rt>わたし</rt></ruby>が<ruby>荷物<rt>にもつ</rt></ruby>を持たれます。",
+        "<ruby>私<rt>わたし</rt></ruby>が<ruby>荷物<rt>にもつ</rt></ruby>を持たせます。"
+      ],
+      answer: 0 // 私が荷物をお持ちします。
+    },
+    {
+      text: "38. 【１．<ruby>私<rt>わたし</rt></ruby> → ２．<ruby>今日<rt>きょう</rt></ruby> → ３．<ruby>行<rt>い</rt></ruby><u>く</u>】（※「<ruby>謙譲動詞<rt>けんじょうどうし</rt></ruby>」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+      options: [
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>いらっしゃいます。",
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>まいります。",
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>いただきます。",
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>今日<rt>きょう</rt></ruby>おります。"
+      ],
+      answer: 1 // 私は今日まいります。
+    },
+    {
+      text: "39. 【１．<ruby>社長<rt>しゃちょう</rt></ruby>の → ２．<ruby>手紙<rt>てがみ</rt></ruby> → ３．<ruby>見<rt>み</rt></ruby><u>る</u>】（※「<ruby>謙譲動詞<rt>けんじょうどうし</rt></ruby>」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+      options: [
+        "<ruby>社長<rt>しゃちょう</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>をごらんになりました。",
+        "<ruby>社長<rt>しゃちょう</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>をはいけんしました。",
+        "<ruby>社長<rt>しゃちょう</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>をうかがいました。",
+        "<ruby>社長<rt>しゃちょう</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>をぞんじております。"
+      ],
+      answer: 1 // 社長の手紙をはいけんしました。
+    },
+    {
+      text: "40. 【１．<ruby>山田<rt>やまだ</rt></ruby> → ２．<ruby>言<rt>い</rt></ruby><u>う</u> → ３．<ruby>名前<rt>なまえ</rt></ruby>】（※<ruby>自己紹介<rt>じこしょうかい</rt></ruby>で「<ruby>謙譲動詞<rt>けんじょうどうし</rt></ruby>」を<ruby>使<rt>つか</rt></ruby>ってください）。",
+      options: [
+        "<ruby>私<rt>わたし</rt></ruby>は<ruby>山田<rt>やまだ</rt></ruby>と申します。<ruby>名前<rt>なまえ</rt></ruby>です。",
+        "<ruby>私<rt>わたし</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>山田<rt>やまだ</rt></ruby>とおっしゃいます。",
+        "<ruby>私<rt>わたし</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>山田<rt>やまだ</rt></ruby>と申します。",
+        "<ruby>私<rt>わたし</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>は<ruby>山田<rt>やまだ</rt></ruby>といただきます。"
+      ],
+      answer: 2 // 私の名前は山田と申します。
+    }
+  ];
+ 
+    let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -690,7 +810,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -711,7 +831,7 @@
             nav.innerHTML = "";
             for (let i = 0; i < questions.length; i++) {
                 const btn = document.createElement("button");
-                btn.innerText = i + 1;
+                btn.innerHTML = i + 1;
                 btn.onclick = () => {
                     if (examFinished) return;
                     current = i;
@@ -810,7 +930,7 @@
 
                 let message = `
        ==============================
-       HASIL BAB 42
+       HASIL Bab 42
        ==============================
 
        👤 Nama : ${studentName}
