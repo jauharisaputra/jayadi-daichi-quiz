@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembelajaran Bab 24</title>
+
+    <style>
+        :root {
+            --bg-main: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* CARD CONTAINER */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        p.description {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .alert-info {
+            background-color: #eff6ff;
+            color: #1e3a8a;
+            padding: 12px 16px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px 8px 8px 4px;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        /* VIDEO & PROGRESS BAR */
+        .video-section {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* CUSTOM PROGRESS BAR DIPERTEBAL */
+        .progress-container {
+            width: 100%;
+            height: 28px;
+            /* Dipertebal menjadi 28px */
+            background-color: #cbd5e1;
+            /* Warna dasar abu-abu terang */
+            position: relative;
+            border-radius: 0 0 12px 12px;
+            /* Melengkung di sudut bawah mengikuti video */
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.2s linear;
+        }
+
+        /* TEKS PERSENTASE */
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            /* Agar teks terbaca di warna terang/gelap */
+            pointer-events: none;
+            /* Agar tidak mengganggu klik/interaksi */
+            z-index: 10;
+        }
+
+        /* BUTTON KUIS */
+        .btn-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            min-height: 50px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+            /* Disabled by default */
+        }
+
+        .btn.unlocked {
+            opacity: 1;
+            pointer-events: auto;
+            background-color: var(--success-color);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn.unlocked:hover {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+
+        @media(max-width: 600px) {
+            .card {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>第24課：可能形・〜ようになりました・〜なくなりました</h1>
+        <p class="description">
+            Selamat datang di pembelajaran Bab 24! Di bab ini, kita akan mempelajari beberapa ekspresi penting dalam bahasa Jepang, termasuk "可能形" (bentuk kemampuan), "〜ようになりました" (menjadi bisa...), dan "〜なくなりました" (menjadi tidak...). Pastikan untuk menonton video pembelajaran dengan seksama untuk memahami konsep-konsep ini sebelum melanjutkan ke kuis.
+        </p>
+
+        <div class="alert-info" id="statusMessage">
+            ℹ️ Tonton video minimal 80% tanpa dipercepat untuk membuka kuis.
+        </div>
+
+        <div class="video-section">
+            <video id="learningVideo" controls controlsList="nodownload">
+                <!-- Masukkan source file video Anda di sini -->
+                <source src="video_pembelajaran/Menguasai_Bab_24.mp4" type="video/mp4">
+                Maaf, browser Anda tidak mendukung pemutaran video.
+            </video>
+
+            <!-- Progress bar yang sudah dipertebal dan dilengkapi teks persentase -->
+            <div class="progress-container">
+                <div class="progress-bar" id="customProgressBar"></div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+
+        <div class="btn-wrapper">
+            <a href="bab24.html" class="btn" id="quizBtn">
+                🔒 Kuis Terkunci
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('learningVideo');
+        const progressBar = document.getElementById('customProgressBar');
+        const progressText = document.getElementById('progressText');
+        const quizBtn = document.getElementById('quizBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        let maxPlayedTime = 0;
+        let isQuizUnlocked = false;
+
+        // Mencegah user mempercepat (fast-forward) video
+        video.addEventListener('timeupdate', () => {
+            if (!video.duration) return;
+
+            // Logika Anti-Skip: Jika video diputar secara normal, perbarui maxPlayedTime
+            if (!video.seeking) {
+                if (video.currentTime > maxPlayedTime) {
+                    maxPlayedTime = video.currentTime;
+                }
+            }
+
+            // Update Progress Bar dan Teks Persentase berdasarkan current time
+            const percentage = (video.currentTime / video.duration) * 100;
+
+            progressBar.style.width = percentage + '%';
+            // Menampilkan persentase dibulatkan tanpa angka desimal
+            progressText.innerText = Math.floor(percentage) + '%';
+
+            // Logika Membuka Kuis (Batas 80%)
+            if (percentage >= 80 && !isQuizUnlocked) {
+                unlockQuiz();
+            }
+        });
+
+        // Menangkap event saat user menggeser time bar (seek)
+        video.addEventListener('seeking', () => {
+            // Memberikan toleransi 1 detik agar tidak patah-patah saat jeda normal
+            if (video.currentTime > maxPlayedTime + 1) {
+                video.currentTime = maxPlayedTime; // Paksa kembali ke titik terjauh yang sudah ditonton
+            }
+        });
+
+        function unlockQuiz() {
+            isQuizUnlocked = true;
+            quizBtn.classList.add('unlocked');
+            quizBtn.innerHTML = '🚀 Mulai Kuis Bab 24';
+
+            statusMessage.style.backgroundColor = '#ecfdf5';
+            statusMessage.style.color = '#047857';
+            statusMessage.style.borderLeftColor = '#10b981';
+            statusMessage.innerHTML = '✅ Kuis telah terbuka! Anda bisa melanjutkan kapan saja.';
+        }
+    </script>
+</body>
+
+</html>
