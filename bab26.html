@@ -320,227 +320,389 @@
             return atob(str);
         }
 
-      const questions = [
+    const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 26 - とき, なければなりません, なきゃ)
+               ===================================================== */
             {
-                text: "会社に出張するとき、大事な（   ）をカバンに入れました。",
-                options: ["資料", "病院", "忘れ物", "乗り換え"],
-                answer: 0
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. <ruby>寒<rt>さむ</rt></ruby>い（ ）、セーターを<ruby>着<rt>き</rt></ruby>ます。",
+                options: ["とき", "から", "まで", "ので"],
+                answer: 0 // とき
             },
             {
-                text: "ホテルの（   ）で名前を書いて、部屋の鍵をもらいました。",
-                options: ["工場", "受付", "財布", "電車"],
-                answer: 1
+                text: "2. <ruby>暇<rt>ひま</rt></ruby>（ ）とき、<ruby>遊<rt>あそ</rt></ruby>びに<ruby>行<rt>い</rt></ruby>きましょう。",
+                options: ["だ", "に", "な", "の"],
+                answer: 2 // な (Na-adj + なとき)
             },
             {
-                text: "時間に遅れないように、新幹線の出発時間を（   ）しました。",
-                options: ["予約", "案内", "確認", "利用"],
-                answer: 2
+                text: "3. <ruby>子<rt>こ</rt></ruby>ども（ ）とき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。",
+                options: ["な", "の", "だ", "に"],
+                answer: 1 // の (Noun + のとき)
             },
             {
-                text: "電車の中に大切な（   ）を忘れてしまい、駅員さんに相談しました。",
-                options: ["仕事", "予定", "連絡", "財布"],
-                answer: 3
+                text: "4. <ruby>言葉<rt>ことば</rt></ruby>がわからない（ ）、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。",
+                options: ["こと", "とき", "もの", "の"],
+                answer: 1 // とき
             },
             {
-                text: "明日の会議の（   ）を変更したい場合は、今日中に教えてください。",
-                options: ["予定", "病院", "工場", "忘れ物"],
-                answer: 0
+                text: "5. <ruby>国<rt>くに</rt></ruby>へ（ ）とき、<ruby>両親<rt>りょうしん</rt></ruby>にお<ruby>土産<rt>みやげ</rt></ruby>を<ruby>買<rt>か</rt></ruby>います。",
+                options: ["かえる", "かえった", "かえって", "かえり"],
+                answer: 0 // かえる (Membeli oleh-oleh SEBELUM pulang ke negara)
             },
             {
-                text: "京都駅で地下鉄（   ）乗り換えて、市役所へ行きます。",
-                options: ["を", "に", "で", "が"],
-                answer: 1
+                text: "6. <ruby>国<rt>くに</rt></ruby>へ（ ）とき、<ruby>両親<rt>りょうしん</rt></ruby>にお<ruby>土産<rt>みやげ</rt></ruby>をあげます。",
+                options: ["かえる", "かえった", "かえって", "かえり"],
+                answer: 1 // かえった (Memberikan oleh-oleh SETELAH tiba di negara)
             },
             {
-                text: "先生に電話が通じないときは、メールで（   ）しなければなりません。",
-                options: ["確認", "利用", "連絡", "出発"],
-                answer: 2
+                text: "7. <ruby>日本語<rt>にほんご</rt></ruby>でレポートを（ ）なければなりません。",
+                options: ["かく", "かき", "かいて", "かか"],
+                answer: 3 // かか (書かない -> 書かなければなりません)
             },
             {
-                text: "来週、家族と一緒に北海道へ（   ）する予定です。",
-                options: ["試験", "受付", "予約", "旅行"],
-                answer: 3
-            }
-        ];
+                text: "8. <ruby>毎日<rt>まいにち</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>（ ）なければなりません。",
+                options: ["する", "し", "して", "さ"],
+                answer: 1 // し (しない -> しなければなりません)
+            },
+            {
+                text: "9. もうすぐお<ruby>客<rt>きゃく</rt></ruby>さんが<ruby>来<rt>き</rt></ruby>ますから、ご<ruby>飯<rt>はん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ら（ ）。",
+                options: ["なきゃ", "なければ", "ない", "ません"],
+                answer: 0 // なきゃ (Bentuk kasual dari なければなりません)
+            },
+            {
+                text: "10. <ruby>手紙<rt>てがみ</rt></ruby>を（ ）とき、ペンと<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。",
+                options: ["かく", "かいた", "かいて", "かかない"],
+                answer: 0 // かく
+            },
+            {
+                text: "11. <ruby>道<rt>みち</rt></ruby>を（ ）とき、<ruby>左<rt>ひだり</rt></ruby>と<ruby>右<rt>みぎ</rt></ruby>を<ruby>見<rt>み</rt></ruby>なければなりません。",
+                options: ["わたって", "わたる", "わたった", "わたり"],
+                answer: 1 // わたる
+            },
+            {
+                text: "12. <ruby>明日<rt>あした</rt></ruby>はテストですから、<ruby>早<rt>はや</rt></ruby>く（ ）なきゃ。",
+                options: ["ねる", "ねない", "ねて", "ね"],
+                answer: 3 // ねなきゃ
+            },
+            {
+                text: "13. <ruby>病気<rt>びょうき</rt></ruby>（ ）とき、<ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます。",
+                options: ["な", "の", "だ", "に"],
+                answer: 1 // の
+            },
+            {
+                text: "14. <ruby>海外<rt>かいがい</rt></ruby>へ<ruby>行<rt>い</rt></ruby>くとき、パスポートを<ruby>見<rt>み</rt></ruby>せ（ ）。",
+                options: ["なければなりません", "てはいけません", "てもいいです", "なくてもいいです"],
+                answer: 0 // なければなりません
+            },
+            {
+                text: "15. <ruby>眠<rt>ねむ</rt></ruby>い（ ）、コーヒーを<ruby>飲<rt>の</rt></ruby>みます。",
+                options: ["の", "から", "とき", "こと"],
+                answer: 2 // とき
 
-        questions.push(
-            {
-                text: "日本へ行く（   ）、パスポートを準備しておかなければなりません。",
-                options: ["とき", "ので", "から", "まで"],
-                answer: 0
             },
-            {
-                text: "子ども（   ）とき、よくこの公園で友達と遊んでいました。",
-                options: ["な", "の", "い", "だ"],
-                answer: 1
-            },
-            {
-                text: "明日は大事な試験がありますから、今夜は早く（   ）。",
-                options: ["寝るときです", "寝てもいいです", "寝なければなりません", "寝たときです"],
-                answer: 2
-            },
-            {
-                text: "会社に遅れそうだから、急いで（   ）！",
-                options: ["行くとき", "行かなかった", "行かなければ", "行かなきゃ"],
-                answer: 3
-            },
-            {
-                text: "暇（   ）ときは、本を読んだり音楽を聴いたりします。",
-                options: ["な", "の", "い", "だ"],
-                answer: 0
-            },
-            {
-                text: "うちへ（   ）とき、「ただいま」と言います。",
-                options: ["帰った", "帰る", "帰り", "帰って"],
-                answer: 1
-            },
-            {
-                text: "国へ（   ）とき、家族にお土産をあげました。",
-                options: ["かえる", "かえり", "かえった", "かえって"],
-                answer: 2
-            },
-            {
-                text: "頭が（   ）ときは、薬を飲んでゆっくり休んでください。",
-                options: ["痛いな", "痛みの", "痛くだ", "痛い"],
-                answer: 3
-            }
-        );
 
-        questions.push(
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 26 - とき, なければなりません)
+               ===================================================== */
             {
-                text: "A「すみません、このレポートはいつまでに出さなければなりませんか。」\nB「（   ）。」",
-                options: [
-                    "金曜日の午後５時までに提出してください",
-                    "はい、昨日提出しました",
-                    "図書館で本を読んだときです",
-                    "いいえ、出さなくてもいいです"
-                ],
-                answer: 0
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      来週、日本へ行きますね。日本へ <b>（ 16 ）</b> とき、何を買いますか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      カメラを買いたいです。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      いいですね。国へ <b>（ 17 ）</b> とき、誰にそのカメラを見せますか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      家族に見せます。あ、もう遅いですね。明日も仕事ですから、早く <b>（ 18 ）</b> なきゃ。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["行く", "行った", "行かない", "行って"],
+                answer: 1 // 行った (Setelah tiba di Jepang)
             },
             {
-                text: "A「あ、もうすぐ新幹線が出発しますよ。早く行かなきゃ！」\nB「（   ）。」",
-                options: [
-                    "いいえ、行きませんでした",
-                    "本当ですね！走っていきましょう",
-                    "はい、昨日出発しました",
-                    "どういたしまして"
-                ],
-                answer: 1
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["かえる", "かえった", "かえって", "かえらない"],
+                answer: 1 // かえった (Setelah kembali ke negara)
             },
             {
-                text: "A「体調が悪くなったときは、どうすればいいですか。」\nB「（   ）。」",
-                options: [
-                    "病院の予約を忘れました",
-                    "薬を飲まなくてもいいです",
-                    "無理をしないで、すぐに連絡してください",
-                    "電車を乗り換えてください"
-                ],
-                answer: 2
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["ねて", "ねる", "ねない", "ね"],
+                answer: 3 // ねなきゃ
             },
             {
-                text: "A「駅から工場までの行き方が分からないときは、どうしますか。」\nB「（   ）。」",
-                options: [
-                    "工場に着いたからです",
-                    "利用したことがありません",
-                    "電車が遅れました",
-                    "受付の人に案内してもらいましょう"
-                ],
-                answer: 3
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <b><ruby>図書館<rt>としょかん</rt></ruby>のルール</b><br><br>
+  ・<ruby>本<rt>ほん</rt></ruby>を<ruby>借<rt>か</rt></ruby>りる <b>（ 19 ）</b>、カードを<ruby>見<rt>み</rt></ruby>せなければなりません。<br>
+  ・<ruby>本<rt>ほん</rt></ruby>は２<ruby>週間以内<rt>しゅうかんいない</rt></ruby>に<ruby>返<rt>かえ</rt></ruby>さ <b>（ 20 ）</b>。<br>
+  ・<ruby>携帯電話<rt>けいたいでんわ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>う <b>（ 21 ）</b>、<ruby>外<rt>そと</rt></ruby>へ<ruby>出<rt>で</rt></ruby>なければなりません。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["とき", "から", "ので", "まで"],
+                answer: 0 // とき
             },
             {
-                text: "A「あ、財布を電車の中に忘れてしまったみたいです！」\nB「（   ）。」",
-                options: [
-                    "大変ですね！すぐに駅員さんに言いましょう",
-                    "それはよかったですね",
-                    "予約しておかなければなりません",
-                    "乗るときに気をつけてください"
-                ],
-                answer: 0
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["なければなりません", "てはいけません", "てもいいです", "なくてもいいです"],
+                answer: 0 // なければなりません
             },
             {
-                text: "A「木村さん、午後の会議の資料はもう準備しましたか。」\nB「（   ）。」",
-                options: [
-                    "いいえ、会議は終わりました",
-                    "はい、始める前に印刷しておかなきゃ",
-                    "はい、昨日出張へ行きました",
-                    "いいえ、受付で買いました"
-                ],
-                answer: 1
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["ので", "から", "とき", "こと"],
+                answer: 2 // とき
             },
             {
-                text: "A「銀行を利用したいのですが、何時まで開いていますか。」\nB「（   ）。」",
-                options: [
-                    "銀行まで電車で行かなければなりません",
-                    "予約したときに見せます",
-                    "午後３時までですので、早く行かなきゃいけませんね",
-                    "忘れ物を確認してください"
-                ],
-                answer: 2
-            }
-        );
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>子<rt>こ</rt></ruby>どもの <b>（ 22 ）</b>、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。<ruby>母<rt>はは</rt></ruby>がいつも「<ruby>野菜<rt>やさい</rt></ruby>を<ruby>食<rt>た</rt></ruby>べ <b>（ 23 ）</b>」と<ruby>言<rt>い</rt></ruby>いましたが、<ruby>食<rt>た</rt></ruby>べませんでした。でも、<ruby>今<rt>いま</rt></ruby>は<ruby>料理<rt>りょうり</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>がわからない <b>（ 24 ）</b>、<ruby>母<rt>はは</rt></ruby>に<ruby>電話<rt>でんわ</rt></ruby>で<ruby>聞<rt>き</rt></ruby>きます。<ruby>病気<rt>びょうき</rt></ruby> <b>（ 25 ）</b> とき、<ruby>母<rt>はは</rt></ruby>の<ruby>野菜<rt>やさい</rt></ruby>スープが<ruby>食<rt>た</rt></ruby>べたくなります。
+</div>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["なとき", "のとき", "だとき", "にとき"],
+                answer: 1 // のとき
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["なきゃ", "てはいけません", "てもいいです", "ないでください"],
+                answer: 0 // なきゃ
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["こと", "もの", "とき", "から"],
+                answer: 2 // とき
+            },
+            {
+                text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["の", "な", "だ", "に"],
+                answer: 0 // の
+            },
 
-        questions.push(
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 26)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
             {
-                text: "【文章１】\n【社員のみなさんへのお知らせ】\n明日の工場見学について連絡します。\n出発時間は午前８時３０分です。時間に遅れないように、８時１５分までに本社の受付前に集まらなければなりません。\n見学のときは、案内係の指示に従ってください。また、工場の中は寒いですから、上着を持っていかなきゃいけません。\n気分が悪くなったときは、無理をしないで、すぐに近くの社員に伝えてください。\n\n質問：社員は明日の朝、何時までに集まらなければなりませんか。",
-                options: ["８時００分", "８時３０分", "９時００分", "８時１５分"],
-                answer: 3
-            },
-            {
-                text: "【文章１】（上の文章を読んで答えてください）\n質問：工場を見学するとき、どうしなければなりませんか。",
-                options: [
-                    "案内係の指示に従う",
-                    "大きな声で話す",
-                    "受付で予約をする",
-                    "電車を乗り換える"
-                ],
-                answer: 0
-            },
-            {
-                text: "【文章１】（上の文章を読んで答えてください）\n質問：工場の中で気分が悪くなったときは、どうしますか。",
-                options: [
-                    "自分で薬を買って飲む",
-                    "すぐに近くの社員に伝える",
-                    "一人で会社へ帰る",
-                    "受付まで走って戻る"
-                ],
-                answer: 1
-            },
-            {
-                text: "【文章２】\n件名：来週の出張の予定について\n木村さん\n\nお疲れ様です。佐藤です。\n来週の東京出張の予定が決まりましたので連絡します。\n月曜日の朝９時に新幹線で出発します。駅のホームで乗り換えるときは、荷物の忘れ物に気をつけてください。\n東京に着いた後は、まずホテルへ行って荷物を預けます。昼ご飯を食べた後、午後２時からA会社で会議があります。\n会議の前に資料をもう一度確認しなければなりません。\nもし都合が悪くなったときは、今日中に私までメールをください。よろしくお願いします。\n\n質問：東京へ行くときは、何に乗っていきますか。",
-                options: ["飛行機", "バス", "新幹線", "地下鉄"],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. <u>寒い</u>とき、セーターを着ます。",
+                options: ["あつい", "すずしい", "さむい", "あたたかい"],
                 answer: 2
             },
             {
-                text: "【文章２】（上の文章を読んで答えてください）\n質問：東京に着いた後、最初に何をしますか。",
-                options: [
-                    "A会社で会議をする",
-                    "昼ご飯を食べる",
-                    "資料の確認をする",
-                    "ホテルへ行って荷物を預ける"
-                ],
-                answer: 3
-            },
-            {
-                text: "【文章２】（上の文章を読んで答えてください）\n質問：会議の前にしなければならないことは何ですか。",
-                options: [
-                    "資料をもう一度確認すること",
-                    "木村さんに電話をかけること",
-                    "新幹線の予約を変更すること",
-                    "忘れ物を探すこと"
-                ],
+                text: "27. 寒いとき、セーターを<u>着ます</u>。",
+                options: ["きます", "のみます", "はきます", "みます"],
                 answer: 0
             },
             {
-                text: "【文章２】（上の文章を読んで答えてください）\n質問：都合が悪くなったときは、どうしなければなりませんか。",
-                options: [
-                    "明日の朝、電話する",
-                    "今日中に佐藤さんにメールを送る",
-                    "ホテルの受付に連絡する",
-                    "A会社に連絡して休む"
-                ],
+                text: "28. <u>言葉</u>がわからないとき、辞書を使います。",
+                options: ["ぶんば", "ことば", "ぶんば", "ごいば"],
                 answer: 1
+            },
+            {
+                text: "29. <u>毎日</u>、勉強しなければなりません。",
+                options: ["まいひ", "まいじ", "まいしゅう", "まいにち"],
+                answer: 3
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. 言葉がわからないとき、<u>じしょ</u>を使います。",
+                options: ["辞書", "字書", "時書", "事書"],
+                answer: 0
+            },
+            {
+                text: "31. 国へかえるとき、両親にお土産を<u>かいます</u>。",
+                options: ["員います", "買います", "見います", "貝います"],
+                answer: 1
+            },
+            {
+                text: "32. <u>てがみ</u>をかくとき、ペンを使います。",
+                options: ["手系", "手髪", "手書", "手紙"],
+                answer: 3
+            },
+            {
+                text: "33. 国へ<u>かえる</u>とき、お土産を買います。",
+                options: ["変える", "返る", "帰る", "代える"],
+                answer: 2
+            },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 26)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. <ruby>暇<rt>ひま</rt></ruby>＿＿(A)＿＿＿＿(B)＿＿、<ruby>遊<rt>あそ</rt></ruby>びに<ruby>行<rt>い</rt></ruby>きましょう。",
+                options: [
+                    "（A）な （B）とき",
+                    "（A）の （B）とき",
+                    "（A）だ （B）とき",
+                    "（A）に （B）とき"
+                ],
+                answer: 0 // なとき
+            },
+            {
+                text: "35. <ruby>日本語<rt>にほんご</rt></ruby>で レポートを＿＿(A)＿＿＿＿(B)＿＿なりません。",
+                options: [
+                    "（A）かか （B）なければ",
+                    "（A）かき （B）なければ",
+                    "（A）かいて （B）てはいけ",
+                    "（A）かく （B）なければ"
+                ],
+                answer: 0 // かかなければ
+            },
+            {
+                text: "36. <ruby>国<rt>くに</rt></ruby>へ＿＿(A)＿＿＿＿(B)＿＿、<ruby>両親<rt>りょうしん</rt></ruby>にお<ruby>土産<rt>みやげ</rt></ruby>をあげます。（※<ruby>国<rt>くに</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いたあとで）",
+                options: [
+                    "（A）かえる （B）とき",
+                    "（A）かえった （B）とき",
+                    "（A）かえって （B）から",
+                    "（A）かえら （B）ないで"
+                ],
+                answer: 1 // かえったとき
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>手紙<rt>てがみ</rt></ruby> → ２．<ruby>書<rt>か</rt></ruby><u>く</u> → ３．とき】（※「～とき、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>手紙<rt>てがみ</rt></ruby>を<ruby>書<rt>か</rt></ruby>いたとき、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。",
+                    "<ruby>手紙<rt>てがみ</rt></ruby>を<ruby>書<rt>か</rt></ruby>くとき、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。",
+                    "<ruby>手紙<rt>てがみ</rt></ruby>を<ruby>書<rt>か</rt></ruby>かないとき、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。",
+                    "<ruby>手紙<rt>てがみ</rt></ruby>を<ruby>書<rt>か</rt></ruby>いてとき、<ruby>辞書<rt>じしょ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。"
+                ],
+                answer: 1 // 手紙を書くとき
+            },
+            {
+                text: "38. 【１．パスポート → ２．<ruby>見<rt>み</rt></ruby>せ<u>る</u> → ３．なければなりません】。",
+                options: [
+                    "パスポートを<ruby>見<rt>み</rt></ruby>せなければなりません。",
+                    "パスポートを<ruby>見<rt>み</rt></ruby>さなければなりません。",
+                    "パスポートを<ruby>見<rt>み</rt></ruby>てなければなりません。",
+                    "パスポートを<ruby>見<rt>み</rt></ruby>えないなければなりません。"
+                ],
+                answer: 0 // パスポートを見せなければなりません
+            },
+            {
+                text: "39. 【１．<ruby>子<rt>こ</rt></ruby>ども → ２．の → ３．とき】（※「～とき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>子<rt>こ</rt></ruby>どもだとき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。",
+                    "<ruby>子<rt>こ</rt></ruby>どもなとき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。",
+                    "<ruby>子<rt>こ</rt></ruby>どものとき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。",
+                    "<ruby>子<rt>こ</rt></ruby>どもにとき、<ruby>野菜<rt>やさい</rt></ruby>が<ruby>嫌<rt>きら</rt></ruby>いでした。"
+                ],
+                answer: 2 // こどものとき
+            },
+            {
+                text: "40. 【１．ご<ruby>飯<rt>はん</rt></ruby> → ２．<ruby>作<rt>つく</rt></ruby><u>る</u> → ３．なきゃ】。",
+                options: [
+                    "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>らなきゃ。",
+                    "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>りなきゃ。",
+                    "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>るなきゃ。",
+                    "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってなきゃ。"
+                ],
+                answer: 0 // ご飯を作らなきゃ
             }
-        ); 
+        ]; 
         
         let answers = new Array(questions.length).fill(null);
 
@@ -649,7 +811,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
