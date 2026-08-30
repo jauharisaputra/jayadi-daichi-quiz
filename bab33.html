@@ -319,231 +319,385 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+       const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 33 - 条件形 (ば/なら), でしょう, カジュアル表現)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. <ruby>推薦状<rt>すいせんじょう</rt></ruby>が（ ）、この<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます。",
+                options: ["あるば", "あれば", "あったらば", "あるなら"],
+                answer: 1 // あれば
+            },
+            {
+                text: "2. ほかの<ruby>奨学金<rt>しょうがくきん</rt></ruby>をもらって（ ）、申し込むことができます。",
+                options: ["いなければ", "いなば", "ないなら", "いなから"],
+                answer: 0 // いなければ
+            },
+            {
+                text: "3. <ruby>研究計画書<rt>けんきゅうけいかくしょ</rt></ruby>が（ ）、<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます。",
+                options: ["いいなら", "よいば", "よければ", "よかったば"],
+                answer: 2 // よければ
+            },
+            {
+                text: "4. <ruby>成績<rt>せいせき</rt></ruby>が（ ）、この<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます。",
+                options: ["優秀ば", "優秀ければ", "優秀なら", "優秀に"],
+                answer: 2 // 優秀なら (Na-adj + なら)
+            },
+            {
+                text: "5. <ruby>留学生<rt>りゅうがくせい</rt></ruby>（ ）、このプログラムに<ruby>参加<rt>さんか</rt></ruby>できます。",
+                options: ["なら", "ば", "ければ", "だと"],
+                answer: 0 // なら (Noun + なら)
+            },
+            {
+                text: "6. <ruby>天気予報<rt>てんきよほう</rt></ruby>によると、あしたは（ ）でしょう。",
+                options: ["晴れ", "晴れる", "晴れます", "晴れて"],
+                answer: 1 // 晴れる (Plain form + でしょう)
+            },
+            {
+                text: "7. <ruby>明日<rt>あした</rt></ruby>はいい<ruby>天気<rt>てんき</rt></ruby>で、（ ）でしょう。",
+                options: ["あたたかい", "あたたかく", "あたたかくて", "あたたか"],
+                answer: 0 // あたたかい (I-adj + でしょう)
+            },
+            {
+                text: "8. A「この<ruby>車<rt>くるま</rt></ruby>はどうですか。」<br>B「いい<ruby>車<rt>くるま</rt></ruby>が<ruby>選<rt>えら</rt></ruby>べる（ ）。」",
+                options: ["んじゃないですか", "んですか", "んですが", "んだから"],
+                answer: 0 // んじゃないですか
+            },
+            {
+                text: "9. コンサートがある（ ）、いっしょに<ruby>行<rt>い</rt></ruby>かない？",
+                options: ["んだけど", "んですから", "んじゃない", "んだった"],
+                answer: 0 // んだけど
+            },
+            {
+                text: "10. <ruby>明日<rt>あした</rt></ruby>、パーティーに<ruby>行<rt>い</rt></ruby>ける（ ）。",
+                options: ["なな", "かな", "やな", "とな"],
+                answer: 1 // かな
+            },
+            {
+                text: "11. わたしも<ruby>行<rt>い</rt></ruby>くから、チケットを（ ）いて。",
+                options: ["買うと", "買っと", "買いと", "買えと"],
+                answer: 1 // 買っと (買っておいて -> 買っといて)
+            },
+            {
+                text: "12. <ruby>明日<rt>あした</rt></ruby>、<ruby>雨<rt>あめ</rt></ruby>が（ ）でしょう。",
+                options: ["ふらない", "ふらないの", "ふらなく", "ふらなくて"],
+                answer: 0 // ふらない (Plain negative + でしょう)
+            },
+            {
+                text: "13. <ruby>先生<rt>せんせい</rt></ruby>に（ ）、この<ruby>問題<rt>もんだい</rt></ruby>がわかります。",
+                options: ["聞けば", "聞きば", "聞くば", "聞いたらば"],
+                answer: 0 // 聞けば
+            },
+            {
+                text: "14. <ruby>明日<rt>あした</rt></ruby>、（ ）でしょう。",
+                options: ["雪", "雪な", "雪だ", "雪の"],
+                answer: 0 // 雪 (Noun + でしょう)
+            },
+            {
+                text: "15. <ruby>辞書<rt>じしょ</rt></ruby>を（ ）、<ruby>意味<rt>いみ</rt></ruby>がわかりますよ。",
+                options: ["使えば", "使うば", "使えれば", "使いば"],
+                answer: 0 // 使えば
 
-            // ===============================
-            // 1–30: BUNPOU + GOI
-            // ===============================
-
-            {
-                text: "1. ボタンを押せ（　）、電気がつきます。",
-                options: ["ば", "とき", "から", "ので"],
-                answer: 0
-            },
-            {
-                text: "2. 天気がよけれ（　）、富士山が見えます。",
-                options: ["ば", "と", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "3. お金があれ（　）、旅行に行きたいです。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "4. 分からなけれ（　）、先生に聞いてください。",
-                options: ["ば", "と", "から", "でも"],
-                answer: 0
-            },
-            {
-                text: "5. 雨が降れ（　）、試合は中止です。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
-            },
-
-            {
-                text: "6. 暑けれ（　）、エアコンをつけます。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "7. 安けれ（　）、この服を買います。",
-                options: ["ば", "と", "から", "でも"],
-                answer: 0
-            },
-            {
-                text: "8. 行け（　）、私も行きたいです。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "9. 時間があれ（　）、映画を見ます。",
-                options: ["ば", "とき", "から", "でも"],
-                answer: 0
-            },
-            {
-                text: "10. 車なら、駅まで１０分で（　）。",
-                options: ["着きます", "着きました", "着きません", "着きたい"],
-                answer: 0
-            },
-
-            {
-                text: "11. 日本に行け（　）、寿司を食べたいです。",
-                options: ["ば", "と", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "12. 天気が悪けれ（　）、出かけません。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
-            },
-            {
-                text: "13. 安全なら、この道を（　）。",
-                options: ["行きます", "行きました", "行きません", "行きたい"],
-                answer: 0
-            },
-            {
-                text: "14. 静かなら、ここで（　）。",
-                options: ["勉強できます", "勉強しました", "勉強しません", "勉強したい"],
-                answer: 0
-            },
-            {
-                text: "15. 雨なら、家に（　）。",
-                options: ["います", "いました", "いません", "いたい"],
-                answer: 0
-            },
-
-            {
-                text: "16. 「押せば」の辞書形はどれですか。",
-                options: ["押す", "押せる", "押した", "押さない"],
-                answer: 0
-            },
-            {
-                text: "17. 「行けば」の辞書形はどれですか。",
-                options: ["行く", "行ける", "行った", "行かない"],
-                answer: 0
-            },
-            {
-                text: "18. 「高ければ」の元の形はどれですか。",
-                options: ["高い", "高く", "高かった", "高くない"],
-                answer: 0
-            },
-            {
-                text: "19. 「静かなら」の元の形はどれですか。",
-                options: ["静か", "静かに", "静かだ", "静かでした"],
-                answer: 0
-            },
-            {
-                text: "20. 「雨なら」の元の形はどれですか。",
-                options: ["雨", "雨が", "雨に", "雨で"],
-                answer: 0
             },
 
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 33 - 条件形, でしょう, カジュアル表現)
+               ===================================================== */
             {
-                text: "21. 早く起きれ（　）、学校に間に合います。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <b><ruby>奨学金<rt>しょうがくきん</rt></ruby>について</b><br><br>
+  <ruby>奨学金<rt>しょうがくきん</rt></ruby>をもらうために、いくつか<ruby>条件<rt>じょうけん</rt></ruby>があります。<ruby>大学<rt>だいがく</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>の<ruby>推薦状<rt>すいせんじょう</rt></ruby>が <b>（ 16 ）</b>、もらえません。<br>
+  また、ほかの<ruby>奨学金<rt>しょうがくきん</rt></ruby>をもらって <b>（ 17 ）</b>、この<ruby>奨学金<rt>しょうがくきん</rt></ruby>に<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>むことができます。<br>
+  <ruby>成績<rt>せいせき</rt></ruby>が <b>（ 18 ）</b>、ぜひ<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>んでください。
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["なければ", "ないなら", "なかったら", "なくば"],
+                answer: 0 // なければ
             },
             {
-                text: "22. 勉強すれ（　）、日本語が上手になります。",
-                options: ["ば", "と", "から", "でも"],
-                answer: 0
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["いなければ", "いれば", "いてなら", "いなば"],
+                answer: 0 // いなければ
             },
             {
-                text: "23. お金がなけれ（　）、買えません。",
-                options: ["ば", "とき", "ので", "でも"],
-                answer: 0
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["優秀ければ", "優秀なら", "優秀ば", "優秀ななら"],
+                answer: 1 // 優秀なら
             },
             {
-                text: "24. 元気なら、旅行に（　）。",
-                options: ["行きます", "行きました", "行きません", "行きたい"],
-                answer: 0
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ニュース】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>明日<rt>あした</rt></ruby>の<ruby>天気予報<rt>てんきよほう</rt></ruby>です。<ruby>明日<rt>あした</rt></ruby>は<ruby>一日中<rt>いちにちじゅう</rt></ruby> <b>（ 19 ）</b> でしょう。<ruby>気温<rt>きおん</rt></ruby>も<ruby>高<rt>たか</rt></ruby>くて、とても <b>（ 20 ）</b> でしょう。<br>
+  でも、<ruby>夜<rt>よる</rt></ruby>は<ruby>少<rt>すこ</rt></ruby>し<ruby>強<rt>つよ</rt></ruby>い<ruby>風<rt>かぜ</rt></ruby>が <b>（ 21 ）</b> かもしれませんから、<ruby>気<rt>き</rt></ruby>をつけてください。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["晴れる", "晴れ", "晴れます", "晴れて"],
+                answer: 0 // 晴れる (晴れるでしょう)
             },
             {
-                text: "25. 暇なら、一緒に（　）。",
-                options: ["遊びましょう", "遊びました", "遊びません", "遊びたい"],
-                answer: 0
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["あたたか", "あたたかい", "あたたかく", "あたたかだ"],
+                answer: 1 // あたたかい
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["吹く", "吹き", "吹いて", "吹かない"],
+                answer: 0 // 吹く (吹くかもしれません)
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>今週<rt>こんしゅう</rt></ruby>の<ruby>土曜日<rt>どようび</rt></ruby>、コンサートが <b>（ 22 ）</b>、<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>行<rt>い</rt></ruby>かない？
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>行<rt>い</rt></ruby>きたい！でも、チケットは<ruby>高<rt>たか</rt></ruby>い <b>（ 23 ）</b>。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>大丈夫<rt>だいじょうぶ</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>が<ruby>安<rt>やす</rt></ruby>く<ruby>買<rt>か</rt></ruby>える <b>（ 24 ）</b>。<ruby>私<rt>わたし</rt></ruby>が <b>（ 25 ）</b> いてあげるよ。
+    </div>
+  </div>
+</div>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["あるんだけど", "あるんじゃない", "あるかな", "あるといて"],
+                answer: 0 // あるんだけど
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["かな", "んだけど", "といて", "んじゃない"],
+                answer: 0 // かな (高いかな)
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["んじゃないですか", "かな", "んだけど", "といて"],
+                answer: 0 // んじゃないですか
+            },
+            {
+                text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["買っと", "買うと", "買いと", "買って"],
+                answer: 0 // 買っと (買っといてあげるよ)
             },
 
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 33)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
             {
-                text: "26. この薬を飲めば、風邪が（　）。",
-                options: ["よくなります", "よくなりました", "よくなりません", "よくなりたい"],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. 先生の<u>推薦状</u>があれば、奨学金がもらえます。",
+                options: ["すいせんじょう", "すいせんしょう", "ずいせんじょう", "ずいせんしょう"],
                 answer: 0
             },
             {
-                text: "27. 雨が降れば、外で（　）。",
-                options: ["遊べません", "遊びました", "遊びます", "遊びたい"],
-                answer: 0
-            },
-            {
-                text: "28. 安ければ、この店で（　）。",
-                options: ["買います", "買いました", "買いません", "買いたい"],
-                answer: 0
-            },
-            {
-                text: "29. 暑ければ、窓を（　）。",
-                options: ["開けます", "開けました", "開けません", "開けたい"],
-                answer: 0
-            },
-            {
-                text: "30. 分からなければ、先生に（　）。",
-                options: ["聞きます", "聞きました", "聞きません", "聞きたい"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31–34: DOKKAI
-            // ===============================
-
-            {
-                passage: `週末、友達と公園に行く予定です。天気がよければ、ピクニックをします。でも、雨が降れば、家で映画を見ます。`,
-                text: "31. 天気がよければ、何をしますか。",
-                options: ["映画を見る", "ピクニックをする", "勉強する", "寝る"],
+                text: "27. <u>奨学金</u>をもらうために、条件があります。",
+                options: ["しょうかくきん", "しょうがくきん", "じょうかくきん", "じょうがくきん"],
                 answer: 1
             },
             {
-                text: "32. 雨が降れば、どうしますか。",
-                options: ["公園に行く", "ピクニックをする", "家で映画を見る", "買い物する"],
-                answer: 2
-            },
-            {
-                passage: `私は日本語を勉強しています。毎日勉強すれば、上手になると思います。`,
-                text: "33. どうすれば、日本語が上手になりますか。",
-                options: ["遊べば", "勉強すれば", "寝れば", "話さなければ"],
+                text: "28. 成績が<u>優秀</u>なら、申し込んでください。",
+                options: ["ゆうしゅ", "ゆうしゅう", "ゆしゅう", "ゆしゅ"],
                 answer: 1
             },
             {
-                text: "34. 「私」は何を勉強していますか。",
-                options: ["英語", "数学", "日本語", "歴史"],
+                text: "29. あしたは<u>晴れる</u>でしょう。",
+                options: ["はれる", "ふれる", "くれる", "ぬれる"],
+                answer: 0
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. <u>けんきゅう</u>計画書がよければ、奨学金がもらえます。",
+                options: ["研究", "研求", "験究", "験求"],
+                answer: 0
+            },
+            {
+                text: "31. <u>せいせき</u>がよければ、いい大学に入れます。",
+                options: ["成績", "成積", "成責", "成積"],
+                answer: 0
+            },
+            {
+                text: "32. あしたは<u>あめ</u>がふらないでしょう。",
+                options: ["雪", "雲", "雨", "電"],
                 answer: 2
             },
+            {
+                text: "33. <u>いっしょに</u>行かない？",
+                options: ["一緒に", "一所に", "一初に", "一諸に"],
+                answer: 0
+            },
 
-            // ===============================
-            // 35–40: 並べ替え
-            // ===============================
-
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 33)
+               ===================================================== */
             {
-                text: "35. 雨が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 行きません。",
-                options: ["降れ", "ば", "外へ", "私は"],
-                answer: [3, 2, 0, 1]
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. <ruby>推薦状<rt>すいせんじょう</rt></ruby>が＿＿(A)＿＿＿＿(B)＿＿、<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます。",
+                options: [
+                    "（A）あれ （B）ば",
+                    "（A）ある （B）ば",
+                    "（A）あり （B）ば",
+                    "（A）あっ （B）たらば"
+                ],
+                answer: 0 // あれば
             },
             {
-                text: "36. 時間が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 見ます。",
-                options: ["あれ", "ば", "映画を", "私は"],
-                answer: [3, 2, 0, 1]
+                text: "35. <ruby>明日<rt>あした</rt></ruby>は＿＿(A)＿＿＿＿(B)＿＿。",
+                options: [
+                    "（A）晴れる （B）でしょう",
+                    "（A）晴れ （B）でしょう",
+                    "（A）晴れます （B）でしょう",
+                    "（A）晴れて （B）でしょう"
+                ],
+                answer: 0 // 晴れるでしょう
             },
             {
-                text: "37. 安けれ ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 買います。",
-                options: ["ば", "この服を", "私は", ""],
-                answer: [2, 1, 0]
+                text: "36. <ruby>研究計画書<rt>けんきゅうけいかくしょ</rt></ruby>が＿＿(A)＿＿＿＿(B)＿＿、<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます。",
+                options: [
+                    "（A）よけれ （B）ば",
+                    "（A）いい （B）ば",
+                    "（A）よい （B）ば",
+                    "（A）よかった （B）らば"
+                ],
+                answer: 0 // よければ
             },
             {
-                text: "38. 分からなけれ ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 聞いてください。",
-                options: ["ば", "先生に", "", ""],
-                answer: [1, 0]
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>成績<rt>せいせき</rt></ruby> → ２．<ruby>優秀<rt>ゆうしゅう</rt></ruby> → ３．なら】（※「～、<ruby>奨学金<rt>しょうがくきん</rt></ruby>がもらえます」に<ruby>続<rt>つづ</rt></ruby>くように）。",
+                options: [
+                    "<ruby>成績<rt>せいせき</rt></ruby>が<ruby>優秀<rt>ゆうしゅう</rt></ruby>なら、",
+                    "<ruby>成績<rt>せいせき</rt></ruby>が<ruby>優秀<rt>ゆうしゅう</rt></ruby>ば、",
+                    "<ruby>成績<rt>せいせき</rt></ruby>が<ruby>優秀<rt>ゆうしゅう</rt></ruby>ければ、",
+                    "<ruby>成績<rt>せいせき</rt></ruby>が<ruby>優秀<rt>ゆうしゅう</rt></ruby>だなら、"
+                ],
+                answer: 0 // 成績が優秀なら、
             },
             {
-                text: "39. 暑けれ ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> つけます。",
-                options: ["ば", "エアコンを", "私は", ""],
-                answer: [2, 1, 0]
+                text: "38. 【１．いい<ruby>車<rt>くるま</rt></ruby> → ２．<ruby>選<rt>えら</rt></ruby>べ<u>る</u> → ３．んじゃないですか】。",
+                options: [
+                    "いい<ruby>車<rt>くるま</rt></ruby>が<ruby>選<rt>えら</rt></ruby>べるんじゃないですか。",
+                    "いい<ruby>車<rt>くるま</rt></ruby>が<ruby>選<rt>えら</rt></ruby>べんじゃないですか。",
+                    "いい<ruby>車<rt>くるま</rt></ruby>が<ruby>選<rt>えら</rt></ruby>んでるんじゃないですか。",
+                    "いい<ruby>車<rt>くるま</rt></ruby>が<ruby>選<rt>えら</rt></ruby>んだじゃないですか。"
+                ],
+                answer: 0 // いい車が選べるんじゃないですか。
             },
             {
-                text: "40. 天気が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 行きます。",
-                options: ["よけれ", "ば", "旅行に", "私は"],
-                answer: [3, 2, 0, 1]
+                text: "39. 【１．チケット → ２．<ruby>買<rt>か</rt></ruby>う → ３．といて】。",
+                options: [
+                    "チケット、<ruby>買<rt>か</rt></ruby>っといて。",
+                    "チケット、<ruby>買<rt>か</rt></ruby>うといて。",
+                    "チケット、<ruby>買<rt>か</rt></ruby>いといて。",
+                    "チケット、<ruby>買<rt>か</rt></ruby>ってといて。"
+                ],
+                answer: 0 // チケット、買っといて。 (Dari 買っておいて)
+            },
+            {
+                text: "40. 【１．コンサート → ２．ある → ３．んだけど】（※「～、<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>行<rt>い</rt></ruby>かない？」に<ruby>続<rt>つづ</rt></ruby>くように）。",
+                options: [
+                    "コンサートがあるんだけど、",
+                    "コンサートがあんだけど、",
+                    "コンサートがあったんだけど、",
+                    "コンサートがあるなんだけど、"
+                ],
+                answer: 0 // コンサートがあるんだけど、
             }
-
-        ];
+        ]; 
+        
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -651,7 +805,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
