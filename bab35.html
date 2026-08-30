@@ -319,309 +319,410 @@
         function decode(str) {
             return atob(str);
         }
-       const questions = [
-  {
-    text: "「日本語の新聞が＿＿＿ように、毎日漢字を勉強しています。」",
-    options: [
-      "読める",
-      "読む",
-      "読めない",
-      "読まない"
-    ],
-    answer: 0
-  },
-  {
-    text: "「明日の会議に＿＿＿ように、今夜は早く寝ます。」",
-    options: [
-      "遅れる",
-      "遅れない",
-      "遅れた",
-      "遅れなかった"
-    ],
-    answer: 1
-  },
-  {
-    text: "「後ろの人にも＿＿＿ように、もう少し大きな声で話してください。」",
-    options: [
-      "聞く",
-      "聞こえる",
-      "聞かない",
-      "聞こえない"
-    ],
-    answer: 1
-  },
-  {
-    text: "「大切な約束を忘れない＿＿＿、手帳にメモしておきます。」",
-    options: [
-      "のに",
-      "そうに",
-      "ように",
-      "ところに"
-    ],
-    answer: 2
-  },
-  {
-    text: "「子供が日本の大学に＿＿＿ように、貯金をしています。」",
-    options: [
-      "入る",
-      "入った",
-      "入らない",
-      "入れる"
-    ],
-    answer: 3
-  },
-  {
-    text: "「寒いですね。風邪を＿＿＿ように、暖かいコートを着ていきます。」",
-    options: [
-      "ひかない",
-      "ひく",
-      "ひいて",
-      "ひかなかった"
-    ],
-    answer: 0
-  },
-  {
-    text: "「A：どうして新しいパソコンを買ったんですか。\nB：仕事で専門のソフトが＿＿＿ようにですよ。」",
-    options: [
-      "使って",
-      "使う",
-      "使える",
-      "使った"
-    ],
-    answer: 2
-  },
-  {
-    text: "「健康のために、毎日１時間くらいスポーツを＿＿＿ようにしています。」",
-    options: [
-      "して",
-      "した",
-      "し",
-      "する"
-    ],
-    answer: 3
-  },
-  {
-    text: "「目に悪いので、夜遅くまでパソコンの画面を見て＿＿＿ようにしています。」",
-    options: [
-      "いる",
-      "いない",
-      "あった",
-      "ない"
-    ],
-    answer: 1
-  },
-  {
-    text: "「A：ダイエットしているんですか。\nB：ええ、甘い物を＿＿＿ようにしているんです。」",
-    options: [
-      "食べる",
-      "食べた",
-      "食べない",
-      "食べて"
-    ],
-    answer: 2
-  },
-  {
-    text: "「日本のニュースがわかるようになりたいので、毎日テレビを＿＿＿ようにしています。」",
-    options: [
-      "見る",
-      "見て",
-      "見た",
-      "見ない"
-    ],
-    answer: 0
-  },
-  {
-    text: "「体に悪いので、お酒を飲みすぎない（   ）。」",
-    options: [
-      "ようにします",
-      "のにいいです",
-      "ようにしています",
-      "やすいです"
-    ],
-    answer: 2
-  },
-  {
-    text: "「A：休みの日はいつも何をしていますか。\nB：できるだけ家族と一緒に＿＿＿ようにしています。」",
-    options: [
-      "過ごさない",
-      "過ごす",
-      "過ごし",
-      "過ごして"
-    ],
-    answer: 1
-  },
-  {
-    text: "「この靴は軽くて、山を＿＿＿のにいいです。」",
-    options: [
-      "歩き",
-      "歩いて",
-      "歩いた",
-      "歩く"
-    ],
-    answer: 3
-  },
-  {
-    text: "「このナイフはよく切れるので、肉を＿＿＿のにいいですね。」",
-    options: [
-      "切る",
-      "切り",
-      "切って",
-      "切らない"
-    ],
-    answer: 0
-  },
-  {
-    text: "「このかばんは大きくて丈夫ですから、旅行＿＿＿いいです。」",
-    options: [
-      "してのに",
-      "するのに",
-      "すれば",
-      "すると"
-    ],
-    answer: 1
-  },
-  {
-    text: "「このハサミは、厚い紙を＿＿＿のにいいです。」",
-    options: [
-      "切って",
-      "切った",
-      "切り",
-      "切る"
-    ],
-    answer: 3
-  },
-  {
-    text: "「A：このスマホのアプリはどうですか。\nB：電子辞書みたいで、言葉の意味を＿＿＿のにいいですよ。」",
-    options: [
-      "調べ",
-      "調べて",
-      "調べる",
-      "調べた"
-    ],
-    answer: 2
-  },
-  {
-    text: "「このボールペンはとても（   ）やすいですね。」",
-    options: [
-      "書く",
-      "書き",
-      "書いて",
-      "書かない"
-    ],
-    answer: 1
-  },
-  {
-    text: "「この薬は甘くて、とても（   ）。」",
-    options: [
-      "飲みます",
-      "飲むやすいです",
-      "飲んでやすいです",
-      "飲みやすいです"
-    ],
-    answer: 3
-  },
-  {
-    text: "「山田先生の説明は、いつも＿＿＿やすいです。」",
-    options: [
-      "わかり",
-      "わかる",
-      "わかって",
-      "わからない"
-    ],
-    answer: 0
-  },
-  {
-    text: "「この本は字が大きくて、＿＿＿やすいですね。」",
-    options: [
-      "読む",
-      "読んで",
-      "読み",
-      "読まない"
-    ],
-    answer: 2
-  },
-  {
-    text: "「A：東京はどうですか。\nB：電車がたくさんあって、＿＿＿やすいです。」",
-    options: [
-      "生活する",
-      "生活して",
-      "生活しない",
-      "生活し"
-    ],
-    answer: 3
-  },
-  {
-    text: "「この靴は軽くて＿＿＿やすいから、毎日履いています。」",
-    options: [
-      "歩いて",
-      "歩き",
-      "歩く",
-      "歩かない"
-    ],
-    answer: 1
-  },
-  {
-    text: "「車の窓ガラスは特別ですから、とても＿＿＿にくいです。」",
-    options: [
-      "割れる",
-      "割れて",
-      "割れ",
-      "割れない"
-    ],
-    answer: 2
-  },
-  {
-    text: "「まだ箸の使い方がよくわかりませんから、ご飯が＿＿＿にくいです。」",
-    options: [
-      "食べ",
-      "食べる",
-      "食べて",
-      "食べない"
-    ],
-    answer: 0
-  },
-  {
-    text: "「この肉は固くて、少し＿＿＿にくいですね。」",
-    options: [
-      "かむ",
-      "かんで",
-      "かまない",
-      "かみ"
-    ],
-    answer: 3
-  },
-  {
-    text: "「外は車が多くてうるさいですから、電話の声が＿＿＿にくいです。」",
-    options: [
-      "聞き",
-      "聞こえ",
-      "聞く",
-      "聞いて"
-    ],
-    answer: 1
-  },
-  {
-    text: "「難しい漢字がたくさんあって、この説明書はとても＿＿＿にくいです。」",
-    options: [
-      "読む",
-      "読んで",
-      "読まない",
-      "読み"
-    ],
-    answer: 3
-  },
-  {
-    text: "「A：この新しいパソコンはどうですか。\nB：キーボードが小さくて、少し＿＿＿にくいです。」",
-    options: [
-      "使って",
-      "使い方",
-      "使い",
-      "使う"
-    ],
-    answer: 2
-  }
-];
-        let answers = new Array(questions.length).fill(null);
+      const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 35 - ように, ようにしています, のに, やすい/にくい, ますように)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. <ruby>約束<rt>やくそく</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>にまにあう（ ）、<ruby>急<rt>いそ</rt></ruby>いで<ruby>行<rt>い</rt></ruby>きます。",
+                options: ["ように", "ために", "から", "ので"],
+                answer: 0 // ように
+            },
+            {
+                text: "2. <ruby>会議<rt>かいぎ</rt></ruby>に（ ）ように、<ruby>急<rt>いそ</rt></ruby>いで<ruby>行<rt>い</rt></ruby>きます。",
+                options: ["おくれる", "おくれない", "おくれて", "おくれた"],
+                answer: 1 // おくれない
+            },
+            {
+                text: "3. ７<ruby>時<rt>じ</rt></ruby>の<ruby>電車<rt>でんしゃ</rt></ruby>に（ ）ように、<ruby>走<rt>はし</rt></ruby>ります。",
+                options: ["のる", "のって", "のれる", "のらない"],
+                answer: 2 // のれる
+            },
+            {
+                text: "4. <ruby>毎日野菜<rt>まいにちやさい</rt></ruby>を（ ）ようにしています。",
+                options: ["たべて", "たべない", "たべた", "たべる"],
+                answer: 3 // たべる
+            },
+            {
+                text: "5. <ruby>無理<rt>むり</rt></ruby>を（ ）ようにしています。",
+                options: ["しない", "する", "して", "した"],
+                answer: 0 // しない
+            },
+            {
+                text: "6. このかばんは<ruby>重<rt>おも</rt></ruby>い<ruby>荷物<rt>にもつ</rt></ruby>を（ ）のにいいです。",
+                options: ["はこんで", "はこぶ", "はこんだ", "はこばない"],
+                answer: 1 // はこぶ
+            },
+            {
+                text: "7. このかばんは（ ）にいいです。",
+                options: ["旅行する", "旅行して", "旅行", "旅行しよう"],
+                answer: 2 // 旅行 (Noun + にいいです)
+            },
+            {
+                text: "8. このカメラはつかい（ ）です。",
+                options: ["わるい", "いい", "やすい", "にくい"],
+                answer: 3 // にくい
+            },
+            {
+                text: "9. <ruby>車<rt>くるま</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>ガラスはわれ（ ）です。",
+                options: ["にくい", "やすい", "いい", "わるい"],
+                answer: 0 // にくい
+            },
+            {
+                text: "10. この<ruby>辞書<rt>じしょ</rt></ruby>はつかい（ ）です。",
+                options: ["にくい", "やすい", "いい", "わるい"],
+                answer: 1 // やすい
+            },
+            {
+                text: "11. ガラスのコップはわれ（ ）です。",
+                options: ["にくい", "いい", "やすい", "わるい"],
+                answer: 2 // やすい
+            },
+            {
+                text: "12. <ruby>大学<rt>だいがく</rt></ruby>に<ruby>合格<rt>ごうかく</rt></ruby>し（ ）ように。",
+                options: ["て", "ない", "たい", "ます"],
+                answer: 3 // ます (合格しますように)
+            },
+            {
+                text: "13. <ruby>日本語<rt>にほんご</rt></ruby>が<ruby>話<rt>はな</rt></ruby>せる（ ）、<ruby>毎日練習<rt>まいにちれんしゅう</rt></ruby>しています。",
+                options: ["ように", "ために", "ので", "から"],
+                answer: 0 // ように
+            },
+            {
+                text: "14. <ruby>風邪<rt>かぜ</rt></ruby>をひかない（ ）、<ruby>気<rt>き</rt></ruby>をつけています。",
+                options: ["ために", "ように", "から", "ので"],
+                answer: 1 // ように
+            },
+            {
+                text: "15. この<ruby>靴<rt>くつ</rt></ruby>は<ruby>歩<rt>ある</rt></ruby>き（ ）ですから、<ruby>旅行<rt>りょこう</rt></ruby>にいいです。",
+                options: ["にくい", "いい", "やすい", "わるい"],
+                answer: 2 // やすい
+
+            },
+
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 35)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【メール】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>田中<rt>たなか</rt></ruby>さんへ<br><br>
+  <ruby>明日<rt>あした</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>に <b>（ 16 ）</b> ように、<ruby>早<rt>はや</rt></ruby>く<ruby>家<rt>いえ</rt></ruby>を<ruby>出<rt>で</rt></ruby>ます。<br>
+  ７<ruby>時<rt>じ</rt></ruby>の<ruby>電車<rt>でんしゃ</rt></ruby>に <b>（ 17 ）</b> ように、<ruby>走<rt>はし</rt></ruby>ります。<br>
+  よろしくお<ruby>願<rt>ねが</rt></ruby>いします。<br>
+  <ruby>鈴木<rt>すずき</rt></ruby>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["おくれる", "おくれて", "おくれた", "おくれない"],
+                answer: 3 // おくれない
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["のれる", "のる", "のって", "のらない"],
+                answer: 0 // のれる
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <b><ruby>健康<rt>けんこう</rt></ruby>のために</b><br><br>
+  <ruby>私<rt>わたし</rt></ruby>は<ruby>毎日野菜<rt>まいにちやさい</rt></ruby>を <b>（ 18 ）</b> ようにしています。<br>
+  そして、<ruby>無理<rt>むり</rt></ruby>を <b>（ 19 ）</b> ようにしています。<br>
+  <ruby>健康<rt>けんこう</rt></ruby>が<ruby>一番<rt>いちばん</rt></ruby>ですから。
+</div>
+`,
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["食べて", "食べる", "食べない", "食べた"],
+                answer: 1 // 食べる
+            },
+            {
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["する", "して", "しない", "した"],
+                answer: 2 // しない
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【レビュー】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  このかばんは<ruby>重<rt>おも</rt></ruby>い<ruby>荷物<rt>にもつ</rt></ruby>を <b>（ 20 ）</b> のにいいです。<br>
+  <b>（ 21 ）</b> にもいいです。<br>
+  とても<ruby>便利<rt>べんり</rt></ruby>です。
+</div>
+`,
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["運んで", "運ばない", "運んだ", "運ぶ"],
+                answer: 3 // 運ぶ
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["旅行", "旅行する", "旅行して", "旅行の"],
+                answer: 0 // 旅行
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      このカメラは？
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      つかい <b>（ 22 ）</b> です。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      じゃあ、この<ruby>辞書<rt>じしょ</rt></ruby>は？
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      つかい <b>（ 23 ）</b> です。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      <ruby>車<rt>くるま</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>ガラスはわれ <b>（ 24 ）</b>。ガラスのコップはわれ <b>（ 25 ）</b>。
+    </div>
+  </div>
+</div>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["やすい", "にくい", "いい", "わるい"],
+                answer: 1 // にくい
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["にくい", "わるい", "やすい", "いい"],
+                answer: 2 // やすい
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["やすいです", "いいです", "わるいです", "にくいです"],
+                answer: 3 // にくいです
+            },
+            {
+                text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["やすいです", "にくいです", "いいです", "わるいです"],
+                answer: 0 // やすいです
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 35)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. <u>約束</u>の時間にまにあうように、急いで行きます。",
+                options: ["やくそう", "やくそく", "やっそく", "やそく"],
+                answer: 1
+            },
+            {
+                text: "27. 会議に<u>遅れない</u>ように急いで行きます。",
+                options: ["わすれない", "こられない", "おくれない", "はしらない"],
+                answer: 2
+            },
+            {
+                text: "28. <u>重い</u>荷物を運ぶのにいいです。",
+                options: ["あつい", "かるい", "いたい", "おもい"],
+                answer: 3
+            },
+            {
+                text: "29. 車の<u>窓</u>ガラスはわれにくいです。",
+                options: ["まど", "かべ", "ドア", "ゆか"],
+                answer: 0
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. 毎日<u>やさい</u>を食べるようにしています。",
+                options: ["理菜", "野菜", "野祭", "野彩"],
+                answer: 1
+            },
+            {
+                text: "31. 重い<u>にもつ</u>を運ぶのにいいです。",
+                options: ["何物", "加物", "荷物", "苛物"],
+                answer: 2
+            },
+            {
+                text: "32. この<u>じしょ</u>は使いやすいです。",
+                options: ["字書", "時書", "事書", "辞書"],
+                answer: 3
+            },
+            {
+                text: "33. 大学に<u>ごうかく</u>しますように。",
+                options: ["合格", "合角", "合各", "合覚"],
+                answer: 0
+            },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 35)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. <ruby>約束<rt>やくそく</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>に ＿＿(A)＿＿＿＿(B)＿＿、<ruby>急<rt>いそ</rt></ruby>いで<ruby>行<rt>い</rt></ruby>きます。",
+                options: [
+                    "（A）まにあって （B）ように",
+                    "（A）まにあう （B）ように",
+                    "（A）まにあい （B）ように",
+                    "（A）まにおう （B）ように"
+                ],
+                answer: 1 // まにあう ように
+            },
+            {
+                text: "35. <ruby>毎日野菜<rt>まいにちやさい</rt></ruby>を ＿＿(A)＿＿＿＿(B)＿＿しています。",
+                options: [
+                    "（A）たべて （B）ように",
+                    "（A）たべない （B）ように",
+                    "（A）たべる （B）ように",
+                    "（A）たべた （B）ように"
+                ],
+                answer: 2 // たべる ように
+            },
+            {
+                text: "36. <ruby>重<rt>おも</rt></ruby>い<ruby>荷物<rt>にもつ</rt></ruby>を ＿＿(A)＿＿＿＿(B)＿＿いいです。",
+                options: [
+                    "（A）はこんで （B）のに",
+                    "（A）はこぶ （B）に",
+                    "（A）はこばない （B）のに",
+                    "（A）はこぶ （B）のに"
+                ],
+                answer: 3 // はこぶ のに
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>電車<rt>でんしゃ</rt></ruby>に → ２．のれ<u>る</u> → ３．ように】",
+                options: [
+                    "<ruby>電車<rt>でんしゃ</rt></ruby>にのれるように、",
+                    "<ruby>電車<rt>でんしゃ</rt></ruby>にのるように、",
+                    "<ruby>電車<rt>でんしゃ</rt></ruby>にのってように、",
+                    "<ruby>電車<rt>でんしゃ</rt></ruby>にのらないように、"
+                ],
+                answer: 0 // 電車にのれるように、
+            },
+            {
+                text: "38. 【１．<ruby>毎日<rt>まいにち</rt></ruby> → ２．<ruby>無理<rt>むり</rt></ruby>を → ３．し<u>ない</u>】（※「～ようにしています」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>毎日無理<rt>まいにちむり</rt></ruby>をするようにしています。",
+                    "<ruby>毎日無理<rt>まいにちむり</rt></ruby>をしないようにしています。",
+                    "<ruby>毎日無理<rt>まいにちむり</rt></ruby>をしてようにしています。",
+                    "<ruby>毎日無理<rt>まいにちむり</rt></ruby>をしたようにしています。"
+                ],
+                answer: 1 // 毎日無理をしないようにしています。
+            },
+            {
+                text: "39. 【１．このカメラは → ２．つかい → ３．にくい】",
+                options: [
+                    "このカメラはつかいやすいです。",
+                    "このカメラはつかいわるいです。",
+                    "このカメラはつかいにくいです。",
+                    "このカメラはつかいいいです。"
+                ],
+                answer: 2 // このカメラはつかいにくいです。
+            },
+            {
+                text: "40. 【１．<ruby>大学<rt>だいがく</rt></ruby>に → ２．ごうかくし<u>ます</u> → ３．ように】",
+                options: [
+                    "<ruby>大学<rt>だいがく</rt></ruby>にごうかくしてように。",
+                    "<ruby>大学<rt>だいがく</rt></ruby>にごうかくするように。",
+                    "<ruby>大学<rt>だいがく</rt></ruby>にごうかくしないように。",
+                    "<ruby>大学<rt>だいがく</rt></ruby>にごうかくしますように。"
+                ],
+                answer: 3 // 大学にごうかくしますように。
+            }
+        ]; 
+let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -728,7 +829,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
