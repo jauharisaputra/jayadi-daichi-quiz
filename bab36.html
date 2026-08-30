@@ -319,309 +319,406 @@
         function decode(str) {
             return atob(str);
         }
-     const questions = [
-  {
-    text: "「私はテストで100点をとって、先生に＿＿＿。」",
-    options: [
-      "ほめられました",
-      "ほめさせました",
-      "ほめました",
-      "ほめって"
-    ],
-    answer: 0
-  },
-  {
-    text: "「昨日、私は駅前で知らない人に道を＿＿＿。」",
-    options: [
-      "聞きました",
-      "聞かれました",
-      "聞こえました",
-      "聞かせました"
-    ],
-    answer: 1
-  },
-  {
-    text: "「私は子供の時、犬に手を＿＿＿、今でも犬が怖いです。」",
-    options: [
-      "かみました",
-      "かませました",
-      "かまれました",
-      "かんでいました"
-    ],
-    answer: 2
-  },
-  {
-    text: "「私は友達に結婚式のパーティーに＿＿＿。」",
-    options: [
-      "しょうたいしました",
-      "しょうたいさせました",
-      "しょうたいして",
-      "しょうたいされました"
-    ],
-    answer: 3
-  },
-  {
-    text: "「授業中、先生に名前を＿＿＿、びっくりしました。」",
-    options: [
-      "よばれました",
-      "よびました",
-      "よんで",
-      "よばせました"
-    ],
-    answer: 0
-  },
-  {
-    text: "「英語は世界中で＿＿＿います。」",
-    options: [
-      "話して",
-      "話されて",
-      "話させて",
-      "話し"
-    ],
-    answer: 1
-  },
-  {
-    text: "「私は母に大切にしていた古い漫画を＿＿＿、とても悲しかったです。」",
-    options: [
-      "すてました",
-      "すてさせました",
-      "すてられました",
-      "すてて"
-    ],
-    answer: 2
-  },
-  {
-    text: "「満員電車の中で、隣の人に足を＿＿＿。」",
-    options: [
-      "ふみました",
-      "ふませました",
-      "ふまれて",
-      "ふまれました"
-    ],
-    answer: 3
-  },
-  {
-    text: "「昨日の夜、帰る途中で雨に＿＿＿、服が濡れてしまいました。」",
-    options: [
-      "ふられて",
-      "ふって",
-      "ふらせて",
-      "ふり"
-    ],
-    answer: 0
-  },
-  {
-    text: "「私はデパートで泥棒に財布を＿＿＿。」",
-    options: [
-      "とりました",
-      "とられました",
-      "とらせました",
-      "とって"
-    ],
-    answer: 1
-  },
-  {
-    text: "「大切な時計を弟に＿＿＿、動かなくなりました。」",
-    options: [
-      "こわしました",
-      "こわさせました",
-      "こわされました",
-      "こわして"
-    ],
-    answer: 2
-  },
-  {
-    text: "「私は妹に冷蔵庫のケーキを＿＿＿、怒りました。」",
-    options: [
-      "食べる",
-      "食べた",
-      "食べさせて",
-      "食べられて"
-    ],
-    answer: 3
-  },
-  {
-    text: "「私は母に日記を＿＿＿、とても恥ずかしかったです。」",
-    options: [
-      "見られて",
-      "見て",
-      "見せて",
-      "見させられて"
-    ],
-    answer: 0
-  },
-  {
-    text: "「エレベーターの中で、後ろの人に背中を＿＿＿。」",
-    options: [
-      "おしました",
-      "おされました",
-      "おさせました",
-      "おして"
-    ],
-    answer: 1
-  },
-  {
-    text: "「2020年に東京でオリンピックが＿＿＿。」",
-    options: [
-      "ひらきました",
-      "ひらかせました",
-      "ひらかれました",
-      "ひらいて"
-    ],
-    answer: 2
-  },
-  {
-    text: "「このお寺は、約500年前に＿＿＿。」",
-    options: [
-      "たてた",
-      "たてる",
-      "たてさせて",
-      "たてられました"
-    ],
-    answer: 3
-  },
-  {
-    text: "「日本の車は世界中へ＿＿＿います。」",
-    options: [
-      "ゆしゅつされて",
-      "ゆしゅつして",
-      "ゆしゅつさせて",
-      "ゆしゅつし"
-    ],
-    answer: 0
-  },
-  {
-    text: "「次の国際会議は大阪で＿＿＿。」",
-    options: [
-      "おこないます",
-      "おこなわれます",
-      "おこなわせます",
-      "おこなって"
-    ],
-    answer: 1
-  },
-  {
-    text: "「このビールは北海道の工場で＿＿＿います。」",
-    options: [
-      "つくって",
-      "つくらせて",
-      "つくられています",
-      "つくり"
-    ],
-    answer: 2
-  },
-  {
-    text: "「金沢は小京都と＿＿＿います。」",
-    options: [
-      "いって",
-      "いわせて",
-      "いう",
-      "いわれています"
-    ],
-    answer: 3
-  },
-  {
-    text: "「『源氏物語』は紫式部＿＿＿書かれました。」",
-    options: [
-      "によって",
-      "に",
-      "から",
-      "で"
-    ],
-    answer: 0
-  },
-  {
-    text: "「電話はベル＿＿＿発明されました。」",
-    options: [
-      "で",
-      "によって",
-      "を",
-      "から"
-    ],
-    answer: 1
-  },
-  {
-    text: "「アメリカ大陸はコロンブス＿＿＿発見されました。」",
-    options: [
-      "に",
-      "が",
-      "によって",
-      "を"
-    ],
-    answer: 2
-  },
-  {
-    text: "「この絵は有名な画家によって＿＿＿。」",
-    options: [
-      "かきました",
-      "かかせました",
-      "かいて",
-      "かかれました"
-    ],
-    answer: 3
-  },
-  {
-    text: "「さっき、木村さん＿＿＿人から電話がありましたよ。」",
-    options: [
-      "という",
-      "といった",
-      "といって",
-      "というの"
-    ],
-    answer: 0
-  },
-  {
-    text: "「A：それは何ですか。\nB：『カラオケ』＿＿＿日本の機械です。」",
-    options: [
-      "って",
-      "という",
-      "といって",
-      "といった"
-    ],
-    answer: 1
-  },
-  {
-    text: "「私は部長に、明日出張に行く＿＿＿言われました。」",
-    options: [
-      "と",
-      "を",
-      "って",
-      "は"
-    ],
-    answer: 2
-  },
-  {
-    text: "「山田さんが、明日のパーティーに行かない＿＿＿言っていましたよ。」",
-    options: [
-      "のに",
-      "から",
-      "だけ",
-      "って"
-    ],
-    answer: 3
-  },
-  {
-    text: "「『兼六園』＿＿＿公園に行ったことがありますか。」",
-    options: [
-      "という",
-      "といって",
-      "といった",
-      "っていう"
-    ],
-    answer: 0
-  },
-  {
-    text: "「友達に、一緒に映画を見に行こう＿＿＿誘われました。」",
-    options: [
-      "という",
-      "って",
-      "のに",
-      "ので"
-    ],
-    answer: 1
-  }
-];
-        let answers = new Array(questions.length).fill(null);
+    const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 36 - 受身形 / Bentuk Pasif)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. <ruby>私<rt>わたし</rt></ruby>は<ruby>先生<rt>せんせい</rt></ruby>（ ）ほめられました。",
+                options: ["を", "に", "が", "で"],
+                answer: 1 // に
+            },
+            {
+                text: "2. <ruby>電車<rt>でんしゃ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で、<ruby>後<rt>うし</rt></ruby>ろの<ruby>人<rt>ひと</rt></ruby>に<ruby>足<rt>あし</rt></ruby>（ ）ふまれました。",
+                options: ["に", "が", "で", "を"],
+                answer: 3 // を
+            },
+            {
+                text: "3. <ruby>雨<rt>あめ</rt></ruby>（ ）<ruby>降<rt>ふ</rt></ruby>られて、<ruby>服<rt>ふく</rt></ruby>がぬれました。",
+                options: ["に", "を", "が", "で"],
+                answer: 0 // に
+            },
+            {
+                text: "4. <ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>は<ruby>東京<rt>とうきょう</rt></ruby>で（ ）。",
+                options: ["開きます", "開かせます", "開かれます", "開いて"],
+                answer: 2 // 開かれます (ひらかれます)
+            },
+            {
+                text: "5. <ruby>源氏物語<rt>げんじものがたり</rt></ruby>は<ruby>紫式部<rt>むらさきしきぶ</rt></ruby>（ ）<ruby>書<rt>か</rt></ruby>かれました。",
+                options: ["に", "によって", "から", "で"],
+                answer: 1 // によって
+            },
+            {
+                text: "6. <ruby>私<rt>わたし</rt></ruby>は<ruby>母<rt>はは</rt></ruby>に<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>を（ ）。",
+                options: ["頼みました", "頼ませました", "頼んで", "頼まれました"],
+                answer: 3 // 頼まれました
+            },
+            {
+                text: "7. <ruby>駅<rt>えき</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>で<ruby>泥棒<rt>どろぼう</rt></ruby>に<ruby>自転車<rt>じてんしゃ</rt></ruby>を（ ）。",
+                options: ["とられました", "とりました", "とらせました", "とって"],
+                answer: 0 // とられました
+            },
+            {
+                text: "8. <ruby>日本<rt>にほん</rt></ruby>の<ruby>車<rt>くるま</rt></ruby>は<ruby>世界中<rt>せかいじゅう</rt></ruby>へ（ ）。",
+                options: ["輸出します", "輸出させています", "輸出されています", "輸出して"],
+                answer: 2 // 輸出されています
+            },
+            {
+                text: "9. <ruby>電話<rt>でんわ</rt></ruby>はベル（ ）<ruby>発明<rt>はつめい</rt></ruby>されました。",
+                options: ["に", "によって", "で", "から"],
+                answer: 1 // によって
+            },
+            {
+                text: "10. <ruby>道<rt>みち</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>いているとき、<ruby>犬<rt>いぬ</rt></ruby>に<ruby>手<rt>て</rt></ruby>を（ ）。",
+                options: ["かみました", "かませました", "かんで", "かまれました"],
+                answer: 3 // かまれました
+            },
+            {
+                text: "11. <ruby>友達<rt>ともだち</rt></ruby>にカメラを（ ）、とてもショックです。",
+                options: ["壊されて", "壊して", "壊れて", "壊させて"],
+                answer: 0 // 壊されて (こわされて)
+            },
+            {
+                text: "12. この<ruby>本<rt>ほん</rt></ruby>はたくさんの<ruby>人<rt>ひと</rt></ruby>に（ ）います。",
+                options: ["読んで", "読ませて", "読まれて", "読んだ"],
+                answer: 2 // 読まれて
+            },
+            {
+                text: "13. <ruby>授業<rt>じゅぎょう</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れて、<ruby>先生<rt>せんせい</rt></ruby>に（ ）。",
+                options: ["注意しました", "注意されました", "注意させて", "注意する"],
+                answer: 1 // 注意されました
+            },
+            {
+                text: "14. <ruby>電車<rt>でんしゃ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>知<rt>し</rt></ruby>らない<ruby>人<rt>ひと</rt></ruby>に（ ）。",
+                options: ["話しかけました", "話しかけさせました", "話しかけて", "話しかけられました"],
+                answer: 3 // 話しかけられました
+            },
+            {
+                text: "15. <ruby>金沢<rt>かなざわ</rt></ruby>は<ruby>小京都<rt>しょうきょうと</rt></ruby>と（ ）。",
+                options: ["言われています", "言います", "言わせます", "言って"],
+                answer: 0 // 言われています
+
+            },
+
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 36)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【メール】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>山田<rt>やまだ</rt></ruby>さんへ<br><br>
+  すみません、<ruby>今日<rt>きょう</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>を<ruby>休<rt>やす</rt></ruby>ませてください。<ruby>実<rt>じつ</rt></ruby>は<ruby>昨日<rt>きのう</rt></ruby>、<ruby>駅<rt>えき</rt></ruby>で<ruby>泥棒<rt>どろぼう</rt></ruby> <b>（ 16 ）</b> かばんを <b>（ 17 ）</b>。<br>
+  かばんの<ruby>中<rt>なか</rt></ruby>に<ruby>会社<rt>かいしゃ</rt></ruby>のパソコンがありました。今から<ruby>警察<rt>けいさつ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。<br>
+  よろしくお<ruby>願<rt>ねが</rt></ruby>いします。<br>
+  ジョン
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["が", "を", "に", "で"],
+                answer: 2 // に
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["あげました", "盗まれました", "買いました", "忘れました"],
+                answer: 1 // 盗まれました (ぬすまれました)
+            },
+            {
+                text: "18. ジョンさんはどうなりましたか。",
+                options: ["かばんを買った", "泥棒を見た", "パソコンを忘れた", "かばんを盗まれた"],
+                answer: 3 // かばんを盗まれた
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  みなさんはインスタントラーメンが<ruby>好<rt>す</rt></ruby>きですか。インスタントラーメンは１９５８<ruby>年<rt>ねん</rt></ruby>に、<ruby>日本<rt>にほん</rt></ruby>の<ruby>安藤百福<rt>あんどうももふく</rt></ruby> <b>（ 19 ）</b> <ruby>発明<rt>はつめい</rt></ruby>されました。<ruby>今<rt>いま</rt></ruby>では、<ruby>日本<rt>にほん</rt></ruby>だけでなく、<ruby>世界中<rt>せかいじゅう</rt></ruby>で <b>（ 20 ）</b>。とても<ruby>便利<rt>べんり</rt></ruby>でおいしいですから、たくさんの<ruby>人<rt>ひと</rt></ruby>に<ruby>愛<rt>あい</rt></ruby>されています。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["によって", "に", "から", "で"],
+                answer: 0 // によって
+            },
+            {
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["食べています", "食べさせられています", "食べられています", "食べます"],
+                answer: 2 // 食べられています
+            },
+            {
+                text: "21. インスタントラーメンについて<ruby>正<rt>ただ</rt></ruby>しいのはどれですか。",
+                options: [
+                    "<ruby>安藤百福<rt>あんどうももふく</rt></ruby>が<ruby>初<rt>はじ</rt></ruby>めてインスタントラーメンを<ruby>食<rt>た</rt></ruby>べた。",
+                    "<ruby>安藤百福<rt>あんどうももふく</rt></ruby>がインスタントラーメンを<ruby>作<rt>つく</rt></ruby>った。",
+                    "<ruby>安藤百福<rt>あんどうももふく</rt></ruby>が<ruby>世界中<rt>せかいじゅう</rt></ruby>へ<ruby>行<rt>い</rt></ruby>った。",
+                    "インスタントラーメンは<ruby>日本<rt>にほん</rt></ruby>だけで<ruby>食<rt>た</rt></ruby>べられている。"
+                ],
+                answer: 1 // 安藤百福が作りました（発明しました）
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、どうしたんですか。とても<ruby>悲<rt>かな</rt></ruby>しそうですね。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>今日<rt>きょう</rt></ruby>、<ruby>学校<rt>がっこう</rt></ruby>で<ruby>先生<rt>せんせい</rt></ruby> <b>（ 23 ）</b> <ruby>注意<rt>ちゅうい</rt></ruby>されたんです。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      えっ、<ruby>何<rt>なに</rt></ruby>をしたんですか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れたんです。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+</div>
+`,
+                text: "22. Bさんはどうして<ruby>悲<rt>かな</rt></ruby>しいですか。",
+                options: [
+                    "<ruby>先生<rt>せんせい</rt></ruby>を<ruby>注意<rt>ちゅうい</rt></ruby>したから。",
+                    "<ruby>宿題<rt>しゅくだい</rt></ruby>をしたから。",
+                    "<ruby>先生<rt>せんせい</rt></ruby>が<ruby>悲<rt>かな</rt></ruby>しいから。",
+                    "<ruby>先生<rt>せんせい</rt></ruby>に<ruby>注意<rt>ちゅうい</rt></ruby>されたから。"
+                ],
+                answer: 3 // 先生に注意されたから。
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["に", "を", "が", "で"],
+                answer: 0 // に
+            },
+            {
+                text: "24. Bさんは<ruby>何<rt>なに</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れましたか。",
+                options: ["先生", "学校", "宿題", "かばん"],
+                answer: 2 // 宿題
+            },
+            {
+                text: "25. <ruby>会話<rt>かいわ</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているものはどれですか。",
+                options: [
+                    "Bさんは<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れませんでした。",
+                    "Bさんは<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れました。",
+                    "Bさんは<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れていません。",
+                    "Bさんは<ruby>宿題<rt>しゅくだい</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れるところでした。"
+                ],
+                answer: 1 // Bさんは宿題を忘れました。
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 36)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. 先生に<u>注意</u>されました。",
+                options: ["じゅうい", "ちゅい", "じゅい", "ちゅうい"],
+                answer: 3
+            },
+            {
+                text: "27. <u>子供</u>に泣かれました。",
+                options: ["こども", "ことも", "ごとも", "ごども"],
+                answer: 0
+            },
+            {
+                text: "28. <u>雨</u>に降られました。",
+                options: ["ゆき", "くも", "あめ", "はれ"],
+                answer: 2
+            },
+            {
+                text: "29. <u>会議</u>が開かれます。",
+                options: ["かいき", "かいぎ", "がいき", "がいぎ"],
+                answer: 1
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. <u>むらさき</u>式部によって書かれました。",
+                options: ["紫", "柴", "糸", "此"],
+                answer: 0
+            },
+            {
+                text: "31. 会議は<u>おおさか</u>で開かれます。",
+                options: ["大坂", "大板", "大版", "大阪"],
+                answer: 3
+            },
+            {
+                text: "32. 子供にカメラを<u>こわされました</u>。",
+                options: ["懐されました", "壊されました", "懐させられました", "壊させられました"],
+                answer: 1
+            },
+            {
+                text: "33. この本はいろいろな言葉にほんやくして<u>かかれました</u>。",
+                options: ["言かれました", "読かれました", "書かれました", "語かれました"],
+                answer: 2
+            },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 36)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. <ruby>私<rt>わたし</rt></ruby>は <ruby>先生<rt>せんせい</rt></ruby>＿＿(A)＿＿ ＿＿(B)＿＿。",
+                options: [
+                    "（A）に （B）ほめられました",
+                    "（A）を （B）ほめました",
+                    "（A）が （B）ほめられました",
+                    "（A）で （B）ほめました"
+                ],
+                answer: 0 // 先生に ほめられました
+            },
+            {
+                text: "35. <ruby>大阪<rt>おおさか</rt></ruby>で ＿＿(A)＿＿ が ＿＿(B)＿＿。",
+                options: [
+                    "（A）会議 （B）開きます",
+                    "（A）会議 （B）開かれます",
+                    "（A）会議 （B）開かせます",
+                    "（A）会議 （B）開いて"
+                ],
+                answer: 1 // 会議が 開かれます
+            },
+            {
+                text: "36. <ruby>源氏物語<rt>げんじものがたり</rt></ruby>は <ruby>紫式部<rt>むらさきしきぶ</rt></ruby>＿＿(A)＿＿ ＿＿(B)＿＿。",
+                options: [
+                    "（A）に （B）書きました",
+                    "（A）から （B）書かれました",
+                    "（A）で （B）書かせました",
+                    "（A）によって （B）書かれました"
+                ],
+                answer: 3 // によって 書かれました
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>私<rt>わたし</rt></ruby> → ２．<ruby>弟<rt>おとうと</rt></ruby> → ３．パソコンを<ruby>壊<rt>こわ</rt></ruby>さ<u>れる</u>】。",
+                options: [
+                    "<ruby>私<rt>わたし</rt></ruby>は<ruby>弟<rt>おとうと</rt></ruby>をパソコンを<ruby>壊<rt>こわ</rt></ruby>されました。",
+                    "<ruby>私<rt>わたし</rt></ruby>が<ruby>弟<rt>おとうと</rt></ruby>にパソコンを<ruby>壊<rt>こわ</rt></ruby>しました。",
+                    "<ruby>私<rt>わたし</rt></ruby>は<ruby>弟<rt>おとうと</rt></ruby>にパソコンを<ruby>壊<rt>こわ</rt></ruby>されました。",
+                    "<ruby>私<rt>わたし</rt></ruby>は<ruby>弟<rt>おとうと</rt></ruby>にパソコンを<ruby>壊<rt>こわ</rt></ruby>させました。"
+                ],
+                answer: 2 // 私は弟にパソコンを壊されました。
+            },
+            {
+                text: "38. 【１．<ruby>雨<rt>あめ</rt></ruby> → ２．<ruby>降<rt>ふ</rt></ruby><u>る</u> → ３．<ruby>服<rt>ふく</rt></ruby>がぬれる】（※「～れて、」の<ruby>受身形<rt>うけみけい</rt></ruby>を<ruby>使<rt>つか</rt></ruby>って）。",
+                options: [
+                    "<ruby>雨<rt>あめ</rt></ruby>に<ruby>降<rt>ふ</rt></ruby>られて、<ruby>服<rt>ふく</rt></ruby>がぬれました。",
+                    "<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>られて、<ruby>服<rt>ふく</rt></ruby>がぬれました。",
+                    "<ruby>雨<rt>あめ</rt></ruby>を<ruby>降<rt>ふ</rt></ruby>られて、<ruby>服<rt>ふく</rt></ruby>がぬれました。",
+                    "<ruby>雨<rt>あめ</rt></ruby>で<ruby>降<rt>ふ</rt></ruby>られて、<ruby>服<rt>ふく</rt></ruby>がぬれました。"
+                ],
+                answer: 0 // 雨に降られて、服がぬれました。
+            },
+            {
+                text: "39. 【１．<ruby>犬<rt>いぬ</rt></ruby> → ２．<ruby>手<rt>て</rt></ruby> → ３．かま<u>れる</u>】（※「～に～を」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>犬<rt>いぬ</rt></ruby>が<ruby>手<rt>て</rt></ruby>をかまれました。",
+                    "<ruby>犬<rt>いぬ</rt></ruby>を<ruby>手<rt>て</rt></ruby>にかまれました。",
+                    "<ruby>犬<rt>いぬ</rt></ruby>で<ruby>手<rt>て</rt></ruby>をかまれました。",
+                    "<ruby>犬<rt>いぬ</rt></ruby>に<ruby>手<rt>て</rt></ruby>をかまれました。"
+                ],
+                answer: 3 // 犬に手をかまれました。
+            },
+            {
+                text: "40. 【１．<ruby>金沢<rt>かなざわ</rt></ruby> → ２．<ruby>小京都<rt>しょうきょうと</rt></ruby> → ３．<ruby>言<rt>い</rt></ruby><u>う</u>】（※「～と～」の<ruby>受身形<rt>うけみけい</rt></ruby>で）。",
+                options: [
+                    "<ruby>金沢<rt>かなざわ</rt></ruby>は<ruby>小京都<rt>しょうきょうと</rt></ruby>と<ruby>言<rt>い</rt></ruby>っています。",
+                    "<ruby>金沢<rt>かなざわ</rt></ruby>は<ruby>小京都<rt>しょうきょうと</rt></ruby>と<ruby>言<rt>い</rt></ruby>われています。",
+                    "<ruby>金沢<rt>かなざわ</rt></ruby>は<ruby>小京都<rt>しょうきょうと</rt></ruby>と<ruby>言<rt>い</rt></ruby>わせています。",
+                    "<ruby>金沢<rt>かなざわ</rt></ruby>は<ruby>小京都<rt>しょうきょうと</rt></ruby>と<ruby>言<rt>い</rt></ruby>わされています。"
+                ],
+                answer: 1 // 金沢は小京都と言われています。
+            }
+        ];   
+let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -728,7 +825,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
