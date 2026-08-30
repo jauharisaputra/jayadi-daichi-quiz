@@ -321,309 +321,387 @@
         }
 
     const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 27 - んです, んですが, ながら, と思っています)
+               ===================================================== */
             {
-                text: "A：どうして遅れたんですか。\nB：バスが（   ）んです。",
-                options: [
-                    "来なかった",
-                    "来ない",
-                    "来なくて",
-                    "来なかったら"
-                ],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. A「どうした（ ）。」<br>B「<ruby>頭<rt>あたま</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>いんです。」",
+                options: ["んですか", "ですか", "ますか", "のか"],
+                answer: 0 // んですか
+            },
+            {
+                text: "2. <ruby>風邪<rt>かぜ</rt></ruby>をひいた（ ）。",
+                options: ["の", "んです", "な", "なきゃ"],
+                answer: 1 // んです
+            },
+            {
+                text: "3. わたしはアレルギー（ ）んです。",
+                options: ["だ", "の", "な", "に"],
+                answer: 2 // なんです (Noun + なんです)
+            },
+            {
+                text: "4. <ruby>来週<rt>らいしゅう</rt></ruby>、<ruby>出張<rt>しゅっちょう</rt></ruby>する（ ）が、いいホテルを<ruby>教<rt>おし</rt></ruby>えてください。",
+                options: ["んです", "のですが", "だから", "のに"],
+                answer: 0 // んですが
+            },
+            {
+                text: "5. テレビを（ ）ながら、ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べます。",
+                options: ["みる", "み", "みて", "みた"],
+                answer: 1 // みながら
+            },
+            {
+                text: "6. アルバイトを（ ）ながら、<ruby>学校<rt>がっこう</rt></ruby>に<ruby>通<rt>かよ</rt></ruby>っています。",
+                options: ["する", "し", "して", "した"],
+                answer: 1 // しながら
+            },
+            {
+                text: "7. <ruby>何<rt>なに</rt></ruby>を（ ）らいいですか。",
+                options: ["着る", "着て", "着た", "着"],
+                answer: 2 // 着たら
+            },
+            {
+                text: "8. <ruby>黒<rt>くろ</rt></ruby>いスーツを<ruby>着<rt>き</rt></ruby>たら（ ）ですか。",
+                options: ["いい", "どう", "なん", "どこ"],
+                answer: 1 // どうですか
+            },
+            {
+                text: "9. <ruby>同窓会<rt>どうそうかい</rt></ruby>に（ ）していただけませんか。",
+                options: ["出席", "出発", "出張", "心配"],
+                answer: 0 // 出席
+            },
+            {
+                text: "10. <ruby>両親<rt>りょうしん</rt></ruby>が<ruby>反対<rt>はんたい</rt></ruby>していると（ ）います。",
+                options: ["言っ", "見", "聞い", "思って"],
+                answer: 3 // 思っています
+            },
+            {
+                text: "11. どこへ<ruby>行<rt>い</rt></ruby>く（ ）。",
+                options: ["の", "な", "だ", "に"],
+                answer: 0 // の (Bentuk kasual dari んですか)
+            },
+            {
+                text: "12. うらやましい（ ）ぁ。",
+                options: ["の", "な", "だ", "ね"],
+                answer: 1 // なぁ
+            },
+            {
+                text: "13. いつ<ruby>国<rt>くに</rt></ruby>へ（ ）んですか。",
+                options: ["帰る", "帰り", "帰って", "帰った"],
+                answer: 0 // 帰るんですか
+            },
+            {
+                text: "14. コピー<ruby>機<rt>き</rt></ruby>の<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>がわからない（ ）が、<ruby>教<rt>おし</rt></ruby>えていただけませんか。",
+                options: ["の", "です", "んです", "から"],
+                answer: 2 // んですが
+            },
+            {
+                text: "15. <ruby>音楽<rt>おんがく</rt></ruby>を（ ）ながら、<ruby>勉強<rt>べんきょう</rt></ruby>します。",
+                options: ["きく", "きき", "きいて", "きいた"],
+                answer: 1 // ききながら
+
+            },
+
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 27)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、どうした <b>（ 16 ）</b>。<ruby>顔<rt>かお</rt></ruby>が<ruby>赤<rt>あか</rt></ruby>いですよ。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>熱<rt>ねつ</rt></ruby>がある <b>（ 17 ）</b>。<ruby>昨日<rt>きのう</rt></ruby>、<ruby>雨<rt>あめ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>いたからだと<ruby>思<rt>おも</rt></ruby>います。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      それは<ruby>大変<rt>たいへん</rt></ruby>ですね。<ruby>早<rt>はや</rt></ruby>く<ruby>病院<rt>びょういん</rt></ruby>へ <b>（ 18 ）</b> どうですか。
+    </div>
+  </div>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["んですか", "ますか", "のです", "のか"],
+                answer: 0 // んですか
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["のですか", "んです", "な", "の"],
+                answer: 1 // んです
+            },
+            {
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["行ったら", "行いて", "行く", "行った"],
+                answer: 0 // 行ったら (行ったらどうですか)
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【メール】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <ruby>山田<rt>やまだ</rt></ruby>さん<br><br>
+  お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。<br>
+  <ruby>来週<rt>らいしゅう</rt></ruby>、<ruby>大阪<rt>おおさか</rt></ruby>へ<ruby>出張<rt>しゅっちょう</rt></ruby>する <b>（ 19 ）</b> が、いいホテルを<ruby>教<rt>おし</rt></ruby>えて <b>（ 20 ）</b>。<br>
+  <ruby>駅<rt>えき</rt></ruby>から<ruby>近<rt>ちか</rt></ruby>いホテルがいいと <b>（ 21 ）</b>。<br>
+  よろしくお<ruby>願<rt>ねが</rt></ruby>いします。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["の", "な", "んです", "から"],
+                answer: 2 // んですが
+            },
+            {
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["あげませんか", "もらえませんか", "いただけませんか", "ありませんか"],
+                answer: 2 // いただけませんか
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["思いします", "思っています", "考えて", "考えます"],
+                answer: 1 // 思っています
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8; border: 1px solid #000; background-color: #fff;">
+  <tr>
+    <td style="padding:15px; vertical-align:top;">
+      <ruby>私<rt>わたし</rt></ruby>の<ruby>弟<rt>おとうと</rt></ruby>は、いつも<ruby>音楽<rt>おんがく</rt></ruby>を <b>（ 22 ）</b> ながら<ruby>勉強<rt>べんきょう</rt></ruby>しています。<ruby>時々<rt>ときどき</rt></ruby>、お<ruby>菓子<rt>かし</rt></ruby>も <b>（ 23 ）</b>。<ruby>私<rt>わたし</rt></ruby>は<ruby>静<rt>しず</rt></ruby>かな<ruby>部屋<rt>へや</rt></ruby>で<ruby>勉強<rt>べんきょう</rt></ruby>したい <b>（ 24 ）</b>、<ruby>弟<rt>おとうと</rt></ruby>の<ruby>部屋<rt>へや</rt></ruby>には<ruby>行<rt>い</rt></ruby>きません。<ruby>両親<rt>りょうしん</rt></ruby>も、<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>きながら<ruby>勉強<rt>べんきょう</rt></ruby>するのはよくない <b>（ 25 ）</b>。
+    </td>
+  </tr>
+</table>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["きく", "きき", "きいて", "きいた"],
+                answer: 1 // きき
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["食べます", "食べながら", "食べる", "食べて"],
+                answer: 1 // 食べながら (時々、お菓子も食べながら...)
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["んです", "んですから", "ですが", "のです"],
+                answer: 1 // んですから (Karena saya ingin belajar...)
+            },
+            {
+                text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["と思っています", "と思います", "思いません", "思っていました"],
+                answer: 0 // と思っています
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 27)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. <u>風邪</u>をひいたんです。",
+                options: ["かぜ", "ねつ", "びょうき", "せき"],
                 answer: 0
             },
             {
-                text: "音楽を（   ）ながら、部屋の掃除をします。",
-                options: [
-                    "聞く",
-                    "聞き",
-                    "聞いて",
-                    "聞いた"
-                ],
+                text: "27. 来週<u>出張</u>するんですが、いいホテルを教えてください。",
+                options: ["しゅっちょ", "しゅっちょう", "しゅちょう", "しゅちょ"],
                 answer: 1
             },
             {
-                text: "市役所へ（   ）んですが、道を教えていただけませんか。",
-                options: [
-                    "行く",
-                    "行かない",
-                    "行きたい",
-                    "行った"
-                ],
+                text: "28. <u>両親</u>が反対していると思っています。",
+                options: ["りょうしん", "りょしん", "りょうおや", "りょおや"],
+                answer: 0
+            },
+            {
+                text: "29. 両親が<u>反対</u>していると思っています。",
+                options: ["はんたい", "ばんたい", "ほんたい", "はんたいし"],
+                answer: 0
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. いつ国へ<u>かえる</u>んですか。",
+                options: ["変える", "返る", "帰る", "買える"],
                 answer: 2
             },
             {
-                text: "A：顔色が悪いですね。どうしたんですか。\nB：実は、お腹が（   ）。",
-                options: [
-                    "痛いんですが",
-                    "痛いながら",
-                    "痛いんですか",
-                    "痛いんです"
-                ],
-                answer: 3
-            },
-            {
-                text: "あしたのパーティーに、（   ）を着たらいいですか。",
-                options: [
-                    "何",
-                    "どこ",
-                    "いつ",
-                    "だれ"
-                ],
-                answer: 0
-            },
-            {
-                text: "私はいつもコーヒーを（   ）ながら、新聞を読みます。",
-                options: [
-                    "飲む",
-                    "飲み",
-                    "飲んで",
-                    "飲ま"
-                ],
-                answer: 1
-            },
-            {
-                text: "A：少し熱があるんです。\nB：じゃあ、早く（   ）どうですか。",
-                options: [
-                    "寝る",
-                    "寝て",
-                    "寝たら",
-                    "寝た"
-                ],
+                text: "31. いいホテルを<u>おしえて</u>ください。",
+                options: ["答えて", "話えて", "教えて", "考えて"],
                 answer: 2
             },
             {
-                text: "電子辞書を買いたい（   ）、どれがいいか教えてください。",
-                options: [
-                    "ながら",
-                    "んですか",
-                    "のです",
-                    "んですが"
-                ],
-                answer: 3
-            },
-            {
-                text: "A：昨日、どうして学校を休んだんですか。\nB：（   ）。",
-                options: [
-                    "風邪をひいたんです",
-                    "風邪をひくんですか",
-                    "風邪をひきながらです",
-                    "風邪をひくんですが"
-                ],
-                answer: 0
-            },
-            {
-                text: "A：来週の出張、どのホテルに泊まったらいいか迷っているんです。\nB：じゃあ、駅の近くのホテルに（   ）。",
-                options: [
-                    "泊まるんですが",
-                    "泊まったらどうですか",
-                    "泊まりながらですか",
-                    "泊まりたいんです"
-                ],
+                text: "32. アルバイトをしながら、<u>がっこう</u>に通っています。",
+                options: ["学生", "学校", "学高", "学効"],
                 answer: 1
             },
             {
-                text: "A：木村さんはどこにいますか。\nB：あそこで、お茶を（   ）ながら新聞を読んでいる人ですよ。",
-                options: [
-                    "飲む",
-                    "飲んで",
-                    "飲み",
-                    "飲んだ"
-                ],
-                answer: 2
-            },
-            {
-                text: "A：あれ、こんな時間に（   ）。\nB：うん、ちょっとコンビニまで飲み物を買いに行くよ。",
-                options: [
-                    "だれと行くの？",
-                    "何を買うの？",
-                    "どうして行くの？",
-                    "どこへ行くの？"
-                ],
+                text: "33. カウンセラーはどうして両親が反対していると<u>おもって</u>いますか。",
+                options: ["怒って", "急って", "息って", "思って"],
                 answer: 3
             },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 27)
+               ===================================================== */
             {
-                text: "A：とても眠そうですね。きのう、遅くまで（   ）。\nB：ええ、テストの勉強をしていたんです。",
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. A「どうしたんですか。」<br>B「<ruby>風邪<rt>かぜ</rt></ruby>を ＿＿(A)＿＿＿＿(B)＿＿。」",
                 options: [
-                    "起きていたんですか",
-                    "起きていたんです",
-                    "起きたいんですが",
-                    "起きながらですか"
+                    "（A）ひいた （B）んです",
+                    "（A）ひく （B）んです",
+                    "（A）ひき （B）ますか",
+                    "（A）ひいて （B）います"
                 ],
-                answer: 0
+                answer: 0 // ひいたんです
             },
             {
-                text: "A：すみません、この漢字の読み方が（   ）、教えていただけませんか。\nB：いいですよ。どれですか。",
+                text: "35. <ruby>来週出張<rt>らいしゅうしゅっちょう</rt></ruby> ＿＿(A)＿＿＿＿(B)＿＿が、いいホテルを<ruby>教<rt>おし</rt></ruby>えてください。",
                 options: [
-                    "わからないんですか",
-                    "わからないんですが",
-                    "わからないながら",
-                    "わからないらどうですか"
+                    "（A）する （B）んですが",
+                    "（A）した （B）んですが",
+                    "（A）して （B）いますが",
+                    "（A）する （B）ですが"
                 ],
-                answer: 1
+                answer: 0 // するんですが
             },
             {
-                text: "A：来月、一週間ハワイへ旅行に行くんです。\nB：へえ、（   ）。いいですね。",
+                text: "36. テレビを ＿＿(A)＿＿＿＿(B)＿＿、ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べます。",
                 options: [
-                    "どうしたんですか",
-                    "どこへ行くの",
-                    "うらやましいなあ",
-                    "何を着たらいいですか"
+                    "（A）みる （B）ながら",
+                    "（A）みて （B）から",
+                    "（A）みた （B）あとで",
+                    "（A）み （B）ながら"
                 ],
-                answer: 2
+                answer: 3 // みながら
             },
             {
-                text: "A：来月の（   ）に出席していただけませんか。\nB：はい、久しぶりにみんなに会いたいですね。喜んで出席します。",
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．アルバイト → ２．す<u>る</u> → ３．ながら】（※「～、<ruby>学校<rt>がっこう</rt></ruby>に<ruby>通<rt>かよ</rt></ruby>っています」に<ruby>続<rt>つづ</rt></ruby>くように）。",
                 options: [
-                    "どうして",
-                    "うらやましい",
-                    "テレビ",
-                    "同窓会"
+                    "アルバイトをしながら、",
+                    "アルバイトをしますながら、",
+                    "アルバイトをするながら、",
+                    "アルバイトをしてながら、"
                 ],
-                answer: 3
+                answer: 0 // アルバイトをしながら
             },
             {
-                text: "休みの日はいつも、音楽を聞きながら部屋を掃除します。それから、スーパーへ一週間分の買い物に行きます。\n\n質問：この人は休みの日にまず何をしますか。",
+                text: "38. 【１．<ruby>何<rt>なに</rt></ruby> → ２．<ruby>着<rt>き</rt></ruby><u>る</u> → ３．いいですか】（※アドバイスをもらう<ruby>時<rt>とき</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>）。",
                 options: [
-                    "音楽を聞いて掃除をします。",
-                    "スーパーへ買い物に行きます。",
-                    "掃除をしてから音楽を聞きます。",
-                    "買い物をしてから掃除をします。"
+                    "<ruby>何<rt>なに</rt></ruby>を<ruby>着<rt>き</rt></ruby>ていいですか。",
+                    "<ruby>何<rt>なに</rt></ruby>を<ruby>着<rt>き</rt></ruby>たらいいですか。",
+                    "<ruby>何<rt>なに</rt></ruby>を<ruby>着<rt>き</rt></ruby>ればいいですか。",
+                    "<ruby>何<rt>なに</rt></ruby>を<ruby>着<rt>き</rt></ruby>るいいですか。"
                 ],
-                answer: 0
+                answer: 1 // 何を着たらいいですか。
             },
             {
-                text: "A：頭が痛いんですが、この薬を飲んでもいいですか。\nB：それは子ども用の薬ですから、大人の薬を飲んだらどうですか。\n\n質問：BさんはAさんにどうしたらいいと言っていますか。",
+                text: "39. 【１．<ruby>同窓会<rt>どうそうかい</rt></ruby> → ２．<ruby>出席<rt>しゅっせき</rt></ruby>す<u>る</u> → ３．いただけませんか】。",
                 options: [
-                    "子ども用の薬を飲む。",
-                    "大人の薬を飲む。",
-                    "薬を飲まない。",
-                    "病院へ行く。"
+                    "<ruby>同窓会<rt>どうそうかい</rt></ruby>に<ruby>出席<rt>しゅっせき</rt></ruby>していただけませんか。",
+                    "<ruby>同窓会<rt>どうそうかい</rt></ruby>へ<ruby>出席<rt>しゅっせき</rt></ruby>するいただけませんか。",
+                    "<ruby>同窓会<rt>どうそうかい</rt></ruby>で<ruby>出席<rt>しゅっせき</rt></ruby>したいただけませんか。",
+                    "<ruby>同窓会<rt>どうそうかい</rt></ruby>が<ruby>出席<rt>しゅっせき</rt></ruby>させっていただけませんか。"
                 ],
-                answer: 1
+                answer: 0 // 同窓会に出席していただけませんか。
             },
             {
-                text: "（電話で）\n田中：もしもし、田中ですが、今日会社を休みたいんですが。\n部長：どうしたんですか。\n田中：熱が３９度あるんです。\n\n質問：田中さんはどうして会社を休みますか。",
+                text: "40. 【１．<ruby>両親<rt>りょうしん</rt></ruby> → ２．<ruby>反対<rt>はんたい</rt></ruby>している → ３．<ruby>思<rt>おも</rt></ruby>っています】（※「～と～」でつなぐ）。",
                 options: [
-                    "部長と話したいからです。",
-                    "電話をかけたいからです。",
-                    "熱があるからです。",
-                    "会社に行きたいからです。"
+                    "<ruby>両親<rt>りょうしん</rt></ruby>が<ruby>反対<rt>はんたい</rt></ruby>しているに<ruby>思<rt>おも</rt></ruby>っています。",
+                    "<ruby>両親<rt>りょうしん</rt></ruby>が<ruby>反対<rt>はんたい</rt></ruby>しているを<ruby>思<rt>おも</rt></ruby>っています。",
+                    "<ruby>両親<rt>りょうしん</rt></ruby>が<ruby>反対<rt>はんたい</rt></ruby>していると<ruby>思<rt>おも</rt></ruby>っています。",
+                    "<ruby>両親<rt>りょうしん</rt></ruby>が<ruby>反対<rt>はんたい</rt></ruby>しているが<ruby>思<rt>おも</rt></ruby>っています。"
                 ],
-                answer: 2
-            },
-            {
-                text: "来週、高校の同窓会があります。ホテルでパーティーをするんですが、何を着たらいいかわかりません。今日の夜、友達に電話で相談しようと思っています。\n\n質問：この人は今日の夜、何をしますか。",
-                options: [
-                    "ホテルを予約します。",
-                    "パーティーの準備をします。",
-                    "服を買います。",
-                    "友達に相談します。"
-                ],
-                answer: 3
-            },
-            {
-                text: "私は毎晩、お風呂に入りながら日本語の歌を聞きます。歌を聞くと、日本語の勉強になるし、リラックスできるんです。\n\n質問：この人はお風呂で何をしますか。",
-                options: [
-                    "日本語の歌を聞きます。",
-                    "日本語の勉強をしながら歌います。",
-                    "日本語の辞書を読みます。",
-                    "リラックスしながら寝ます。"
-                ],
-                answer: 0
-            },
-            {
-                text: "お客さん：すみません、このシャツ、少し小さいんですが、もう少し大きいのはありませんか。\n店員：申し訳ありません。そちらのシャツは、そのサイズしかないんです。\n\n質問：お客さんはどうして店員を呼びましたか。",
-                options: [
-                    "シャツが大きすぎるからです。",
-                    "もう少し大きいシャツがほしいからです。",
-                    "他のシャツを探してほしいからです。",
-                    "シャツのサイズがぴったりだからです。"
-                ],
-                answer: 1
-            },
-            {
-                text: "カウンセラー：どうして両親が反対していると思っていますか。\n学生：私がまだ若くて、一人で生活したことがないからだと思います。\n\n質問：学生は両親が反対する理由はなんだと考えていますか。",
-                options: [
-                    "両親が一人で生活したいから。",
-                    "学生が両親と住みたいから。",
-                    "学生に一人暮らしの経験がないから。",
-                    "カウンセラーが反対しているから。"
-                ],
-                answer: 2
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：マリアさんは来月、どうするんですか。",
-                options: [
-                    "日本の大学に入ります。",
-                    "さくらさんの国へ行きます。",
-                    "デパートで働きます。",
-                    "自分の国へ帰ります。"
-                ],
-                answer: 3
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：マリアさんはどうしてさくらさんにプレゼントを買いたいんですか。",
-                options: [
-                    "もうすぐ国へ帰るからです。",
-                    "さくらさんの誕生日だからです。",
-                    "さくらさんがイヤホンを欲しがっているからです。",
-                    "さくらさんがパーティーをするからです。"
-                ],
-                answer: 0
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：さくらさんは普段、何をしながら勉強していますか。",
-                options: [
-                    "テレビを見ながら",
-                    "音楽を聞きながら",
-                    "友達と話しながら",
-                    "ご飯を食べながら"
-                ],
-                answer: 1
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：マリアさんは友達に何をプレゼントしたらどうですかと言われましたか。",
-                options: [
-                    "可愛い服",
-                    "音楽のCD",
-                    "いいイヤホン",
-                    "新しいカバン"
-                ],
-                answer: 2
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：デパートでマリアさんはどうして店員さんに質問したんですか。",
-                options: [
-                    "イヤホンがどこにあるかわからなかったからです。",
-                    "店員さんと友達になりたかったからです。",
-                    "イヤホンの値段が高すぎたからです。",
-                    "種類が多くて、どれを選んだらいいかわからなかったからです。"
-                ],
-                answer: 3
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：店員さんはどうしてそのイヤホンをすすめたんですか。",
-                options: [
-                    "音がよくて、デザインも可愛いからです。",
-                    "値段が安くて、人気があるからです。",
-                    "マリアさんが使っているのと同じだからです。",
-                    "お店で一番高いイヤホンだからです。"
-                ],
-                answer: 0
-            },
-            {
-                text: "【長文読解】\n私の名前はマリアです。来月、国へ帰るんです。それで、日本人の友達のさくらさんにプレゼントを買いたいんですが、何がいいかわかりません。昨日、別の友達に「さくらさんはいつも音楽を聞きながら勉強しているよ。だから、いいイヤホンをプレゼントしたらどう？」と言われました。私はそれはとてもいいアイデアだと思いました。\n今日、デパートへイヤホンを買いに行ったんですが、種類が多くて、どれを選んだらいいかわかりませんでした。店員さんに「友達にプレゼントしたいんですが、どれがいいですか」と聞きました。店員さんは「このイヤホンは音がいいし、デザインも可愛いので、若い女性に人気があるんですよ」と教えてくれました。私はそれを買うことにしました。\nさくらさんが喜んでくれるといいなと思っています。明日のパーティーで渡すつもりです。\n\n質問：マリアさんはいつ、さくらさんにプレゼントを渡すつもりですか。",
-                options: [
-                    "今日",
-                    "明日のパーティー",
-                    "来月",
-                    "今すぐ"
-                ],
-                answer: 1
+                answer: 2 // 両親が反対していると思っています。
             }
-        ];
-        
-        
+        ];    
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -731,7 +809,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
