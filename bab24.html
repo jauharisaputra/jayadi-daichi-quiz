@@ -325,353 +325,393 @@
         // Bab 24 - 可能形（Mini J.TEST D-E Style）
         // ===============================
 
-        const questions = [
+       const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 24 - 可能形, ようになる, なくなる, しか)
+               ===================================================== */
             {
-                text: "私は日本語が（　　　）。",
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. マリーさんは<ruby>漢字<rt>かんじ</rt></ruby>（ ）<ruby>書<rt>か</rt></ruby>けます。",
+                options: ["を", "に", "が", "で"],
+                answer: 2 // が
+            },
+            {
+                text: "2. うちの<ruby>息子<rt>むすこ</rt></ruby>は<ruby>歩<rt>ある</rt></ruby>ける（ ）なりました。",
+                options: ["ように", "そうに", "ために", "ことに"],
+                answer: 0 // ように
+            },
+            {
+                text: "3. <ruby>目<rt>め</rt></ruby>が<ruby>悪<rt>わる</rt></ruby>くなりましたから、<ruby>小<rt>ちい</rt></ruby>さい<ruby>字<rt>じ</rt></ruby>が（ ）なくなりました。",
+                options: ["よむ", "よめ", "よんで", "よんだ"],
+                answer: 1 // よめ (読めなくなりました)
+            },
+            {
+                text: "4. この<ruby>店<rt>みせ</rt></ruby>は<ruby>現金<rt>げんきん</rt></ruby>（ ）<ruby>使<rt>つか</rt></ruby>えません。",
+                options: ["だけ", "から", "まで", "しか"],
+                answer: 3 // しか
+            },
+            {
+                text: "5. この<ruby>図書館<rt>としょかん</rt></ruby>で<ruby>本<rt>ほん</rt></ruby>が（ ）ますか。",
+                options: ["かりる", "かりて", "かりられ", "かりらせ"],
+                answer: 2 // かりられ (借りられます)
+            },
+            {
+                text: "6. <ruby>明日<rt>あした</rt></ruby>は<ruby>忙<rt>いそが</rt></ruby>しいですから、パーティーに（ ）。",
+                options: ["こられません", "きません", "こないでください", "きられません"],
+                answer: 0 // こられません (Bentuk potensial negatif dari 来る)
+            },
+            {
+                text: "7. <ruby>私<rt>わたし</rt></ruby>は<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>新聞<rt>しんぶん</rt></ruby>が（ ）。",
+                options: ["よみます", "よめます", "よまれます", "よませます"],
+                answer: 1 // よめます
+            },
+            {
+                text: "8. <ruby>祖父<rt>そふ</rt></ruby>は<ruby>長<rt>なが</rt></ruby>い<ruby>時間<rt>じかん</rt></ruby>（ ）なくなりました。",
+                options: ["あるく", "あるいて", "あるける", "あるけ"],
+                answer: 3 // あるけ (歩けなくなりました)
+            },
+            {
+                text: "9. <ruby>風邪<rt>かぜ</rt></ruby>をひきましたから、ビールが（ ）なくなりました。",
+                options: ["のめ", "のむ", "のんで", "のみ"],
+                answer: 0 // のめ (飲めなくなりました)
+            },
+            {
+                text: "10. <ruby>私<rt>わたし</rt></ruby>は１００メートル（ ）ようになりました。",
+                options: ["およぐ", "およぎ", "およいで", "およげる"],
+                answer: 3 // およげる
+            },
+            {
+                text: "11. このスーパーはクレジットカードが（ ）か。",
+                options: ["つかえません", "つかえます", "つかいます", "つかって"],
+                answer: 1 // つかえます
+            },
+            {
+                text: "12. ジョンさんは<ruby>納豆<rt>なっとう</rt></ruby>が（ ）か。",
+                options: ["たべます", "たべられます", "たべさせて", "たべる"],
+                answer: 1 // たべられます
+            },
+            {
+                text: "13. <ruby>時間<rt>じかん</rt></ruby>がありませんから、<ruby>朝<rt>あさ</rt></ruby>ごはんはパン（ ）<ruby>食<rt>た</rt></ruby>べません。",
+                options: ["だけ", "も", "しか", "が"],
+                answer: 2 // しか
+            },
+            {
+                text: "14. <ruby>私<rt>わたし</rt></ruby>はまだ<ruby>上手<rt>じょうず</rt></ruby>に<ruby>話<rt>はな</rt></ruby>せ（ ）。",
+                options: ["ません", "ます", "ないで", "ますか"],
+                answer: 0 // ません (話せません)
+            },
+            {
+                text: "15. A「<ruby>昨日<rt>きのう</rt></ruby>、<ruby>何時間<rt>なんじかん</rt></ruby><ruby>寝<rt>ね</rt></ruby>ましたか。」<br>B「３<ruby>時間<rt>じかん</rt></ruby>（ ）<ruby>寝<rt>ね</rt></ruby>られませんでした。」",
+                options: ["ぐらい", "しか", "だけ", "ごろ"],
+                answer: 1 // しか
+
+            },
+
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 24)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、<ruby>日本語<rt>にほんご</rt></ruby>が <b>（ 16 ）</b> ようになりましたか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      はい、<ruby>少<rt>すこ</rt></ruby>しわかるようになりました。でも、<ruby>漢字<rt>かんじ</rt></ruby>はまだ <b>（ 17 ）</b>。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      そうですか。<ruby>私<rt>わたし</rt></ruby>は<ruby>漢字<rt>かんじ</rt></ruby>が５０ <b>（ 18 ）</b> <ruby>書<rt>か</rt></ruby>けません。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      これから、もっと<ruby>勉強<rt>べんきょう</rt></ruby>しなければなりませんね。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["はなす", "はなせる", "はなして", "はなした"],
+                answer: 1 // はなせる (話せるようになりましたか)
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["よめます", "よめません", "よみません", "よみます"],
+                answer: 1 // よめません (読めません)
+            },
+            {
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["だけ", "から", "しか", "まで"],
+                answer: 2 // しか
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <b>スーパーABCからのお<ruby>願<rt>ねが</rt></ruby>い</b><br><br>
+  このレジは「<ruby>現金<rt>げんきん</rt></ruby> <b>（ 19 ）</b> <b>（ 20 ）</b>」と<ruby>書<rt>か</rt></ruby>いてあります。<br>
+  クレジットカードや電子マネーは <b>（ 21 ）</b> から、<ruby>気<rt>き</rt></ruby>をつけてください。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["しか", "だけ", "も", "は"],
+                answer: 0 // しか
+            },
+            {
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["使えます", "使えません", "使います", "使いません"],
+                answer: 1 // 使えません
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["使えます", "使えません", "使われます", "使わせません"],
+                answer: 1 // 使えません
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="border:2px solid #333; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>私<rt>わたし</rt></ruby>の<ruby>息子<rt>むすこ</rt></ruby>は１<ruby>歳<rt>さい</rt></ruby>です。<ruby>最近<rt>さいきん</rt></ruby>、<b>（ 22 ）</b> ようになりました。とても<ruby>嬉<rt>うれ</rt></ruby>しいです。でも、まだ <b>（ 23 ）</b>。<ruby>早<rt>はや</rt></ruby>く「ママ」と <b>（ 24 ）</b> ようになってほしいです。
+</div>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["あるく", "あるける", "あるいて", "あるきたい"],
+                answer: 1 // あるける (歩けるようになりました)
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["はなせません", "はなします", "はなせます", "はなさないでください"],
+                answer: 0 // はなせません
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["いう", "いえる", "いって", "いわない"],
+                answer: 1 // いえる (言える)
+            },
+            {
+                text: "25. このブログを<ruby>書<rt>か</rt></ruby>いた<ruby>人<rt>ひと</rt></ruby>について、<ruby>合<rt>あ</rt></ruby>っているものはどれですか。",
                 options: [
-                    "話せます",
-                    "話します",
-                    "話しました",
-                    "話しません"
+                    "<ruby>息子<rt>むすこ</rt></ruby>はもう「ママ」と<ruby>言<rt>い</rt></ruby>えます。",
+                    "<ruby>息子<rt>むすこ</rt></ruby>は<ruby>最近<rt>さいきん</rt></ruby><ruby>歩<rt>ある</rt></ruby>けるようになりました。",
+                    "<ruby>息子<rt>むすこ</rt></ruby>はまだ<ruby>歩<rt>ある</rt></ruby>けません。",
+                    "<ruby>息子<rt>むすこ</rt></ruby>はもうたくさん<ruby>話<rt>はな</rt></ruby>せます。"
                 ],
+                answer: 1 // 息子は最近歩けるようになりました。
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 24)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. <u>漢字</u>が書けます。",
+                options: ["かんじ", "かんち", "かじ", "はんじ"],
                 answer: 0
             },
             {
-                text: "毎日練習したので、ピアノが（　　　）ようになりました。",
-                options: [
-                    "ひけます",
-                    "ひきます",
-                    "ひける",
-                    "ひいた"
-                ],
+                text: "27. この店はクレジットカードが<u>使えません</u>。",
+                options: ["つかえません", "もたえません", "はたらえません", "つくえません"],
+                answer: 0
+            },
+            {
+                text: "28. <u>昼間</u>は寝ていますが、夜は起きています。",
+                options: ["よるま", "ひるかん", "ひるま", "あさま"],
                 answer: 2
             },
             {
-                text: "図書館で本が（　　　）。",
-                options: [
-                    "借ります",
-                    "借りられます",
-                    "借りません",
-                    "借りたいです"
-                ],
+                text: "29. 夜はよく<u>動きます</u>。",
+                options: ["はたらきます", "うごきます", "あるきます", "いそぎます"],
                 answer: 1
             },
-            {
-                text: "この漢字は難しいですが、今は（　　　）。",
-                options: [
-                    "読みます",
-                    "読めます",
-                    "読まれます",
-                    "読むです"
-                ],
-                answer: 1
-            },
-            {
-                text: "病気が治ったので、長い時間（　　　）。",
-                options: [
-                    "歩けます",
-                    "歩きます",
-                    "歩きたいです",
-                    "歩いたです"
-                ],
-                answer: 0
-            },
-            {
-                text: "昨日までできませんでしたが、今日は一人で泳げる（　　　）。",
-                options: [
-                    "なりました",
-                    "ようになりました",
-                    "ことができます",
-                    "ようです"
-                ],
-                answer: 1
-            },
-            {
-                text: "「かく」の可能形はどれですか。",
-                options: [
-                    "かかれる",
-                    "かける",
-                    "かきられる",
-                    "かくれる"
-                ],
-                answer: 1
-            },
-            {
-                text: "「する」の可能形はどれですか。",
-                options: [
-                    "される",
-                    "しられる",
-                    "できる",
-                    "しえる"
-                ],
-                answer: 2
-            },
-             {
-    text: "私は漢字（　　　）読めます。",
-    options: [
-      "を",
-      "が",
-      "に",
-      "で"
-    ],
-    answer: 1
-  },
-  {
-    text: "兄は車を運転する（　　　）。",
-    options: [
-      "ようになりました",
-      "ことができます",
-      "なくなりました",
-      "そうです"
-    ],
-    answer: 1
-  },
-  {
-    text: "息子は一人で靴が（　　　）ようになりました。",
-    options: [
-      "はきます",
-      "はける",
-      "はいた",
-      "はけます"
-    ],
-    answer: 1
-  },
-  {
-    text: "祖父は病気になって、長い時間歩け（　　　）。",
-    options: [
-      "ようになりました",
-      "ます",
-      "なくなりました",
-      "たいです"
-    ],
-    answer: 2
-  },
-  {
-    text: "私は日本語（　　　）英語しか話せません。",
-    options: [
-      "と",
-      "や",
-      "やはり",
-      "と中国語は"
-    ],
-    answer: 0
-  },
-  {
-    text: "図書館で本を予約する（　　　）。",
-    options: [
-      "ようになりました",
-      "ことができます",
-      "なくなりました",
-      "できませんでした"
-    ],
-    answer: 1
-  },
-  {
-    text: "この店では現金（　　　）使えません。",
-    options: [
-      "だけ",
-      "まで",
-      "しか",
-      "でも"
-    ],
-    answer: 2
-  },
-  {
-    text: "A：日本語が話せますか。\nB：はい、少し（　　　）。",
-    options: [
-      "話せます",
-      "話します",
-      "話しました",
-      "話しましょう"
-    ],
-    answer: 0
-  },
-   {
-                text: "A：日本語が話せますか。\nB：（　　　）。まだ勉強中です。",
-                options: [
-                    "はい、話せます",
-                    "いいえ、あまり話せません",
-                    "はい、話しました",
-                    "いいえ、話しません"
-                ],
-                answer: 1
-            },
-            {
-                text: "A：田中さんは泳げますか。\nB：（　　　）。子どものころから泳いでいます。",
-                options: [
-                    "いいえ、泳げません",
-                    "まだです",
-                    "はい、とても泳げます",
-                    "たぶん泳ぎます"
-                ],
-                answer: 2
-            },
-            {
-                text: "A：お子さんはもう歩けますか。\nB：（　　　）。",
-                options: [
-                    "はい、歩けるようになりました",
-                    "はい、歩きます",
-                    "いいえ、歩きました",
-                    "まだ歩きません"
-                ],
-                answer: 0
-            },
-            {
-                text: "A：図書館で本が借りられますか。\nB：（　　　）。",
-                options: [
-                    "いいえ、本です",
-                    "はい、借りられます",
-                    "はい、借ります",
-                    "いいえ、読みます"
-                ],
-                answer: 1
-            },
-            {
-                text: "A：どうしてこの店でカードが使えませんか。\nB：（　　　）。",
-                options: [
-                    "カードが好きですから",
-                    "現金しか使えませんから",
-                    "カードを買いますから",
-                    "現金がありますから"
-                ],
-                answer: 1
-            },
-            {
-                text: "A：来週の土曜日、来られますか。\nB：（　　　）。",
-                options: [
-                    "はい、来られます",
-                    "はい、来ました",
-                    "いいえ、来ます",
-                    "はい、来ています"
-                ],
-                answer: 0
-            },
-            {
-                text: "A：漢字が読めるようになりましたか。\nB：（　　　）。でも、難しい漢字はまだ読めません。",
-                options: [
-                    "いいえ、全然です",
-                    "はい、少し読めるようになりました",
-                    "はい、読みました",
-                    "いいえ、読みません"
-                ],
-                answer: 1
-            },
-            {
-                text: `【24～26】
 
-マリアさんは 日本へ 来て 三年に なります。
-毎日 日本語を 勉強したので、今は 日本語が 話せるように なりました。
-でも、難しい 漢字は まだ あまり 読めません。
-
-【24】マリアさんは 今 何が できますか。`,
-                options: [
-                    "日本語が話せます。",
-                    "難しい漢字が全部読めます。",
-                    "日本へ来られません。",
-                    "日本語を勉強しません。"
-                ],
-                answer: 0
-            },
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
             {
-                text: `【24～26】
-
-マリアさんは 日本へ 来て 三年に なります。
-毎日 日本語を 勉強したので、今は 日本語が 話せるように なりました。
-でも、難しい 漢字は まだ あまり 読めません。
-
-【25】マリアさんは 何が まだ できませんか。`,
-                options: [
-                    "日本語を話すこと",
-                    "日本へ行くこと",
-                    "難しい漢字を読むこと",
-                    "勉強すること"
-                ],
-                answer: 2
-            },
-            {
-                text: `【24～26】
-
-マリアさんは 日本へ 来て 三年に なります。
-毎日 日本語を 勉強したので、今は 日本語が 話せるように なりました。
-でも、難しい 漢字は まだ あまり 読めません。
-
-【26】どうして 日本語が 話せるように なりましたか。`,
-                options: [
-                    "日本へ行きませんでしたから",
-                    "毎日勉強したからです",
-                    "先生になったからです",
-                    "漢字を書いたからです"
-                ],
-                answer: 1
-            },
-            {
-                text: `【27～30】
-
-田中さんの おじいさんは 七十五歳です。
-前は 毎日 一時間 歩けました。
-でも、病気に なってから 長い時間 歩けなく なりました。
-買い物は 家族が 手伝っています。
-
-【27】おじいさんは 今 どうですか。`,
-                options: [
-                    "毎日一時間歩けます。",
-                    "病気になったことがありません。",
-                    "長い時間歩けなくなりました。",
-                    "一人で買い物へ行きます。"
-                ],
-                answer: 2
-            },
-            {
-                text: `【27～30】
-
-田中さんの おじいさんは 七十五歳です。
-前は 毎日 一時間 歩けました。
-でも、病気に なってから 長い時間 歩けなく なりました。
-買い物は 家族が 手伝っています。
-
-【28】今、買い物は だれが 手伝っていますか。`,
-                options: [
-                    "家族です。",
-                    "友達です。",
-                    "先生です。",
-                    "おじいさんです。"
-                ],
-                answer: 0
-            },
-            {
-                text: `【29～30】
-
-この 図書館では 本を 借りることが できます。
-でも、夜八時までに 返さなければ なりません。
-飲み物は 水しか 飲めません。
-
-【29】この図書館で できることは 何ですか。`,
-                options: [
-                    "本を売ること",
-                    "本を借りること",
-                    "食事をすること",
-                    "泊まること"
-                ],
-                answer: 1
-            },
-            {
-                text: `【29～30】
-
-この 図書館では 本を 借りることが できます。
-でも、夜八時までに 返さなければ なりません。
-飲み物は 水しか 飲めません。
-
-【30】図書館で 飲めるものは 何ですか。`,
-                options: [
-                    "ジュース",
-                    "コーヒー",
-                    "お茶",
-                    "水"
-                ],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. えいごが<u>はなせる</u>ようになりました。",
+                options: ["語せる", "読せる", "言せる", "話せる"],
                 answer: 3
+            },
+            {
+                text: "31. わたしは１００メートル<u>およげる</u>。",
+                options: ["泳げる", "水げる", "波げる", "洋げる"],
+                answer: 0
+            },
+            {
+                text: "32. 新しい車が<u>かえる</u>ように、貯金します。",
+                options: ["売える", "見える", "買える", "帰える"],
+                answer: 2
+            },
+            {
+                text: "33. 小さい字が<u>よめなく</u>なりました。",
+                options: ["読めなく", "語めなく", "話めなく", "記めなく"],
+                answer: 0
+            },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 24)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. マリーさんは <ruby>漢字<rt>かんじ</rt></ruby>＿＿(A)＿＿ <ruby>書<rt>か</rt></ruby>け＿＿(B)＿＿。",
+                options: [
+                    "（A）が （B）ます",
+                    "（A）を （B）ます",
+                    "（A）に （B）ます",
+                    "（A）で （B）ます"
+                ],
+                answer: 0 // 漢字が書けます。
+            },
+            {
+                text: "35. <ruby>図書館<rt>としょかん</rt></ruby>で <ruby>本<rt>ほん</rt></ruby>＿＿(A)＿＿ <ruby>借<rt>か</rt></ruby>りられ＿＿(B)＿＿。",
+                options: [
+                    "（A）を （B）ます",
+                    "（A）が （B）ます",
+                    "（A）で （B）ます",
+                    "（A）に （B）ます"
+                ],
+                answer: 1 // 本が借りられます。
+            },
+            {
+                text: "36. <ruby>息子<rt>むすこ</rt></ruby>は <ruby>歩<rt>ある</rt></ruby>ける＿＿(A)＿＿ なり＿＿(B)＿＿。",
+                options: [
+                    "（A）ために （B）ました",
+                    "（A）そうに （B）ました",
+                    "（A）ように （B）ました",
+                    "（A）ことに （B）ました"
+                ],
+                answer: 2 // 歩けるようになりました。
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>現金<rt>げんきん</rt></ruby> → ２．<ruby>使<rt>つか</rt></ruby>え<u>る</u> → ３．しか】（※<ruby>否定<rt>ひてい</rt></ruby>の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>現金<rt>げんきん</rt></ruby>しか<ruby>使<rt>つか</rt></ruby>えません。",
+                    "<ruby>現金<rt>げんきん</rt></ruby>しか<ruby>使<rt>つか</rt></ruby>えます。",
+                    "<ruby>使<rt>つか</rt></ruby>えない<ruby>現金<rt>げんきん</rt></ruby>しかありません。",
+                    "<ruby>現金<rt>げんきん</rt></ruby>が<ruby>使<rt>つか</rt></ruby>えないしかありません。"
+                ],
+                answer: 0 // 現金しか使えません。
+            },
+            {
+                text: "38. 【１．<ruby>話<rt>はな</rt></ruby>せ<u>る</u> → ２．ように → ３．な<u>る</u>】。",
+                options: [
+                    "<ruby>話<rt>はな</rt></ruby>せるようにしました。",
+                    "<ruby>話<rt>はな</rt></ruby>せるようになります。",
+                    "<ruby>話<rt>はな</rt></ruby>せるようになりました。",
+                    "<ruby>話<rt>はな</rt></ruby>せないようになりました。"
+                ],
+                answer: 2 // 話せるようになりました。
+            },
+            {
+                text: "39. 【１．<ruby>小<rt>ちい</rt></ruby>さい → ２．<ruby>字<rt>じ</rt></ruby> → ３．<ruby>読<rt>よ</rt></ruby>め<u>ない</u>】（※「～なくなりました」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>小<rt>ちい</rt></ruby>さい<ruby>字<rt>じ</rt></ruby>が<ruby>読<rt>よ</rt></ruby>めないようになりました。",
+                    "<ruby>小<rt>ちい</rt></ruby>さい<ruby>字<rt>じ</rt></ruby>が<ruby>読<rt>よ</rt></ruby>めなくなりました。",
+                    "<ruby>小<rt>ちい</rt></ruby>さい<ruby>字<rt>じ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>めなくなりました。",
+                    "<ruby>小<rt>ちい</rt></ruby>さい<ruby>字<rt>じ</rt></ruby>が<ruby>読<rt>よ</rt></ruby>まなくなりました。"
+                ],
+                answer: 1 // 小さい字が読めなくなりました。
+            },
+            {
+                text: "40. 【１．パーティー → ２．<ruby>来<rt>こ</rt></ruby>られ<u>ない</u> → ３．<ruby>明日<rt>あした</rt></ruby>】。",
+                options: [
+                    "<ruby>明日<rt>あした</rt></ruby>、パーティーに<ruby>来<rt>こ</rt></ruby>られません。",
+                    "パーティーに<ruby>明日<rt>あした</rt></ruby>、<ruby>来<rt>き</rt></ruby>ません。",
+                    "<ruby>明日<rt>あした</rt></ruby>、パーティーへ<ruby>行<rt>い</rt></ruby>けません。",
+                    "パーティーは<ruby>明日<rt>あした</rt></ruby>、<ruby>来<rt>こ</rt></ruby>られないです。"
+                ],
+                answer: 0 // 明日、パーティーに来られません。
             }
         ];
-       
 
         let answers = new Array(questions.length).fill(null);
 
@@ -780,7 +820,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
