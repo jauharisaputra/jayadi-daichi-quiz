@@ -330,168 +330,293 @@
             return atob(str);
         }
         
-        const questions = [
+       const questions = [
+            /* =====================================================
+               １ 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 (1)～(15)
+               Fokus: Bab 3 (ここ, そこ, あそこ, どこ, こちら, どなた, 会社, いくら)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （1）～（15）<br><br>
+  <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+</div>
+`,
+                text: "（1）（ ）は しょくどうです。",
+                options: ["ここ", "これ", "この", "ひと"],
+                answer: 0
+            },
+            {
+                text: "（2）エレベーターは（ ）ですか。",
+                options: ["だれ", "どこ", "なん", "どの"],
+                answer: 1
+            },
+            {
+                text: "（3）うけつけは（ ）です。",
+                options: ["あの", "どこ", "あちら", "だれ"],
+                answer: 2
+            },
+            {
+                text: "（4）この とけいは（ ）ですか。",
+                options: ["どこ", "なん", "だれ", "いくら"],
+                answer: 3
+            },
+            {
+                text: "（5）かいぎしつは（ ）です。",
+                options: ["そこ", "それ", "その", "どこ"],
+                answer: 0
+            },
+            {
+                text: "（6）トイレは（ ）ですか。",
+                options: ["だれ", "どちら", "なん", "いくら"],
+                answer: 1
+            },
+            {
+                text: "（7）これは（ ）の カメラですか。",
+                options: ["だれ", "いくら", "どこ", "なん"],
+                answer: 2
+            },
+            {
+                text: "（8）お<ruby>国<rt>くに</rt></ruby>は（ ）ですか。",
+                options: ["なん", "どこ", "だれ", "どちら"],
+                answer: 3
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+</div>
+`,
+                text: "（9）ワインうりばは（ ）です。",
+                options: ["ちか", "ここ", "これ", "どこ"],
+                answer: 0
+            },
+            {
+                text: "（10）（ ）は わたしの かいしゃです。",
+                options: ["この", "あそこ", "あれ", "あちら"],
+                answer: 1
+            },
+            {
+                text: "（11）A「その ネクタイは いくらですか」<br>B「1,500（ ）です」",
+                options: ["かい", "さい", "えん", "ばん"],
+                answer: 2
+            },
+            {
+                text: "（12）A「かいだんは どこですか」<br>B「（ ）です」",
+                options: ["これ", "なん", "いくら", "あそこ"],
+                answer: 3
+            },
+            {
+                text: "（13）くつうりばは ３（ ）です。",
+                options: ["かい", "えん", "さい", "ばん"],
+                answer: 0
+            },
+            {
+                text: "（14）A「それは（ ）の とけいですか」<br>B「スイスの とけいです」",
+                options: ["なん", "どこ", "だれ", "いくら"],
+                answer: 1
+            },
+            {
+                text: "（15）A「ロビーは（ ）ですか」<br>B「１かいです」",
+                options: ["いくら", "どちら", "なんかい", "だれ"],
+                answer: 2
+            },
 
-                // ===============================
-                // 1–6 : SOAL BERGAMBAR
-                // ===============================
-                {
-                    text: "1. ここ は どこ ですか。→（　）です。",
-                    image: "images/bab3/q1.png",
-                    options: ["えき", "としょしつ", "スーパー", "びょういん"],
-                    answer: 1
-                },
-                {
-                    text: "2. ぎんこう は どこ ですか。→（　）です。",
-                    image: "images/bab3/q2.png",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 1
-                },
-                {
-                    text: "3. しょくどう は どこ ですか。→（　）です。",
-                    image: "images/bab3/q3.png",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 2
-                },
-                {
-                    text: "4. ここ は どこ ですか。→（　）です。",
-                    image: "images/bab3/q4.png",
-                    options: ["スーパー", "えき", "こうえん", "ほんや"],
-                    answer: 1
-                },
-                {
-                    text: "5. びょういん は どこ ですか。→（　）です。",
-                    image: "images/bab3/q5.png",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 2
-                },
-                {
-                    text: "6. ゆうびんきょく は どこ ですか。→（　）です。",
-                    image: "images/bab3/q6.png",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 2
-                },
+            /* =====================================================
+               ２ 読解問題 (Pemahaman Membaca)
+               問題 (16)～(20)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （16）～（20）<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【デパートの あんない】
+</div>
+<div style="border: 1px solid #000; padding: 15px; background-color: #fff; line-height: 1.8;">
+  ３かい：しょくどう<br>
+  ２かい：カメラ、パソコン<br>
+  １かい：うけつけ、ロビー<br>
+  ちか１かい：しょくひん（たべもの）
+</div>
+`,
+                text: "（16）しょくどうは どこですか。",
+                options: [
+                    "１かい",
+                    "２かい",
+                    "ちか１かい",
+                    "３かい"
+                ],
+                answer: 3
+            },
+            {
+                text: "（17）カメラの うりばは どこですか。",
+                options: [
+                    "２かい",
+                    "１かい",
+                    "３かい",
+                    "ちか１かい"
+                ],
+                answer: 0
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【かいわ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  Ａ：すみません、ネクタイの うりばは どこですか。<br>
+  Ｂ：３かいです。<br>
+  Ａ：そうですか。どうも。<br>
+  （３かいで）<br>
+  Ａ：すみません、この ネクタイは いくらですか。<br>
+  Ｃ：5,800えんです。<br>
+  Ａ：どこの ネクタイですか。<br>
+  Ｃ：イタリアの です。
+</div>
+`,
+                text: "（18）ネクタイの うりばは なにかいですか。",
+                options: [
+                    "１かい",
+                    "３かい",
+                    "２かい",
+                    "ちか１かい"
+                ],
+                answer: 1
+            },
+            {
+                text: "（19）ネクタイは いくらですか。",
+                options: [
+                    "5,000えん",
+                    "8,500えん",
+                    "5,800えん",
+                    "1,500えん"
+                ],
+                answer: 2
+            },
+            {
+                text: "（20）この ネクタイは どこのですか。",
+                options: [
+                    "日本の",
+                    "アメリカの",
+                    "フランスの",
+                    "イタリアの"
+                ],
+                answer: 3
+            },
 
-                // ===============================
-                // 7–12 : POLA KALIMAT
-                // ===============================
-                {
-                    text: "7. ぎんこう／ここ →（　）",
-                    options: [
-                        "ぎんこうは そこです",
-                        "ぎんこうは ここです",
-                        "ぎんこうは あそこです",
-                        "ぎんこうは どこです"
-                    ],
-                    answer: 1
-                },
-                {
-                    text: "8. スーパー／そこ →（　）",
-                    options: [
-                        "スーパーは あそこです",
-                        "スーパーは ここです",
-                        "スーパーは そこです",
-                        "スーパーは どこです"
-                    ],
-                    answer: 2
-                },
-                {
-                    text: "9. A: ゆうびんきょく は （　）ですか。",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 3
-                },
-                {
-                    text: "10. A: としょかん は （　）ですか。",
-                    options: ["ここ", "そこ", "あそこ", "どこ"],
-                    answer: 3
-                },
-                {
-                    text: "11. スーパー / どこ →（　）",
-                    options: [
-                        "スーパーは あそこです",
-                        "スーパーは どこですか",
-                        "スーパーは ここです",
-                        "スーパーは そこです"
-                    ],
-                    answer: 1
-                },
-                {
-                    text: "12. あそこ / えき →（　）",
-                    options: [
-                        "えきは あそこです",
-                        "えきは そこです",
-                        "えきは ここです",
-                        "えきは どこです"
-                    ],
-                    answer: 0
-                },
+            /* =====================================================
+               ３ 漢字問題 (Soal Kanji)
+               問題 (21)～(25)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>３ <ruby>漢字問題<rt>かんじもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （21）～（25）<br><br>
+  <b>Ａ <u>   </u>の 漢字は ひらがなで どう 書きますか。１・２・３・４の中から 一番いいものを 入れてください。</b>
+</div>
+`,
+                text: "（21）ここは わたしの <u>会社</u>です。",
+                options: ["かいしゃ", "がいしゃ", "かいしや", "がいしや"],
+                answer: 0
+            },
+            {
+                text: "（22）お<u>国</u>は どちらですか。",
+                options: ["むら", "くに", "まち", "やま"],
+                answer: 1
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ <u>   </u>の ことばは 漢字で どう 書きますか。１・２・３・４の中から 一番いいものを 入れてください。</b>
+</div>
+`,
+                text: "（23）この パソコンは <u>いちまん</u>えんです。",
+                options: ["一千", "一百", "一万", "一番"],
+                answer: 2
+            },
+            {
+                text: "（24）ワインの <u>うりば</u>は どこですか。",
+                options: ["買り場", "走り場", "貸り場", "売り場"],
+                answer: 3
+            },
+            {
+                text: "（25）あそこは <u>しょくどう</u>です。",
+                options: ["食堂", "食道", "食動", "食同"],
+                answer: 0
+            },
 
-                // ===============================
-                // 13–16 : DOKKAI
-                // ===============================
-                {
-                    passage: `【１３－１４】<br><br>
-学校の前にスーパーがあります。<br>
-スーパーのとなりに銀行があります。`,
-                    text: "13. スーパーはどこにありますか。",
-                    options: [
-                        "学校の後ろ",
-                        "学校の前",
-                        "銀行の中",
-                        "公園の前"
-                    ],
-                    answer: 1
-                },
-                {
-                    text: "14. 銀行はどこにありますか。",
-                    options: [
-                        "スーパーのとなり",
-                        "学校の中",
-                        "駅の前",
-                        "家の中"
-                    ],
-                    answer: 0
-                },
-                {
-                    passage: `【１５－１６】<br><br>
-ここは図書館です。<br>
-あそこは食堂です。`,
-                    text: "15. ここはどこですか。",
-                    options: ["図書館", "食堂", "銀行", "駅"],
-                    answer: 0
-                },
-                {
-                    text: "16. あそこはどこですか。",
-                    options: ["銀行", "駅", "食堂", "公園"],
-                    answer: 2
-                },
-
-                // ===============================
-                // 17–20 : 並べ替え
-                // ===============================
-                {
-                    text: "17. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                    options: ["ここ", "は", "どこ", "です"],
-                    answer: [2]
-                },
-                {
-                    text: "18. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                    options: ["ぎんこう", "は", "そこ", "です"],
-                    answer: [2]
-                },
-                {
-                    text: "19. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ です。",
-                    options: ["えき", "は", "あそこ", "です"],
-                    answer: [2]
-                },
-                {
-                    text: "20. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ですか。",
-                    options: ["としょかん", "は", "どこ", "です"],
-                    answer: [2]
-                }
-
-            ];
-
+            /* =====================================================
+               ４ 記述問題 (Soal Kijutsu / Deskripsi Terstruktur)
+               問題 (26)～(30)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>４ <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （26）～（30）<br><br>
+  <b>Ａ ＿＿＿＿ に 適当な 言葉を 入れて 文を 作ってください。</b>
+</div>
+`,
+                text: "（26）A「トイレは ＿＿(A)＿＿ ですか」<br>B「あそこ ＿＿(B)＿＿」",
+                options: [
+                    "(A)だれ (B)です",
+                    "(A)どこ (B)です",
+                    "(A)いくら (B)です",
+                    "(A)どこ (B)ですか"
+                ],
+                answer: 1
+            },
+            {
+                text: "（27）A「この カメラは ＿＿(A)＿＿ ですか」<br>B「20,000えん ＿＿(B)＿＿」",
+                options: [
+                    "(A)いくら (B)ですか",
+                    "(A)どこ (B)です",
+                    "(A)いくら (B)です",
+                    "(A)なん (B)です"
+                ],
+                answer: 2
+            },
+            {
+                text: "（28）A「それは ＿＿(A)＿＿の パソコンですか」<br>B「アメリカ ＿＿(B)＿＿ パソコンです」",
+                options: [
+                    "(A)だれ (B)の",
+                    "(A)なん (B)は",
+                    "(A)いくら (B)が",
+                    "(A)どこ (B)の"
+                ],
+                answer: 3
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ ３つの 言葉を ならべて、ただしい 文を 作ってください。</b>
+</div>
+`,
+                text: "（29）あれは 【 1. どこ  2. くるま  3. の 】ですか。（どこの くるまですか）",
+                options: [
+                    "1 → 3 → 2",
+                    "1 → 2 → 3",
+                    "2 → 1 → 3",
+                    "3 → 1 → 2"
+                ],
+                answer: 0
+            },
+            {
+                text: "（30）【 1. どちら  2. おくに  3. は 】ですか。（おくには どちらですか）",
+                options: [
+                    "1 → 2 → 3",
+                    "2 → 3 → 1",
+                    "3 → 1 → 2",
+                    "2 → 1 → 3"
+                ],
+                answer: 1
+            }
+        ];
             let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
