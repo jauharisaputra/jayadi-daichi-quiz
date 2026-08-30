@@ -319,230 +319,398 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
-
-            // ===============================
-            // 1–30: BUNPOU + GOI
-            // ===============================
-
+       const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 34 - てしまう, たまま, のは/のが/のを)
+               ===================================================== */
             {
-                text: "1. 財布を（　）しまいました。",
-                options: ["忘れて", "忘れる", "忘れた", "忘れます"],
-                answer: 0
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. １<ruby>時間<rt>じかん</rt></ruby>で<ruby>本<rt>ほん</rt></ruby>を<ruby>全部読<rt>ぜんぶよ</rt></ruby>んで（ ）。",
+                options: ["ありました", "おきました", "しまいました", "みました"],
+                answer: 2 // しまいました
             },
             {
-                text: "2. 辞書を（　）しまいました。",
-                options: ["なくして", "なくす", "なくした", "なくします"],
-                answer: 0
+                text: "2. <ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>する（ ）<ruby>楽<rt>たの</rt></ruby>しいです。",
+                options: ["のは", "のが", "のを", "のに"],
+                answer: 0 // のは
             },
             {
-                text: "3. コップを（　）しまいました。",
-                options: ["割って", "割る", "割った", "割ります"],
-                answer: 0
+                text: "3. <ruby>大切<rt>たいせつ</rt></ruby>な<ruby>財布<rt>さいふ</rt></ruby>をなくして（ ）、とても困っています。",
+                options: ["おいて", "あって", "しまって", "みて"],
+                answer: 2 // しまって
             },
             {
-                text: "4. 宿題を（　）しまいました。",
-                options: ["忘れて", "忘れる", "忘れた", "忘れます"],
-                answer: 0
+                text: "4. コンタクトレンズを（ ）まま、<ruby>寝<rt>ね</rt></ruby>てはいけません。",
+                options: ["する", "して", "した", "しない"],
+                answer: 2 // した (したまま)
             },
             {
-                text: "5. 電車に（　）しまいました。",
-                options: ["乗り遅れて", "乗り遅れる", "乗り遅れた", "乗り遅れます"],
-                answer: 0
-            },
-
-            {
-                text: "6. 「食べてしまった」のカジュアル形はどれですか。",
-                options: ["食べちゃった", "食べている", "食べた", "食べます"],
-                answer: 0
-            },
-            {
-                text: "7. 「飲んでしまった」のカジュアル形はどれですか。",
-                options: ["飲んじゃった", "飲んでいる", "飲んだ", "飲みます"],
-                answer: 0
-            },
-            {
-                text: "8. 「読んでしまった」のカジュアル形はどれですか。",
-                options: ["読んじゃった", "読んでいる", "読んだ", "読みます"],
-                answer: 0
-            },
-            {
-                text: "9. 「忘れてしまった」のカジュアル形はどれですか。",
-                options: ["忘れちゃった", "忘れている", "忘れた", "忘れます"],
-                answer: 0
-            },
-            {
-                text: "10. 「消してしまった」のカジュアル形はどれですか。",
-                options: ["消しちゃった", "消している", "消した", "消します"],
-                answer: 0
-            },
-
-            {
-                text: "11. 靴を（　）まま、家に入りました。",
-                options: ["履いた", "履いて", "履く", "履きます"],
-                answer: 0
-            },
-            {
-                text: "12. テレビを（　）まま、寝てしまいました。",
-                options: ["つけた", "つけて", "つける", "つけます"],
-                answer: 0
-            },
-            {
-                text: "13. ドアを（　）まま、出かけました。",
-                options: ["開けた", "開けて", "開ける", "開けます"],
-                answer: 0
-            },
-            {
-                text: "14. 椅子に（　）まま、寝ました。",
-                options: ["座った", "座って", "座る", "座ります"],
-                answer: 0
-            },
-            {
-                text: "15. パジャマを（　）まま、外に出ました。",
-                options: ["着た", "着て", "着る", "着ます"],
-                answer: 0
-            },
-
-            {
-                text: "16. 日本語を勉強する（　）楽しいです。",
+                text: "5. <ruby>私<rt>わたし</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>く（ ）<ruby>好<rt>す</rt></ruby>きです。",
                 options: ["のは", "のが", "のを", "ので"],
-                answer: 0
+                answer: 1 // のが
             },
             {
-                text: "17. 映画を見る（　）好きです。",
-                options: ["のが", "のは", "のを", "ので"],
-                answer: 0
+                text: "6. <ruby>出<rt>で</rt></ruby>かけるとき、<ruby>部屋<rt>へや</rt></ruby>の<ruby>電気<rt>でんき</rt></ruby>を（ ）まま出かけないでください。",
+                options: ["つける", "つけた", "つけて", "つけない"],
+                answer: 1 // つけた (つけたまま)
             },
             {
-                text: "18. 音楽を聞く（　）リラックスになります。",
-                options: ["のは", "のが", "のを", "ので"],
-                answer: 0
+                text: "7. <ruby>山田<rt>やまだ</rt></ruby>さんの<ruby>名前<rt>なまえ</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れて（ ）。",
+                options: ["ありました", "いきました", "しまいました", "きました"],
+                answer: 2 // しまいました
             },
             {
-                text: "19. 本を読む（　）趣味です。",
-                options: ["のが", "のは", "のを", "ので"],
-                answer: 0
+                text: "8. <ruby>急<rt>いそ</rt></ruby>いでいたので、<ruby>窓<rt>まど</rt></ruby>を<ruby>閉<rt>し</rt></ruby>める（ ）<ruby>忘<rt>わす</rt></ruby>れました。",
+                options: ["のは", "のが", "のを", "のに"],
+                answer: 2 // のを
             },
             {
-                text: "20. 一人で旅行する（　）好きじゃありません。",
-                options: ["のは", "のが", "のを", "ので"],
-                answer: 0
-            },
-
-            {
-                text: "21. 友達がケーキを食べる（　）見ました。",
-                options: ["のを", "のが", "のは", "ので"],
-                answer: 0
+                text: "9. <ruby>眼鏡<rt>めがね</rt></ruby>を（ ）まま、<ruby>顔<rt>かお</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>ってしまいました。",
+                options: ["かけた", "かける", "かけて", "かけない"],
+                answer: 0 // かけた (かけたまま)
             },
             {
-                text: "22. 彼が泣いている（　）見ました。",
-                options: ["のを", "のが", "のは", "ので"],
-                answer: 0
+                text: "10. あ、<ruby>電車<rt>でんしゃ</rt></ruby>にカバンを<ruby>忘<rt>わす</rt></ruby>れ（ ）。",
+                options: ["ちゃった", "といた", "てあった", "てみた"],
+                answer: 0 // ちゃった (カジュアル表現)
             },
             {
-                text: "23. 母が妹がテレビを見る（　）しかりました。",
-                options: ["のを", "のが", "のは", "ので"],
-                answer: 0
+                text: "11. <ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>に<ruby>犬<rt>いぬ</rt></ruby>と<ruby>遊<rt>あそ</rt></ruby>ぶ（ ）<ruby>好<rt>す</rt></ruby>きです。",
+                options: ["のが", "のを", "のは", "のに"],
+                answer: 0 // のが
             },
             {
-                text: "24. 父が私が間違えた（　）見ました。",
-                options: ["のを", "のが", "のは", "ので"],
-                answer: 0
+                text: "12. だれでも<ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>ける（ ）<ruby>悔<rt>くや</rt></ruby>しいですよね。",
+                options: ["のが", "のを", "のは", "のに"],
+                answer: 2 // のは
             },
             {
-                text: "25. 先生は私が窓を開けた（　）知りませんでした。",
-                options: ["のを", "のが", "のは", "ので"],
-                answer: 0
-            },
-
-            {
-                text: "26. 宿題を忘れて（　）しまいました。",
-                options: ["しまって", "しまう", "しまった", "しまいます"],
-                answer: 0
+                text: "13. コートを（ ）まま、<ruby>部屋<rt>へや</rt></ruby>に<ruby>入<rt>はい</rt></ruby>らないでください。",
+                options: ["きる", "きて", "きた", "きない"],
+                answer: 2 // きた (着たまま)
             },
             {
-                text: "27. ご飯を全部食べて（　）。",
-                options: ["しまいました", "います", "あります", "いきます"],
-                answer: 0
+                text: "14. アイスクリームを<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>に<ruby>入<rt>い</rt></ruby>れるのを<ruby>忘<rt>わす</rt></ruby>れて、全部（ ）しまいました。",
+                options: ["とけ", "とけて", "とける", "とけた"],
+                answer: 1 // とけて (とけてしまいました = mencair)
             },
             {
-                text: "28. ドアを閉めたまま（　）。",
-                options: ["出かけました", "出かけます", "出かけない", "出かけたい"],
-                answer: 0
-            },
-            {
-                text: "29. 日本語を話すのが（　）。",
-                options: ["好きです", "好きでした", "好きじゃない", "好きたい"],
-                answer: 0
-            },
-            {
-                text: "30. 彼が来るのを（　）。",
-                options: ["待っています", "待いました", "待いません", "待いたい"],
-                answer: 0
+                text: "15. しまった！コーヒーをパソコンに（ ）ちゃった。",
+                options: ["こぼし", "こぼして", "こぼす", "こぼした"],
+                answer: 0 // こぼし (こぼしてしまった -> こぼしちゃった)
             },
 
-            // ===============================
-            // 31–34: DOKKAI
-            // ===============================
-
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 34)
+               ===================================================== */
             {
-                passage: `昨日、私は財布をなくしてしまいました。とても大切だったので、とても悲しかったです。`,
-                text: "31. 「私」は何をなくしましたか。",
-                options: ["かばん", "財布", "本", "携帯"],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、きのうのテニスの <b>（ 16 ）</b> はどうでしたか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>負<rt>ま</rt></ruby>けちゃったんです。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      そうですか。だれでも<ruby>負<rt>ま</rt></ruby>けるのは <b>（ 17 ）</b> ですよね。<ruby>次<rt>つぎ</rt></ruby>はがんばってください。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      はい、ありがとうございます。でも、ショックで<ruby>昨日<rt>きのう</rt></ruby>はコンタクトレンズを <b>（ 18 ）</b> まま<ruby>寝<rt>ね</rt></ruby>てしまいました。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["試合", "試験", "旅行", "発表"],
+                answer: 0 // 試合
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["うれしい", "くやしい", "たのしい", "おいしい"],
+                answer: 1 // くやしい
+            },
+            {
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["する", "して", "した", "しない"],
+                answer: 2 // した (したまま)
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <ruby>最近<rt>さいきん</rt></ruby>、<ruby>夜<rt>よる</rt></ruby>とても<ruby>疲<rt>つか</rt></ruby>れているので、テレビを <b>（ 19 ）</b> まま<ruby>寝<rt>ね</rt></ruby>てしまいます。<br>
+  そして、<ruby>朝<rt>あさ</rt></ruby>まで<ruby>部屋<rt>へや</rt></ruby>の<ruby>電気<rt>でんき</rt></ruby>をつけた <b>（ 20 ）</b> です。<br>
+  これではよく<ruby>寝<rt>ね</rt></ruby>られません。<ruby>今日<rt>きょう</rt></ruby>からは、<ruby>寝<rt>ね</rt></ruby>る<ruby>前<rt>まえ</rt></ruby>にかならずテレビや<ruby>電気<rt>でんき</rt></ruby>を<ruby>消<rt>け</rt></ruby>す <b>（ 21 ）</b> を<ruby>忘<rt>わす</rt></ruby>れないようにします。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["つけた", "つける", "つけて", "つけない"],
+                answer: 0 // つけた (つけたまま)
+            },
+            {
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["ので", "ため", "まま", "から"],
+                answer: 2 // まま (つけたままです)
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["のは", "のが", "のを", "のに"],
+                answer: 2 // のを (消すのを忘れない)
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8; border: 1px solid #000; background-color: #fff;">
+  <tr>
+    <td style="padding:15px; vertical-align:top;">
+      <b><ruby>注意<rt>ちゅうい</rt></ruby></b><br>
+      <ruby>最近<rt>さいきん</rt></ruby>、アパートを<ruby>出<rt>で</rt></ruby>るときに、<ruby>窓<rt>まど</rt></ruby>の<ruby>鍵<rt>かぎ</rt></ruby>を <b>（ 22 ）</b> まま出かける<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いです。<br>
+      <ruby>泥棒<rt>どろぼう</rt></ruby>が<ruby>入<rt>はい</rt></ruby>るかもしれませんから、かならず<ruby>鍵<rt>かぎ</rt></ruby>をかける <b>（ 23 ）</b> <ruby>忘<rt>わす</rt></ruby>れないでください。<br>
+      また、クーラーをつけたまま<ruby>出<rt>で</rt></ruby>かけて <b>（ 24 ）</b> <ruby>人<rt>ひと</rt></ruby>もいます。<ruby>電気代<rt>でんきだい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>くなりますから、<ruby>気<rt>き</rt></ruby>をつけてください。
+    </td>
+  </tr>
+</table>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["かける", "かけた", "かけない", "かけて"],
+                answer: 2 // かけない (かけないまま)
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["のを", "のが", "のは", "のに"],
+                answer: 0 // のを (かけるのを忘れないで)
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["しまう", "ある", "おく", "みる"],
+                answer: 0 // しまう (出かけてしまう人もいます)
+            },
+            {
+                text: "25. どうして<ruby>窓<rt>まど</rt></ruby>の<ruby>鍵<rt>かぎ</rt></ruby>をかけなければなりませんか。",
+                options: [
+                    "<ruby>電気代<rt>でんきだい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>くなるからです。",
+                    "クーラーをつけたままにするからです。",
+                    "<ruby>泥棒<rt>どろぼう</rt></ruby>が<ruby>入<rt>はい</rt></ruby>るかもしれないからです。",
+                    "<ruby>出<rt>で</rt></ruby>かける<ruby>人<rt>ひと</rt></ruby>が<ruby>多<rt>おお</rt></ruby>いからです。"
+                ],
+                answer: 2 // 泥棒が入るかもしれないから
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 34)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. <u>試合</u>に負けるのは悔しいです。",
+                options: ["しあい", "じあい", "しやい", "じやい"],
+                answer: 0
+            },
+            {
+                text: "27. <u>財布</u>をなくしてしまいました。",
+                options: ["きっぷ", "さいふ", "さいぶ", "ざいふ"],
                 answer: 1
             },
             {
-                text: "32. 「私」はどう思いましたか。",
-                options: ["うれしい", "楽しい", "悲しい", "面白い"],
+                text: "28. 窓を閉めるのを<u>忘れました</u>。",
+                options: ["おくれました", "わすれました", "こわれました", "よごれました"],
+                answer: 1
+            },
+            {
+                text: "29. <u>眼鏡</u>をかけたまま寝ています。",
+                options: ["がんきょう", "めがね", "めかね", "がんきょ"],
+                answer: 1
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. 本を<u>ぜんぶ</u>読んでしまいました。",
+                options: ["全部", "全分", "全歩", "金部"],
+                answer: 0
+            },
+            {
+                text: "31. しあいに<u>まける</u>のは悔しいです。",
+                options: ["貧ける", "買ける", "負ける", "員ける"],
                 answer: 2
             },
             {
-                passage: `私は音楽を聞くのが好きです。毎日音楽を聞いてリラックスします。`,
-                text: "33. 「私」の趣味は何ですか。",
-                options: ["読書", "音楽を聞くこと", "旅行", "映画"],
+                text: "32. 犬と<u>あそぶ</u>のが好きです。",
+                options: ["泳ぶ", "遊ぶ", "歩ぶ", "走ぶ"],
                 answer: 1
             },
             {
-                text: "34. 音楽を聞くとどうなりますか。",
-                options: ["疲れる", "リラックスする", "怒る", "眠くない"],
-                answer: 1
+                text: "33. 音楽を<u>きく</u>のが好きです。",
+                options: ["間く", "問く", "開く", "聞く"],
+                answer: 3
             },
 
-            // ===============================
-            // 35–40: 並べ替え
-            // ===============================
-
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 34)
+               ===================================================== */
             {
-                text: "35. 財布を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> しまいました。",
-                options: ["忘れて", "私は", "", ""],
-                answer: [1, 0]
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. １<ruby>時間<rt>じかん</rt></ruby>で <ruby>本<rt>ほん</rt></ruby>を<ruby>全部<rt>ぜんぶ</rt></ruby> ＿＿(A)＿＿＿＿(B)＿＿。",
+                options: [
+                    "（A）読んで （B）しまいました",
+                    "（A）読む （B）しまいました",
+                    "（A）読んだ （B）しまいました",
+                    "（A）読み （B）しまいました"
+                ],
+                answer: 0 // 読んでしまいました
             },
             {
-                text: "36. テレビを ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 寝ました。",
-                options: ["つけたまま", "私は", "", ""],
-                answer: [1, 0]
+                text: "35. だれでも <ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>ける＿＿(A)＿＿＿＿(B)＿＿ですよね。",
+                options: [
+                    "（A）のは （B）悔しい",
+                    "（A）のが （B）悔しい",
+                    "（A）のを （B）悔しい",
+                    "（A）のに （B）悔しい"
+                ],
+                answer: 0 // のは悔しい
             },
             {
-                text: "37. 日本語を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 好きです。",
-                options: ["話すのが", "私は", "", ""],
-                answer: [1, 0]
+                text: "36. <ruby>眼鏡<rt>めがね</rt></ruby>を ＿＿(A)＿＿＿＿(B)＿＿ <ruby>寝<rt>ね</rt></ruby>ています。",
+                options: [
+                    "（A）かけた （B）まま",
+                    "（A）かける （B）まま",
+                    "（A）かけて （B）まま",
+                    "（A）かけない （B）まま"
+                ],
+                answer: 0 // かけたまま
             },
             {
-                text: "38. 友達が ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 見ました。",
-                options: ["ケーキを食べるのを", "私は", "", ""],
-                answer: [1, 0]
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．<ruby>窓<rt>まど</rt></ruby>を → ２．<ruby>閉<rt>し</rt></ruby>め<u>る</u> → ３．<ruby>忘<rt>わす</rt></ruby>れました】（※「～のを」を<ruby>使<rt>つか</rt></ruby>って）。",
+                options: [
+                    "<ruby>窓<rt>まど</rt></ruby>を<ruby>閉<rt>し</rt></ruby>めるのを<ruby>忘<rt>わす</rt></ruby>れました。",
+                    "<ruby>窓<rt>まど</rt></ruby>を<ruby>閉<rt>し</rt></ruby>めるのが<ruby>忘<rt>わす</rt></ruby>れました。",
+                    "<ruby>窓<rt>まど</rt></ruby>を<ruby>閉<rt>し</rt></ruby>めるのは<ruby>忘<rt>わす</rt></ruby>れました。",
+                    "<ruby>窓<rt>まど</rt></ruby>を<ruby>閉<rt>し</rt></ruby>めてのを<ruby>忘<rt>わす</rt></ruby>れました。"
+                ],
+                answer: 0 // 窓を閉めるのを忘れました。
             },
             {
-                text: "39. ドアを ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> 出かけました。",
-                options: ["開けたまま", "私は", "", ""],
-                answer: [1, 0]
+                text: "38. 【１．<ruby>財布<rt>さいふ</rt></ruby> → ２．なくす → ３．しまいました】（※「～てしまいました」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>財布<rt>さいふ</rt></ruby>をなくしてしまいました。",
+                    "<ruby>財布<rt>さいふ</rt></ruby>をなくししまいました。",
+                    "<ruby>財布<rt>さいふ</rt></ruby>をなくしたしまいました。",
+                    "<ruby>財布<rt>さいふ</rt></ruby>をなくさしまいました。"
+                ],
+                answer: 0 // 財布をなくしてしまいました。
             },
             {
-                text: "40. ご飯を ＿＿ ＿＿ ＿＿<span class='blank-star'><span>☆</span></span> しまいました。",
-                options: ["全部食べて", "私は", "", ""],
-                answer: [1, 0]
+                text: "39. 【１．<ruby>友達<rt>ともだち</rt></ruby>と → ２．<ruby>旅行<rt>りょこう</rt></ruby>す<u>る</u> → ３．<ruby>楽<rt>たの</rt></ruby>しいです】（※「～のは」を<ruby>使<rt>つか</rt></ruby>って）。",
+                options: [
+                    "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>するのは<ruby>楽<rt>たの</rt></ruby>しいです。",
+                    "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>するのが<ruby>楽<rt>たの</rt></ruby>しいです。",
+                    "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>するのを<ruby>楽<rt>たの</rt></ruby>しいです。",
+                    "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>しては<ruby>楽<rt>たの</rt></ruby>しいです。"
+                ],
+                answer: 0 // 友達と旅行するのは楽しいです。
+            },
+            {
+                text: "40. 【１．<ruby>試合<rt>しあい</rt></ruby>に → ２．<ruby>負<rt>ま</rt></ruby>け<u>る</u> → ３．ちゃった】（※カジュアルな<ruby>会話<rt>かいわ</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>で）。",
+                options: [
+                    "<ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>けちゃった。",
+                    "<ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>けるちゃった。",
+                    "<ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>けてちゃった。",
+                    "<ruby>試合<rt>しあい</rt></ruby>に<ruby>負<rt>ま</rt></ruby>けたちゃった。"
+                ],
+                answer: 0 // 試合に負けちゃった。
             }
-
         ];
         let answers = new Array(questions.length).fill(null);
 
@@ -651,7 +819,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
