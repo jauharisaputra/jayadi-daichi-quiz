@@ -331,355 +331,392 @@
         // Materi: ～ので
         // ===============================
 
-        const questions = [
+     const questions = [
+            /* =====================================================
+               PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 1～15 (Fokus: Bab 25 - ので, ～か, ～かどうか, まだ～ていません)
+               ===================================================== */
             {
-                text: "彼はユーモアが（　　　）ので、人気があります。",
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+                text: "1. <ruby>彼<rt>かれ</rt></ruby>はユーモアがある（ ）、<ruby>人気<rt>にんき</rt></ruby>があります。",
+                options: ["ので", "のに", "から", "でも"],
+                answer: 0 // ので
+            },
+            {
+                text: "2. <ruby>今日<rt>きょう</rt></ruby>は<ruby>雨<rt>あめ</rt></ruby>（ ）ので、うちで<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。",
+                options: ["だ", "な", "の", "に"],
+                answer: 1 // な (Noun + なので)
+            },
+            {
+                text: "3. このパソコンは<ruby>高<rt>たか</rt></ruby>かった（ ）、とてもいいです。",
+                options: ["ので", "のに", "から", "な"],
+                answer: 0 // ので (I-adj past + ので)
+            },
+            {
+                text: "4. <ruby>試験<rt>しけん</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>に<ruby>始<rt>はじ</rt></ruby>まる（ ）、<ruby>教<rt>おし</rt></ruby>えてください。",
+                options: ["かどうか", "か", "と", "を"],
+                answer: 1 // か (Ada kata tanya 何時)
+            },
+            {
+                text: "5. ツアーに<ruby>行<rt>い</rt></ruby>く（ ）、<ruby>確認<rt>かくにん</rt></ruby>します。",
+                options: ["かどうか", "か", "から", "ので"],
+                answer: 0 // かどうか (Tidak ada kata tanya, Yes/No question)
+            },
+            {
+                text: "6. <ruby>何<rt>なに</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>（ ）、<ruby>教<rt>おし</rt></ruby>えてください。",
+                options: ["だか", "なか", "か", "なのか"],
+                answer: 2 // か (Na-adj langsung + か)
+            },
+            {
+                text: "7. ホテルの<ruby>部屋<rt>へや</rt></ruby>から<ruby>海<rt>うみ</rt></ruby>が<ruby>見<rt>み</rt></ruby>える（ ）、<ruby>確認<rt>かくにん</rt></ruby>してください。",
+                options: ["かどうか", "か", "ので", "のに"],
+                answer: 0 // かどうか
+            },
+            {
+                text: "8. A「もうレポートを<ruby>出<rt>だ</rt></ruby>しましたか。」<br>B「いいえ、（ ）<ruby>出<rt>だ</rt></ruby>していません。」",
+                options: ["もう", "まだ", "すぐ", "よく"],
+                answer: 1 // まだ
+            },
+            {
+                text: "9. ジョンさんは<ruby>独身<rt>どくしん</rt></ruby>（ ）ので、<ruby>一人<rt>ひとり</rt></ruby>で<ruby>住<rt>す</rt></ruby>んでいます。",
+                options: ["な", "だ", "の", "に"],
+                answer: 0 // な (Noun + なので)
+            },
+            {
+                text: "10. いつが<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>り（ ）、<ruby>先生<rt>せんせい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>きます。",
+                options: ["だか", "か", "なのか", "どうか"],
+                answer: 1 // か (Noun + か)
+            },
+            {
+                text: "11. このカレーは<ruby>辛<rt>から</rt></ruby>くない（ ）、<ruby>子<rt>こ</rt></ruby>どもでも<ruby>食<rt>た</rt></ruby>べられます。",
+                options: ["ので", "のに", "から", "な"],
+                answer: 0 // ので
+            },
+            {
+                text: "12. ツアーにもう<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>んだ（ ）、<ruby>教<rt>おし</rt></ruby>えてください。",
+                options: ["か", "かどうか", "ので", "から"],
+                answer: 1 // かどうか
+            },
+            {
+                text: "13. <ruby>日曜日<rt>にちようび</rt></ruby>は<ruby>暇<rt>ひま</rt></ruby>（ ）ので、<ruby>遊<rt>あそ</rt></ruby>びに<ruby>行<rt>い</rt></ruby>きませんか。",
+                options: ["だ", "の", "な", "に"],
+                answer: 2 // な (Na-adj + なので)
+            },
+            {
+                text: "14. A「もうお<ruby>昼<rt>ひる</rt></ruby>ごはんを<ruby>食<rt>た</rt></ruby>べましたか。」<br>B「いいえ、まだ（ ）。」",
+                options: ["食べません", "食べました", "食べていません", "食べていませんでした"],
+                answer: 2 // 食べていません
+            },
+            {
+                text: "15. どの<ruby>先生<rt>せんせい</rt></ruby>が<ruby>厳<rt>きび</rt></ruby>しい（ ）、<ruby>先輩<rt>せんぱい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>きました。",
+                options: ["か", "かどうか", "ので", "から"],
+                answer: 0 // か (Ada kata tanya どの)
+            },
+
+            /* =====================================================
+               PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+               問題 16～25 (Fokus: Bab 25 - ので, ～か, ～かどうか)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、もう<ruby>旅行<rt>りょこう</rt></ruby>のツアーに<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>みましたか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      いいえ、 <b>（ 16 ）</b> <ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>んでいません。<ruby>今週<rt>こんしゅう</rt></ruby>はとても<ruby>忙<rt>いそが</rt></ruby>しい <b>（ 17 ）</b>、<ruby>時間<rt>じかん</rt></ruby>がありませんでした。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      そうですか。<ruby>私<rt>わたし</rt></ruby>もまだです。ホテルの<ruby>部屋<rt>へや</rt></ruby>から<ruby>海<rt>うみ</rt></ruby>が<ruby>見<rt>み</rt></ruby>える <b>（ 18 ）</b>、<ruby>旅行会社<rt>りょこうがいしゃ</rt></ruby>に<ruby>確認<rt>かくにん</rt></ruby>してから<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>みたいです。
+    </div>
+  </div>
+</div>
+`,
+                text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["もう", "まだ", "すぐ", "よく"],
+                answer: 1 // まだ
+            },
+            {
+                text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["ので", "のに", "から", "な"],
+                answer: 0 // ので
+            },
+            {
+                text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["か", "かどうか", "から", "ので"],
+                answer: 1 // かどうか
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  <b><ruby>日本語<rt>にほんご</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>について</b><br><br>
+  <ruby>明日<rt>あした</rt></ruby>の<ruby>試験<rt>しけん</rt></ruby>は９<ruby>時<rt>じ</rt></ruby>に<ruby>始<rt>はじ</rt></ruby>まります。<ruby>雨<rt>あめ</rt></ruby> <b>（ 19 ）</b> ので、<ruby>道<rt>みち</rt></ruby>が<ruby>混<rt>こ</rt></ruby>むかもしれません。<ruby>早<rt>はや</rt></ruby>く<ruby>来<rt>き</rt></ruby>てください。<br>
+  <ruby>試験<rt>しけん</rt></ruby>に<ruby>何<rt>なに</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby> <b>（ 20 ）</b>、もう<ruby>一度確認<rt>いちどかくにん</rt></ruby>してください。（えんぴつと<ruby>消<rt>け</rt></ruby>しゴムが<ruby>必要<rt>ひつよう</rt></ruby>です）。<br>
+  いつが<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>り <b>（ 21 ）</b>、<ruby>先生<rt>せんせい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いてください。
+</div>
+`,
+                text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["だ", "な", "の", "に"],
+                answer: 1 // な (雨なので)
+            },
+            {
+                text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["か", "だか", "なのか", "かどうか"],
+                answer: 0 // か (何が必要か)
+            },
+            {
+                text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["かどうか", "だか", "か", "なので"],
+                answer: 2 // か (いつが締め切りか)
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【ブログ】
+</div>
+<table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8; border: 1px solid #000; background-color: #fff;">
+  <tr>
+    <td style="padding:15px; vertical-align:top;">
+      <div style="border:1px solid #000; display:inline-block; padding:2px 6px; font-weight:bold; margin-bottom:8px; font-size:14px;">木村さん</div><br>
+      <ruby>昨日<rt>きのう</rt></ruby>、<ruby>新<rt>あたら</rt></ruby>しい<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。とてもおもしろかった <b>（ 22 ）</b>、<ruby>友達<rt>ともだち</rt></ruby>に<ruby>教<rt>おし</rt></ruby>えました。<ruby>友達<rt>ともだち</rt></ruby>がこの<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>る <b>（ 23 ）</b> わかりませんが、ぜひ<ruby>見<rt>み</rt></ruby>てほしいです。<ruby>私<rt>わたし</rt></ruby>はパンフレットを<ruby>買<rt>か</rt></ruby>いましたが、<ruby>友達<rt>ともだち</rt></ruby>は <b>（ 24 ）</b> パンフレットを<ruby>買<rt>か</rt></ruby>っていません。
+    </td>
+  </tr>
+</table>
+`,
+                text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["ので", "のに", "から", "な"],
+                answer: 0 // ので
+            },
+            {
+                text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["か", "かどうか", "から", "ので"],
+                answer: 1 // かどうか
+            },
+            {
+                text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+                options: ["もう", "まだ", "すぐ", "よく"],
+                answer: 1 // まだ (まだパンフレットを買っていません)
+            },
+            {
+                text: "25. <ruby>文章<rt>ぶんしょう</rt></ruby>の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているものはどれですか。",
                 options: [
-                    "ある",
-                    "あり",
-                    "あって",
-                    "あった"
+                    "<ruby>友達<rt>ともだち</rt></ruby>はもう<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。",
+                    "<ruby>木村<rt>きむら</rt></ruby>さんは<ruby>映画<rt>えいが</rt></ruby>がおもしろくないと<ruby>思<rt>おも</rt></ruby>いました。",
+                    "<ruby>木村<rt>きむら</rt></ruby>さんは<ruby>友達<rt>ともだち</rt></ruby>が<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>るかどうかわかりません。",
+                    "<ruby>友達<rt>ともだち</rt></ruby>はもうパンフレットを<ruby>買<rt>か</rt></ruby>いました。"
                 ],
+                answer: 2 // 木村さんは友達が映画を見るかどうかわかりません。
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 (Kanji - Kosakata Bab 25)
+               BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "26. ツアーに行くかどうか、<u>確認</u>します。",
+                options: ["かくにん", "かくに", "がくにん", "がくに"],
                 answer: 0
             },
             {
-                text: "今日は雨（　　　）、出かけません。",
-                options: [
-                    "だから",
-                    "なので",
-                    "な",
-                    "です"
-                ],
-                answer: 1
-            },
-            {
-                text: "日本語が好き（　　　）、毎日勉強しています。",
-                options: [
-                    "ので",
-                    "だので",
-                    "なので",
-                    "だから"
-                ],
-                answer: 2
-            },
-            {
-                text: "熱がある（　　　）、今日は会社を休みます。",
-                options: [
-                    "ので",
-                    "なので",
-                    "だから",
-                    "ですので"
-                ],
+                text: "27. どの<u>先生</u>が厳しいか、教えてください。",
+                options: ["せんせい", "せんせ", "ぜんせい", "せんしぇい"],
                 answer: 0
             },
             {
-                text: "この店は静か（　　　）、よく勉強しに来ます。",
-                options: [
-                    "ので",
-                    "なので",
-                    "だから",
-                    "です"
-                ],
-                answer: 1
-            },
-            {
-                text: "昨日は忙しかった（　　　）、宿題ができませんでした。",
-                options: [
-                    "ので",
-                    "なので",
-                    "だから",
-                    "な"
-                ],
+                text: "28. <u>試験</u>は何時にはじまるか、わかりません。",
+                options: ["しけん", "じけん", "しげん", "じげん"],
                 answer: 0
             },
             {
-                text: "彼は医者（　　　）、毎日忙しいです。",
-                options: [
-                    "ので",
-                    "だから",
-                    "なので",
-                    "ですので"
-                ],
+                text: "29. 部屋から<u>海</u>が見えるかどうか、聞きます。",
+                options: ["かわ", "やま", "うみ", "そら"],
+                answer: 2
+            },
+
+            /* =====================================================
+               PART 3 : 漢字問題 
+               BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+               *TIDAK ADA RUBY DI BAGIAN INI*
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+                text: "30. 試験の時間を<u>おしえて</u>ください。",
+                options: ["話えて", "答えて", "教えて", "考えて"],
                 answer: 2
             },
             {
-                text: "寒くない（　　　）、窓を開けました。",
-                options: [
-                    "だから",
-                    "ので",
-                    "なので",
-                    "です"
-                ],
-                answer: 1
-            },
-            {
-                text: "試験は何時に始まる（　　　）、教えてください。",
-                options: [
-                    "が",
-                    "か",
-                    "を",
-                    "で"
-                ],
-                answer: 1
-            },
-            {
-                text: "誰が来る（　　　）知っていますか。",
-                options: [
-                    "か",
-                    "が",
-                    "を",
-                    "で"
-                ],
+                text: "31. ホテルから海が<u>みえる</u>かどうか、確認します。",
+                options: ["見える", "観える", "視える", "買える"],
                 answer: 0
             },
             {
-                text: "どの先生が厳しい（　　　）分かりません。",
-                options: [
-                    "ので",
-                    "か",
-                    "を",
-                    "と"
-                ],
+                text: "32. 試験は何時に<u>はじまる</u>か。",
+                options: ["終わる", "始まる", "動まる", "働く"],
                 answer: 1
             },
             {
-                text: "ツアーに行く（　　　）、まだ決めていません。",
-                options: [
-                    "か",
-                    "ので",
-                    "かどうか",
-                    "と"
-                ],
-                answer: 2
-            },
-            {
-                text: "海が見える部屋（　　　）、確認してください。",
-                options: [
-                    "か",
-                    "かどうか",
-                    "ので",
-                    "を"
-                ],
+                text: "33. まだレポートを<u>だして</u>いません。",
+                options: ["出て", "出して", "入して", "合して"],
                 answer: 1
             },
+
+            /* =====================================================
+               PART 4 : 記述問題 (Kijutsu Mondai)
+               問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 25)
+               ===================================================== */
             {
-                text: "明日雨が降る（　　　）分かりません。",
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+                text: "34. <ruby>今日<rt>きょう</rt></ruby>は <ruby>雨<rt>あめ</rt></ruby>＿＿(A)＿＿＿＿(B)＿＿、出かけません。",
                 options: [
-                    "ので",
-                    "かどうか",
-                    "から",
-                    "と"
+                    "（A）な （B）ので",
+                    "（A）だ （B）から",
+                    "（A）の （B）ので",
+                    "（A）に （B）ので"
                 ],
-                answer: 1
+                answer: 0 // 雨なので
             },
             {
-                text: "A：もうレポートを出しましたか。\nB：いいえ、まだ（　　　）。",
+                text: "35. A「もうレポートを＿＿(A)＿＿＿＿(B)＿＿か。」<br>B「いいえ、まだです。」",
                 options: [
-                    "出しました",
-                    "出します",
-                    "出していません",
-                    "出しません"
+                    "（A）出し （B）ました",
+                    "（A）出さ （B）ない",
+                    "（A）出して （B）います",
+                    "（A）出す （B）か"
                 ],
-                answer: 2
+                answer: 0 // 出しましたか
             },
             {
-                text: "A：昼ご飯を食べましたか。\nB：いいえ、まだ（　　　）。",
+                text: "36. テストが いつ＿＿(A)＿＿＿＿(B)＿＿、教えてください。",
                 options: [
-                    "食べません",
-                    "食べました",
-                    "食べています",
-                    "食べていません"
+                    "（A）はじまる （B）か",
+                    "（A）はじまる （B）かどうか",
+                    "（A）はじまる （B）ので",
+                    "（A）はじまって （B）か"
                 ],
-                answer: 3
+                answer: 0 // はじまるか
             },
             {
-    text: "A：どうして昨日学校を休んだんですか。\nB：（　　　）。",
-    options: [
-      "熱があるので休みました",
-      "熱があります",
-      "学校へ行きます",
-      "先生に会いました"
-    ],
-    answer: 0
-  },
-  {
-    text: "A：試験は何時に始まるか知っていますか。\nB：（　　　）。",
-    options: [
-      "九時からです",
-      "九時でした",
-      "九時へ行きます",
-      "九時があります"
-    ],
-    answer: 0
-  },
-  {
-    text: "A：ツアーに参加するかどうか決めましたか。\nB：（　　　）。",
-    options: [
-      "はい、昨日行きました",
-      "いいえ、まだ決めていません",
-      "はい、参加しますか",
-      "いいえ、参加でした"
-    ],
-    answer: 1
-  },
-  {
-    text: "A：もう宿題をしましたか。\nB：（　　　）。",
-    options: [
-      "はい、まだしていません",
-      "いいえ、もうしました",
-      "いいえ、まだしていません",
-      "はい、まだです"
-    ],
-    answer: 2
-  },
-  {
-    text: "A：どの先生が日本語を教えるか分かりますか。\nB：（　　　）。",
-    options: [
-      "はい、分かります",
-      "はい、教えます",
-      "いいえ、先生です",
-      "はい、日本語です"
-    ],
-    answer: 0
-  },
-  {
-    text: "A：どうしてバスで来たんですか。\nB：（　　　）。",
-    options: [
-      "雨なので",
-      "雨があります",
-      "雨を見ました",
-      "雨へ行きました"
-    ],
-    answer: 0
-  },
-  {
-    text: "A：海が見える部屋かどうか確認しましたか。\nB：（　　　）。",
-    options: [
-      "はい、確認しました",
-      "はい、見えます",
-      "いいえ、海でした",
-      "はい、部屋があります"
-    ],
-    answer: 0
-  },
-   {
-    text: `【24～26】
-
-山田さんは日本語が好きなので、毎日二時間勉強しています。
-来月、日本語の試験がありますが、まだ試験が何時に始まるか知りません。
-先生に聞くつもりです。
-
-【24】山田さんはどうして毎日勉強していますか。`,
-    options: [
-      "日本語が好きだからです。",
-      "先生に会いたいからです。",
-      "学校が休みだからです。",
-      "暇じゃないからです。"
-    ],
-    answer: 0
-  },
-  {
-    text: `【24～26】
-
-山田さんは日本語が好きなので、毎日二時間勉強しています。
-来月、日本語の試験がありますが、まだ試験が何時に始まるか知りません。
-先生に聞くつもりです。
-
-【25】山田さんは何を知りませんか。`,
-    options: [
-      "試験の日",
-      "試験の場所",
-      "試験が始まる時間",
-      "先生の名前"
-    ],
-    answer: 2
-  },
-  {
-    text: `【24～26】
-
-山田さんは日本語が好きなので、毎日二時間勉強しています。
-来月、日本語の試験がありますが、まだ試験が何時に始まるか知りません。
-先生に聞くつもりです。
-
-【26】山田さんはこれから何をしますか。`,
-    options: [
-      "試験を受けます。",
-      "先生に聞きます。",
-      "家へ帰ります。",
-      "勉強をやめます。"
-    ],
-    answer: 1
-  },
-  {
-    text: `【27～30】
-
-木村さんは友達と北海道旅行を計画しています。
-でも、ツアーに参加するかどうかまだ決めていません。
-また、ホテルの部屋から海が見えるかどうかも確認したいと思っています。
-旅行会社へ電話する予定です。
-
-【27】木村さんはまだ何を決めていませんか。`,
-    options: [
-      "北海道へ行く日",
-      "ホテルの名前",
-      "ツアーに参加するかどうか",
-      "友達の住所"
-    ],
-    answer: 2
-  },
-  {
-    text: `【27～30】
-
-木村さんは友達と北海道旅行を計画しています。
-でも、ツアーに参加するかどうかまだ決めていません。
-また、ホテルの部屋から海が見えるかどうかも確認したいと思っています。
-旅行会社へ電話する予定です。
-
-【28】木村さんは何を確認したいですか。`,
-    options: [
-      "部屋から海が見えるかどうか",
-      "飛行機の色",
-      "先生の予定",
-      "レストランの名前"
-    ],
-    answer: 0
-  },
-  {
-    text: `【27～30】
-
-木村さんは友達と北海道旅行を計画しています。
-でも、ツアーに参加するかどうかまだ決めていません。
-また、ホテルの部屋から海が見えるかどうかも確認したいと思っています。
-旅行会社へ電話する予定です。
-
-【29】木村さんは次に何をしますか。`,
-    options: [
-      "旅行へ出発します。",
-      "旅行会社へ電話します。",
-      "ホテルで泊まります。",
-      "友達に会います。"
-    ],
-    answer: 1
-  },
-  {
-    text: `【27～30】
-
-木村さんは友達と北海道旅行を計画しています。
-でも、ツアーに参加するかどうかまだ決めていません。
-また、ホテルの部屋から海が見えるかどうかも確認したいと思っています。
-旅行会社へ電話する予定です。
-
-【30】本文の内容と合っているものはどれですか。`,
-    options: [
-      "もうツアーに申し込みました。",
-      "ホテルは決まりました。",
-      "もう北海道へ行きました。",
-      "まだツアーに参加するか決めていません。"
-    ],
-    answer: 3
-  }
-        ];
-
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+                text: "37. 【１．ツアーに<ruby>行<rt>い</rt></ruby>く → ２．かどうか → ３．<ruby>確認<rt>かくにん</rt></ruby>す<u>る</u>】。",
+                options: [
+                    "ツアーに<ruby>行<rt>い</rt></ruby>くかどうか、<ruby>確認<rt>かくにん</rt></ruby>します。",
+                    "ツアーに<ruby>行<rt>い</rt></ruby>くかどうか、<ruby>確認<rt>かくにん</rt></ruby>しました。",
+                    "ツアーに<ruby>行<rt>い</rt></ruby>くか、<ruby>確認<rt>かくにん</rt></ruby>するかどうかです。",
+                    "ツアーに<ruby>行<rt>い</rt></ruby>ったかどうか、<ruby>確認<rt>かくにん</rt></ruby>するそうです。"
+                ],
+                answer: 0 // ツアーに行くかどうか、確認します。
+            },
+            {
+                text: "38. 【１．<ruby>何<rt>なに</rt></ruby> → ２．<ruby>必要<rt>ひつよう</rt></ruby> → ３．か】（※「～か、<ruby>教<rt>おし</rt></ruby>えてください」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "<ruby>何<rt>なに</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>か、<ruby>教<rt>おし</rt></ruby>えてください。",
+                    "<ruby>何<rt>なに</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>だか、<ruby>教<rt>おし</rt></ruby>えてください。",
+                    "<ruby>何<rt>なに</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>かどうか、<ruby>教<rt>おし</rt></ruby>えてください。",
+                    "<ruby>何<rt>なに</rt></ruby>を<ruby>必要<rt>ひつよう</rt></ruby>か、<ruby>教<rt>おし</rt></ruby>えてください。"
+                ],
+                answer: 0 // 何が必要か、教えてください。(Na-adj langsung + か)
+            },
+            {
+                text: "39. 【１．まだ → ２．レポート → ３．<ruby>出<rt>だ</rt></ruby>す】（※<ruby>否定<rt>ひてい</rt></ruby>の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "まだレポートを<ruby>出<rt>だ</rt></ruby>しません。",
+                    "まだレポートを<ruby>出<rt>だ</rt></ruby>していません。",
+                    "まだレポートを<ruby>出<rt>だ</rt></ruby>さなかったです。",
+                    "まだレポートを<ruby>出<rt>だ</rt></ruby>していないでした。"
+                ],
+                answer: 1 // まだレポートを出していません。(Bentuk ていません untuk belum selesai)
+            },
+            {
+                text: "40. 【１．ユーモア → ２．ある → ３．ので】（※「～ので、<ruby>人気<rt>にんき</rt></ruby>があります」の<ruby>形<rt>かたち</rt></ruby>で）。",
+                options: [
+                    "ユーモアがあるのに、<ruby>人気<rt>にんき</rt></ruby>があります。",
+                    "ユーモアがあるので、<ruby>人気<rt>にんき</rt></ruby>があります。",
+                    "ユーモアがあるから、<ruby>人気<rt>にんき</rt></ruby>があります。",
+                    "ユーモアがあったので、<ruby>人気<rt>にんき</rt></ruby>があります。"
+                ],
+                answer: 1 // ユーモアがあるので、人気があります。
+            }
+        ]; 
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -787,7 +824,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
