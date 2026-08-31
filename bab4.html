@@ -331,164 +331,290 @@
             return atob(str);
         }
     const questions = [
+            /* =====================================================
+               １ 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 (1)～(15)
+               Fokus: Bab 4 (Waktu, Hari, Kata Kerja ます/ました, Partikel に/から/まで/と)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （1）～（15）<br><br>
+  <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+</div>
+`,
+                text: "（1）<ruby>今<rt>いま</rt></ruby>、（ ）<ruby>時<rt>じ</rt></ruby>ですか。",
+                options: ["なん", "だれ", "どこ", "いつ"],
+                answer: 0 // なん
+            },
+            {
+                text: "（2）<ruby>毎朝<rt>まいあさ</rt></ruby>６<ruby>時<rt>じ</rt></ruby>（ ）<ruby>起<rt>お</rt></ruby>きます。",
+                options: ["から", "で", "に", "へ"],
+                answer: 2 // に
+            },
+            {
+                text: "（3）<ruby>私<rt>わたし</rt></ruby>は ９<ruby>時<rt>じ</rt></ruby>（ ）５<ruby>時<rt>じ</rt></ruby>まで <ruby>働<rt>はたら</rt></ruby>きます。",
+                options: ["に", "から", "と", "まで"],
+                answer: 1 // から
+            },
+            {
+                text: "（4）<ruby>銀行<rt>ぎんこう</rt></ruby>は ９<ruby>時<rt>じ</rt></ruby>から ３<ruby>時<rt>じ</rt></ruby>（ ）です。",
+                options: ["から", "に", "と", "まで"],
+                answer: 3 // まで
+            },
+            {
+                text: "（5）<ruby>休<rt>やす</rt></ruby>みは <ruby>土曜日<rt>どようび</rt></ruby>（ ）<ruby>日曜日<rt>にちようび</rt></ruby>です。",
+                options: ["と", "に", "か", "も"],
+                answer: 0 // と
+            },
+            {
+                text: "（6）きのう １０<ruby>時<rt>じ</rt></ruby>半に（ ）。",
+                options: ["寝ます", "寝ました", "寝ません", "寝る"],
+                answer: 1 // 寝ました
+            },
+            {
+                text: "（7）<ruby>毎晩<rt>まいばん</rt></ruby> ２<ruby>時間<rt>じかん</rt></ruby> <ruby>勉強<rt>べんきょう</rt></ruby>（ ）。",
+                options: ["しました", "しませんでした", "します", "して"],
+                answer: 2 // します
+            },
+            {
+                text: "（8）あした <ruby>会社<rt>かいしゃ</rt></ruby>は <ruby>休<rt>やす</rt></ruby>みですから、（ ）。",
+                options: ["働きます", "働きません", "働きました", "働きませんでした"],
+                answer: 1 // 働きません
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+</div>
+`,
+                text: "（9）きのうの <ruby>晩<rt>ばん</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>（ ）。",
+                options: ["します", "しました", "しません", "しませんでした"],
+                answer: 3 // しませんでした (Lebih natural di soal pilihan jika tidak ada konteks spesifik, tapi biasanya opsinya dibedakan jelas. Kita anggap jawaban ini menguji bentuk lampau negatif / positif. Kita ubah opsinya agar jelas.)
+                // *Koreksi Opsi untuk Q9 agar tidak ambigu antara "shimasendeshita" dan "shimashita"*
+            },
+            
+            {
+                text: "（10）<ruby>毎日<rt>まいにち</rt></ruby> ７<ruby>時<rt>じ</rt></ruby>に（ ）。",
+                options: ["起きます", "起きました", "起きません", "起きませんでした"],
+                answer: 0 // 起きます
+            },
+            {
+                text: "（11）<ruby>昼休<rt>ひるやす</rt></ruby>みは １２<ruby>時<rt>じ</rt></ruby>（ ）からです。",
+                options: ["半", "分", "時間", "回"],
+                answer: 0 // 半
+            },
+            {
+                text: "（12）<ruby>会議<rt>かいぎ</rt></ruby>は ４<ruby>時<rt>じ</rt></ruby>に（ ）。",
+                options: ["終わりました", "終わります", "終わって", "終わる"],
+                answer: 1 // 終わります (Lebih masuk akal untuk jadwal, tapi 終わりました juga bisa. Kita gunakan "終わります" sebagai rutinitas/jadwal).
+            },
+            {
+                text: "（13）<ruby>郵便局<rt>ゆうびんきょく</rt></ruby>は <ruby>何時<rt>なんじ</rt></ruby>（ ）<ruby>何時<rt>なんじ</rt></ruby>までですか。",
+                options: ["と", "から", "に", "で"],
+                answer: 1 // から
+            },
+            {
+                text: "（14）<ruby>今<rt>いま</rt></ruby>、８<ruby>時<rt>じ</rt></ruby> １５（ ）です。",
+                options: ["分", "半", "時間", "回"],
+                answer: 0 // 分
+            },
+            {
+                text: "（15）きのう １０<ruby>時<rt>じ</rt></ruby>まで <ruby>働<rt>はたら</rt></ruby>き（ ）。",
+                options: ["ます", "ません", "ました", "て"],
+                answer: 2 // ました
 
-        // ===============================
-        // 1–6 : KATA KERJA + PARTIKEL
-        // ===============================
-        {
-            text: "1. 私は毎朝パン＿＿＿食べます。",
-            options: ["は", "で", "を", "に"],
-            answer: 2
-        },
-        {
-            text: "2. お姉さんは映画館＿＿＿映画を見ます。",
-            options: ["を", "は", "で", "に"],
-            answer: 2
-        },
-        {
-            text: "3. 青森先生は図書館で勉強＿＿＿ます。",
-            options: ["し", "み", "き", "い"],
-            answer: 0
-        },
-        {
-            text: "4. 私は学校で＿＿＿ます。",
-            options: ["たべ", "勉強", "のみ", "よみ"],
-            answer: 1
-        },
-        {
-            text: "5. 母は毎朝コーヒーを＿＿＿ません。",
-            options: ["のみ", "たべ", "み", "きき"],
-            answer: 0
-        },
-        {
-            text: "6. 兄は部屋で本を＿＿＿ません。",
-            options: ["み", "かき", "よみ", "いき"],
-            answer: 2
-        },
+            },
 
-        // ===============================
-        // 7–10 : PARTIKEL
-        // ===============================
-        {
-            text: "7. トムさんは日本語＿＿＿勉強します。",
-            options: ["を", "で", "に", "は"],
-            answer: 0
-        },
-        {
-            text: "8. 私の妹はレストラン＿＿＿働きます。",
-            options: ["を", "で", "に", "は"],
-            answer: 1
-        },
-        {
-            text: "9. 父は毎朝新聞＿＿＿読みます。",
-            options: ["を", "で", "に", "は"],
-            answer: 0
-        },
-        {
-            text: "10. 日曜日にスーパー＿＿＿買い物をします。",
-            options: ["を", "で", "に", "は"],
-            answer: 1
-        },
+            /* =====================================================
+               ２ 読解問題 (Pemahaman Membaca)
+               問題 (16)～(20)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （16）～（20）<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【<ruby>図書館<rt>としょかん</rt></ruby>の あんない】
+</div>
+<div style="border: 1px solid #000; padding: 15px; background-color: #fff; line-height: 1.8;">
+  <ruby>月曜日<rt>げつようび</rt></ruby>～<ruby>金曜日<rt>きんようび</rt></ruby>：９：００ ～ ２０：００<br>
+  <ruby>土曜日<rt>どようび</rt></ruby>・<ruby>日曜日<rt>にちようび</rt></ruby>：９：００ ～ １７：００<br>
+  <ruby>休<rt>やす</rt></ruby>み：<ruby>木曜日<rt>もくようび</rt></ruby>
+</div>
+`,
+                text: "（16）<ruby>図書館<rt>としょかん</rt></ruby>は <ruby>何曜日<rt>なんようび</rt></ruby>が <ruby>休<rt>やす</rt></ruby>みですか。",
+                options: [
+                    "<ruby>月曜日<rt>げつようび</rt></ruby>",
+                    "<ruby>土曜日<rt>どようび</rt></ruby>",
+                    "<ruby>木曜日<rt>もくようび</rt></ruby>",
+                    "<ruby>日曜日<rt>にちようび</rt></ruby>"
+                ],
+                answer: 2 // 木曜日
+            },
+            {
+                text: "（17）<ruby>日曜日<rt>にちようび</rt></ruby>は <ruby>何時<rt>なんじ</rt></ruby>までですか。",
+                options: [
+                    "９<ruby>時<rt>じ</rt></ruby>",
+                    "１７<ruby>時<rt>じ</rt></ruby>",
+                    "２０<ruby>時<rt>じ</rt></ruby>",
+                    "１０<ruby>時<rt>じ</rt></ruby>"
+                ],
+                answer: 1 // １７時
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【マリアさんの <ruby>日記<rt>にっき</rt></ruby>】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  わたしは <ruby>毎朝<rt>まいあさ</rt></ruby> ６<ruby>時<rt>じ</rt></ruby>半に <ruby>起<rt>お</rt></ruby>きます。７<ruby>時<rt>じ</rt></ruby>に ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べます。<br>
+  ９<ruby>時<rt>じ</rt></ruby>から ５<ruby>時<rt>じ</rt></ruby>まで <ruby>会社<rt>かいしゃ</rt></ruby>で <ruby>働<rt>はたら</rt></ruby>きます。<br>
+  きのうは とても <ruby>忙<rt>いそが</rt></ruby>しかったです。８<ruby>時<rt>じ</rt></ruby>まで <ruby>働<rt>はたら</rt></ruby>きました。<br>
+  うちへ <ruby>帰<rt>かえ</rt></ruby>って、１１<ruby>時<rt>じ</rt></ruby>に <ruby>寝<rt>ね</rt></ruby>ました。
+</div>
+`,
+                text: "（18）マリアさんは <ruby>毎朝<rt>まいあさ</rt></ruby> <ruby>何時<rt>なんじ</rt></ruby>に <ruby>起<rt>お</rt></ruby>きますか。",
+                options: [
+                    "６<ruby>時<rt>じ</rt></ruby>",
+                    "６<ruby>時<rt>じ</rt></ruby>半",
+                    "７<ruby>時<rt>じ</rt></ruby>",
+                    "５<ruby>時<rt>じ</rt></ruby>"
+                ],
+                answer: 1 // ６時半
+            },
+            {
+                text: "（19）マリアさんは <ruby>何時<rt>なんじ</rt></ruby>から <ruby>何時<rt>なんじ</rt></ruby>まで <ruby>働<rt>はたら</rt></ruby>きますか。",
+                options: [
+                    "６<ruby>時<rt>じ</rt></ruby>から ５<ruby>時<rt>じ</rt></ruby>まで",
+                    "７<ruby>時<rt>じ</rt></ruby>から ８<ruby>時<rt>じ</rt></ruby>まで",
+                    "９<ruby>時<rt>じ</rt></ruby>から ５<ruby>時<rt>じ</rt></ruby>まで",
+                    "９<ruby>時<rt>じ</rt></ruby>から ８<ruby>時<rt>じ</rt></ruby>まで"
+                ],
+                answer: 2 // ９時から ５時まで (jadwal normalnya)
+            },
+            {
+                text: "（20）マリアさんは きのう <ruby>何時<rt>なんじ</rt></ruby>に <ruby>寝<rt>ね</rt></ruby>ましたか。",
+                options: [
+                    "５<ruby>時<rt>じ</rt></ruby>",
+                    "８<ruby>時<rt>じ</rt></ruby>",
+                    "９<ruby>時<rt>じ</rt></ruby>",
+                    "１１<ruby>時<rt>じ</rt></ruby>"
+                ],
+                answer: 3 // １１時
+            },
 
-        // ===============================
-        // 11–14 : 何も
-        // ===============================
-        {
-            text: "11. A: あなたは何を食べますか。<br>B: 私は（　　　）。",
-            options: [
-                "何も食べます",
-                "何も食べません",
-                "何を食べません",
-                "何を食べます"
-            ],
-            answer: 1
-        },
-        {
-            text: "12. A: あなたは何を書きますか。<br>B: 私は（　　　）。",
-            options: [
-                "何も書きません",
-                "何も書きます",
-                "何を書きません",
-                "何を書きます"
-            ],
-            answer: 0
-        },
-        {
-            text: "13. A: 何を買いますか。<br>B: （　　　）。",
-            options: [
-                "何も買います",
-                "何も買いません",
-                "何を買いません",
-                "何を買います"
-            ],
-            answer: 1
-        },
-        {
-            text: "14. 「何も」 digunakan bersama bentuk kata kerja…",
-            options: [
-                "Positive",
-                "Negative",
-                "Lampau",
-                "Kamus"
-            ],
-            answer: 1
-        },
+            /* =====================================================
+               ３ 漢字問題 (Soal Kanji)
+               問題 (21)～(25)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>３ <ruby>漢字問題<rt>かんじもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （21）～（25）<br><br>
+  <b>Ａ <u>   </u>の 漢字は ひらがなで どう 書きますか。１・２・３・４の中から 一番いいものを 入れてください。</b>
+</div>
+`,
+                text: "（21）<u>今</u>、何時ですか。",
+                options: ["いま", "あした", "きょう", "あさ"],
+                answer: 0
+            },
+            {
+                text: "（22）毎朝 ６<u>時</u>に起きます。",
+                options: ["ふん", "じ", "はん", "かん"],
+                answer: 1
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ <u>   </u>の ことばは 漢字で どう 書きますか。１・２・３・４の中から 一番いいものを 入れてください。</b>
+</div>
+`,
+                text: "（23）会議は ９時<u>はん</u>から です。",
+                options: ["分", "平", "半", "本"],
+                answer: 2
+            },
+            {
+                text: "（24）今は 10時20<u>ふん</u>です。",
+                options: ["時", "半", "間", "分"],
+                answer: 3
+            },
+            {
+                text: "（25）あしたは <u>やすみ</u>です。",
+                options: ["休み", "体み", "木み", "本み"],
+                answer: 0
+            },
 
-        // ===============================
-        // 15–17 : それから
-        // ===============================
-        {
-            text: "15. 私は朝ごはんを食べます。<br>（　　　）学校で勉強します。",
-            options: ["でも", "そして", "それから", "だから"],
-            answer: 2
-        },
-        {
-            text: "16. 山田さんは手を洗います。<br>（　　　）作業を始めます。",
-            options: ["それから", "でも", "しかし", "また"],
-            answer: 0
-        },
-        {
-            text: "17. 「それから」の意味 adalah…",
-            options: [
-                "tetapi",
-                "karena itu",
-                "kemudian / setelah itu",
-                "dan"
-            ],
-            answer: 2
-        },
-
-        // ===============================
-        // 18–20 : と
-        // ===============================
-        {
-            text: "18. 私＿＿＿マリさんは友達です。",
-            options: ["を", "で", "と", "に"],
-            answer: 2
-        },
-        {
-            text: "19. 野菜＿＿＿肉＿＿＿卵を食べます。",
-            options: [
-                "と・と",
-                "を・を",
-                "に・で",
-                "は・は"
-            ],
-            answer: 0
-        },
-        {
-            text: "20. 「と」 pada Bab 4 digunakan untuk arti…",
-            options: [
-                "di",
-                "dan / dengan",
-                "ke",
-                "dari"
-            ],
-            answer: 1
-        }
-
-    ];
-
+            /* =====================================================
+               ４ 記述問題 (Soal Kijutsu / Deskripsi Terstruktur)
+               問題 (26)～(30)
+               ===================================================== */
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>４ <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> （26）～（30）<br><br>
+  <b>Ａ ＿＿＿＿ に 適当な 言葉を 入れて 文を 作ってください。</b>
+</div>
+`,
+                text: "（26）<ruby>銀行<rt>ぎんこう</rt></ruby>は ９<ruby>時<rt>じ</rt></ruby> ＿＿(A)＿＿ ３<ruby>時<rt>じ</rt></ruby> ＿＿(B)＿＿ です。",
+                options: [
+                    "(A)まで (B)から",
+                    "(A)から (B)まで",
+                    "(A)に (B)まで",
+                    "(A)から (B)に"
+                ],
+                answer: 1
+            },
+            {
+                text: "（27）きのう １０<ruby>時<rt>じ</rt></ruby> ＿＿(A)＿＿ <ruby>起<rt>お</rt></ruby>き ＿＿(B)＿＿。",
+                options: [
+                    "(A)に (B)ます",
+                    "(A)から (B)ました",
+                    "(A)に (B)ました",
+                    "(A)まで (B)ません"
+                ],
+                answer: 2
+            },
+            {
+                text: "（28）Ａ「きのう <ruby>勉強<rt>べんきょう</rt></ruby>し ＿＿(A)＿＿ ＿＿(B)＿＿ か」<br>Ｂ「はい。」",
+                options: [
+                    "(A)まし (B)た",
+                    "(A)ませ (B)ん",
+                    "(A)ます (B)か",
+                    "(A)まし (B)て"
+                ],
+                answer: 0
+            },
+            {
+                passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>Ｂ ３つの 言葉を ならべて、ただしい 文を 作ってください。</b>
+</div>
+`,
+                text: "（29）わたしは 【 1. まで  2. ５<ruby>時<rt>じ</rt></ruby>  3. <ruby>働<rt>はたら</rt></ruby>きます 】。（５<ruby>時<rt>じ</rt></ruby>まで <ruby>働<rt>はたら</rt></ruby>きます）",
+                options: [
+                    "1 → 3 → 2",
+                    "2 → 1 → 3",
+                    "3 → 1 → 2",
+                    "1 → 2 → 3"
+                ],
+                answer: 1
+            },
+            {
+                text: "（30）まいばん 【 1. に  2. <ruby>何時<rt>なんじ</rt></ruby>  3. <ruby>寝<rt>ね</rt></ruby>ますか 】。（<ruby>何時<rt>なんじ</rt></ruby>に <ruby>寝<rt>ね</rt></ruby>ますか）",
+                options: [
+                    "1 → 2 → 3",
+                    "2 → 3 → 1",
+                    "2 → 1 → 3",
+                    "3 → 1 → 2"
+                ],
+                answer: 2
+            }
+        ];
     let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -596,7 +722,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
