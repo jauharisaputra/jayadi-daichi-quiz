@@ -331,203 +331,389 @@
             return atob(str);
         }
    const questions = [
-
-        /* =========================
-           1–5 : JAM (BERGAMBAR)
-        ========================= */
-
+        /* =====================================================
+           PART 1 : 文法・語彙問題 (Tata Bahasa & Kosakata)
+           問題 1～15 (Fokus: Bab 5 - 行きます、来ます、帰ります, Partikel へ/で/と)
+           ===================================================== */
         {
-            text: "1. いま、なんじですか。",
-            image: "images/bab5/q1.jpeg",
-            options: ["くじ", "じゅうじ", "はちじ", "しちじ"],
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 1 : <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 1～15<br><br>
+  （ ）に <ruby>何<rt>なに</rt></ruby>を <ruby>入<rt>い</rt></ruby>れますか。１・２・３・４から <ruby>一番<rt>いちばん</rt></ruby> いい ものを ひとつ <ruby>選<rt>えら</rt></ruby>んで ください。
+</div>
+`,
+            text: "1. わたしは <ruby>京都<rt>きょうと</rt></ruby>（ ）<ruby>行<rt>い</rt></ruby>きます。",
+            options: ["へ", "で", "を", "が"],
             answer: 0
         },
         {
-            text: "2. いま、なんじですか。",
-            image: "images/bab5/q2.jpeg",
-            options: ["くじはん", "くじ", "はちじはん", "じゅうじ"],
-            answer: 0
-        },
-        {
-            text: "3. いま、なんじですか。",
-            image: "images/bab5/q3.jpeg",
-            options: ["くさんじ", "んさんじ", "ごごよじ", "ごぜんよじ"],
-            answer: 1
-        },
-        {
-            text: "4. いま、なんじですか。",
-            image: "images/bab5/q4.jpeg",
-            options: ["しちじじゅっぷん", "しちじさんじゅっぷん", "ろくじはん", "はちじ"],
-            answer: 1
-        },
-        {
-            text: "5. いま、なんじですか。",
-            image: "images/bab5/q5.jpeg",
-            options: ["にじ", "はちじはん", "さんじ", "にじはん"],
-            answer: 3
-        },
-
-        /* =========================
-           6–8 : PARTIKEL に
-        ========================= */
-
-        {
-            text: "6. わたしは ごぜん６じ（　）おきます。",
-            options: ["で", "を", "に", "は"],
-            answer: 2
-        },
-        {
-            text: "7. たなかさんは ７じ（　）ねます。",
-            options: ["に", "で", "を", "も"],
-            answer: 0
-        },
-        {
-            text: "8. わたしは ごご３じ（　）べんきょうします。",
-            options: ["に", "で", "を", "の"],
-            answer: 0
-        },
-
-        /* =========================
-           9–11 : ～から～まで
-        ========================= */
-
-        {
-            text: "9. べんきょうは ８じ（　）１０じまでです。",
-            options: ["に", "を", "から", "で"],
-            answer: 2
-        },
-        {
-            text: "10. がっこうは げつようびから きんようび（　）です。",
-            options: ["に", "まで", "を", "で"],
-            answer: 1
-        },
-        {
-            text: "11. わたしは ９じから １１じ（　）はたらきます。",
-            options: ["まで", "に", "を", "で"],
-            answer: 0
-        },
-
-        /* =========================
-           12–15 : ～ました
-        ========================= */
-
-        {
-            text: "12. きのう パンを（　）。",
-            options: ["たべます", "たべました", "たべません", "たべる"],
-            answer: 1
-        },
-        {
-            text: "13. せんしゅう にほんへ（　）。",
-            options: [ "いきます", "いきません","いきました", "いく"],
-            answer: 2
-        },
-        {
-            text: "14. おととい ほんを（　）。",
-            options: ["よみます", "よみました", "よみません", "よむ"],
-            answer: 1
-        },
-        {
-            text: "15. きのう サッカーを（　）。",
-            options: ["しました", "します", "しません", "する"],
-            answer: 0
-        },
-
-        /* =========================
-           16–18 : ごろ・くらい
-        ========================= */
-
-        {
-            text: "16. たなかさんは ３じ（　）きます。",
-            options: ["から", "くらい", "まで", "ごろ"],
+            text: "2. <ruby>日曜日<rt>にちようび</rt></ruby> どこ（ ）も <ruby>行<rt>い</rt></ruby>きませんでした。",
+            options: ["か", "に", "も", "へ"],
             answer: 3
         },
         {
-            text: "17. とうきょうまで ２じかん（　）かかります。",
-            options: ["ごろ", "くらい", "に", "まで"],
+            text: "3. （ ）で <ruby>東京<rt>とうきょう</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。",
+            options: ["なに", "なん", "だれ", "いつ"],
             answer: 1
         },
         {
-            text: "18. わたしは ７じごろ（　）ます。",
-            options: ["おきる", "おきました", "おきません", "おき"],
+            text: "4. わたしは <ruby>友達<rt>ともだち</rt></ruby>（ ）<ruby>日本<rt>にほん</rt></ruby>へ <ruby>来<rt>き</rt></ruby>ました。",
+            options: ["と", "で", "に", "へ"],
+            answer: 0
+        },
+        {
+            text: "5. だれと <ruby>帰<rt>かえ</rt></ruby>りますか。……（ ）で <ruby>帰<rt>かえ</rt></ruby>ります。",
+            options: ["わたし", "ひとり", "みんな", "ともだち"],
+            answer: 1
+        },
+        {
+            text: "6. わたしは <ruby>毎日<rt>まいにち</rt></ruby> <ruby>歩<rt>ある</rt></ruby>いて <ruby>学校<rt>がっこう</rt></ruby>へ（ ）。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きました"],
+            answer: 0
+        },
+        {
+            text: "7. あなたの <ruby>誕生日<rt>たんじょうび</rt></ruby>は（ ）ですか。",
+            options: ["どこ", "なん", "だれ", "いつ"],
+            answer: 3
+        },
+        {
+            text: "8. <ruby>先月<rt>せんげつ</rt></ruby>、アメリカへ（ ）。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>来<rt>き</rt></ruby>ました"],
+            answer: 2
+        },
+        {
+            text: "9. <ruby>来週<rt>らいしゅう</rt></ruby>の <ruby>日曜日<rt>にちようび</rt></ruby>に <ruby>広島<rt>ひろしま</rt></ruby>へ（ ）。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>行<rt>い</rt></ruby>きません"],
+            answer: 0
+        },
+        {
+            text: "10. Ａ「（ ）へ <ruby>行<rt>い</rt></ruby>きますか。」<br>Ｂ「スーパーへ <ruby>行<rt>い</rt></ruby>きます。」",
+            options: ["なに", "だれ", "どこ", "いつ"],
+            answer: 2
+        },
+        {
+            text: "11. Ａ「いつ <ruby>日本<rt>にほん</rt></ruby>へ <ruby>来<rt>き</rt></ruby>ましたか。」<br>Ｂ「（ ）<ruby>来<rt>き</rt></ruby>ました。」",
+            options: ["<ruby>明日<rt>あした</rt></ruby>", "<ruby>来週<rt>らいしゅう</rt></ruby>", "<ruby>来月<rt>らいげつ</rt></ruby>", "<ruby>去年<rt>きょねん</rt></ruby>"],
+            answer: 3
+        },
+        {
+            text: "12. きのうは どこへも（ ）。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>行<rt>い</rt></ruby>きません", "<ruby>行<rt>い</rt></ruby>きませんでした"],
+            answer: 3
+        },
+        {
+            text: "13. わたしは ８<ruby>月<rt>がつ</rt></ruby>（ ） <ruby>国<rt>くに</rt></ruby>へ <ruby>帰<rt>かえ</rt></ruby>ります。",
+            options: ["に", "で", "へ", "を"],
+            answer: 0
+        },
+        {
+            text: "14. Ａ「（ ）と <ruby>病院<rt>びょういん</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きますか。」<br>Ｂ「<ruby>母<rt>はは</rt></ruby>と <ruby>行<rt>い</rt></ruby>きます。」",
+            options: ["なに", "だれ", "どこ", "いつ"],
+            answer: 1
+        },
+        {
+            text: "15. きょうは ３<ruby>月<rt>がつ</rt></ruby>（ ）です。",
+            options: ["みっか", "よっか", "いつか", "むいか"],
+            answer: 0
+        },
+
+        /* =====================================================
+           PART 2 : 読解問題 (Dokkai / Pemahaman Membaca)
+           問題 16～25 (Fokus: Bab 5)
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 2 : <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 16～25<br><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを 1 つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+  【チャット】
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      Bさん、<ruby>今度<rt>こんど</rt></ruby>の <ruby>週末<rt>しゅうまつ</rt></ruby>、どこかへ <ruby>行<rt>い</rt></ruby>きますか。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      はい、<ruby>大阪<rt>おおさか</rt></ruby>へ <b>（ 16 ）</b>。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px;">
+    <div style="width:28px;height:28px;border-radius:50%;background:#e53935;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+    <div style="background:#e53935;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+      いいですね。だれと <b>（ 17 ）</b> か。
+    </div>
+  </div>
+  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+      <ruby>家族<rt>かぞく</rt></ruby>と <ruby>行<rt>い</rt></ruby>きます。<ruby>車<rt>くるま</rt></ruby>で <b>（ 18 ）</b>。
+    </div>
+    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">B</div>
+  </div>
+</div>
+`,
+            text: "16. <b>（ 16 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きました"],
+            answer: 0
+        },
+        {
+            text: "17. <b>（ 17 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きました"],
+            answer: 0
+        },
+        {
+            text: "18. <b>（ 18 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>来<rt>き</rt></ruby>ます", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ました"],
+            answer: 2
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【お<ruby>知<rt>し</rt></ruby>らせ】
+</div>
+<div style="background:#f8f9fa; border:1px solid #ccc; padding:15px; border-radius:8px; line-height:1.9; font-size:14px;">
+  <ruby>休<rt>やす</rt></ruby>みのお<ruby>知<rt>し</rt></ruby>らせ<br><br>
+  <ruby>来週<rt>らいしゅう</rt></ruby>の <ruby>月曜日<rt>げつようび</rt></ruby>は <ruby>休<rt>やす</rt></ruby>みです。<ruby>私<rt>わたし</rt></ruby>は <ruby>日曜日<rt>にちようび</rt></ruby>から <ruby>火曜日<rt>かようび</rt></ruby>まで <ruby>北海道<rt>ほっかいどう</rt></ruby>へ <b>（ 19 ）</b>。<ruby>飛行機<rt>ひこうき</rt></ruby>で <ruby>行<rt>い</rt></ruby>きます。<ruby>水曜日<rt>すいようび</rt></ruby>に <ruby>会社<rt>かいしゃ</rt></ruby>へ <b>（ 20 ）</b>。
+</div>
+`,
+            text: "19. <b>（ 19 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ました"],
+            answer: 2
+        },
+        {
+            text: "20. <b>（ 20 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きました"],
+            answer: 1
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  【<ruby>日記<rt>にっき</rt></ruby>】
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+  わたしは ９<ruby>月<rt>がつ</rt></ruby>２０<ruby>日<rt>にち</rt></ruby>に <ruby>日本<rt>にほん</rt></ruby>へ <b>（ 21 ）</b>。<br>
+  ひとりで <ruby>来<rt>き</rt></ruby>ましたか。……いいえ、<ruby>家族<rt>かぞく</rt></ruby>と <b>（ 22 ）</b>。<br>
+  あしたから <ruby>会社<rt>かいしゃ</rt></ruby>へ <b>（ 23 ）</b>。<ruby>毎日<rt>まいにち</rt></ruby> <ruby>電車<rt>でんしゃ</rt></ruby> <b>（ 24 ）</b> <ruby>行<rt>い</rt></ruby>きます。<br>
+  <ruby>次<rt>つぎ</rt></ruby>の <ruby>休<rt>やす</rt></ruby>みは <ruby>新幹線<rt>しんかんせん</rt></ruby>で <ruby>京都<rt>きょうと</rt></ruby> <b>（ 25 ）</b> <ruby>行<rt>い</rt></ruby>きたいです。
+</div>
+`,
+            text: "21. <b>（ 21 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>行<rt>い</rt></ruby>きます", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>来<rt>き</rt></ruby>ました"],
+            answer: 3
+        },
+        {
+            text: "22. <b>（ 22 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>来<rt>き</rt></ruby>ました", "<ruby>行<rt>い</rt></ruby>きました", "<ruby>来<rt>き</rt></ruby>ます", "<ruby>帰<rt>かえ</rt></ruby>ります"],
+            answer: 0
+        },
+        {
+            text: "23. <b>（ 23 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["<ruby>来<rt>き</rt></ruby>ます", "<ruby>行<rt>い</rt></ruby>きます", "<ruby>帰<rt>かえ</rt></ruby>ります", "<ruby>行<rt>い</rt></ruby>きました"],
+            answer: 1
+        },
+        {
+            text: "24. <b>（ 24 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["に", "で", "へ", "を"],
+            answer: 1
+        },
+        {
+            text: "25. <b>（ 25 ）</b> には <ruby>何<rt>なに</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りますか。",
+            options: ["で", "を", "へ", "が"],
+            answer: 2
+        },
+
+        /* =====================================================
+           PART 3 : 漢字問題 (Kanji - Kosakata Bab 5)
+           BAGIAN A: 漢字 -> ひらがな (Membaca Kanji)
+           *TIDAK ADA RUBY DI BAGIAN INI*
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 26～29<br><br>
+  <u>   </u>の ことばは ひらがなで どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+            text: "26. <u>来週</u>、日本へ 行きます。",
+            options: ["らいしゅう", "せんしゅう", "こんしゅう", "らいねん"],
+            answer: 0
+        },
+        {
+            text: "27. 誕生日は <u>何月</u> ですか。",
+            options: ["なんにち", "なんようび", "いつ", "なんがつ"],
+            answer: 3
+        },
+        {
+            text: "28. <u>友達</u> と 帰ります。",
+            options: ["ともだち", "かぞく", "ひとり", "ひと"],
+            answer: 0
+        },
+        {
+            text: "29. 毎日、<u>車</u> で 会社へ 行きます。",
+            options: ["でんしゃ", "じてんしゃ", "くるま", "ふね"],
+            answer: 2
+        },
+
+        /* =====================================================
+           PART 3 : 漢字問題 
+           BAGIAN B: ひらがな -> 漢字 (Menulis Kanji)
+           *TIDAK ADA RUBY DI BAGIAN INI*
+           ===================================================== */
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 3 : 漢字問題</b><br>
+  問題 30～33<br><br>
+  <u>   </u>の ことばは どう かきますか。<br>
+  １・２・３・４から いちばん いい ものを ひとつ えらんで ください。
+</div>
+`,
+            text: "30. <u>せんげつ</u>、日本へ 来ました。",
+            options: ["来月", "先月", "今月", "来年"],
+            answer: 1
+        },
+        {
+            text: "31. デパートへ <u>いきます</u>。",
+            options: ["来ます", "帰ります", "行きます", "出ます"],
+            answer: 2
+        },
+        {
+            text: "32. ひとりで うちへ <u>かえります</u>。",
+            options: ["帰ります", "行きます", "来ます", "走ります"],
+            answer: 0
+        },
+        {
+            text: "33. きょうは <u>なんにち</u> ですか。",
+            options: ["何月", "何時", "何年", "何日"],
             answer: 3
         },
 
-        /* =========================
-           19–20 : DOKKAI
-        ========================= */
-
+        /* =====================================================
+           PART 4 : 記述問題 (Kijutsu Mondai)
+           問題 34～40 (Model J.Test Tipe A & B - Fokus Bab 5)
+           ===================================================== */
         {
-            passage: `【１９－２０】<br><br>
-わたしは まいあさ ６じに おきます。
-７じから ８じまで にほんごを べんきょうします。`,
-            text: "19. わたしは なんじに おきますか。",
-            options: ["５じ", "６じ", "７じ", "８じ"],
-            answer: 1
-        },
-        {
-            text: "20. にほんごを いつ べんきょうしますか。",
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  <b>PART 4 : <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+  <ruby>問題<rt>もんだい</rt></ruby> 34～40<br><br>
+  A <ruby>例<rt>れい</rt></ruby>のように＿＿＿＿に<ruby>適当<rt>てきとう</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れて<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例) きのう、＿＿＿＿＿＿でパンを＿＿＿＿＿＿。<br>
+    <span style="display:inline-block; width:120px; text-align:right;">（A）</span>
+    <span style="display:inline-block; width:160px; text-align:right;">（B）</span><br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（A）スーパー</td>
+        <td style="border:1px solid #000; padding:8px; width:45%;">（B）<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+  <div style="margin-top:10px; font-size:12px; color:#666;">
+    （※シミュレーション：もっともふさわしい<ruby>選択肢<rt>せんたくし</rt></ruby>を1つ<ruby>選<rt>えら</rt></ruby>んでください）
+  </div>
+</div>
+`,
+            text: "34. わたしは <ruby>自転車<rt>じてんしゃ</rt></ruby>＿＿(A)＿＿ <ruby>会社<rt>かいしゃ</rt></ruby>＿＿(B)＿＿ <ruby>行<rt>い</rt></ruby>きます。",
             options: [
-                "６じから７じまで",
-                "７じから８じまで",
-                "８じから９じまで",
-                "９じから１０じまで"
+                "（A）で （B）へ",
+                "（A）に （B）で",
+                "（A）へ （B）で",
+                "（A）と （B）を"
+            ],
+            answer: 0
+        },
+        {
+            text: "35. いつ <ruby>日本<rt>にほん</rt></ruby>＿＿(A)＿＿ <ruby>来<rt>き</rt></ruby>＿＿(B)＿＿か。",
+            options: [
+                "（A）で （B）ました",
+                "（A）へ （B）ました",
+                "（A）へ （B）ます",
+                "（A）に （B）ます"
             ],
             answer: 1
         },
         {
-           text: "21. Saya belajar dari jam 8 sampai jam 10.",
-           options: [
-               "わたしは ８じに べんきょうします。",
-               "わたしは ８じから１０じまで べんきょうします。",
-               "わたしは １０じから８じまで べんきょうします。",
-               "わたしは ８じごろ べんきょうします。"
-           ],
-           answer: 1
-       },
-       {
-           text: "22. Saya makan sekitar jam 12.",
-           options: [
-               "わたしは １２じに たべます。",
-               "わたしは １２じごろ たべます。",
-               "わたしは １２じまで たべます。",
-               "わたしは １２じから たべます。"
-           ],
-           answer: 1
-       },
-       {
-           text: "23. <ruby>何時<rt>いつ</rt></ruby><ruby>から何時まで<rt>から～まで</rt></ruby><ruby>勉強しますか<rt>べんきょうしますか</rt></ruby>  。",
-           options: [
-               "Belajar di mana?",
-               "Belajar dengan siapa?",
-               "Belajar dari jam berapa sampai jam berapa?",
-               "Belajar apa?"
-           ],
-           answer: 2
-       },
-       {
-           text: "24. わたしは きのう にほんごを べんきょうしました。",
-           options: [
-               "Saya akan belajar bahasa Jepang besok",
-               "Saya sedang belajar bahasa Jepang",
-               "Saya belajar bahasa Jepang kemarin",
-               "Saya tidak belajar bahasa Jepang"
-           ],
-           answer: 2
-       },
-       {
-           text: "25. Terjemahkan ke bahasa Jepang: 'Saya tidak makan apa pun.'",
-           options: [
-               "わたしは なにも たべます。",
-               "わたしは なにも たべません。",
-               "わたしは なにも のみません。",
-               "わたしは なにも しました。"
-           ],
-           answer: 1
-       }
-
-    ];
-
-        let answers = new Array(questions.length).fill(null);
+            text: "36. きのう どこへも <ruby>行<rt>い</rt></ruby>き＿＿(A)＿＿＿＿(B)＿＿。",
+            options: [
+                "（A）まし （B）た",
+                "（A）ませ （B）ん",
+                "（A）ませ （B）んでした",
+                "（A）まし （B）て"
+            ],
+            answer: 2
+        },
+        {
+            passage: `
+<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+  B <ruby>例<rt>れい</rt></ruby>のように３つ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>全部使<rt>ぜんぶつか</rt></ruby>って、<ruby>会話<rt>かいわ</rt></ruby>や<ruby>文章<rt>ぶんしょう</rt></ruby>に<ruby>合<rt>あ</rt></ruby>う<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。<br>
+  <div style="border:1px solid #000; padding:15px; margin-top:8px; background:#fff; line-height:1.8;">
+    ・<u>【 】の<ruby>中<rt>なか</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>だけ</u><ruby>書<rt>か</rt></ruby>いてください。<br>
+    ・<u>１．→ ２．→ ３．→の<ruby>順<rt>じゅん</rt></ruby>に<ruby>言葉<rt>ことば</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ってください。</u><br>
+    ・<ruby>言葉<rt>ことば</rt></ruby>の<u>  </u>の<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>形<rt>かたち</rt></ruby>を<ruby>変<rt>か</rt></ruby>えてもいいです。<br>
+    ・<ruby>文<rt>ぶん</rt></ruby>は、１つか２つです。３つ<ruby>以上<rt>いじょう</rt></ruby>は、だめです。<br>
+    ・<ruby>漢字<rt>かんじ</rt></ruby>は、<u><ruby>今<rt>いま</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby></u>を<ruby>書<rt>か</rt></ruby>いてください。<br><br>
+    (例)<br>
+    きのう、【１．どこ → ２．パン → ３．<ruby>買<rt>か</rt></ruby><u>う</u>】か。<br>
+    <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:13px;">
+      <tr>
+        <td style="border:1px solid #000; padding:8px; width:10%; text-align:center;">(例)</td>
+        <td style="border:1px solid #000; padding:8px;">どこでパンを<ruby>買<rt>か</rt></ruby>いました</td>
+      </tr>
+    </table>
+  </div>
+</div>
+`,
+            text: "37. 【１．<ruby>帰<rt>かえ</rt></ruby>り<u>ます</u> → ２．ひとりで → ３．うちへ】。",
+            options: [
+                "ひとりでうちへ<ruby>帰<rt>かえ</rt></ruby>ります。",
+                "うちへひとりで<ruby>帰<rt>かえ</rt></ruby>りました。",
+                "うちへひとりで<ruby>帰<rt>かえ</rt></ruby>る。",
+                "ひとりでうちへ<ruby>帰<rt>かえ</rt></ruby>りました。"
+            ],
+            answer: 0
+        },
+        {
+            text: "38. 【１．で → ２．<ruby>何<rt>なん</rt></ruby> → ３．<ruby>行<rt>い</rt></ruby>きますか】。",
+            options: [
+                "<ruby>何<rt>なん</rt></ruby>で<ruby>行<rt>い</rt></ruby>きますか。",
+                "で<ruby>何<rt>なん</rt></ruby><ruby>行<rt>い</rt></ruby>きますか。",
+                "<ruby>何<rt>なん</rt></ruby><ruby>行<rt>い</rt></ruby>きますかで。",
+                "で<ruby>行<rt>い</rt></ruby>きますか<ruby>何<rt>なん</rt></ruby>。"
+            ],
+            answer: 0
+        },
+        {
+            text: "39. 【１．<ruby>来週<rt>らいしゅう</rt></ruby> → ２．<ruby>来<rt>き</rt></ruby>ます → ３．<ruby>日本<rt>にほん</rt></ruby>へ】。",
+            options: [
+                "<ruby>来週日本<rt>らいしゅうにほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ます。",
+                "<ruby>来週日本<rt>らいしゅうにほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ました。",
+                "<ruby>日本<rt>にほん</rt></ruby>へ<ruby>来週来<rt>らいしゅうき</rt></ruby>ました。",
+                "<ruby>来<rt>き</rt></ruby>ます<ruby>日本<rt>にほん</rt></ruby>へ<ruby>来週<rt>らいしゅう</rt></ruby>。"
+            ],
+            answer: 0
+        },
+        {
+            text: "40. 【１．だれ → ２．と → ３．<ruby>行<rt>い</rt></ruby>き<u>ました</u>か】。",
+            options: [
+                "だれと<ruby>行<rt>い</rt></ruby>きますか。",
+                "だれと<ruby>行<rt>い</rt></ruby>きましたか。",
+                "だれと<ruby>行<rt>い</rt></ruby>ってか。",
+                "だれと<ruby>行<rt>い</rt></ruby>かないか。"
+            ],
+            answer: 1
+        }
+    ]; 
+    let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -634,7 +820,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
