@@ -320,236 +320,278 @@
             return atob(str);
         }
         const questions = [
+                /* =====================================================
+                   １ 文法・語彙問題 (Tata Bahasa & Kosakata)
+                   問題 (1)～(15)
+                   Fokus: Bab 22 (くれます、〜てくれます、〜てもらいます、〜てあげます)
+                ===================================================== */
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （1）～（15）<br><br>
+        <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                    text: "（1）<ruby>渡辺<rt>わたなべ</rt></ruby>さんは わたしに <ruby>本<rt>ほん</rt></ruby>を（ ）。",
+                    options: ["くれました", "もらいました", "あげました", "きました"],
+                    answer: 0 // くれました
+                },
+                {
+                    text: "（2）わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さん（ ）<ruby>本<rt>ほん</rt></ruby>を もらいました。",
+                    options: ["が", "に", "を", "で"],
+                    answer: 1 // に
+                },
+                {
+                    text: "（3）わたしは <ruby>木村<rt>きむら</rt></ruby>さんに <ruby>傘<rt>かさ</rt></ruby>を <ruby>貸<rt>か</rt></ruby>して（ ）。",
+                    options: ["くれました", "きました", "あげました", "もらいました"],
+                    answer: 2 // あげました
+                },
+                {
+                    text: "（4）<ruby>先生<rt>せんせい</rt></ruby>が わたしに <ruby>漢字<rt>かんじ</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて（ ）。",
+                    options: ["あげました", "もらいました", "きました", "くれました"],
+                    answer: 3 // くれました
+                },
+                {
+                    text: "（5）だれ（ ）<ruby>浴衣<rt>ゆかた</rt></ruby>を <ruby>貸<rt>か</rt></ruby>して くれましたか。",
+                    options: ["が", "を", "に", "で"],
+                    answer: 0 // が
+                },
+                {
+                    text: "（6）トルコ<ruby>語<rt>ご</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて（ ）、ありがとう。",
+                    options: ["もらって", "くれて", "あげて", "きて"],
+                    answer: 1 // くれて
+                },
+                {
+                    text: "（7）わたしは <ruby>田中<rt>たなか</rt></ruby>さんに <ruby>手紙<rt>てがみ</rt></ruby>を <ruby>読<rt>よ</rt></ruby>んで（ ）。",
+                    options: ["くれました", "あげました", "もらいました", "きました"],
+                    answer: 2 // もらいました
+                },
+                {
+                    text: "（8）アンさんは わたしに <ruby>日本<rt>にほん</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>歌<rt>うた</rt></ruby>って（ ）。",
+                    options: ["もらいました", "きました", "あげました", "くれました"],
+                    answer: 3 // くれました
+                },
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                    text: "（9）わたしは <ruby>妹<rt>いもうと</rt></ruby>に お<ruby>土産<rt>みやげ</rt></ruby>を <ruby>買<rt>か</rt></ruby>って（ ）。",
+                    options: ["あげました", "もらいました", "くれました", "きました"],
+                    answer: 0 // あげました
+                },
+                {
+                    text: "（10）チンさんは わたしを <ruby>駅<rt>えき</rt></ruby>まで <ruby>送<rt>おく</rt></ruby>って（ ）。",
+                    options: ["あげました", "くれました", "もらいました", "しました"],
+                    answer: 1 // くれました
+                },
+                {
+                    text: "（11）わたしは マリアさんに <ruby>写真<rt>しゃしん</rt></ruby>を <ruby>見<rt>み</rt></ruby>せて（ ）。",
+                    options: ["くれました", "きました", "もらいました", "あげました"],
+                    answer: 2 // もらいました
+                },
+                {
+                    text: "（12）だれが <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>って（ ）か。",
+                    options: ["もらいました", "あげました", "しました", "くれました"],
+                    answer: 3 // くれました
+                },
+                {
+                    text: "（13）わたしは カエサルさんに パソコンを <ruby>直<rt>なお</rt></ruby>して（ ）。",
+                    options: ["もらいました", "くれました", "あげました", "しました"],
+                    answer: 0 // もらいました
+                },
+                {
+                    text: "（14）わたしは おばあさんの <ruby>荷物<rt>にもつ</rt></ruby>を <ruby>持<rt>も</rt></ruby>って（ ）。",
+                    options: ["くれました", "あげました", "もらいました", "きました"],
+                    answer: 1 // あげました
+                },
+                {
+                    text: "（15）<ruby>道<rt>みち</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて（ ）、ありがとう ございました。",
+                    options: ["あげて", "もらって", "くれて", "きて"],
+                    answer: 2 // くれて
+                },
 
-            // ===============================
-            // 1–30: BUNPOU + GOI（あげる・くれる・もらう）
-            // ===============================
-            {
-                text: "1. 友だちがプレゼントを（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "2. わたしは母に花を（　）。",
-                options: ["くれました", "もらいました", "あげました", "いました"],
-                answer: 2
-            },
-            {
-                text: "3. 兄に本を（　）。",
-                options: ["くれました", "あげました", "もらいました", "します"],
-                answer: 2
-            },
-            {
-                text: "4. 先生が宿題を教えて（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "5. わたしは友だちに日本語を教えて（　）。",
-                options: ["くれました", "もらいました", "あげました", "いました"],
-                answer: 2
-            },
-            {
-                text: "6. 友だちにノートを貸して（　）。",
-                options: ["あげました", "くれました", "もらいました", "いました"],
-                answer: 2
-            },
-            {
-                text: "7. 母がケーキを作って（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "8. わたしは弟におもちゃを（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "9. 友だちが手伝って（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "10. わたしは先生に本を（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 2
-            },
+                /* =====================================================
+                   ２ 読解問題 (Pemahaman Membaca)
+                   問題 (16)～(20)
+                ===================================================== */
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （16）～（20）<br><br>
+        <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+        【<ruby>渡辺<rt>わたなべ</rt></ruby>さんの うちで】
+      </div>
+      <div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+        きのう わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さんの うちへ <ruby>行<rt>い</rt></ruby>きました。<ruby>渡辺<rt>わたなべ</rt></ruby>さんは わたしに <ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>って くれました。<br>
+        わたしは わたしの <ruby>国<rt>くに</rt></ruby>の お<ruby>土産<rt>みやげ</rt></ruby>を <ruby>渡辺<rt>わたなべ</rt></ruby>さんに あげました。<br>
+        それから、<ruby>渡辺<rt>わたなべ</rt></ruby>さんは <ruby>日本<rt>にほん</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて くれました。<br>
+        とても <ruby>楽<rt>たの</rt></ruby>しかったです。<ruby>次<rt>つぎ</rt></ruby>は、わたしが <ruby>渡辺<rt>わたなべ</rt></ruby>さんに わたしの <ruby>国<rt>くに</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて あげたいです。
+      </div>
+    `,
+                    text: "（16）だれが <ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>りましたか。",
+                    options: [
+                        "わたし",
+                        "わたしの <ruby>家族<rt>かぞく</rt></ruby>",
+                        "だれも <ruby>作<rt>つく</rt></ruby>りませんでした",
+                        "<ruby>渡辺<rt>わたなべ</rt></ruby>さん"
+                    ],
+                    answer: 3 // 渡辺さん
+                },
+                {
+                    text: "（17）わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さんに なにを あげましたか。",
+                    options: [
+                        "お<ruby>土産<rt>みやげ</rt></ruby>",
+                        "<ruby>料理<rt>りょうり</rt></ruby>",
+                        "<ruby>歌<rt>うた</rt></ruby>",
+                        "<ruby>本<rt>ほん</rt></ruby>"
+                    ],
+                    answer: 0 // お土産
+                },
+                {
+                    text: "（18）<ruby>渡辺<rt>わたなべ</rt></ruby>さんは わたしに なにを して くれましたか。",
+                    options: [
+                        "<ruby>掃除<rt>そうじ</rt></ruby>を して くれました",
+                        "<ruby>日本<rt>にほん</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて くれました",
+                        "わたしの <ruby>国<rt>くに</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>歌<rt>うた</rt></ruby>って くれました",
+                        "お<ruby>土産<rt>みやげ</rt></ruby>を <ruby>買<rt>か</rt></ruby>って くれました"
+                    ],
+                    answer: 1 // 日本の歌を教えてくれました
+                },
+                {
+                    text: "（19）わたしは これから <ruby>渡辺<rt>わたなべ</rt></ruby>さんに なにを して あげたいですか。",
+                    options: [
+                        "<ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>って あげたいです",
+                        "お<ruby>土産<rt>みやげ</rt></ruby>を <ruby>買<rt>か</rt></ruby>って あげたいです",
+                        "わたしの <ruby>国<rt>くに</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて あげたいです",
+                        "<ruby>日本語<rt>にほんご</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて あげたいです"
+                    ],
+                    answer: 2 // わたしの国の歌を教えてあげたいです
+                },
+                {
+                    text: "（20）この <ruby>日<rt>ひ</rt></ruby>は どうでしたか。",
+                    options: [
+                        "<ruby>疲<rt>つか</rt></ruby>れました",
+                        "つまらなかったです",
+                        "わかりません",
+                        "とても <ruby>楽<rt>たの</rt></ruby>しかったです"
+                    ],
+                    answer: 3 // とても楽しかったです
+                },
 
-            {
-                text: "11. 父が車で送って（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "12. わたしは友だちに手紙を書いて（　）。",
-                options: ["くれました", "あげました", "もらいました", "いました"],
-                answer: 1
-            },
-            {
-                text: "13. 先生に日本語を教えて（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 2
-            },
-            {
-                text: "14. 友だちが写真を送って（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "15. わたしは母に料理を作って（　）。",
-                options: ["あげました", "くれました", "もらいました", "いました"],
-                answer: 0
-            },
+                /* =====================================================
+                   ３ 漢字問題 (Soal Kanji)
+                   問題 (21)～(25)
+                   Keterangan: Kanji yang diuji (bergaris bawah) dan opsi jawabannya (bila berupa kanji) tidak diberikan ruby rt.
+                ===================================================== */
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>３ <ruby>漢字問題<rt>かんじもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （21）～（25）<br><br>
+        <b>Ａ <u>  </u>の <ruby>漢字<rt>かんじ</rt></ruby>は ひらがなで どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                    text: "（21）<ruby>渡辺<rt>わたなべ</rt></ruby>さんは わたしに <u>本</u>を くれました。",
+                    options: ["ほん", "ぼん", "もと", "ぽん"],
+                    answer: 0 // ほん
+                },
+                {
+                    text: "（22）わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さんに <u>歌</u>を <ruby>教<rt>おし</rt></ruby>えて あげました。",
+                    options: ["え", "うた", "おと", "うだ"],
+                    answer: 1 // うた
+                },
+                {
+                    text: "（23）わたしに トルコ<u>語</u>を <ruby>教<rt>おし</rt></ruby>えて くれました。",
+                    options: ["こ", "ごう", "ご", "こう"],
+                    answer: 2 // ご
+                },
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <u>  </u>の ことばは <ruby>漢字<rt>かんじ</rt></ruby>で どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                    text: "（24）<u>わたなべ</u>さんは わたしに <ruby>浴衣<rt>ゆかた</rt></ruby>を <ruby>貸<rt>か</rt></ruby>して くれました。",
+                    options: ["田辺", "渡部", "渡鳥", "渡辺"],
+                    answer: 3 // 渡辺
+                },
+                {
+                    text: "（25）わたしに お<u>みやげ</u>を くれました。",
+                    options: ["土産", "士産", "土産屋", "土屋"],
+                    answer: 0 // 土産
+                },
 
-            {
-                text: "16. 兄にゲームを貸して（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 2
-            },
-            {
-                text: "17. 妹が荷物を持って（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "18. わたしは友だちに本を読んで（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "19. 先生が説明して（　）。",
-                options: ["あげました", "くれました", "もらいました", "いました"],
-                answer: 1
-            },
-            {
-                text: "20. 友だちにペンを（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 2
-            },
-
-            {
-                text: "21. 母がプレゼントを（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 1
-            },
-            {
-                text: "22. わたしは先生に花を（　）。",
-                options: ["くれました", "あげました", "もらいました", "いました"],
-                answer: 1
-            },
-            {
-                text: "23. 友だちに宿題を手伝って（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 2
-            },
-            {
-                text: "24. 先生が本を貸して（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "25. わたしは弟にゲームを教えて（　）。",
-                options: ["あげました", "くれました", "もらいました", "いました"],
-                answer: 0
-            },
-
-            {
-                text: "26. 友だちがケーキを買って（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "27. わたしは友だちに本を（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "28. 先生に質問を答えて（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 2
-            },
-            {
-                text: "29. 母が料理を作って（　）。",
-                options: ["くれました", "あげました", "もらいました", "しました"],
-                answer: 0
-            },
-            {
-                text: "30. わたしは友だちにプレゼントを（　）。",
-                options: ["あげました", "くれました", "もらいました", "しました"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31–36: DOKKAI
-            // ===============================
-            {
-                passage: `【３１－３２】<br><br>
-       友だちがわたしに本をくれました。
-       とてもおもしろい本でした。`,
-                text: "31. だれが本をくれましたか。",
-                options: ["先生", "母", "友だち", "兄"],
-                answer: 2
-            },
-            {
-                text: "32. 本はどうでしたか。",
-                options: ["つまらない", "おもしろい", "高い", "古い"],
-                answer: 1
-            },
-
-            {
-                passage: `【３３－３４】<br><br>
-       わたしは母にケーキを作ってあげました。
-       母はとてもよろこびました。`,
-                text: "33. だれがケーキを作りましたか。",
-                options: ["母", "わたし", "友だち", "先生"],
-                answer: 1
-            },
-            {
-                text: "34. 母はどうしましたか。",
-                options: ["おこりました", "よろこびました", "ねました", "帰りました"],
-                answer: 1
-            },
-
-            {
-                passage: `【３５－３６】<br><br>
-       わたしは友だちに日本語を教えてもらいました。
-       とても助かりました。`,
-                text: "35. だれに教えてもらいましたか。",
-                options: ["先生", "母", "友だち", "兄"],
-                answer: 2
-            },
-            {
-                text: "36. どう思いましたか。",
-                options: ["たいへんでした", "助かりました", "つまらない", "むずかしい"],
-                answer: 1
-            },
-
-            // ===============================
-            // 37–40: 並べ替え
-            // ===============================
-            {
-                text: "37. 友だちが ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ くれました。",
-                options: ["本を", "わたしに", "くれ", "ました"],
-                answer: [1, 0, 2, 3]
-            },
-            {
-                text: "38. わたしは ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ＿＿ あげました。",
-                options: ["友だちに", "プレゼントを", "あげ", "ました"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "39. わたしは ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ もらいました。",
-                options: ["先生に", "日本語を", "教えて", "もらい"],
-                answer: [0, 1, 2, 3]
-            },
-            {
-                text: "40. 母が ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ くれました。",
-                options: ["ごはんを", "作って", "くれ", "ました"],
-                answer: [0, 1, 2, 3]
-            }
-
-        ];
-
+                /* =====================================================
+                   ４ 記述問題 (Soal Kijutsu / Deskripsi Terstruktur)
+                   問題 (26)～(30)
+                ===================================================== */
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>４ <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （26）～（30）<br><br>
+        <b>Ａ ＿＿＿＿ に <ruby>適当<rt>てきとう</rt></ruby>な <ruby>言葉<rt>ことば</rt></ruby>を <ruby>入<rt>い</rt></ruby>れて <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                    text: "（26）だれ ＿＿(A)＿＿ <ruby>浴衣<rt>ゆかた</rt></ruby> ＿＿(B)＿＿ <ruby>貸<rt>か</rt></ruby>して くれましたか。",
+                    options: [
+                        "(A)は (B)に",
+                        "(A)が (B)を",
+                        "(A)が (B)で",
+                        "(A)を (B)が"
+                    ],
+                    answer: 1 // (A)が (B)を
+                },
+                {
+                    text: "（27）わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さん ＿＿(A)＿＿ <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて ＿＿(B)＿＿。",
+                    options: [
+                        "(A)が (B)くれました",
+                        "(A)に (B)くれました",
+                        "(A)に (B)もらいました",
+                        "(A)が (B)あげました"
+                    ],
+                    answer: 2 // (A)に (B)もらいました
+                },
+                {
+                    text: "（28）トルコ<ruby>語<rt>ご</rt></ruby> ＿＿(A)＿＿ <ruby>教<rt>おし</rt></ruby>えて ＿＿(B)＿＿、ありがとう。",
+                    options: [
+                        "(A)に (B)もらって",
+                        "(A)を (B)あげて",
+                        "(A)に (B)くれて",
+                        "(A)を (B)くれて"
+                    ],
+                    answer: 3 // (A)を (B)くれて
+                },
+                {
+                    passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ ３つの <ruby>言葉<rt>ことば</rt></ruby>を ならべて、ただしい <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                    text: "（29）わたしは 【 1. <ruby>日本<rt>にほん</rt></ruby>の  2. <ruby>歌<rt>うた</rt></ruby>を  3. <ruby>渡辺<rt>わたなべ</rt></ruby>さんに 】 <ruby>教<rt>おし</rt></ruby>えて もらいました。（わたしは <ruby>渡辺<rt>わたなべ</rt></ruby>さんに <ruby>日本<rt>にほん</rt></ruby>の <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて もらいました）",
+                    options: [
+                        "3 → 1 → 2",
+                        "1 → 2 → 3",
+                        "2 → 1 → 3",
+                        "3 → 2 → 1"
+                    ],
+                    answer: 0 // 3(渡辺さんに) -> 1(日本の) -> 2(歌を)
+                },
+                {
+                    text: "（30）<ruby>渡辺<rt>わたなべ</rt></ruby>さんは 【 1. <ruby>教<rt>おし</rt></ruby>えて  2. わたしに  3. <ruby>歌<rt>うた</rt></ruby>を 】 くれました。（<ruby>渡辺<rt>わたなべ</rt></ruby>さんは わたしに <ruby>歌<rt>うた</rt></ruby>を <ruby>教<rt>おし</rt></ruby>えて くれました）",
+                    options: [
+                        "1 → 2 → 3",
+                        "2 → 3 → 1",
+                        "3 → 1 → 2",
+                        "2 → 1 → 3"
+                    ],
+                    answer: 1 // 2(わたしに) -> 3(歌を) -> 1(教えて)
+                }
+            ];
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -657,7 +699,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
