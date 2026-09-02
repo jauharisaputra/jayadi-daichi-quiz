@@ -319,238 +319,279 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
+       const questions = [
+            /* =====================================================
+               １ 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 (1)～(15)
+               Fokus: Bab 18 (た形, 〜たことがあります, 〜たり〜たりします, 〜あとで)
+            ===================================================== */
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （1）～（15）<br><br>
+        <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（1）わたしは <ruby>富士山<rt>ふじさん</rt></ruby>を（ ）ことが あります。",
+                options: ["みた", "みる", "みて", "みない"],
+                answer: 0 // みた
+            },
+            {
+                text: "（2）<ruby>北海道<rt>ほっかいどう</rt></ruby>へ（ ）ことが ありますか。",
+                options: ["いく", "いった", "いって", "いかない"],
+                answer: 1 // いった
+            },
+            {
+                text: "（3）ジョギング（ ）あとで、シャワーを <ruby>浴<rt>あ</rt></ruby>びます。",
+                options: ["に", "で", "の", "が"],
+                answer: 2 // の
+            },
+            {
+                text: "（4）<ruby>休<rt>やす</rt></ruby>みは <ruby>映画<rt>えいが</rt></ruby>を（ ）、<ruby>本<rt>ほん</rt></ruby>を（ ）します。",
+                options: ["みる / よむ", "みた / よんだ", "みて / よんで", "みたり / よんだり"],
+                answer: 3 // みたり / よんだり
+            },
+            {
+                text: "（5）<ruby>日曜日<rt>にちようび</rt></ruby>は <ruby>掃除<rt>そうじ</rt></ruby>を（ ）、<ruby>洗濯<rt>せんたく</rt></ruby>を したり します。",
+                options: ["したり", "して", "した", "する"],
+                answer: 0 // したり
+            },
+            {
+                text: "（6）<ruby>友達<rt>ともだち</rt></ruby>と（ ）、<ruby>歌<rt>うた</rt></ruby>を うたったり します。",
+                options: ["はなして", "はなしたり", "はなす", "はなした"],
+                answer: 1 // はなしたり
+            },
+            {
+                text: "（7）「<ruby>読<rt>よ</rt></ruby>む」の た<ruby>形<rt>けい</rt></ruby>（Ta-form）は どれですか。",
+                options: ["よった", "よいた", "よんだ", "よんた"],
+                answer: 2 // よんだ
+            },
+            {
+                text: "（8）「<ruby>急<rt>いそ</rt></ruby>ぐ」の た<ruby>形<rt>けい</rt></ruby>は どれですか。",
+                options: ["いそった", "いそんだ", "いそいた", "いそいだ"],
+                answer: 3 // いそいだ
+            },
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（9）「くる」の た<ruby>形<rt>けい</rt></ruby>は どれですか。",
+                options: ["きた", "くった", "こた", "きった"],
+                answer: 0 // きた
+            },
+            {
+                text: "（10）<ruby>何回<rt>なんかい</rt></ruby>（ ）<ruby>行<rt>い</rt></ruby>った ことが あります。",
+                options: ["に", "も", "を", "が"],
+                answer: 1 // も
+            },
+            {
+                text: "（11）Ａ「<ruby>何時<rt>なんじ</rt></ruby>に うちへ（ ）。」<br>Ｂ「６<ruby>時<rt>じ</rt></ruby>に <ruby>帰<rt>かえ</rt></ruby>った。」",
+                options: ["<ruby>帰<rt>かえ</rt></ruby>る", "<ruby>帰<rt>かえ</rt></ruby>って", "<ruby>帰<rt>かえ</rt></ruby>った", "<ruby>帰<rt>かえ</rt></ruby>らない"],
+                answer: 2 // 帰った
+            },
+            {
+                text: "（12）「<ruby>買<rt>か</rt></ruby>う」の た<ruby>形<rt>けい</rt></ruby>は どれですか。",
+                options: ["かいた", "かんだ", "かした", "かった"],
+                answer: 3 // かった
+            },
+            {
+                text: "（13）わたしは <ruby>日本<rt>にほん</rt></ruby>へ <ruby>行<rt>い</rt></ruby>った ことが（ ）。",
+                options: ["ありません", "あります", "ありました", "ありませんでした"],
+                answer: 0 // ありません
+            },
+            {
+                text: "（14）<ruby>泳<rt>およ</rt></ruby>いだ（ ）、３０<ruby>分<rt>ぷん</rt></ruby> <ruby>寝<rt>ね</rt></ruby>ました。",
+                options: ["まえに", "あとで", "とき", "から"],
+                answer: 1 // あとで
+            },
+            {
+                text: "（15）（ ）あとで、<ruby>水<rt>みず</rt></ruby>を <ruby>飲<rt>の</rt></ruby>みます。",
+                options: ["ジョギングに", "ジョギングで", "ジョギング", "ジョギングを"],
+                answer: 2 // ジョギング
+            },
 
-        // ===============================
-        // 1–30: BUNPOU + GOI (FUKUSHUU BAB 18)
-        // ===============================
+            /* =====================================================
+               ２ 読解問題 (Pemahaman Membaca)
+               問題 (16)～(20)
+            ===================================================== */
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （16）～（20）<br><br>
+        <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+        【<ruby>休<rt>やす</rt></ruby>みの <ruby>日<rt>ひ</rt></ruby>】
+      </div>
+      <div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+        <ruby>休<rt>やす</rt></ruby>みの <ruby>日<rt>ひ</rt></ruby>、わたしは いつも <ruby>友達<rt>ともだち</rt></ruby>と <ruby>遊<rt>あそ</rt></ruby>びます。<br>
+        きのうは <ruby>友達<rt>ともだち</rt></ruby>と <ruby>海<rt>うみ</rt></ruby>へ <ruby>行<rt>い</rt></ruby>きました。<ruby>海<rt>うみ</rt></ruby>で <ruby>泳<rt>およ</rt></ruby>いだり、<ruby>写真<rt>しゃしん</rt></ruby>を <ruby>撮<rt>と</rt></ruby>ったり しました。<br>
+        <ruby>泳<rt>およ</rt></ruby>いだ あとで、レストランで <ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べました。<br>
+        わたしは すしを <ruby>食<rt>た</rt></ruby>べた ことが ありませんでしたから、すしを <ruby>注文<rt>ちゅうもん</rt></ruby>しました。とても おいしかったです。
+      </div>
+    `,
+                text: "（16）<ruby>休<rt>やす</rt></ruby>みの <ruby>日<rt>ひ</rt></ruby>、いつも だれと <ruby>遊<rt>あそ</rt></ruby>びますか。",
+                options: [
+                    "<ruby>家族<rt>かぞく</rt></ruby>",
+                    "<ruby>一人<rt>ひとり</rt></ruby>で",
+                    "<ruby>先生<rt>せんせい</rt></ruby>",
+                    "<ruby>友達<rt>ともだち</rt></ruby>"
+                ],
+                answer: 3 // 友達
+            },
+            {
+                text: "（17）きのう どこへ <ruby>行<rt>い</rt></ruby>きましたか。",
+                options: [
+                    "<ruby>海<rt>うみ</rt></ruby>",
+                    "<ruby>山<rt>やま</rt></ruby>",
+                    "プール",
+                    "<ruby>川<rt>かわ</rt></ruby>"
+                ],
+                answer: 0 // 海
+            },
+            {
+                text: "（18）<ruby>海<rt>うみ</rt></ruby>で <ruby>何<rt>なに</rt></ruby>を しましたか。",
+                options: [
+                    "<ruby>泳<rt>およ</rt></ruby>いだり、<ruby>釣<rt>つ</rt></ruby>りを したり しました",
+                    "<ruby>泳<rt>およ</rt></ruby>いだり、<ruby>写真<rt>しゃしん</rt></ruby>を <ruby>撮<rt>と</rt></ruby>ったり しました",
+                    "<ruby>泳<rt>およ</rt></ruby>いだり、<ruby>本<rt>ほん</rt></ruby>を <ruby>読<rt>よ</rt></ruby>んだり しました",
+                    "<ruby>泳<rt>およ</rt></ruby>いだり、<ruby>寝<rt>ね</rt></ruby>たり しました"
+                ],
+                answer: 1 // 泳いだり、写真を 撮ったり しました
+            },
+            {
+                text: "（19）レストランで <ruby>何<rt>なに</rt></ruby>を <ruby>食<rt>た</rt></ruby>べましたか。",
+                options: [
+                    "ラーメン",
+                    "<ruby>天ぷら<rt>てんぷら</rt></ruby>",
+                    "すし",
+                    "<ruby>肉<rt>にく</rt></ruby>"
+                ],
+                answer: 2 // すし
+            },
+            {
+                text: "（20）どうして すしを <ruby>注文<rt>ちゅうもん</rt></ruby>しましたか。",
+                options: [
+                    "<ruby>安<rt>やす</rt></ruby>かったですから",
+                    "<ruby>日本人<rt>にほんじん</rt></ruby>ですから",
+                    "すしが <ruby>好<rt>す</rt></ruby>きでしたから",
+                    "すしを <ruby>食<rt>た</rt></ruby>べた ことが ありませんでしたから"
+                ],
+                answer: 3 // すしを 食べた ことが ありませんでしたから
+            },
 
-        {
-        text: "1. 書く (kaku) → ない形",
-        options: ["書きない", "書かない", "書くない", "書かますない"],
-        answer: 1
-        },
-        {
-        text: "2. 泳ぐ (oyogu) → ない形",
-        options: ["泳ぎない", "泳がない", "泳ぐない", "泳げない"],
-        answer: 1
-        },
-        {
-        text: "3. 歌う (utau) → ない形",
-        options: ["歌うない", "歌わない", "歌たない", "歌いない"],
-        answer: 1
-        },
-        {
-        text: "4. かりる (kariru) → ない形",
-        options: ["かりない", "かりますない", "かりるない", "かりたない"],
-        answer: 0
-        },
-        {
-        text: "5. 勉強する → ない形",
-        options: ["勉強するない", "勉強したない", "勉強しない", "勉強しますない"],
-        answer: 2
-        },
+            /* =====================================================
+               ３ 漢字問題 (Soal Kanji)
+               問題 (21)～(25)
+               Keterangan: Kanji yang diuji (bergaris bawah) dan opsi jawabannya (bila berupa kanji) tidak diberikan ruby rt.
+            ===================================================== */
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>３ <ruby>漢字問題<rt>かんじもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （21）～（25）<br><br>
+        <b>Ａ <u>  </u>の <ruby>漢字<rt>かんじ</rt></ruby>は ひらがなで どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（21）わたしは <u>富士山</u>を みた ことが あります。",
+                options: ["ふじさん", "ふしさん", "ふじやま", "ふしやま"],
+                answer: 0 // ふじさん
+            },
+            {
+                text: "（22）<u>友達</u>と はなした。",
+                options: ["ともたち", "ともだち", "どもだち", "どもたち"],
+                answer: 1 // ともだち
+            },
+            {
+                text: "（23）<u>歌</u>を うたった。",
+                options: ["か", "うだ", "うた", "え"],
+                answer: 2 // うた
+            },
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <u>  </u>の ことばは <ruby>漢字<rt>かんじ</rt></ruby>で どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（24）ほっかいどうへ <u>いった</u> ことが あります。",
+                options: ["買った", "会った", "言った", "行った"],
+                answer: 3 // 行った
+            },
+            {
+                text: "（25）ジョギングの <u>あとで</u>、寝ました。",
+                options: ["後で", "前で", "先で", "次で"],
+                answer: 0 // 後で
+            },
 
-        {
-        text: "6. 帰る → た形",
-        options: ["帰るた", "帰て", "帰った", "帰りますた"],
-        answer: 2
-        },
-        {
-        text: "7. 来る → て形",
-        options: ["来た", "来ますて", "来て", "来るて"],
-        answer: 2
-        },
-        {
-        text: "8. 読む → た形",
-        options: ["読んだ", "読むた", "読みた", "読んて"],
-        answer: 0
-        },
-        {
-        text: "9. 書く → て形",
-        options: ["書った", "書くて", "書きて", "書いて"],
-        answer: 3
-        },
-        {
-        text: "10. 泳ぐ → て形",
-        options: ["泳がて", "泳いで", "泳いて", "泳ぎて"],
-        answer: 1
-        },
-
-        {
-        text: "11. 歌う → た形",
-        options: ["歌うた", "歌った", "歌て", "歌ますた"],
-        answer: 1
-        },
-        {
-        text: "12. 帰る → て形",
-        options: ["帰て", "帰りますて", "帰った", "帰って"],
-        answer: 3
-        },
-        {
-        text: "13. 勉強する → た形",
-        options: ["勉強した", "勉強しる", "勉強しますた", "勉強て"],
-        answer: 0
-        },
-
-        {
-        text: "14. 元気です → 普通形",
-        options: ["元気だ", "元気です", "元気ない", "元気でした"],
-        answer: 0
-        },
-        {
-        text: "15. おいしいです → 普通形",
-        options: ["おいしです", "おいしくない", "おいしい", "おいしかったです"],
-        answer: 2
-        },
-        {
-        text: "16. 暑かったです → 普通形",
-        options: ["暑いです", "暑かった", "暑くない", "暑いでした"],
-        answer: 1
-        },
-
-        {
-        text: "17. 雨でした → 普通形",
-        options: ["雨でしたです", "雨だ", "雨ない", "雨です"],
-        answer: 1
-        },
-        {
-        text: "18. 学生じゃありませんでした → 普通形",
-        options: ["学生じゃなかった", "学生でした", "学生じゃないです", "学生です"],
-        answer: 0
-        },
-
-        {
-        text: "19. おもしろくないです → 普通形",
-        options: ["おもしろかった", "おもしろくない", "おもしろいです", "おもしろくありませんでした"],
-        answer: 1
-        },
-        {
-        text: "20. きれいじゃありません → 普通形",
-        options: ["きれいでした", "きれいじゃない", "きれいです", "きれいくない"],
-        answer: 1
-        },
-
-        {
-        text: "21. 飲みません → ない形",
-        options: ["飲まない", "飲みない", "飲むない", "飲んない"],
-        answer: 0
-        },
-        {
-        text: "22. 帰りました → 普通形",
-        options: ["帰た", "帰りますた", "帰った", "帰るた"],
-        answer: 2
-        },
-        {
-        text: "23. 勉強しませんでした → 普通形",
-        options: ["勉強しました", "勉強しなかった", "勉強している", "勉強しない"],
-        answer: 1
-        },
-
-        {
-        text: "24. ～ことがあります",
-        options: ["ありません", "あります", "いました", "できます"],
-        answer: 1
-        },
-        {
-        text: "25. 日本語は（　）と思います。",
-        options: ["おもしろい", "おもしろかった", "おもしろくないです", "おもしろくなかった"],
-        answer: 0
-        },
-        {
-        text: "26. 彼はもう寝たと（　）。",
-        options: ["言いました", "思います", "聞きます", "見ます"],
-        answer: 0
-        },
-
-        {
-        text: "27. この料理はおいしいですと（　）。",
-        options: ["思います", "見ました", "言いました", "聞きます"],
-        answer: 2
-        },
-        {
-        text: "28. きのうは暇でしたと（　）。",
-        options: ["思います", "言いました", "見ます", "聞きます"],
-        answer: 1
-        },
-        {
-        text: "29. 宿題は難しくなかったですと（　）。",
-        options: ["言いました", "思います", "見ます", "聞きます"],
-        answer: 0
-        },
-
-        {
-        text: "30. 休みの日は映画を見たり、本を読んだり（　）。",
-        options: ["します", "しました", "しません", "して"],
-        answer: 0
-        },
-
-        // ===============================
-        // 31–36: DOKKAI
-        // ===============================
-
-        {
-        passage: `【31–33】<br><br>
-        わたしは 去年 日本へ 行ったことがあります。`,
-        text: "31. どこへ行きましたか。",
-        options: ["韓国", "日本", "中国", "タイ"],
-        answer: 1
-        },
-        {
-        text: "32. 経験は？",
-        options: ["あります", "ありません", "します", "います"],
-        answer: 0
-        },
-        {
-        text: "33. これは何ですか。",
-        options: ["経験", "予定", "趣味", "仕事"],
-        answer: 0
-        },
-
-        {
-        passage: `【34–36】<br><br>
-        Aさんは 昨日 友だちに 会いました。`,
-        text: "34. 昨日何をしましたか。",
-        options: ["会いました", "寝ました", "勉強しました", "働きました"],
-        answer: 0
-        },
-        {
-        text: "35. 誰に会いましたか。",
-        options: ["先生", "友だち", "家族", "社長"],
-        answer: 1
-        },
-        {
-        text: "36. 内容は？",
-        options: ["出来事", "天気", "予定", "ニュース"],
-        answer: 0
-        },
-
-        // ===============================
-        // 37–40: 並べ替え
-        // ===============================
-
-        {
-        text: "37. ＿＿ ＿＿ ☆ ＿＿ と思います。",
-        options: ["日本語は", "おもしろい", "と", "思います"],
-        answer: 0
-        },
-        {
-        text: "38. ＿＿ ＿＿ ☆ ＿＿ と言いました。",
-        options: ["先生は", "行かない", "と", "言いました"],
-        answer: 0
-        },
-        {
-        text: "39. ＿＿ ＿＿ ☆ ＿＿ ことがあります。",
-        options: ["日本へ", "行った", "ことが", "あります"],
-        answer: 0
-        },
-        {
-        text: "40. ＿＿ ＿＿ ☆ ＿＿ たりします。",
-        options: ["映画を見たり", "本を読んだり", "します", "します"],
-        answer: 1
-        }
-
-        ];
+            /* =====================================================
+               ４ 記述問題 (Soal Kijutsu / Deskripsi Terstruktur)
+               問題 (26)～(30)
+            ===================================================== */
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>４ <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （26）～（30）<br><br>
+        <b>Ａ ＿＿＿＿ に <ruby>適当<rt>てきとう</rt></ruby>な <ruby>言葉<rt>ことば</rt></ruby>を <ruby>入<rt>い</rt></ruby>れて <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                text: "（26）わたし ＿＿(A)＿＿ <ruby>北海道<rt>ほっかいどう</rt></ruby> ＿＿(B)＿＿ <ruby>行<rt>い</rt></ruby>った ことが あります。",
+                options: [
+                    "(A)は (B)が",
+                    "(A)は (B)へ",
+                    "(A)が (B)へ",
+                    "(A)に (B)へ"
+                ],
+                answer: 1 // は へ
+            },
+            {
+                text: "（27）テレビ ＿＿(A)＿＿ みたり、<ruby>本<rt>ほん</rt></ruby>を <ruby>読<rt>よ</rt></ruby>ん ＿＿(B)＿＿ します。",
+                options: [
+                    "(A)を (B)で",
+                    "(A)が (B)たり",
+                    "(A)を (B)だり",
+                    "(A)が (B)だり"
+                ],
+                answer: 2 // を だり
+            },
+            {
+                text: "（28）<ruby>泳<rt>およ</rt></ruby>いだ ＿＿(A)＿＿ で、３０<ruby>分<rt>ぷん</rt></ruby> ＿＿(B)＿＿。",
+                options: [
+                    "(A)まえ (B)<ruby>寝<rt>ね</rt></ruby>ます",
+                    "(A)あと (B)<ruby>寝<rt>ね</rt></ruby>て",
+                    "(A)まえ (B)<ruby>寝<rt>ね</rt></ruby>ますか",
+                    "(A)あと (B)<ruby>寝<rt>ね</rt></ruby>ました"
+                ],
+                answer: 3 // あと 寝ました
+            },
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ ３つの <ruby>言葉<rt>ことば</rt></ruby>を ならべて、ただしい <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                text: "（29）わたしは 【 1. みた  2. ことが  3. <ruby>富士山<rt>ふじさん</rt></ruby>を 】 あります。（わたしは <ruby>富士山<rt>ふじさん</rt></ruby>を みた ことが あります）",
+                options: [
+                    "3 → 1 → 2",
+                    "1 → 2 → 3",
+                    "3 → 2 → 1",
+                    "2 → 3 → 1"
+                ],
+                answer: 0 // 富士山を -> みた -> ことが
+            },
+            {
+                text: "（30）<ruby>休<rt>やす</rt></ruby>みは 【 1. よんだり  2. <ruby>本<rt>ほん</rt></ruby>を  3. <ruby>映画<rt>えいが</rt></ruby>を みたり 】 します。（<ruby>休<rt>やす</rt></ruby>みは <ruby>映画<rt>えいが</rt></ruby>を みたり <ruby>本<rt>ほん</rt></ruby>を よんだり します）",
+                options: [
+                    "1 → 2 → 3",
+                    "3 → 2 → 1",
+                    "3 → 1 → 2",
+                    "2 → 1 → 3"
+                ],
+                answer: 1 // 映画をみたり -> 本を -> よんだり
+            }
+        ]; 
         let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
@@ -658,7 +699,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
