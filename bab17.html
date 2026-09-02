@@ -319,236 +319,279 @@
         function decode(str) {
             return atob(str);
         }
-        const questions = [
-
-            // ===============================
-            // 1–30: BUNPOU + GOI (FUKUSHUU BAB 17)
-            // ===============================
-
+       const questions = [
+            /* =====================================================
+               １ 文法・語彙問題 (Tata Bahasa & Kosakata)
+               問題 (1)～(15)
+               Fokus: Bab 17 (ない形, 〜ないでください, 〜なくてもいいです, 〜てから)
+            ===================================================== */
             {
-                text: "1. 話す → （　）",
-                options: ["話さない", "話しない", "話ない", "話たない"],
-                answer: 0
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （1）～（15）<br><br>
+        <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（1）ここに <ruby>名前<rt>なまえ</rt></ruby>を（ ）ください。",
+                options: ["<ruby>書<rt>か</rt></ruby>かないで", "<ruby>書<rt>か</rt></ruby>かなくて", "<ruby>書<rt>か</rt></ruby>かない", "<ruby>書<rt>か</rt></ruby>かなく"],
+                answer: 0 // 書かないで
             },
             {
-                text: "2. 待つ → （　）",
-                options: ["待たない", "待ちない", "待つない", "待てない"],
-                answer: 0
+                text: "（2）その ケーキは（ ）ください。",
+                options: ["<ruby>食<rt>た</rt></ruby>べて", "<ruby>食<rt>た</rt></ruby>べないで", "<ruby>食<rt>た</rt></ruby>べない", "<ruby>食<rt>た</rt></ruby>べなくて"],
+                answer: 1 // 食べないで
             },
             {
-                text: "3. あそぶ → （　）",
-                options: ["あそばない", "あそびない", "あそばます", "あそぶない"],
-                answer: 0
+                text: "（3）あしたは <ruby>休<rt>やす</rt></ruby>みですから、<ruby>学校<rt>がっこう</rt></ruby>へ（ ）も いいです。",
+                options: ["きなくて", "こないで", "こなくても", "きないで"],
+                answer: 2 // こなくても
             },
             {
-                text: "4. しぬ → （　）",
-                options: ["しなない", "しにない", "しぬない", "しなります"],
-                answer: 0
+                text: "（4）あの <ruby>人<rt>ひと</rt></ruby>の <ruby>名前<rt>なまえ</rt></ruby>が（ ）。",
+                options: ["わかるない", "わかない", "わかりない", "わからない"],
+                answer: 3 // わからない
             },
             {
-                text: "5. よむ → （　）",
-                options: ["よまない", "よみない", "よむない", "よんない"],
-                answer: 0
-            },
-
-            {
-                text: "6. とる → （　）",
-                options: ["とらない", "とりない", "とるない", "とれない"],
-                answer: 0
+                text: "（5）<ruby>無理<rt>むり</rt></ruby>を（ ）ください。",
+                options: ["しないで", "すらないで", "さらないで", "しなくて"],
+                answer: 0 // しないで
             },
             {
-                text: "7. 買う → （　）",
-                options: ["買わない", "買いない", "買らない", "買たない"],
-                answer: 0
+                text: "（6）<ruby>急<rt>いそ</rt></ruby>が（ ）も いいですよ。",
+                options: ["ないで", "なくても", "なく", "ない"],
+                answer: 1 // なくても
             },
             {
-                text: "8. おきる → （　）",
-                options: ["起きない", "起きますない", "起きたない", "起きるない"],
-                answer: 0
+                text: "（7）<ruby>仕事<rt>しごと</rt></ruby>が <ruby>終<rt>お</rt></ruby>わって（ ）、<ruby>飲<rt>の</rt></ruby>みに <ruby>行<rt>い</rt></ruby>きませんか。",
+                options: ["から", "まで", "に", "で"],
+                answer: 0 // から
             },
             {
-                text: "9. さんぽする → （　）",
-                options: ["さんぽしない", "さんぽない", "さんぽしたない", "さんぽするない"],
-                answer: 0
+                text: "（8）ここで <ruby>写真<rt>しゃしん</rt></ruby>を（ ）ください。",
+                options: ["とらない", "とらなくて", "とらなく", "とらないで"],
+                answer: 3 // とらないで
             },
             {
-                text: "10. 来る → （　）",
-                options: ["来ない", "来ますない", "来たない", "来るない"],
-                answer: 0
-            },
-
-            {
-                text: "11. 絵をさわ（　）でください。",
-                options: ["らない", "ります", "りますない", "りますた"],
-                answer: 0
-            },
-            {
-                text: "12. 試験中に辞書をつかわ（　）でください。",
-                options: ["ない", "ます", "た", "る"],
-                answer: 0
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（9）<ruby>熱<rt>ねつ</rt></ruby>が ありますから、お<ruby>風呂<rt>ふろ</rt></ruby>に（ ）ください。",
+                options: ["<ruby>入<rt>はい</rt></ruby>らないで", "<ruby>入<rt>い</rt></ruby>れないで", "<ruby>入<rt>はい</rt></ruby>らなくて", "<ruby>入<rt>い</rt></ruby>れなくて"],
+                answer: 0 // 入らないで
             },
             {
-                text: "13. しんぱい（　）でください。",
-                options: ["しない", "します", "した", "しなかった"],
-                answer: 0
-            },
-
-            {
-                text: "14. はらわ（　）いいです。",
-                options: ["なくても", "ないで", "なくて", "なければ"],
-                answer: 0
+                text: "（10）<ruby>税金<rt>ぜいきん</rt></ruby>を（ ）も いいです。",
+                options: ["はらわないで", "はらわなくても", "はらわなくて", "はらわない"],
+                answer: 1 // はらわなくても
             },
             {
-                text: "15. くつをぬが（　）いいです。",
-                options: ["なくても", "ないで", "なくて", "なければ"],
-                answer: 0
+                text: "（11）<ruby>晩<rt>ばん</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べて（ ）、テレビを <ruby>見<rt>み</rt></ruby>ます。",
+                options: ["まで", "に", "から", "で"],
+                answer: 2 // から
             },
             {
-                text: "16. ボールペンで書か（　）いいです。",
-                options: ["なくても", "ないで", "なくて", "なければ"],
-                answer: 0
-            },
-
-            {
-                text: "17. デパートへ行って（　）、映画を見ます。",
-                options: ["から", "ので", "けど", "と"],
-                answer: 0
+                text: "（12）ここに <ruby>車<rt>くるま</rt></ruby>を（ ）ください。",
+                options: ["とめなくて", "とめなく", "とめない", "とめないで"],
+                answer: 3 // とめないで
             },
             {
-                text: "18. 手をあらって（　）、ごはんを食べます。",
-                options: ["から", "ので", "けど", "と"],
-                answer: 0
+                text: "（13）<ruby>大使館<rt>たいしかん</rt></ruby>へ（ ）も いいです。",
+                options: ["いかなくても", "いかないで", "いかなくて", "いかない"],
+                answer: 0 // いかなくても
             },
             {
-                text: "19. 国へ帰って（　）、会社を作ります。",
-                options: ["から", "ので", "けど", "と"],
-                answer: 0
+                text: "（14）コーヒーに <ruby>砂糖<rt>さとう</rt></ruby>を（ ）ください。",
+                options: ["いらなくて", "いれないで", "いらないで", "いれなくて"],
+                answer: 1 // いれないで
+            },
+            {
+                text: "（15）<ruby>宿題<rt>しゅくだい</rt></ruby>を（ ）から、<ruby>遊<rt>あそ</rt></ruby>びます。",
+                options: ["する", "しない", "して", "します"],
+                answer: 2 // して
             },
 
+            /* =====================================================
+               ２ 読解問題 (Pemahaman Membaca)
+               問題 (16)～(20)
+            ===================================================== */
             {
-                text: "20. ここで写真をとっても（　）。",
-                options: ["いいです", "いけません", "できます", "します"],
-                answer: 0
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （16）～（20）<br><br>
+        <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
+        【<ruby>病院<rt>びょういん</rt></ruby>で】
+      </div>
+      <div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+        ここは <ruby>病院<rt>びょういん</rt></ruby>です。<ruby>病院<rt>びょういん</rt></ruby>へ <ruby>入<rt>はい</rt></ruby>る まえに、<ruby>靴<rt>くつ</rt></ruby>を <ruby>脱<rt>ぬ</rt></ruby>いで ください。<br>
+        <ruby>待合室<rt>まちあいしつ</rt></ruby>で <ruby>煙草<rt>たばこ</rt></ruby>を <ruby>吸<rt>す</rt></ruby>わないで ください。<br>
+        <ruby>熱<rt>ねつ</rt></ruby>が ありますから、<ruby>今日<rt>きょう</rt></ruby>は お<ruby>風呂<rt>ふろ</rt></ruby>に <ruby>入<rt>はい</rt></ruby>らないで ください。<br>
+        <ruby>晩<rt>ばん</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べてから、この <ruby>薬<rt>くすり</rt></ruby>を <ruby>飲<rt>の</rt></ruby>んで ください。<br>
+        あした また <ruby>来<rt>き</rt></ruby>て ください。お<ruby>金<rt>かね</rt></ruby>は <ruby>今日<rt>きょう</rt></ruby> <ruby>払<rt>はら</rt></ruby>わなくても いいです。
+      </div>
+    `,
+                text: "（16）<ruby>病院<rt>びょういん</rt></ruby>に <ruby>入<rt>はい</rt></ruby>る まえに、なにを しますか。",
+                options: [
+                    "<ruby>手<rt>て</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>います",
+                    "お<ruby>金<rt>かね</rt></ruby>を<ruby>払<rt>はら</rt></ruby>います",
+                    "<ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます",
+                    "<ruby>靴<rt>くつ</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>ぎます"
+                ],
+                answer: 3 // 靴を脱ぎます
             },
             {
-                text: "21. 教室でしゃべっては（　）。",
-                options: ["いいです", "いけません", "できます", "います"],
-                answer: 1
+                text: "（17）<ruby>待合室<rt>まちあいしつ</rt></ruby>で なにを しては いけませんか。",
+                options: [
+                    "<ruby>煙草<rt>たばこ</rt></ruby>を<ruby>吸<rt>す</rt></ruby>うこと",
+                    "<ruby>電話<rt>でんわ</rt></ruby>をかけること",
+                    "<ruby>靴<rt>くつ</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>ぐこと",
+                    "<ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>むこと"
+                ],
+                answer: 0 // 煙草を吸うこと
             },
             {
-                text: "22. この本をかりても（　）。",
-                options: ["いいです", "いけません", "できます", "います"],
-                answer: 0
+                text: "（18）<ruby>今日<rt>きょう</rt></ruby>は なにを しないで くださいと <ruby>言<rt>い</rt></ruby>いましたか。",
+                options: [
+                    "ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べないで",
+                    "お<ruby>風呂<rt>ふろ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>らないで",
+                    "<ruby>寝<rt>ね</rt></ruby>ないで",
+                    "<ruby>病院<rt>びょういん</rt></ruby>に<ruby>来<rt>こ</rt></ruby>ないで"
+                ],
+                answer: 1 // お風呂に入らないで
             },
             {
-                text: "23. 図書館でパンを食べては（　）。",
-                options: ["いいです", "いけません", "できます", "あります"],
-                answer: 1
+                text: "（19）いつ <ruby>薬<rt>くすり</rt></ruby>を <ruby>飲<rt>の</rt></ruby>みますか。",
+                options: [
+                    "<ruby>朝<rt>あさ</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べてから",
+                    "<ruby>寝<rt>ね</rt></ruby>るまえに",
+                    "<ruby>晩<rt>ばん</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べてから",
+                    "お<ruby>風呂<rt>ふろ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ってから"
+                ],
+                answer: 2 // 晩ご飯を食べてから
             },
             {
-                text: "24. いま本を（　）。",
-                options: ["よんでいます", "よみます", "よみました", "よまない"],
-                answer: 0
-            },
-
-            {
-                text: "25. ねるまえに本を（　）。",
-                options: ["よみます", "よみました", "よんでいます", "よみません"],
-                answer: 0
-            },
-            {
-                text: "26. 日本語をべんきょうして（　）。",
-                options: ["います", "いました", "します", "しました"],
-                answer: 0
-            },
-            {
-                text: "27. ドアを（　）ください。",
-                options: ["あけて", "あける", "あけました", "あけます"],
-                answer: 0
-            },
-            {
-                text: "28. この部屋でWi-Fiが（　）。",
-                options: ["つかえます", "つかいます", "つかいました", "つかって"],
-                answer: 0
-            },
-            {
-                text: "29. きのう友だちに手紙を（　）。",
-                options: ["かきました", "かいています", "かきます", "かきません"],
-                answer: 0
-            },
-            {
-                text: "30. 日本語が（　）。",
-                options: ["わかります", "わかりません", "わかりました", "わかっています"],
-                answer: 0
-            },
-
-            // ===============================
-            // 31–36: DOKKAI (FUKUSHUU BAB 17)
-            // ===============================
-
-            {
-                passage: `【31–33】<br><br>
-        わたしは きのう 友だちと 公園へ 行きました。
-        でも 雨がふったので、はやく帰りました。`,
-                text: "31. どこへ行きましたか。",
-                options: ["学校", "公園", "図書館", "カフェ"],
-                answer: 1
-            },
-            {
-                text: "32. どうして早く帰りましたか。",
-                options: ["雨がふったから", "たのしかったから", "あつかったから", "べんきょうしたから"],
-                answer: 0
-            },
-            {
-                text: "33. どうでしたか。",
-                options: ["ざんねんでした", "うれしかった", "おもしろかった", "たのしかった"],
-                answer: 0
+                text: "（20）お<ruby>金<rt>かね</rt></ruby>は どうしますか。",
+                options: [
+                    "<ruby>薬<rt>くすり</rt></ruby>を<ruby>飲<rt>の</rt></ruby>んでから<ruby>払<rt>はら</rt></ruby>います",
+                    "あした<ruby>払<rt>はら</rt></ruby>わなくてもいいです",
+                    "<ruby>今日<rt>きょう</rt></ruby><ruby>払<rt>はら</rt></ruby>います",
+                    "<ruby>今日<rt>きょう</rt></ruby>は<ruby>払<rt>はら</rt></ruby>わなくてもいいです"
+                ],
+                answer: 3 // 今日は払わなくてもいいです
             },
 
+            /* =====================================================
+               ３ 漢字問題 (Soal Kanji)
+               問題 (21)～(25)
+               Keterangan: Kanji yang diuji (bergaris bawah) dan opsi jawabannya (bila berupa kanji) tidak diberikan ruby rt.
+            ===================================================== */
             {
-                passage: `【34–36】<br><br>
-        わたしの学校では、図書館で話してはいけません。
-        でも 勉強してもいいです。`,
-                text: "34. 図書館で何がいけませんか。",
-                options: ["べんきょう", "はなすこと", "ねること", "たべること"],
-                answer: 1
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>３ <ruby>漢字問題<rt>かんじもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （21）～（25）<br><br>
+        <b>Ａ <u>  </u>の <ruby>漢字<rt>かんじ</rt></ruby>は ひらがなで どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（21）サッカーの <u>試合</u>を <ruby>見<rt>み</rt></ruby>に <ruby>行<rt>い</rt></ruby>きます。",
+                options: ["しあい", "じあい", "しやい", "じやい"],
+                answer: 0 // しあい
             },
             {
-                text: "35. 図書館で何ができますか。",
-                options: ["べんきょうできます", "はしれます", "たべます", "あそびます"],
-                answer: 0
+                text: "（22）<u>晩</u>ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べてから、テレビを <ruby>見<rt>み</rt></ruby>ます。",
+                options: ["あさ", "ばん", "ひる", "よる"],
+                answer: 1 // ばん
             },
             {
-                text: "36. この学校のルールはどうですか。",
-                options: ["きびしい", "やさしい", "あぶない", "おそい"],
-                answer: 0
+                text: "（23）コーヒーに <u>砂糖</u>を <ruby>入<rt>い</rt></ruby>れないで ください。",
+                options: ["さどう", "ざとう", "さとう", "ざどう"],
+                answer: 2 // さとう
+            },
+            {
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ <u>  </u>の ことばは <ruby>漢字<rt>かんじ</rt></ruby>で どう <ruby>書<rt>か</rt></ruby>きますか。１・２・３・４の<ruby>中<rt>なか</rt></ruby>から <ruby>一番<rt>いちばん</rt></ruby>いいものを <ruby>入<rt>い</rt></ruby>れてください。</b>
+      </div>
+    `,
+                text: "（24）<u>しゅくだい</u>を して から、テレビを <ruby>見<rt>み</rt></ruby>ます。",
+                options: ["縮題", "宿頁", "縮頁", "宿題"],
+                answer: 3 // 宿題
+            },
+            {
+                text: "（25）ここで <u>しゃしん</u>を <ruby>撮<rt>と</rt></ruby>らないで ください。",
+                options: ["写真", "写心", "車真", "車心"],
+                answer: 0 // 写真
             },
 
-            // ===============================
-            // 37–40: 並べ替え（完全シャッフル）
-            // ===============================
-
+            /* =====================================================
+               ４ 記述問題 (Soal Kijutsu / Deskripsi Terstruktur)
+               問題 (26)～(30)
+            ===================================================== */
             {
-                text: "37. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ ないでください。",
-                options: ["ここで", "しゃしんを", "とら", "ないでください"],
-                answer: [0, 2, 1, 3]
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>４ <ruby>記述問題<rt>きじゅつもんだい</rt></ruby></b><br>
+        <ruby>問題<rt>もんだい</rt></ruby> （26）～（30）<br><br>
+        <b>Ａ ＿＿＿＿ に <ruby>適当<rt>てきとう</rt></ruby>な <ruby>言葉<rt>ことば</rt></ruby>を <ruby>入<rt>い</rt></ruby>れて <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                text: "（26）<ruby>無理<rt>むり</rt></ruby> ＿＿(A)＿＿ しない ＿＿(B)＿＿ ください。",
+                options: [
+                    "(A)が (B)で",
+                    "(A)を (B)で",
+                    "(A)を (B)て",
+                    "(A)が (B)て"
+                ],
+                answer: 1 // を で
             },
             {
-                text: "38. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ いいです。",
-                options: ["くつを", "ぬが", "なくても", "いいです"],
-                answer: [0, 1, 2, 3]
+                text: "（27）お<ruby>金<rt>かね</rt></ruby> ＿＿(A)＿＿ <ruby>払<rt>はら</rt></ruby>わなくて ＿＿(B)＿＿ いいです。",
+                options: [
+                    "(A)が (B)は",
+                    "(A)は (B)が",
+                    "(A)を (B)も",
+                    "(A)を (B)は"
+                ],
+                answer: 2 // を も
             },
             {
-                text: "39. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ から、いきます。",
-                options: ["ごはんを", "たべて", "あとで", "から"],
-                answer: [0, 1, 2, 3]
+                text: "（28）<ruby>手<rt>て</rt></ruby> ＿＿(A)＿＿ <ruby>洗<rt>あら</rt></ruby>って ＿＿(B)＿＿、ご<ruby>飯<rt>はん</rt></ruby>を <ruby>食<rt>た</rt></ruby>べます。",
+                options: [
+                    "(A)が (B)から",
+                    "(A)に (B)まで",
+                    "(A)が (B)まで",
+                    "(A)を (B)から"
+                ],
+                answer: 3 // を から
             },
             {
-                text: "40. ＿＿ ＿＿ <span class='blank-star'><span>☆</span></span> ＿＿ もいいです。",
-                options: ["ここで", "でんわを", "つかって", "もいいです"],
-                answer: [0, 1, 2, 3]
+                passage: `
+      <div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
+        <b>Ｂ ３つの <ruby>言葉<rt>ことば</rt></ruby>を ならべて、ただしい <ruby>文<rt>ぶん</rt></ruby>を <ruby>作<rt>つく</rt></ruby>ってください。</b>
+      </div>
+    `,
+                text: "（29）パスポートを 【 1. ください  2. なくさないで  3. ここで 】。（ここで パスポートを なくさないで ください）",
+                options: [
+                    "3 → 1 → 2",
+                    "1 → 2 → 3",
+                    "3 → 2 → 1",
+                    "2 → 3 → 1"
+                ],
+                answer: 2 // ここで -> なくさないで -> ください
+            },
+            {
+                text: "（30）<ruby>毎日<rt>まいにち</rt></ruby> 【 1. <ruby>勉強<rt>べんきょう</rt></ruby>して  2. <ruby>遊<rt>あそ</rt></ruby>びます  3. から 】。（<ruby>毎日<rt>まいにち</rt></ruby> <ruby>勉強<rt>べんきょう</rt></ruby>して から <ruby>遊<rt>あそ</rt></ruby>びます）",
+                options: [
+                    "1 → 2 → 3",
+                    "1 → 3 → 2",
+                    "3 → 1 → 2",
+                    "2 → 1 → 3"
+                ],
+                answer: 1 // 勉強して -> から -> 遊びます
             }
-
         ];
         let answers = new Array(questions.length).fill(null);
 
@@ -657,7 +700,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
