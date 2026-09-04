@@ -807,6 +807,250 @@ function decode(str){return atob(str);}
                "トマトが<ruby>美味<rt>おい</rt></ruby>しくなかったので、<ruby>残<rt>のこ</rt></ruby>しました。"
            ],
            answer: 2
+       },
+      {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+３ 漢字問題<br>
+Ａ 次のひらがなの漢字をそれぞれ１・２・３・４の中から１つ選んでください。
+</div>
+`,
+           text: "47. 毎日、<u>いそがしい</u>です。",
+           options: ["忘しい", "忙しい", "急しい", "亡しい"],
+           answer: 1
+       },
+       {
+           text: "48. あの<u>たてもの</u>は図書館です。",
+           options: ["建屋", "建者", "建物", "建築"],
+           answer: 2
+       },
+       {
+           text: "49. このスープは<u>あじ</u>が薄いです。",
+           options: ["味", "未", "妹", "調"],
+           answer: 0
+       },
+       {
+           text: "50. 駅から<u>あるいて</u>行きます。",
+           options: ["走いて", "止いて", "歩いて", "乗いて"],
+           answer: 2
+       },
+       {
+           text: "51. すぐに<u>へんじ</u>を書いてください。",
+           options: ["変事", "反事", "返事", "辺事"],
+           answer: 2
+       },
+       {
+           text: "52. <u>きゅうに</u>雨が降ってきました。",
+           options: ["早に", "急に", "休に", "吸に"],
+           answer: 1
+       },
+       {
+           text: "53. この問題の<u>こたえ</u>は何ですか。",
+           options: ["答え", "言い", "考え", "教え"],
+           answer: 0
+       },
+       {
+           text: "54. <u>おもい</u>荷物を持ちます。",
+           options: ["動い", "重い", "黒い", "太い"],
+           answer: 1
+       },
+       {
+           text: "55. 夜は<u>あぶない</u>ですから、気をつけて。",
+           options: ["色ない", "負ない", "危ない", "急ない"],
+           answer: 2
+       },
+       {
+           text: "56. 部屋に人を<u>あつめて</u>ください。",
+           options: ["決めて", "集めて", "進めて", "辞めて"],
+           answer: 1
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px; margin-top:20px;">
+Ｂ 次の漢字の読み方を例のようにひらがなで書いてください。（※WEB版：正しいものを選んでください）
+</div>
+<div style="border:1px solid #333; padding:15px; margin-bottom:15px; font-size:14px;">
+  ・ひらがなは、<span style="text-emphasis: filled dot; -webkit-text-emphasis: filled dot;">ただしく、ていねいに</span>書いてください。<br>
+  ・<u>漢字の読み方だけ</u>書いてください。<br><br>
+  <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+     <div>（例） はやく<u>書</u>いてください</div>
+     <table style="border-collapse:collapse; text-align:center;">
+        <tr>
+          <td style="border:1px solid #333; padding:5px 15px;">（例）</td>
+          <td style="border:1px solid #333; padding:5px 30px;">か</td>
+        </tr>
+     </table>
+  </div>
+</div>
+`,
+           text: "57. <u>特急</u>電車に乗ります。",
+           options: ["とくきゅう", "とっきゅう", "とくきょ", "とっきょ"],
+           answer: 1
+       },
+       {
+           text: "58. <u>洋服</u>を買いに行きます。",
+           options: ["ようふく", "わふく", "やふく", "よふく"],
+           answer: 0
+       },
+       {
+           text: "59. <u>気分</u>が悪いです。",
+           options: ["きぶん", "きふん", "けぶん", "けふん"],
+           answer: 0
+       },
+       {
+           text: "60. <u>注意</u>して運転します。",
+           options: ["しゅい", "じゅうい", "ちゅい", "ちゅうい"],
+           answer: 3
+       },
+       {
+           text: "61. <u>世界</u>を旅行したいです。",
+           options: ["せかい", "せいかい", "しかい", "しがい"],
+           answer: 0
+       },
+       {
+           text: "62. <u>世話</u>になりました。",
+           options: ["せいわ", "せば", "せわ", "せいば"],
+           answer: 2
+       },
+       {
+           text: "63. <u>発音</u>の練習をします。",
+           options: ["はつおん", "はついん", "はっおん", "はついん"],
+           answer: 0
+       },
+       {
+           text: "64. この料理は<u>特別</u>です。",
+           options: ["とくべつ", "とっべつ", "とくへつ", "とっへつ"],
+           answer: 0
+       },
+       {
+           text: "65. <u>工業</u>が盛んな町です。",
+           options: ["こぎょう", "こうぎょう", "くぎょう", "くうぎょう"],
+           answer: 1
+       },
+       {
+           text: "66. <u>卒業</u>式に出席します。",
+           options: ["そつぎょう", "そっぎょう", "そつごう", "そっごう"],
+           answer: 0
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px; margin-top:20px;">
+<span style="font-size:18px; font-weight:bold;">４ 記述問題</span><br><br>
+Ａ 例のように<u>     </u>に適当な言葉を入れて文を作ってください。（※WEB版：正しい組み合わせを選んでください）
+</div>
+<div style="border:1px solid #333; padding:15px; margin-bottom:15px; font-size:14px;">
+  ・漢字は、<u>今の日本の漢字</u>を書いてください。<br><br>
+  <div style="display:flex; flex-direction:column; gap:10px;">
+     <div>（例） きのう、<u>     </u>でパンを<u>     </u>。<br>          （Ａ）        （Ｂ）</div>
+     <table style="border-collapse:collapse; text-align:center; width:100%; max-width:400px; margin-top:5px;">
+        <tr>
+          <td style="border:1px solid #333; padding:5px; width:20%;">（例）</td>
+          <td style="border:1px solid #333; padding:5px; width:40%;">（Ａ）スーパー</td>
+          <td style="border:1px solid #333; padding:5px; width:40%;">（Ｂ）買いました</td>
+        </tr>
+     </table>
+  </div>
+</div>
+`,
+           text: "67. Ａ：<ruby>写真<rt>しゃしん</rt></ruby>を<u>  （Ａ）  </u>ますから、<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い<ruby>人<rt>ひと</rt></ruby>は、<ruby>後<rt>うし</rt></ruby>ろに<ruby>立<rt>た</rt></ruby>ってください。<br>Ｂ：わかりました。じゃ、<ruby>私<rt>わたし</rt></ruby>は、<ruby>背<rt>せ</rt></ruby>がひくいから、<ruby>前<rt>まえ</rt></ruby>のいすに<u>  （Ｂ）  </u>ますね。",
+           options: [
+               "（Ａ）<ruby>撮<rt>と</rt></ruby>り （Ｂ）<ruby>座<rt>すわ</rt></ruby>り",
+               "（Ａ）<ruby>見<rt>み</rt></ruby>り （Ｂ）<ruby>乗<rt>の</rt></ruby>り",
+               "（Ａ）<ruby>作<rt>つく</rt></ruby>り （Ｂ）<ruby>立<rt>た</rt></ruby>ち",
+               "（Ａ）<ruby>送<rt>おく</rt></ruby>り （Ｂ）<ruby>寝<rt>ね</rt></ruby>り"
+           ],
+           answer: 0
+       },
+       {
+           text: "68. Ａ：すみません、この<ruby>電車<rt>でんしゃ</rt></ruby>は<ruby>東京駅<rt>とうきょうえき</rt></ruby>に<u>  （Ａ）  </u>か。<br>Ｂ：いいえ、これは<ruby>急行<rt>きゅうこう</rt></ruby>ですから、<ruby>東京駅<rt>とうきょうえき</rt></ruby>には<u>  （Ｂ）  </u>よ。",
+           options: [
+               "（Ａ）<ruby>着<rt>つ</rt></ruby>きます （Ｂ）<ruby>着<rt>つ</rt></ruby>きません",
+               "（Ａ）<ruby>行<rt>い</rt></ruby>きます （Ｂ）<ruby>止<rt>と</rt></ruby>まりません",
+               "（Ａ）<ruby>止<rt>と</rt></ruby>まります （Ｂ）<ruby>止<rt>と</rt></ruby>まりません",
+               "（Ａ）<ruby>乗<rt>の</rt></ruby>ります （Ｂ）<ruby>乗<rt>の</rt></ruby>りません"
+           ],
+           answer: 2
+       },
+       {
+           text: "69. Ａ：あ、<ruby>雨<rt>あめ</rt></ruby>が<u>  （Ａ）  </u>きましたね。<br>Ｂ：ええ。<ruby>傘<rt>かさ</rt></ruby>を<u>  （Ｂ）  </u>か。",
+           options: [
+               "（Ａ）<ruby>降<rt>ふ</rt></ruby>って （Ｂ）<ruby>入<rt>はい</rt></ruby>りましょう",
+               "（Ａ）<ruby>落<rt>お</rt></ruby>ちて （Ｂ）<ruby>持<rt>も</rt></ruby>ちましょう",
+               "（Ａ）<ruby>出<rt>で</rt></ruby>て （Ｂ）<ruby>買<rt>か</rt></ruby>いましょう",
+               "（Ａ）<ruby>降<rt>ふ</rt></ruby>って （Ｂ）<ruby>貸<rt>か</rt></ruby>しましょう"
+           ],
+           answer: 3
+       },
+       {
+           text: "70. Ａ：<ruby>風邪<rt>かぜ</rt></ruby>の<ruby>具合<rt>ぐあい</rt></ruby>は<u>  （Ａ）  </u>ですか。<br>Ｂ：ええ、おかげさまで、もうすっかり<u>  （Ｂ）  </u>。",
+           options: [
+               "（Ａ）どんな （Ｂ）<ruby>治<rt>なお</rt></ruby>りました",
+               "（Ａ）いかが （Ｂ）よくなりました",
+               "（Ａ）どうして （Ｂ）よくなりました",
+               "（Ａ）どう （Ｂ）<ruby>悪<rt>わる</rt></ruby>くなりました"
+           ],
+           answer: 1
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px; margin-top:20px;">
+Ｂ 例のように３つ言葉を全部使って、会話や文章に合う文を作ってください。（※WEB版：正しい文を選んでください）
+</div>
+<div style="border:1px solid #333; padding:15px; margin-bottom:15px; font-size:14px;">
+  ・<u>【 】の中の文だけ</u>書いてください。<br>
+  ・<u>１．→２．→３．の順に言葉を使ってください。</u><br>
+  ・言葉の<u>   </u>の部分は形を変えてもいいです。<br>
+  ・文は、１つか２つです。３つ以上は、だめです。<br>
+  ・漢字は、<u>今の日本の漢字</u>を書いてください。<br><br>
+  <div style="display:flex; flex-direction:column; gap:10px;">
+     <div>（例）<br>きのう、【１．どこ → ２．パン → ３．買<u>う</u>】か。</div>
+     <table style="border-collapse:collapse; text-align:center; width:100%; max-width:500px; margin-top:5px;">
+        <tr>
+          <td style="border:1px solid #333; padding:5px; width:15%;">（例）</td>
+          <td style="border:1px solid #333; padding:5px;">どこでパンを買いましたか</td>
+        </tr>
+     </table>
+  </div>
+</div>
+`,
+           text: "71. うるさいですから【１．<ruby>少<rt>すこ</rt></ruby>し → ２．<ruby>静<rt>しず</rt></ruby>か → ３．する】ください。",
+           options: [
+               "【<ruby>少<rt>すこ</rt></ruby>し<ruby>静<rt>しず</rt></ruby>かにしてください】",
+               "【<ruby>静<rt>しず</rt></ruby>かに<ruby>少<rt>すこ</rt></ruby>ししてください】",
+               "【<ruby>少<rt>すこ</rt></ruby>しして<ruby>静<rt>しず</rt></ruby>かください】",
+               "【<ruby>静<rt>しず</rt></ruby>か<ruby>少<rt>すこ</rt></ruby>ししてください】"
+           ],
+           answer: 0
+       },
+       {
+           text: "72. <ruby>約束<rt>やくそく</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>に【１．<ruby>遅<rt>おく</rt></ruby>れる → ２．そう → ３．<ruby>時<rt>とき</rt></ruby>】は、<ruby>必<rt>かなら</rt></ruby>ず<ruby>電話<rt>でんわ</rt></ruby>してください。",
+           options: [
+               "【<ruby>遅<rt>おく</rt></ruby>れるそうな<ruby>時<rt>とき</rt></ruby>】",
+               "【<ruby>遅<rt>おく</rt></ruby>れそうな<ruby>時<rt>とき</rt></ruby>】",
+               "【<ruby>遅<rt>おく</rt></ruby>れそうの<ruby>時<rt>とき</rt></ruby>】",
+               "【<ruby>遅<rt>おく</rt></ruby>れたそうな<ruby>時<rt>とき</rt></ruby>】"
+           ],
+           answer: 1
+       },
+       {
+           text: "73. このカレーは【１．<ruby>辛<rt>から</rt></ruby>い → ２．すぎる → ３．<ruby>食<rt>た</rt></ruby>べる】ことができません。",
+           options: [
+               "【<ruby>辛<rt>から</rt></ruby>いすぎて<ruby>食<rt>た</rt></ruby>べる】",
+               "【<ruby>辛<rt>から</rt></ruby>すぎるから<ruby>食<rt>た</rt></ruby>べる】",
+               "【<ruby>辛<rt>から</rt></ruby>すぎて<ruby>食<rt>た</rt></ruby>べる】",
+               "【<ruby>辛<rt>から</rt></ruby>すぎます<ruby>食<rt>た</rt></ruby>べる】"
+           ],
+           answer: 2
+       },
+       {
+           text: "74. <ruby>明日<rt>あした</rt></ruby>は<ruby>早<rt>はや</rt></ruby>く<ruby>起<rt>お</rt></ruby>きなければならないので、【１．<ruby>今夜<rt>こんや</rt></ruby> → ２．<ruby>早<rt>はや</rt></ruby>く → ３．<ruby>寝<rt>ね</rt></ruby>る】ことにします。",
+           options: [
+               "【<ruby>今夜<rt>こんや</rt></ruby>は<ruby>早<rt>はや</rt></ruby>く<ruby>寝<rt>ね</rt></ruby>る】",
+               "【<ruby>早<rt>はや</rt></ruby>く<ruby>今夜<rt>こんや</rt></ruby>は<ruby>寝<rt>ね</rt></ruby>る】",
+               "【<ruby>寝<rt>ね</rt></ruby>る<ruby>今夜<rt>こんや</rt></ruby><ruby>早<rt>はや</rt></ruby>く】",
+               "【<ruby>今夜<rt>こんや</rt></ruby><ruby>寝<rt>ね</rt></ruby>る<ruby>早<rt>はや</rt></ruby>く】"
+           ],
+           answer: 0
        }
     ];    
         // ANTI-CHEAT
