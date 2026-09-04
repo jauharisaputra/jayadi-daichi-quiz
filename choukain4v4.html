@@ -222,127 +222,126 @@
 
         /* ===== DATA SOAL (TIDAK DIUBAH) ===== */
         const examSections = [{
-                name: "写真問題",
-                intro: `<p>写真問題</p>
-<img src="img3/gambar_contoh1.jpeg" style="max-width:100%; margin-bottom:10px;">`,
-                questions: [{
-                        type: "image",
-                        content: "img3/1.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/2.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/3.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/4.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/5.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/6.jpeg"
-                    }
-
-                ]
+            name: "写真問題",
+            intro: `<p>写真問題</p>
+    <img src="img3/gambar_contoh1.jpeg" style="max-width:100%; margin-bottom:10px;">`,
+            questions: [{
+                type: "image",
+                content: "img3/1.jpeg"
             },
             {
-                name: "聴読解問題",
-                intro: `<p>マークしてください</p>
-<pre>答えはマークしてください</pre>
-<img src="img3/gambar_contoh2.jpeg" style="max-width:100%; margin-bottom:10px;">`,
-                questions: [{
-                        type: "image",
-                        content: "img3/7.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/8.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/9.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/10.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/11.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/12.jpeg"
-                    }
-                ]
+                type: "image",
+                content: "img3/2.jpeg"
             },
             {
-                name: "応答問題",
-                intro: `<p>（問題だけ聞いて答えてください）</p>
-<pre>例題 → （答えは解答用紙にマークしてください）</pre>`,
-                questions: Array.from({
-                    length: 16
-                }, (_, i) => ({
-                    type: "text",
-                    content: `Soal ${i+13}`
-                }))
+                type: "image",
+                content: "img3/3.jpeg"
             },
             {
-                name: "会話・説明問題",
-                intro: `<p>例題 <br>
-1 耳が痛いですから <br>
-2 頭が痛いですから <br>
-3 歯が痛いですから </p>
-<pre>れい ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
-                questions: [{
-                        type: "image",
-                        content: "img3/29.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/30.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/31.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/32.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/33.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/34.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/35.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/36.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/37.jpeg"
-                    },
-                    {
-                        type: "image",
-                        content: "img3/38.jpeg"
-                    }
-                ]
+                type: "image",
+                content: "img3/4.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/5.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/6.jpeg"
             }
+            ]
+        },
+        {
+            name: "聴読解問題",
+            intro: `<p>マークしてください</p>
+    <pre>答えはマークしてください</pre>
+    <img src="img3/gambar_contoh2.jpeg" style="max-width:100%; margin-bottom:10px;">`,
+            questions: [{
+                type: "image",
+                content: "img3/7.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/8.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/9.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/10.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/11.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/12.jpeg"
+            }
+            ]
+        },
+        {
+            name: "応答問題",
+            intro: `<p>（問題だけ聞いて答えてください）</p>
+    <pre>例題 → （答えは解答用紙にマークしてください）</pre>`,
+            questions: Array.from({
+                length: 16
+            }, (_, i) => ({
+                type: "text",
+                content: `Soal ${i + 13}`
+            }))
+        },
+        {
+            name: "会話・説明問題",
+            intro: `<p>例題 <br>
+    1 耳が痛いですから <br>
+    2 頭が痛いですから <br>
+    3 歯が痛いですから </p>
+    <pre>れい ① ● ③ （答えは解答用紙にマークしてください）</pre>`,
+            questions: [{
+                type: "image",
+                content: "img3/29.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/30.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/31.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/32.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/33.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/34.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/35.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/36.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/37.jpeg"
+            },
+            {
+                type: "image",
+                content: "img3/38.jpeg"
+            }
+            ]
+        }
         ];
 
         /* ===== GENERATE SOAL ===== */
@@ -350,13 +349,10 @@
             let c = document.getElementById("questions");
             c.innerHTML = "";
             let nomor = 1;
-
             examSections.forEach(sec => {
                 c.innerHTML += `<div class="section-title">${sec.name}</div>`;
                 c.innerHTML += `<div class="section-intro">${sec.intro}</div>`;
-
                 sec.questions.forEach(q => {
-
                     let konten = "";
                     if (nomor >= 13 && nomor <= 28) {
                         konten = ""; // ringkas
@@ -365,28 +361,23 @@
                         else if (q.type === "text") konten = `<p>${q.content}</p>`;
                         else konten = q.content;
                     }
-
                     let classSoal = (nomor >= 29 && nomor <= 38) ?
                         "question question-large" : "question";
-
                     let opsi = `
-<label><input type="radio" name="q${nomor}" value="1"> 1</label>
-<label><input type="radio" name="q${nomor}" value="2"> 2</label>
-<label><input type="radio" name="q${nomor}" value="3"> 3</label>
-`;
-
+    <label><input type="radio" name="q${nomor}" value="1"> 1</label>
+    <label><input type="radio" name="q${nomor}" value="2"> 2</label>
+    <label><input type="radio" name="q${nomor}" value="3"> 3</label>
+    `;
                     if (nomor <= 12) {
                         opsi += `<label><input type="radio" name="q${nomor}" value="4"> 4</label>`;
                     }
-
                     c.innerHTML += `
-<div class="${classSoal}">
-<p><b>Soal ${nomor}</b></p>
-${konten}
-${opsi}
-</div>
-`;
-
+    <div class="${classSoal}">
+    <p><b>Soal ${nomor}</b></p>
+    ${konten}
+    ${opsi}
+    </div>
+    `;
                     nomor++;
                 });
             });
@@ -404,7 +395,7 @@ ${opsi}
             }, 1000);
         }
 
-        /* ===== FULLSCREEN ===== */
+        /* ===== FULLSCREEN & KEAMANAN TAB ===== */
         function enterFullscreen() {
             let elem = document.documentElement;
             if (elem.requestFullscreen) elem.requestFullscreen();
@@ -416,10 +407,46 @@ ${opsi}
             if (document.hidden) submitExam("Pindah Tab");
         });
 
+        /* ========================================== */
+        /* ===== TAMBAHAN KEAMANAN ANTI INSPECT ===== */
+        /* ========================================== */
+
+        /* 1. Mematikan Klik Kanan */
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        /* 2. Mematikan Shortcut Keyboard (F12, Ctrl+Shift+I, dll) */
+        document.addEventListener('keydown', function (e) {
+            // Blokir F12
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+            }
+            // Blokir Ctrl+Shift+I dan Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j')) {
+                e.preventDefault();
+            }
+            // Blokir Ctrl+U (View Source)
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+            }
+        });
+
+        /* 3. Jebakan DevTools */
+        setInterval(function () {
+            (function () {
+                return false;
+            }
+            ['constructor']('debugger')
+            ['call']());
+        }, 1000);
+        /* ========================================== */
+
+
         /* ===== AUDIO ===== */
         function startAudio() {
             let audio = document.getElementById("audio");
-            audio.play().catch(() => {});
+            audio.play().catch(() => { });
             audio.addEventListener("pause", () => {
                 if (!audio.ended) audio.play();
             });
@@ -444,44 +471,10 @@ ${opsi}
 
         /* ===== KUNCI ===== */
         let answerKey = {
-            1: 2,
-            2: 4,
-            3: 2,
-            4: 3,
-            5: 1,
-            6: 4,
-            7: 4,
-            8: 2,
-            9: 1,
-            10: 2,
-            11: 1,
-            12: 3,
-            13: 2,
-            14: 3,
-            15: 3,
-            16: 2,
-            17: 1,
-            18: 1,
-            19: 3,
-            20: 2,
-            21: 3,
-            22: 2,
-            23: 3,
-            24: 2,
-            25: 1,
-            26: 3,
-            27: 1,
-            28: 2,
-            29: 1,
-            30: 2,
-            31: 3,
-            32: 2,
-            33: 2,
-            34: 3,
-            35: 2,
-            36: 1,
-            37: 1,
-            38: 2
+            1: 2, 2: 4, 3: 2, 4: 3, 5: 1, 6: 4, 7: 4, 8: 2, 9: 1, 10: 2,
+            11: 1, 12: 3, 13: 2, 14: 3, 15: 3, 16: 2, 17: 1, 18: 1, 19: 3, 20: 2,
+            21: 3, 22: 2, 23: 3, 24: 2, 25: 1, 26: 3, 27: 1, 28: 2, 29: 1, 30: 2,
+            31: 3, 32: 2, 33: 2, 34: 3, 35: 2, 36: 1, 37: 1, 38: 2
         };
         for (let i = 13; i <= 38; i++) {
             if (answerKey[i] > 3) {
@@ -495,13 +488,11 @@ ${opsi}
             submitted = true;
             clearInterval(timer);
             sessionStorage.clear();
-
             let scoreFoto = 0,
                 scoreChoudokukai = 0,
                 scoreOutou = 0,
                 scoreKaiwa = 0;
             let detail = "";
-
             for (let i = 1; i <= 38; i++) {
                 let s = document.querySelector(`input[name="q${i}"]:checked`);
                 let j = s ? parseInt(s.value) : 0;
@@ -513,9 +504,9 @@ ${opsi}
                     else scoreKaiwa += 10;
                 }
             }
-
             let total = scoreFoto + scoreChoudokukai + scoreOutou + scoreKaiwa;
 
+            // Perbaikan spasi pada fetch URL
             fetch("https://script.google.com/macros/s/AKfycbwYrT7futaKdDpGetNBNompvAqWr32XnOq9WaSBmvmDFlXZRzF7K5d3xWcrAjNNBjLh/exec", {
                 method: "POST",
                 body: JSON.stringify({
@@ -531,9 +522,11 @@ ${opsi}
                 })
             });
 
+            // Perbaikan format alert
             alert(
                 `Ujian selesai\n\n写真問題: ${scoreFoto}/30\n聴読解問題: ${scoreChoudokukai}/60\n応答問題: ${scoreOutou}/160\n会話・説明問題: ${scoreKaiwa}/100\n\nTotal: ${total}/350`
             );
+
             document.body.innerHTML = "<h2 style='text-align:center;margin-top:50px'>Terima kasih</h2>";
         }
     </script>
