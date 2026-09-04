@@ -319,738 +319,496 @@
     // ==============================
 function decode(str){return atob(str);}
 
-    const questions = [
-        /* =========================
-        PART 1 : 文法・語彙問題
-        1 - 10
-        ========================= */
-        {
-            text: "1. わたしは <ruby>毎晩<rt>まいばん</rt></ruby> テレビ（ ）見ます。",
-            options: ["を", "が", "に", "で"],
-            answer: 0
-        },
-        {
-            text: "2. この <ruby>時計<rt>とけい</rt></ruby>は とても（ ）です。",
-            options: ["たかい", "たかかった", "たかく", "たかくて"],
-            answer: 0
-        },
-        {
-            text: "3. この <ruby>問題<rt>もんだい</rt></ruby>は（ ）むずかしくないです。",
-            options: ["とても", "あまり", "ぜんぜん", "いつも"],
-            answer: 1
-        },
-        {
-            text: "4. <ruby>明日<rt>あした</rt></ruby> <ruby>公園<rt>こうえん</rt></ruby>（ ）サッカーを します。",
-            options: ["を", "へ", "で", "に"],
-            answer: 2
-        },
-        {
-            text: "5. <ruby>山田<rt>やまだ</rt></ruby>さんの <ruby>部屋<rt>へや</rt></ruby>は（ ）です。",
-            options: ["きれい", "きれいな", "きれいに", "きれいで"],
-            answer: 0
-        },
-        {
-            text: "6. ここに <ruby>名前<rt>なまえ</rt></ruby>を（ ）ください。",
-            options: ["かいて", "かき", "かく", "かいた"],
-            answer: 0
-        },
-        {
-            text: "7. この パソコンは（ ）ですが、とても べんりです。",
-            options: ["おもい", "おもく", "おもかった", "おもくて"],
-            answer: 0
-        },
-        {
-            text: "8. <ruby>昨日<rt>きのう</rt></ruby> <ruby>友達<rt>ともだち</rt></ruby>と <ruby>映画<rt>えいが</rt></ruby>を（ ）。",
-            options: ["みます", "みました", "みません", "みて"],
-            answer: 1
-        },
-        {
-            text: "9. <ruby>風邪<rt>かぜ</rt></ruby>を ひいた（ ）、<ruby>学校<rt>がっこう</rt></ruby>を 休みました。",
-            options: ["から", "ので", "でも", "が"],
-            answer: 1
-        },
-        {
-            text: "10. <ruby>肉<rt>にく</rt></ruby>は ぜんぜん（ ）。",
-            options: ["たべます", "たべません", "たべています", "たべたいです"],
-            answer: 1
-        },
-        /* =========================
-        11 - 20
-        ========================= */
-        {
-            text: "11. <ruby>家<rt>いえ</rt></ruby>から <ruby>駅<rt>えき</rt></ruby>まで 10<ruby>分<rt>ふん</rt></ruby>（ ）かかります。",
-            options: ["ごろ", "ぐらい", "しか", "まで"],
-            answer: 1
-        },
-        {
-            text: "12. わたしの <ruby>父<rt>ちち</rt></ruby>は <ruby>会社員<rt>かいしゃいん</rt></ruby>（ ）。",
-            options: ["です", "でした", "では", "が"],
-            answer: 0
-        },
-        {
-            text: "13. （ ）スポーツが いちばん 好きですか。",
-            options: ["どんな", "どう", "どれ", "どこ"],
-            answer: 0
-        },
-        {
-            text: "14. この レストランは おいしい（ ）、いつも 人が 多いです。",
-            options: ["そして", "が", "から", "でも"],
-            answer: 2
-        },
-        {
-            text: "15. <ruby>手<rt>て</rt></ruby>を（ ）から、ごはんを 食べましょう。",
-            options: ["あらう", "あらいます", "あらって", "あらった"],
-            answer: 2
-        },
-        {
-            text: "16. あなたの <ruby>国<rt>くに</rt></ruby>の <ruby>夏<rt>なつ</rt></ruby>は（ ）ですか。",
-            options: ["どれ", "どんな", "どう", "だれ"],
-            answer: 2
-        },
-        {
-            text: "17. この <ruby>問題<rt>もんだい</rt></ruby>は（ ）。",
-            options: ["かんたんです", "かんたんじゃありません", "かんたんでした", "かんたんになります"],
-            answer: 1
-        },
-        {
-            text: "18. <ruby>毎朝<rt>まいあさ</rt></ruby> <ruby>新聞<rt>しんぶん</rt></ruby>を（ ）。",
-            options: ["よみます", "みます", "いいます", "かきます"],
-            answer: 0
-        },
-        {
-            text: "19. <ruby>先月<rt>せんげつ</rt></ruby> <ruby>日本<rt>にほん</rt></ruby>へ（ ）。",
-            options: ["きます", "きました", "きません", "きて"],
-            answer: 1
-        },
-        {
-            text: "20. わたしは <ruby>音楽<rt>おんがく</rt></ruby>（ ）好きです。",
-            options: ["が", "を", "に", "で"],
-            answer: 0
-        },
-        /* =========================
-        21 - 30
-        ========================= */
-        {
-            text: "21. <ruby>今日<rt>きょう</rt></ruby>は <ruby>暑<rt>あつ</rt></ruby>いですね。",
-            options: ["はい、そうですね。", "いいえ、そうじゃありません。", "はい、そうじゃありません。", "いいえ、そうですね。"],
-            answer: 0
-        },
-        {
-            text: "22. この ペンは（ ）ですか。",
-            options: ["だれ", "だれの", "どれ", "どこ"],
-            answer: 1
-        },
-        {
-            text: "23. <ruby>木村<rt>きむら</rt></ruby>さんは いつも（ ）人です。",
-            options: ["げんき", "げんきな", "げんきに", "げんきで"],
-            answer: 1
-        },
-        {
-            text: "24. この くつは <ruby>安<rt>やす</rt></ruby>い（ ）はきやすいです。",
-            options: ["ので", "が", "そして", "し"],
-            answer: 3
-        },
-        {
-            text: "25. わたしは コーヒーが あまり（ ）。",
-            options: ["すきです", "すきじゃありません", "すきでした", "すきになります"],
-            answer: 1
-        },
-        {
-            text: "26. <ruby>夏休<rt>なつやす</rt></ruby>みに どこへ（ ）か。",
-            options: ["いきます", "いきました", "いきません", "いって"],
-            answer: 1
-        },
-        {
-            text: "27. わたしは <ruby>毎晩<rt>まいばん</rt></ruby> 11<ruby>時<rt>じ</rt></ruby>（ ）寝ます。",
-            options: ["を", "が", "に", "へ"],
-            answer: 2
-        },
-        {
-            text: "28. この アニメは（ ）おもしろいです。",
-            options: ["とても", "あまり", "ぜんぜん", "まだ"],
-            answer: 0
-        },
-        {
-            text: "29. <ruby>漢字<rt>かんじ</rt></ruby>は むずかしいです（ ）おもしろいです。",
-            options: ["でも", "から", "ので", "しか"],
-            answer: 0
-        },
-        {
-            text: "30. わたしは <ruby>明日<rt>あした</rt></ruby> デパートへ <ruby>買<rt>か</rt></ruby>い物に（ ）たいです。",
-            options: ["いき", "いって", "いく", "いった"],
-            answer: 0
-        },
+   const questions = [
         /* =====================================================
-        PART 2 : 読解問題
-        問題 31～46
+        PART 1 : 文法・語彙問題 (Grammar & Vocabulary)
         ===================================================== */
         {
             passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 １<br>
-  次のメッセージを読んで問題に答えなさい。<br>
-  答えは１・２・３・４の中から一番いいものを 1 つ選んでください。<br><br>
-  これは、ジョンさんと<ruby>鈴木<rt>すずき</rt></ruby>さんのメッセージです。<br>
-</div>
-<div style="display:flex; flex-direction:column; gap:8px; font-size:14px;">
-  <!-- ジョン -->
-  <div style="display:flex; align-items:flex-start; gap:6px;">
-    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
-    <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
-      <ruby>鈴木<rt>すずき</rt></ruby>さん、<ruby>今日<rt>きょう</rt></ruby>の<ruby>約束<rt>やくそく</rt></ruby>ですが、10分ぐらい<ruby>遅<rt>おく</rt></ruby>れそうです。
-    </div>
-  </div>
-  <!-- 鈴木 -->
-  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
-    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
-      どうしましたか。<ruby>道<rt>みち</rt></ruby>が<ruby>混<rt>こ</rt></ruby>んでいますか。
-    </div>
-    <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">鈴</div>
-  </div>
-  <!-- ジョン -->
-  <div style="display:flex; align-items:flex-start; gap:6px;">
-    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
-    <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
-      いいえ、<ruby>反対<rt>はんたい</rt></ruby>の<ruby>電車<rt>でんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ってしまいました。今から<ruby>戻<rt>もど</rt></ruby>ります。
-    </div>
-  </div>
-  <!-- 鈴木 -->
-  <div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
-    <div style="background:#e5e5ea;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
-      そうですか。<ruby>気<rt>き</rt></ruby>をつけて<ruby>来<rt>き</rt></ruby>てください。私は<ruby>駅<rt>えき</rt></ruby>の前のカフェでコーヒーを<ruby>飲<rt>の</rt></ruby>んで<ruby>待<rt>ま</rt></ruby>っています。
-    </div>
-    <div style="width:28px;height:28px;border-radius:50%;background:#aaa;color:#fff;"></div>
-  </div>
-  <!-- ジョン -->
-  <div style="display:flex; align-items:flex-start; gap:6px;">
-    <div style="width:28px;height:28px;border-radius:50%;background:#007aff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ジ</div>
-    <div style="background:#007aff;color:#fff;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
-      すみません。<ruby>着<rt>つ</rt></ruby>いたら<ruby>連絡<rt>れんらく</rt></ruby>します。
-    </div>
-  </div>
+問題 １<br>
+Ａ 次の文の（ ）に１・２・３・４の中から一番いい言葉を入れてください。<br>
+答えは１・２・３・４の中から一番いいものを１つ選んでください。
 </div>
 `,
-            text: "31. ジョンさんは、どうして<ruby>遅<rt>おく</rt></ruby>れますか。",
-            options: [
-                "<ruby>道<rt>みち</rt></ruby>が<ruby>混<rt>こ</rt></ruby>んでいるからです。",
-                "<ruby>反対<rt>はんたい</rt></ruby>の<ruby>電車<rt>でんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ったからです。",
-                "<ruby>寝坊<rt>ねぼう</rt></ruby>したからです。",
-                "<ruby>切符<rt>きっぷ</rt></ruby>をなくしたからです。"
-            ],
+            text: "1. ペン（ ）<ruby>字<rt>じ</rt></ruby>を <ruby>書<rt>か</rt></ruby>きます。",
+            options: ["で", "に", "を", "が"],
+            answer: 0
+        },
+        {
+            text: "2. <ruby>金曜日<rt>きんようび</rt></ruby>（ ）<ruby>宿題<rt>しゅくだい</rt></ruby>を <ruby>出<rt>だ</rt></ruby>してください。",
+            options: ["まで", "までに", "から", "だけ"],
             answer: 1
         },
         {
-            text: "32. <ruby>鈴木<rt>すずき</rt></ruby>さんは、どこでジョンさんを<ruby>待<rt>ま</rt></ruby>ちますか。",
-            options: [
-                "<ruby>駅<rt>えき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>です。",
-                "<ruby>電車<rt>でんしゃ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>です。",
-                "<ruby>駅<rt>えき</rt></ruby>の前のカフェです。",
-                "<ruby>会社<rt>かいしゃ</rt></ruby>です。"
-            ],
+            text: "3. <ruby>今<rt>いま</rt></ruby>、ケーキを（ ）いるところです。",
+            options: ["<ruby>食<rt>た</rt></ruby>べる", "<ruby>食<rt>た</rt></ruby>べた", "<ruby>食<rt>た</rt></ruby>べて", "<ruby>食<rt>た</rt></ruby>べよう"],
             answer: 2
         },
         {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  問題 ２<br>
-  次の文章を読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを 1 つ選んでください。<br><br>
-</div>
-<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
-  <ruby>先週<rt>せんしゅう</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>は<ruby>新<rt>あたら</rt></ruby>しいカメラを<ruby>買<rt>か</rt></ruby>いました。<br><br>
-  <ruby>店<rt>みせ</rt></ruby>にはいろいろなカメラがあって、どれがいいか<ruby>分<rt>わ</rt></ruby>かりませんでした。そこで、<ruby>店員<rt>てんいん</rt></ruby>に「<ruby>軽<rt>かる</rt></ruby>くて、きれいな<ruby>写真<rt>しゃしん</rt></ruby>が<ruby>撮<rt>と</rt></ruby>れるカメラが<ruby>欲<rt>ほ</rt></ruby>しいです」と<ruby>言<rt>い</rt></ruby>いました。<br><br>
-  <ruby>店員<rt>てんいん</rt></ruby>が<ruby>紹介<rt>しょうかい</rt></ruby>してくれたカメラは、<ruby>少し<rt>すこし</rt></ruby><ruby>高<rt>たか</rt></ruby>かったですが、デザインがとてもかっこよかったです。スマートフォンとつなぐこともできて、<ruby>便利<rt>べんり</rt></ruby>です。<br><br>
-  <ruby>週末<rt>しゅうまつ</rt></ruby>、そのカメラを<ruby>持<rt>も</rt></ruby>って<ruby>海<rt>うみ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。<ruby>天気<rt>てんき</rt></ruby>がよくて、とてもきれいな<ruby>写真<rt>しゃしん</rt></ruby>がたくさん<ruby>撮<rt>と</rt></ruby>れました。
-</div>
-`,
-            text: "33. 「<ruby>私<rt>わたし</rt></ruby>」は、どんなカメラを<ruby>買<rt>か</rt></ruby>いましたか。",
-            options: [
-                "<ruby>安<rt>やす</rt></ruby>くて<ruby>重<rt>おも</rt></ruby>いカメラ",
-                "<ruby>軽<rt>かる</rt></ruby>くてきれいな<ruby>写真<rt>しゃしん</rt></ruby>が<ruby>撮<rt>と</rt></ruby>れるカメラ",
-                "デザインがよくないカメラ",
-                "スマートフォンが<ruby>使<rt>つか</rt></ruby>えないカメラ"
-            ],
+            text: "4. あの<ruby>子<rt>こ</rt></ruby>は（ ）のに、<ruby>今日<rt>きょう</rt></ruby>は<ruby>静<rt>しず</rt></ruby>かだ。",
+            options: ["<ruby>元気<rt>げんき</rt></ruby>", "<ruby>元気<rt>げんき</rt></ruby>だ", "<ruby>元気<rt>げんき</rt></ruby>で", "<ruby>元気<rt>げんき</rt></ruby>な"],
+            answer: 3
+        },
+        {
+            text: "5. <ruby>私<rt>わたし</rt></ruby>は<ruby>日本<rt>にほん</rt></ruby>へ（ ）です。",
+            options: ["<ruby>行<rt>い</rt></ruby>きたい", "<ruby>行<rt>い</rt></ruby>きたがる", "<ruby>行<rt>い</rt></ruby>く", "<ruby>行<rt>い</rt></ruby>った"],
+            answer: 0
+        },
+        {
+            text: "6. <ruby>辛<rt>から</rt></ruby>いものが（ ）なければ、<ruby>甘<rt>あま</rt></ruby>いカレーもありますよ。",
+            options: ["<ruby>食<rt>た</rt></ruby>べる", "<ruby>食<rt>た</rt></ruby>べられ", "<ruby>食<rt>た</rt></ruby>べて", "<ruby>食<rt>た</rt></ruby>べない"],
             answer: 1
         },
         {
+            text: "7. <ruby>本<rt>ほん</rt></ruby>を（ ）から<ruby>寝<rt>ね</rt></ruby>ます。",
+            options: ["<ruby>読<rt>よ</rt></ruby>み", "<ruby>読<rt>よ</rt></ruby>む", "<ruby>読<rt>よ</rt></ruby>んで", "<ruby>読<rt>よ</rt></ruby>んだ"],
+            answer: 2
+        },
+        {
+            text: "8. <ruby>明日<rt>あした</rt></ruby>は<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>る（ ）。",
+            options: ["ことです", "べきです", "つもりです", "かもしれません"],
+            answer: 3
+        },
+        {
+            text: "9. このケーキは（ ）おいしいですね。",
+            options: ["とても", "あまり", "ぜんぜん", "すこししか"],
+            answer: 0
+        },
+        {
+            text: "10. <ruby>日本<rt>にほん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>（ ）<ruby>発表<rt>はっぴょう</rt></ruby>します。",
+            options: ["によって", "について", "にして", "にとって"],
+            answer: 1
+        },
+
+        /* =========================
+        PART 1 - Section B
+        ========================= */
+        {
             passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  問題 ３<br>
-  次の文章を読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを 1 つ選んでください。<br><br>
-</div>
-<div style="background:#f8f9fa; padding:12px; border-radius:10px; line-height:1.9; text-align:left;">
-  <ruby>最近<rt>さいきん</rt></ruby>、<ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>る人が<ruby>増<rt>ふ</rt></ruby>えています。<br><br>
-  <ruby>車<rt>くるま</rt></ruby>やバイクは<ruby>便利<rt>べんり</rt></ruby>ですが、<ruby>環境<rt>かんきょう</rt></ruby>にあまりよくありません。<ruby>自転車<rt>じてんしゃ</rt></ruby>はガソリンを<ruby>使<rt>つか</rt></ruby>わないので、<ruby>空気<rt>くうき</rt></ruby>をきれいに<ruby>保<rt>たも</rt></ruby>つことができます。<br><br>
-  また、<ruby>自転車<rt>じてんしゃ</rt></ruby>をこぐことは、とてもいい<ruby>運動<rt>うんどう</rt></ruby>になります。<ruby>毎日<rt>まいにち</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>や<ruby>学校<rt>がっこう</rt></ruby>まで<ruby>自転車<rt>じてんしゃ</rt></ruby>で<ruby>行<rt>い</rt></ruby>けば、スポーツジムに<ruby>行<rt>い</rt></ruby>かなくても、<ruby>体<rt>からだ</rt></ruby>が<ruby>元気<rt>げんき</rt></ruby>になります。<br><br>
-  もちろん、<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>は<ruby>大変<rt>たいへん</rt></ruby>ですが、<ruby>晴<rt>は</rt></ruby>れた<ruby>日<rt>ひ</rt></ruby>に<ruby>風<rt>かぜ</rt></ruby>を<ruby>感<rt>かん</rt></ruby>じながら<ruby>走<rt>走</rt></ruby>るのは、とても<ruby>気持<rt>きも</rt></ruby>ちがいいものです。<br><br>
-  みなさんも、<ruby>時々<rt>ときどき</rt></ruby><ruby>自転車<rt>じてんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ってみませんか。
+<div style="font-size:14px; margin-bottom:10px; margin-top:20px;">
+Ｂ 次の文の（ ）に１・２・３・４の中から一番いい言葉を入れてください。<br>
+答えは１・２・３・４の中から一番いいものを１つ選んでください。
 </div>
 `,
-            text: "34. <ruby>文章<rt>ぶんしょう</rt></ruby>によると、<ruby>自転車<rt>じてんしゃ</rt></ruby>のいいところは<ruby>何<rt>なん</rt></ruby>ですか。",
-            options: [
-                "<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>でも<ruby>乗<rt>の</rt></ruby>りやすいこと",
-                "<ruby>環境<rt>かんきょう</rt></ruby>によくて、いい<ruby>運動<rt>うんどう</rt></ruby>になること",
-                "ガソリンが<ruby>安<rt>やす</rt></ruby>く<ruby>買<rt>か</rt></ruby>えること",
-                "<ruby>車<rt>くるま</rt></ruby>よりも<ruby>速<rt>はや</rt></ruby>く<ruby>走<rt>はし</rt></ruby>れること"
-            ],
+            text: "11. シャツの（ ）がとれました。",
+            options: ["かばん", "くつ", "ボタン", "めがね"],
+            answer: 2
+        },
+        {
+            text: "12. <ruby>私<rt>わたし</rt></ruby>は（ ）<ruby>遅刻<rt>ちこく</rt></ruby>しません。",
+            options: ["ちっとも", "たぶん", "すっかり", "ぜったいに"],
+            answer: 3
+        },
+        {
+            text: "13. <ruby>試験<rt>しけん</rt></ruby>の（ ）が<ruby>変更<rt>へんこう</rt></ruby>になりました。",
+            options: ["<ruby>時間<rt>じかん</rt></ruby>", "<ruby>期間<rt>きかん</rt></ruby>", "<ruby>日記<rt>にっき</rt></ruby>", "<ruby>季節<rt>きせつ</rt></ruby>"],
+            answer: 0
+        },
+        {
+            text: "14. （ ）は<ruby>今年<rt>ことし</rt></ruby>で80<ruby>歳<rt>さい</rt></ruby>になります。",
+            options: ["<ruby>兄<rt>あに</rt></ruby>", "<ruby>祖父<rt>そふ</rt></ruby>", "<ruby>息子<rt>むすこ</rt></ruby>", "おじ"],
             answer: 1
         },
         {
+            text: "15. <ruby>新<rt>あたら</rt></ruby>しいパソコンの（ ）がわかりません。",
+            options: ["<ruby>考<rt>かんが</rt></ruby>え<ruby>方<rt>かた</rt></ruby>", "<ruby>作<rt>つく</rt></ruby>り<ruby>方<rt>かた</rt></ruby>", "<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>", "<ruby>書<rt>か</rt></ruby>き<ruby>方<rt>かた</rt></ruby>"],
+            answer: 2
+        },
+        {
+            text: "16. <ruby>風邪<rt>かぜ</rt></ruby>を（ ）、<ruby>学校<rt>がっこう</rt></ruby>を<ruby>休<rt>やす</rt></ruby>みました。",
+            options: ["こわして", "とって", "おこして", "ひいて"],
+            answer: 3
+        },
+        {
+            text: "17. この<ruby>部屋<rt>へや</rt></ruby>はとても（ ）ですね。",
+            options: ["<ruby>暗<rt>くら</rt></ruby>い", "<ruby>安<rt>やす</rt></ruby>い", "<ruby>太<rt>ふと</rt></ruby>い", "<ruby>厚<rt>あつ</rt></ruby>い"],
+            answer: 0
+        },
+        {
+            text: "18. <ruby>財布<rt>さいふ</rt></ruby>を（ ）に<ruby>届<rt>とど</rt></ruby>けました。",
+            options: ["<ruby>工場<rt>こうじょう</rt></ruby>", "<ruby>交番<rt>こうばん</rt></ruby>", "<ruby>公園<rt>こうえん</rt></ruby>", "<ruby>大使館<rt>たいしかん</rt></ruby>"],
+            answer: 1
+        },
+        {
+            text: "19. （ ）の<ruby>時間<rt>じかん</rt></ruby>を<ruby>守<rt>まも</rt></ruby>りましょう。",
+            options: ["<ruby>予定<rt>よてい</rt></ruby>", "<ruby>規則<rt>きそく</rt></ruby>", "<ruby>約束<rt>やくそく</rt></ruby>", "<ruby>会議<rt>かいぎ</rt></ruby>"],
+            answer: 2
+        },
+        {
+            text: "20. あの（ ）はとても<ruby>有名<rt>ゆうめい</rt></ruby>です。",
+            options: ["<ruby>政治員<rt>せいじいん</rt></ruby>", "<ruby>政治手<rt>せいじて</rt></ruby>", "<ruby>政治人<rt>せいじじん</rt></ruby>", "<ruby>政治家<rt>せいじか</rt></ruby>"],
+            answer: 3
+        },
+
+        /* =========================
+        PART 1 - Section C
+        ========================= */
+        {
             passage: `
+<div style="font-size:14px; margin-bottom:10px; margin-top:20px;">
+Ｃ 次の文の <u>＿＿＿</u> の意味に一番ちかいものを１・２・３・４の中から選んでください。<br>
+答えは１・２・３・４の中から一番いいものを１つ選んでください。
+</div>
+`,
+            text: "21. <ruby>彼<rt>かれ</rt></ruby>は <u><ruby>最近<rt>さいきん</rt></ruby></u> <ruby>忙<rt>いそが</rt></ruby>しそうです。",
+            options: ["このごろ", "むかし", "いつも", "たまに"],
+            answer: 0
+        },
+        {
+            text: "22. このテストは <u><ruby>簡単<rt>かんたん</rt></ruby></u> です。",
+            options: ["<ruby>難<rt>むずか</rt></ruby>しい", "やさしい", "たいへん", "<ruby>複雑<rt>ふくざつ</rt></ruby>だ"],
+            answer: 1
+        },
+        {
+            text: "23. <u>たまに</u> <ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。",
+            options: ["<ruby>毎日<rt>まいにち</rt></ruby>", "ぜんぜん", "ときどき", "いつも"],
+            answer: 2
+        },
+        {
+            text: "24. <ruby>明日<rt>あした</rt></ruby>、<u>お<ruby>宅<rt>たく</rt></ruby></u> へ<ruby>伺<rt>うかが</rt></ruby>います。",
+            options: ["<ruby>会社<rt>かいしゃ</rt></ruby>", "<ruby>学校<rt>がっこう</rt></ruby>", "お<ruby>店<rt>みせ</rt></ruby>", "<ruby>家<rt>いえ</rt></ruby>"],
+            answer: 3
+        },
+        {
+            text: "25. <u>くたびれました</u>。",
+            options: ["<ruby>疲<rt>つか</rt></ruby>れました", "<ruby>驚<rt>おどろ</rt></ruby>きました", "<ruby>怒<rt>おこ</rt></ruby>りました", "<ruby>喜<rt>よろこ</rt></ruby>びました"],
+            answer: 0
+        },
+        {
+            text: "26. <u>やっと</u> レポートが<ruby>終<rt>お</rt></ruby>わりました。",
+            options: ["すぐに", "どうにか", "ぜんぜん", "これから"],
+            answer: 1
+        },
+        {
+            text: "27. これは <u><ruby>大事<rt>だいじ</rt></ruby>な</u> <ruby>書類<rt>しょるい</rt></ruby>です。",
+            options: ["<ruby>新<rt>あたら</rt></ruby>しい", "<ruby>古<rt>ふる</rt></ruby>い", "<ruby>大切<rt>たいせつ</rt></ruby>な", "きれいな"],
+            answer: 2
+        },
+        {
+            text: "28. <u>すぐに</u> <ruby>行<rt>い</rt></ruby>きます。",
+            options: ["あとで", "ゆっくり", "いつか", "<ruby>今<rt>いま</rt></ruby>から"],
+            answer: 3
+        },
+        {
+            text: "29. その<ruby>意見<rt>いけん</rt></ruby>には <u><ruby>賛成<rt>さんせい</rt></ruby>できません</u>。",
+            options: ["<ruby>同<rt>おな</rt></ruby>じ<ruby>意見<rt>いけん</rt></ruby>ではない", "とても<ruby>良<rt>よ</rt></ruby>いと<ruby>思<rt>おも</rt></ruby>う", "よくわからない", "<ruby>早<rt>はや</rt></ruby>く<ruby>決<rt>き</rt></ruby>めたい"],
+            answer: 0
+        },
+        {
+            text: "30. <u>お<ruby>詫<rt>わ</rt></ruby>びします</u>。",
+            options: ["お<ruby>礼<rt>れい</rt></ruby>を<ruby>言<rt>い</rt></ruby>います", "<ruby>挨拶<rt>あいさつ</rt></ruby>します", "<ruby>謝<rt>あやま</rt></ruby>ります", "<ruby>質問<rt>しつもん</rt></ruby>します"],
+            answer: 2
+        },
+      /* =====================================================
+ PART 2 : 読解問題 (Reading Comprehension)
+ 問題 31～46 (Expanded Version)
+ ===================================================== */
+       {
+           passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 ４<br>
-  次の文章を読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。<br><br>
-  ４人に「<ruby>一番<rt>いちばん</rt></ruby> 好きな<ruby>季節<rt>きせつ</rt></ruby>」について<ruby>聞<rt>き</rt></ruby>きました。
+問題 １<br>
+次（つぎ）のメッセージを読（よ）んで問題（もんだい）に答（こた）えなさい。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを 1 つ選（えら）んでください。<br><br>
+これは、アミナさんとケンタさんのメッセージです。
+</div>
+<div style="display:flex; flex-direction:column; gap:8px; font-size:14px; background:#f5f5f5; padding:15px; border-radius:8px;">
+<!-- アミナ -->
+<div style="display:flex; align-items:flex-start; gap:6px;">
+<div style="width:28px;height:28px;border-radius:50%;background:#e74c3c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ア</div>
+<div style="background:#fff;color:#333;border:1px solid #ddd;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+ケンタさん、ごめんなさい。さっき<ruby>駅<rt>えき</rt></ruby>に<ruby>着<rt>つ</rt></ruby>いたんですが、<ruby>財布<rt>さいふ</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れたことに<ruby>気<rt>き</rt></ruby>づきました。だから、<ruby>急<rt>いそ</rt></ruby>いで<ruby>家<rt>いえ</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>っています。すこし<ruby>遅<rt>おく</rt></ruby>れます。ほんとうにすみません。
+</div>
+</div>
+<!-- ケンタ -->
+<div style="display:flex; align-items:flex-start; gap:6px; justify-content:flex-end;">
+<div style="background:#007aff;color:#fff;border-radius:18px 18px 4px 18px;padding:8px 12px;max-width:70%;">
+わかりました。<ruby>外<rt>そと</rt></ruby>は<ruby>寒<rt>さむ</rt></ruby>いし、<ruby>雨<rt>あめ</rt></ruby>も<ruby>降<rt>ふ</rt></ruby>ってきたので、<ruby>駅<rt>えき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>の<ruby>本屋<rt>ほんや</rt></ruby>で<ruby>待<rt>ま</rt></ruby>っていますね。おもしろい<ruby>雑誌<rt>ざっし</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んでいるから、ゆっくりでいいですよ。<ruby>気<rt>き</rt></ruby>をつけて。
+</div>
+<div style="width:28px;height:28px;border-radius:50%;background:#3498db;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ケ</div>
+</div>
+<!-- アミナ -->
+<div style="display:flex; align-items:flex-start; gap:6px;">
+<div style="width:28px;height:28px;border-radius:50%;background:#e74c3c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;">ア</div>
+<div style="background:#fff;color:#333;border:1px solid #ddd;border-radius:18px 18px 18px 4px;padding:8px 12px;max-width:70%;">
+ありがとう！いま<ruby>財布<rt>さいふ</rt></ruby>を<ruby>見<rt>み</rt></ruby>つけて、また<ruby>家<rt>いえ</rt></ruby>を<ruby>出<rt>で</rt></ruby>ました。<ruby>次<rt>つぎ</rt></ruby>のバスに<ruby>乗<rt>の</rt></ruby>れたら、15<ruby>分<rt>ふん</rt></ruby>ぐらいで<ruby>着<rt>つ</rt></ruby>きます。<ruby>着<rt>つ</rt></ruby>いたらすぐに<ruby>連絡<rt>れんらく</rt></ruby>しますね。
+</div>
+</div>
+</div>
+`,
+           text: "31. アミナさんは、どうして<ruby>遅<rt>おく</rt></ruby>れますか。",
+           options: [
+               "<ruby>財布<rt>さいふ</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れて、<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ったからです。",
+               "<ruby>道<rt>みち</rt></ruby>に<ruby>迷<rt>まよ</rt></ruby>ったからです。",
+               "<ruby>電車<rt>でんしゃ</rt></ruby>が<ruby>来<rt>こ</rt></ruby>ないからです。",
+               "<ruby>本<rt>ほん</rt></ruby>を<ruby>買<rt>か</rt></ruby>っているからです。"
+           ],
+           answer: 0
+       },
+       {
+           text: "32. ケンタさんは、どこでアミナさんを<ruby>待<rt>ま</rt></ruby>ちますか。",
+           options: [
+               "カフェの<ruby>中<rt>なか</rt></ruby>です。",
+               "<ruby>駅<rt>えき</rt></ruby>の<ruby>外<rt>そと</rt></ruby>です。",
+               "<ruby>家<rt>いえ</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>です。",
+               "<ruby>駅<rt>えき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>の<ruby>本屋<rt>ほんや</rt></ruby>です。"
+           ],
+           answer: 3
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+問題 ２<br>
+次（つぎ）の文章（ぶんしょう）を読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを 1 つ選（えら）んでください。<br><br>
+</div>
+<div style="background:#f8f9fa; border-left:4px solid #f1c40f; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
+<ruby>先月<rt>せんげつ</rt></ruby>、ずっと<ruby>欲<rt>ほ</rt></ruby>しかったスマートウォッチを<ruby>買<rt>か</rt></ruby>いました。このスマートウォッチは、スマートフォンを<ruby>見<rt>み</rt></ruby>なくてもメッセージが<ruby>読<rt>よ</rt></ruby>めるので、とても<ruby>便利<rt>べんり</rt></ruby>です。デザインもきれいで、とても<ruby>軽<rt>かる</rt></ruby>いですから、スポーツをするときや<ruby>寝<rt>ね</rt></ruby>るときもずっと<ruby>腕<rt>うで</rt></ruby>につけています。また、<ruby>歩<rt>ある</rt></ruby>いた<ruby>距離<rt>きょり</rt></ruby>や<ruby>心拍数<rt>しんぱくすう</rt></ruby>（ドキドキする<ruby>回数<rt>かいすう</rt></ruby>）もわかるので、<ruby>健康<rt>けんこう</rt></ruby>のチェックにとてもいいです。<br>でも、１<ruby>日<rt>にち</rt></ruby>でバッテリーがなくなるのが、<ruby>少<rt>すこ</rt></ruby>し<ruby>残念<rt>ざんねん</rt></ruby>です。<ruby>旅行<rt>りょこう</rt></ruby>に<ruby>行<rt>い</rt></ruby>くときは、<ruby>毎日<rt>まいにち</rt></ruby>の<ruby>充電器<rt>じゅうでんき</rt></ruby>を<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>かなければなりません。それ<ruby>以外<rt>いがい</rt></ruby>はとても<ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>っています。
+</div>
+`,
+           text: "33. このスマートウォッチのいいところは<ruby>何<rt>なん</rt></ruby>ですか。",
+           options: [
+               "バッテリーが<ruby>長<rt>なが</rt></ruby>くもつところ",
+               "スマートフォンなしでメッセージが<ruby>読<rt>よ</rt></ruby>めるところ",
+               "デザインがふるいところ",
+               "<ruby>重<rt>おも</rt></ruby>くて<ruby>丈夫<rt>じょうぶ</rt></ruby>なところ"
+           ],
+           answer: 1
+       },
+       {
+           text: "34. このスマートウォッチの<ruby>残念<rt>ざんねん</rt></ruby>なところは<ruby>何<rt>なん</rt></ruby>ですか。",
+           options: [
+               "<ruby>値段<rt>ねだん</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いことです。",
+               "メッセージが<ruby>読<rt>よ</rt></ruby>めないことです。",
+               "バッテリーがすぐになくなることです。",
+               "<ruby>色<rt>いろ</rt></ruby>がきれいでないことです。"
+           ],
+           answer: 2
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+問題 ３<br>
+次（つぎ）の文章（ぶんしょう）を読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。<br><br>
+４人（にん）に「週末（しゅうまつ）は何（なに）をしますか」について聞（き）きました。
 </div>
 <table style="width:100%; border-collapse:collapse; font-size:14px; line-height:1.8;">
-  <tr>
-    <td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top; background:#f8f9fa;">
-      <b>Ａさん</b><br><br>
-      <ruby>春<rt>はる</rt></ruby>です。あたたかくて、<ruby>桜<rt>さくら</rt></ruby>が<ruby>咲<rt>さ</rt></ruby>くからです。<ruby>毎年<rt>まいとし</rt></ruby>、<ruby>家族<rt>かぞく</rt></ruby>でお<ruby>花見<rt>はなみ</rt></ruby>をします。お<ruby>弁当<rt>べんとう</rt></ruby>を<ruby>食<rt>た</rt></ruby>べながら<ruby>桜<rt>さくら</rt></ruby>を<ruby>見<rt>み</rt></ruby>るのが<ruby>楽<rt>たの</rt></ruby>しいです。
-    </td>
-    <td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top; background:#f8f9fa;">
-      <b>Ｂさん</b><br><br>
-      <ruby>夏<rt>なつ</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです。<ruby>暑<rt>あつ</rt></ruby>いのは<ruby>苦手<rt>にがて</rt></ruby>ですが、<ruby>海<rt>うみ</rt></ruby>で<ruby>泳<rt>およ</rt></ruby>ぐのが<ruby>大好<rt>だいす</rt></ruby>きだからです。<ruby>夏休<rt>なつやす</rt></ruby>みはいつも<ruby>友達<rt>ともだち</rt></ruby>と<ruby>海<rt>うみ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。
-    </td>
-  </tr>
-  <tr>
-    <td style="border:1px solid #ccc; padding:12px; vertical-align:top; background:#f8f9fa;">
-      <b>Ｃさん</b><br><br>
-      <ruby>秋<rt>あき</rt></ruby>です。<ruby>涼<rt>すず</rt></ruby>しくて<ruby>過<rt>す</rt></ruby>ごしやすいし、<ruby>山<rt>やま</rt></ruby>の<ruby>木<rt>き</rt></ruby>が<ruby>赤<rt>あか</rt></ruby>や<ruby>黄色<rt>きいろ</rt></ruby>になるのがとてもきれいです。カメラを<ruby>持<rt>も</rt></ruby>って<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮<rt>と</rt></ruby>りに<ruby>行<rt>い</rt></ruby>きます。
-    </td>
-    <td style="border:1px solid #ccc; padding:12px; vertical-align:top; background:#f8f9fa;">
-      <b>Ｄさん</b><br><br>
-      <ruby>冬<rt>ふゆ</rt></ruby>が<ruby>一番<rt>いちばん</rt></ruby>いいです。<ruby>私<rt>わたし</rt></ruby>の<ruby>国<rt>くに</rt></ruby>には<ruby>雪<rt>ゆき</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>らないので、<ruby>日本<rt>にほん</rt></ruby>に<ruby>来<rt>き</rt></ruby>て<ruby>初<rt>はじ</rt></ruby>めて<ruby>雪<rt>ゆき</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。<ruby>今年<rt>ことし</rt></ruby>はスキーを<ruby>習<rt>なら</rt></ruby>いたいです。
-    </td>
-  </tr>
+<tr>
+<td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top;">
+<b>Ａさん</b><br>
+<ruby>天気<rt>てんき</rt></ruby>がいい<ruby>日<rt>ひ</rt></ruby>は、<ruby>朝<rt>あさ</rt></ruby><ruby>早<rt>はや</rt></ruby>くから<ruby>近<rt>ちか</rt></ruby>くの<ruby>公園<rt>こうえん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きます。そこで<ruby>友達<rt>ともだち</rt></ruby>とサッカーをして、たくさん<ruby>汗<rt>あせ</rt></ruby>をかきます。<ruby>運動<rt>うんどう</rt></ruby>が<ruby>好<rt>す</rt></ruby>きなので、<ruby>体<rt>からだ</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かすととてもすっきりします。<ruby>雨<rt>あめ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>はスポーツジムへ<ruby>行<rt>い</rt></ruby>きます。
+</td>
+<td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top;">
+<b>Ｂさん</b><br>
+わたしは<ruby>週末<rt>しゅうまつ</rt></ruby>、あまり<ruby>外<rt>そと</rt></ruby>には<ruby>出<rt>で</rt></ruby>ません。１<ruby>週間<rt>しゅうかん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>でとても<ruby>疲<rt>つか</rt></ruby>れるからです。<ruby>家<rt>いえ</rt></ruby>でゆっくりコーヒーを<ruby>飲<rt>の</rt></ruby>みながら、<ruby>好<rt>す</rt></ruby>きな<ruby>小説<rt>しょうせつ</rt></ruby>を<ruby>読<rt>よ</rt></ruby>むのがいちばんのリラックスです。<ruby>静<rt>しず</rt></ruby>かな<ruby>時間<rt>じかん</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです。
+</td>
+</tr>
+<tr>
+<td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top;">
+<b>Ｃさん</b><br>
+<ruby>週末<rt>しゅうまつ</rt></ruby>はおしゃれをして、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>に<ruby>行<rt>い</rt></ruby>くのが<ruby>楽<rt>たの</rt></ruby>しみです。よく<ruby>駅<rt>えき</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>にある<ruby>大<rt>おお</rt></ruby>きなデパートへ<ruby>行<rt>い</rt></ruby>って、<ruby>新<rt>あたら</rt></ruby>しい<ruby>服<rt>ふく</rt></ruby>やカバンを<ruby>見<rt>み</rt></ruby>ます。そのあと、おいしいケーキを<ruby>食<rt>た</rt></ruby>べてたくさんおしゃべりします。
+</td>
+<td style="width:50%; border:1px solid #ccc; padding:12px; vertical-align:top;">
+<b>Ｄさん</b><br>
+わたしは<ruby>料理<rt>りょうり</rt></ruby>がとても<ruby>好<rt>す</rt></ruby>きです。<ruby>普段<rt>ふだん</rt></ruby>は<ruby>忙<rt>いそが</rt></ruby>しくて<ruby>簡単<rt>かんたん</rt></ruby>なものしか<ruby>作<rt>つく</rt></ruby>れませんが、<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>はインターネットで<ruby>調<rt>しら</rt></ruby>べて、<ruby>新<rt>あたら</rt></ruby>しいメニューに<ruby>挑戦<rt>ちょうせん</rt></ruby>します。スーパーで<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>野菜<rt>やさい</rt></ruby>を<ruby>買<rt>か</rt></ruby>うのが<ruby>日課<rt>にっか</rt></ruby>です。
+</td>
+</tr>
 </table>
 `,
-            text: "35. <ruby>海<rt>うみ</rt></ruby>で<ruby>泳<rt>およ</rt></ruby>ぐのが<ruby>好<rt>す</rt></ruby>きな<ruby>人<rt>ひと</rt></ruby>は、<ruby>誰<rt>だれ</rt></ruby>ですか。",
-            options: ["Ａさんです。", "Ｂさんです。", "Ｃさんです。", "Ｄさんです。"],
-            answer: 1
-        },
-        {
-            text: "36. Ｄさんの<ruby>国<rt>くに</rt></ruby>について<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
-            options: [
-                "<ruby>日本<rt>にほん</rt></ruby>より<ruby>寒<rt>さむ</rt></ruby>いです。",
-                "<ruby>雪<rt>ゆき</rt></ruby>がたくさん<ruby>降<rt>ふ</rt></ruby>ります。",
-                "<ruby>雪<rt>ゆき</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>りません。",
-                "スキーが<ruby>有名<rt>ゆうめい</rt></ruby>です。"
-            ],
-            answer: 2
-        },
-        {
-            passage: `
+           text: "35. <ruby>週末<rt>しゅうまつ</rt></ruby>にスポーツをする<ruby>人<rt>ひと</rt></ruby>は、<ruby>誰<rt>だれ</rt></ruby>ですか。",
+           options: ["Ａさんです。", "Ｂさんです。", "Ｃさんです。", "Ｄさんです。"],
+           answer: 0
+       },
+       {
+           text: "36. Ｄさんは<ruby>週末<rt>しゅうまつ</rt></ruby>に<ruby>何<rt>なに</rt></ruby>をしますか。",
+           options: [
+               "<ruby>服<rt>ふく</rt></ruby>を<ruby>買<rt>か</rt></ruby>います。",
+               "<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みます。",
+               "サッカーをします。",
+               "<ruby>新<rt>あたら</rt></ruby>しい<ruby>料理<rt>りょうり</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ります。"
+           ],
+           answer: 3
+       },
+       {
+           passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 ５<br>
-  次のお知らせを読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
+問題 ４<br>
+次（つぎ）のお知（し）らせを読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。
 </div>
 <div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    お知らせ
-  </div>
-  <b><ruby>市立図書館<rt>しりつとしょかん</rt></ruby> お<ruby>休<rt>やす</rt></ruby>みのお知らせ</b><br><br>
-  いつも<ruby>図書館<rt>としょかん</rt></ruby>をご<ruby>利用<rt>りよう</rt></ruby>いただきありがとうございます。<br>
-  <ruby>本<rt>ほん</rt></ruby>の<ruby>整理<rt>せいり</rt></ruby>と<ruby>掃除<rt>そうじ</rt></ruby>のため、<ruby>次<rt>つぎ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>はお<ruby>休<rt>やす</rt></ruby>みします。<br><br>
-  <div style="background:#f5f5f5; padding:10px; border-radius:8px; margin:8px 0; text-align:center;">
-    <b>11<ruby>月<rt>がつ</rt></ruby>1<ruby>日<rt>ついたち</rt></ruby>（<ruby>金<rt>きん</rt></ruby>） ～ 11<ruby>月<rt>がつ</rt></ruby>3<ruby>日<rt>みっか</rt></ruby>（<ruby>日<rt>にち</rt></ruby>）</b>
-  </div>
-  ※この<ruby>期間<rt>きかん</rt></ruby>は<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ることができません。<br>
-  ※<ruby>本<rt>ほん</rt></ruby>を<ruby>返<rt>かえ</rt></ruby>す<ruby>人<rt>ひと</rt></ruby>は、<ruby>入口<rt>いりぐち</rt></ruby>の<ruby>外<rt>そと</rt></ruby>にある「<ruby>返却<rt>へんきゃく</rt></ruby>ポスト」に<ruby>入<rt>い</rt></ruby>れてください。<br>
-  11<ruby>月<rt>がつ</rt></ruby>4<ruby>日<rt>よっか</rt></ruby>（<ruby>月<rt>げつ</rt></ruby>）の<ruby>朝<rt>あさ</rt></ruby>9<ruby>時<rt>じ</rt></ruby>からいつも通り<ruby>開<rt>あ</rt></ruby>きます。
+<div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
+さくらスポーツジム お<ruby>休<rt>やす</rt></ruby>みのお<ruby>知<rt>し</rt></ruby>らせ
+</div>
+いつも「さくらスポーツジム」をご<ruby>利用<rt>りよう</rt></ruby>いただき、ありがとうございます。<ruby>今年<rt>ことし</rt></ruby>もたくさんの方に<ruby>来<rt>き</rt></ruby>ていただき、とてもうれしいです。<br><br>
+さて、<ruby>古<rt>ふる</rt></ruby>くなった<ruby>機械<rt>きかい</rt></ruby>の<ruby>点検<rt>てんけん</rt></ruby>と、プールやロッカールームの<ruby>工事<rt>こうじ</rt></ruby>のため、12<ruby>月<rt>がつ</rt></ruby>10<ruby>日<rt>とおか</rt></ruby>と11<ruby>日<rt>じゅういちにち</rt></ruby>はジムを<ruby>完全<rt>かんぜん</rt></ruby>にお<ruby>休<rt>やす</rt></ruby>みします。この２<ruby>日間<rt>ふつかかん</rt></ruby>は<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ることはできません。<br>
+みなさまにはご<ruby>迷惑<rt>めいわく</rt></ruby>をおかけしますが、ご<ruby>理解<rt>りかい</rt></ruby>をお<ruby>願<rt>ねが</rt></ruby>いいたします。<br><br>
+なお、12<ruby>日<rt>じゅうににち</rt></ruby>（<ruby>水曜日<rt>すいようび</rt></ruby>）は、<ruby>朝<rt>あさ</rt></ruby>9<ruby>時<rt>じ</rt></ruby>から いつも<ruby>通<rt>どお</rt></ruby>り<ruby>営業<rt>えいぎょう</rt></ruby>いたします。<ruby>新<rt>あたら</rt></ruby>しくきれいになったジムで、みなさまをお<ruby>待<rt>ま</rt></ruby>ちしております。
 </div>
 `,
-            text: "37. どうして<ruby>図書館<rt>としょかん</rt></ruby>はお<ruby>休<rt>やす</rt></ruby>みですか。",
-            options: [
-                "<ruby>本<rt>ほん</rt></ruby>の<ruby>整理<rt>せいり</rt></ruby>と<ruby>掃除<rt>そうじ</rt></ruby>をするからです。",
-                "<ruby>工事<rt>こうじ</rt></ruby>をするからです。",
-                "<ruby>新<rt>あたら</rt></ruby>しい<ruby>本<rt>ほん</rt></ruby>を<ruby>買<rt>か</rt></ruby>うからです。",
-                "<ruby>休<rt>やす</rt></ruby>みの日だからです。"
-            ],
-            answer: 0
-        },
-        {
-            text: "38. お<ruby>知<rt>し</rt></ruby>らせの<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
-            options: [
-                "11<ruby>月<rt>がつ</rt></ruby>2<ruby>日<rt>ふつか</rt></ruby>は<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>入<rt>はい</rt></ruby>れます。",
-                "お<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>でも、<ruby>外<rt>そと</rt></ruby>のポストに<ruby>本<rt>ほん</rt></ruby>を<ruby>返<rt>かえ</rt></ruby>すことができます。",
-                "11<ruby>月<rt>がつ</rt></ruby>4<ruby>日<rt>よっか</rt></ruby>はお<ruby>休<rt>やす</rt></ruby>みです。",
-                "11<ruby>月<rt>がつ</rt></ruby>1<ruby>日<rt>ついたち</rt></ruby>は<ruby>午前中<rt>ごぜんちゅう</rt></ruby>だけ<ruby>開<rt>あ</rt></ruby>いています。"
-            ],
-            answer: 1
-        },
-        {
-            passage: `
+           text: "37. どうしてジムはお<ruby>休<rt>やす</rt></ruby>みですか。",
+           options: [
+               "<ruby>新<rt>あたら</rt></ruby>しい<ruby>機械<rt>きかい</rt></ruby>を<ruby>買<rt>か</rt></ruby>うからです。",
+               "お<ruby>祭<rt>まつ</rt></ruby>りがあるからです。",
+               "<ruby>機械<rt>きかい</rt></ruby>の<ruby>点検<rt>てんけん</rt></ruby>と<ruby>工事<rt>こうじ</rt></ruby>をするからです。",
+               "スタッフが<ruby>休<rt>やす</rt></ruby>むからです。"
+           ],
+           answer: 2
+       },
+       {
+           text: "38. お<ruby>知<rt>し</rt></ruby>らせの<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
+           options: [
+               "12<ruby>月<rt>がつ</rt></ruby>11<ruby>日<rt>じゅういちにち</rt></ruby>はジムを<ruby>使<rt>つか</rt></ruby>うことができます。",
+               "12<ruby>月<rt>がつ</rt></ruby>12<ruby>日<rt>じゅうににち</rt></ruby>から いつも<ruby>通<rt>どお</rt></ruby>りジムが<ruby>使<rt>つか</rt></ruby>えます。",
+               "ジムは<ruby>毎月<rt>まいつき</rt></ruby>10<ruby>日<rt>とおか</rt></ruby>がお<ruby>休<rt>やす</rt></ruby>みです。",
+               "12<ruby>月<rt>がつ</rt></ruby>12<ruby>日<rt>じゅうににち</rt></ruby>は<ruby>夜<rt>よる</rt></ruby>9<ruby>時<rt>じ</rt></ruby>に<ruby>開<rt>あ</rt></ruby>きます。"
+           ],
+           answer: 1
+       },
+       {
+           passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 ６<br>
-  次のメールを読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
+問題 ５<br>
+次（つぎ）のメールを読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。
+</div>
+<div style="border:1px solid #ccc; border-radius:8px; padding:15px; background:#fafafa; line-height:1.8; font-size:14px; text-align:left;">
+スミスさんへ<br><br>
+お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。マーケティング<ruby>部<rt>ぶ</rt></ruby>の<ruby>山田<rt>やまだ</rt></ruby>です。<br>
+<ruby>明日<rt>あした</rt></ruby>のミーティングについてですが、すこし<ruby>相談<rt>そうだん</rt></ruby>があります。<ruby>先ほど<rt>さきほど</rt></ruby>、<ruby>大切<rt>たいせつ</rt></ruby>なお<ruby>客様<rt>きゃくさま</rt></ruby>から<ruby>電話<rt>でんわ</rt></ruby>があり、<ruby>明日<rt>あした</rt></ruby>の<ruby>午後<rt>ごご</rt></ruby>、<ruby>急<rt>きゅう</rt></ruby>にそのお<ruby>客様<rt>きゃくさま</rt></ruby>のところへ<ruby>行<rt>い</rt></ruby>くことになってしまいました。<br>
+ですから、ミーティングの<ruby>時間<rt>じかん</rt></ruby>を3<ruby>時<rt>じ</rt></ruby>からではなく、4<ruby>時<rt>じ</rt></ruby>に<ruby>変更<rt>へんこう</rt></ruby>できませんか。<ruby>私<rt>わたし</rt></ruby>は3<ruby>時<rt>じ</rt></ruby>半<ruby>頃<rt>ごろ</rt></ruby>には<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>れると<ruby>思<rt>おも</rt></ruby>います。<br>
+<ruby>場所<rt>ばしょ</rt></ruby>は <ruby>会議室<rt>かいぎしつ</rt></ruby>Ｃで<ruby>同<rt>おな</rt></ruby>じです。<ruby>新<rt>あたら</rt></ruby>しい<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>資料<rt>しりょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>がコピーして<ruby>持<rt>も</rt></ruby>って<ruby>行<rt>い</rt></ruby>きます。<br>
+もし4<ruby>時<rt>じ</rt></ruby>が<ruby>難<rt>むずか</rt></ruby>しければ、また<ruby>別<rt>べつ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>にしましょう。お<ruby>返事<rt>へんじ</rt></ruby>をお<ruby>待<rt>ま</rt></ruby>ちしています。<br><br>
+<ruby>山田<rt>やまだ</rt></ruby>
+</div>
+`,
+           text: "39. どうしてミーティングの<ruby>時間<rt>じかん</rt></ruby>が<ruby>変<rt>か</rt></ruby>わりましたか。",
+           options: [
+               "<ruby>会議室<rt>かいぎしつ</rt></ruby>が<ruby>使<rt>つか</rt></ruby>えないからです。",
+               "スミスさんが<ruby>遅刻<rt>ちこく</rt></ruby>するからです。",
+               "<ruby>山田<rt>やまだ</rt></ruby>さんが<ruby>病気<rt>びょうき</rt></ruby>になったからです。",
+               "<ruby>山田<rt>やまだ</rt></ruby>さんがお<ruby>客様<rt>きゃくさま</rt></ruby>のところへ<ruby>行<rt>い</rt></ruby>くからです。"
+           ],
+           answer: 3
+       },
+       {
+           text: "40. <ruby>新<rt>あたら</rt></ruby>しいミーティングの<ruby>時間<rt>じかん</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>ですか。",
+           options: [
+               "4<ruby>時<rt>じ</rt></ruby>からです。",
+               "3<ruby>時<rt>じ</rt></ruby>からです。",
+               "2<ruby>時<rt>じ</rt></ruby>からです。",
+               "5<ruby>時<rt>じ</rt></ruby>からです。"
+           ],
+           answer: 0
+       },
+       {
+           passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+問題 ６<br>
+次（つぎ）の案内（あんない）を読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。
 </div>
 <div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    <ruby>メール<rt>mail</rt></ruby>
-  </div>
-  <div style="border:1px solid #ccc; padding:12px; border-radius:8px; margin-bottom:15px; background:#fafafa;">
-    <ruby>佐藤<rt>さとう</rt></ruby>さん<br><br>
-    お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。キムです。<br>
-    <ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>送別会<rt>そうべつかい</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>が<ruby>変<rt>か</rt></ruby>わりました。<br>
-    <ruby>最初<rt>さいしょ</rt></ruby>は 18:00 からの<ruby>予定<rt>よてい</rt></ruby>でしたが、<ruby>部長<rt>ぶちょう</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>が<ruby>遅<rt>おそ</rt></ruby>くなるので、19:00 からに<ruby>変更<rt>へんこう</rt></ruby>します。<br>
-    <ruby>場所<rt>ばしょ</rt></ruby>は「レストランさくら」で<ruby>同<rt>おな</rt></ruby>じです。<br>
-    <ruby>時間<rt>じかん</rt></ruby>に<ruby>遅<rt>おく</rt></ruby>れないように来てください。<br><br>
-    キム
-  </div>
+<div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
+にほんご<ruby>教室<rt>きょうしつ</rt></ruby>のお<ruby>知<rt>し</rt></ruby>らせ
+</div>
+「にほんご<ruby>教室<rt>きょうしつ</rt></ruby>」は、<ruby>外国<rt>がいこく</rt></ruby>から<ruby>来<rt>き</rt></ruby>たみなさんが、<ruby>楽<rt>たの</rt></ruby>しく<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>する場所です。<ruby>今年<rt>ことし</rt></ruby>から、あたらしいクラスがいくつかできました。<ruby>自分<rt>じぶん</rt></ruby>の<ruby>目的<rt>もくてき</rt></ruby>やスケジュールに<ruby>合<rt>あ</rt></ruby>わせて、<ruby>好<rt>す</rt></ruby>きなクラスを<ruby>選<rt>えら</rt></ruby>ぶことができます。<br><br>
+① <ruby>会話<rt>かいわ</rt></ruby>クラス：<ruby>月曜日<rt>げつようび</rt></ruby> <ruby>午前<rt>ごぜん</rt></ruby>10<ruby>時<rt>じ</rt></ruby>〜11<ruby>時<rt>じ</rt></ruby>半（500<ruby>円<rt>えん</rt></ruby>）<br>
+（<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>や<ruby>病院<rt>びょういん</rt></ruby>で<ruby>使<rt>つか</rt></ruby>う<ruby>便利<rt>べんり</rt></ruby>な<ruby>言葉<rt>ことば</rt></ruby>を<ruby>練習<rt>れんしゅう</rt></ruby>します）<br>
+② <ruby>漢字<rt>かんじ</rt></ruby>クラス：<ruby>火曜日<rt>かようび</rt></ruby> <ruby>午後<rt>ごご</rt></ruby>2<ruby>時<rt>じ</rt></ruby>〜3<ruby>時<rt>じ</rt></ruby>（400<ruby>円<rt>えん</rt></ruby>）<br>
+（レストランのメニューや<ruby>看板<rt>かんばん</rt></ruby>の<ruby>漢字<rt>かんじ</rt></ruby>が<ruby>読<rt>よ</rt></ruby>めるようになります）<br>
+③ <ruby>試験<rt>しけん</rt></ruby>（JLPT）クラス：<ruby>水曜日<rt>すいようび</rt></ruby> <ruby>午後<rt>ごご</rt></ruby>6<ruby>時<rt>じ</rt></ruby>〜8<ruby>時<rt>じ</rt></ruby>（1000<ruby>円<rt>えん</rt></ruby>）<br>
+（N3やN4に<ruby>合格<rt>ごうかく</rt></ruby>したい<ruby>人<rt>ひと</rt></ruby>のクラスです。<ruby>夜<rt>よる</rt></ruby>なので<ruby>会社員<rt>かいしゃいん</rt></ruby>も<ruby>参加<rt>さんか</rt></ruby>できます）<br>
+④ <ruby>文化<rt>ぶんか</rt></ruby>クラス：<ruby>土曜日<rt>どようび</rt></ruby> <ruby>午後<rt>ごご</rt></ruby>1<ruby>時<rt>じ</rt></ruby>〜3<ruby>時<rt>じ</rt></ruby>（800<ruby>円<rt>えん</rt></ruby>）<br>
+（お<ruby>茶<rt>ちゃ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>んだり、<ruby>着物<rt>きもの</rt></ruby>を<ruby>着<rt>き</rt></ruby>たりして、<ruby>日本<rt>にほん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>を<ruby>体験<rt>たいけん</rt></ruby>します）<br><br>
+<ruby>参加<rt>さんか</rt></ruby>したい<ruby>人<rt>ひと</rt></ruby>は、クラスが<ruby>始<rt>はじ</rt></ruby>まる<ruby>前<rt>まえ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>までに<ruby>事務所<rt>じむしょ</rt></ruby>へお<ruby>金<rt>かね</rt></ruby>を<ruby>払<rt>はら</rt></ruby>いに<ruby>来<rt>き</rt></ruby>てください。
 </div>
 `,
-            text: "39. <ruby>送別会<rt>そうべつかい</rt></ruby>は何時から始まりますか。",
-            options: [
-                "18:00 から",
-                "18:30 から",
-                "19:00 から",
-                "19:30 から"
-            ],
-            answer: 2
-        },
-        {
-            text: "40. メールの内容と合っているのは、どれですか。",
-            options: [
-                "<ruby>場所<rt>ばしょ</rt></ruby>も<ruby>変更<rt>へんこう</rt></ruby>になりました。",
-                "<ruby>部長<rt>ぶちょう</rt></ruby>の<ruby>都合<rt>つごう</rt></ruby>で<ruby>時間<rt>じかん</rt></ruby>が<ruby>変<rt>か</rt></ruby>わりました。",
-                "キムさんが<ruby>遅刻<rt>ちこく</rt></ruby>するからです。",
-                "<ruby>佐藤<rt>さとう</rt></ruby>さんは<ruby>送別会<rt>そうべつかい</rt></ruby>に行きません。"
-            ],
-            answer: 1
-        },
-        {
-            passage: `
+           text: "41. リナさんは<ruby>仕事<rt>しごと</rt></ruby>のあとに、JLPTの<ruby>勉強<rt>べんきょう</rt></ruby>をしたいです。どのクラスがいいですか。",
+           options: [
+               "① <ruby>会話<rt>かいわ</rt></ruby>クラス",
+               "② <ruby>漢字<rt>かんじ</rt></ruby>クラス",
+               "③ <ruby>試験<rt>しけん</rt></ruby>クラス",
+               "④ <ruby>文化<rt>ぶんか</rt></ruby>クラス"
+           ],
+           answer: 2
+       },
+       {
+           text: "42. ジョンさんは<ruby>週末<rt>しゅうまつ</rt></ruby>（<ruby>休<rt>やす</rt></ruby>みの<ruby>日<rt>ひ</rt></ruby>）に、<ruby>日本<rt>にほん</rt></ruby>のことについて<ruby>習<rt>なら</rt></ruby>いたいです。どのクラスがいいですか。",
+           options: [
+               "① <ruby>会話<rt>かいわ</rt></ruby>クラス",
+               "④ <ruby>文化<rt>ぶんか</rt></ruby>クラス",
+               "② <ruby>漢字<rt>かんじ</rt></ruby>クラス",
+               "③ <ruby>試験<rt>しけん</rt></ruby>クラス"
+           ],
+           answer: 1
+       },
+       {
+           passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 ７<br>
-  次のメニューを読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
+問題 ７<br>
+次（つぎ）の文章（ぶんしょう）を読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。
 </div>
-<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    カフェ・マロン ケーキセット
-  </div>
-  ケーキと飲み物のセットです。<br><br>
-  【ケーキ】<br>
-  ① ショートケーキ<br>
-  ② チョコレートケーキ<br>
-  ③ チーズケーキ<br><br>
-  【飲み物】<br>
-  ・コーヒー（ホット／アイス）<br>
-  ・紅茶（ホット／アイス）<br>
-  ・オレンジジュース<br><br>
-  【値段】<br>
-  ケーキセットは 全部 800 円です。<br>
-  ※アイスクリームをつける場合は ＋150 円です。
+<div style="border:2px solid #333; border-radius:10px; padding:20px; background:#fff; line-height:2; font-size:15px; text-align:left;">
+<ruby>私<rt>わたし</rt></ruby>は<ruby>先月<rt>せんげつ</rt></ruby>、<ruby>大学<rt>だいがく</rt></ruby>の<ruby>友達<rt>ともだち</rt></ruby>に<ruby>誘<rt>さそ</rt></ruby>われて、<ruby>長野県<rt>ながのけん</rt></ruby>へ<ruby>初<rt>はじ</rt></ruby>めて<ruby>日本<rt>にほん</rt></ruby>の<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>行<rt>い</rt></ruby>きました。<ruby>私<rt>わたし</rt></ruby>の<ruby>国<rt>くに</rt></ruby>にはお<ruby>風呂<rt>ふろ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>る<ruby>習慣<rt>しゅうかん</rt></ruby>があまりありません。<ruby>特<rt>とく</rt></ruby>に、<ruby>最初<rt>さいしょ</rt></ruby>はほかの<ruby>人<rt>ひと</rt></ruby>と<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>服<rt>ふく</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>いで<ruby>入<rt>はい</rt></ruby>るのがどうしても<ruby>恥<rt>はず</rt></ruby>ずかしくて、「シャワーだけでいい」と<ruby>言<rt>い</rt></ruby>っていました。<ruby>本当<rt>ほんとう</rt></ruby>にとても<ruby>嫌<rt>いや</rt></ruby>だったのです。<br>
+でも、<ruby>友達<rt>ともだち</rt></ruby>が「ぜったいに<ruby>気持<rt>きも</rt></ruby>ちいいから」と<ruby>言<rt>い</rt></ruby>うので、<ruby>勇気<rt>ゆうき</rt></ruby>を<ruby>出<rt>で</rt></ruby>して<ruby>入<rt>はい</rt></ruby>ってみました。<ruby>外<rt>そと</rt></ruby>は<ruby>雪<rt>ゆき</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>っていてとても<ruby>寒<rt>さむ</rt></ruby>かったですが、お<ruby>湯<rt>ゆ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>ると、<ruby>体<rt>からだ</rt></ruby>の<ruby>芯<rt>しん</rt></ruby>まで<ruby>温<rt>あたた</rt></ruby>かくなって、とても<ruby>気持<rt>きも</rt></ruby>ちがよかったです。<ruby>美<rt>うつく</rt></ruby>しい<ruby>山<rt>やま</rt></ruby>の<ruby>景色<rt>けしき</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながらお<ruby>湯<rt>ゆ</rt></ruby>に<ruby>入<rt>はい</rt></ruby>って、心からリラックスできました。<ruby>恥<rt>はず</rt></ruby>ずかしい<ruby>気持<rt>きも</rt></ruby>ちは、すぐにどこかへ<ruby>行<rt>い</rt></ruby>ってしまいました。<br>
+<ruby>今<rt>いま</rt></ruby>ではすっかり<ruby>温泉<rt>おんせん</rt></ruby>が<ruby>大好<rt>だいす</rt></ruby>きになり、アルバイトでお<ruby>金<rt>かね</rt></ruby>を<ruby>貯<rt>た</rt></ruby>めて、<ruby>毎月<rt>まいつき</rt></ruby>のようにいろいろな<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>行<rt>い</rt></ruby>っています。
 </div>
 `,
-            text: "41. チーズケーキとホットコーヒーのセットを<ruby>頼<rt>たの</rt></ruby>んで、アイスクリームをつけました。いくらですか。",
-            options: [
-                "800 円",
-                "950 円",
-                "1,100 円",
-                "1,150 円"
-            ],
-            answer: 1
-        },
-        {
-            text: "42. メニューの内容と合っているのは、どれですか。",
-            options: [
-                "ケーキによって値段が違います。",
-                "飲み物は別にお金を払います。",
-                "アイスクリームをつけなければ、800円です。",
-                "オレンジジュースはホットしかありません。"
-            ],
-            answer: 2
-        },
-        {
-            passage: `
+           text: "43. 「<ruby>私<rt>わたし</rt></ruby>」は<ruby>温泉<rt>おんせん</rt></ruby>に<ruby>行<rt>い</rt></ruby>ったとき、<ruby>最初<rt>さいしょ</rt></ruby>どう<ruby>思<rt>おも</rt></ruby>いましたか。",
+           options: [
+               "お<ruby>湯<rt>ゆ</rt></ruby>が<ruby>熱<rt>あつ</rt></ruby>すぎると<ruby>思<rt>おも</rt></ruby>いました。",
+               "<ruby>服<rt>ふく</rt></ruby>を<ruby>脱<rt>ぬ</rt></ruby>ぐのが<ruby>恥<rt>はず</rt></ruby>ずかしいと<ruby>思<rt>おも</rt></ruby>いました。",
+               "リラックスできて<ruby>最高<rt>さいこう</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>いました。",
+               "<ruby>毎月<rt>まいつき</rt></ruby><ruby>来<rt>き</rt></ruby>たいと<ruby>思<rt>おも</rt></ruby>いました。"
+           ],
+           answer: 1
+       },
+       {
+           text: "44. 「<ruby>私<rt>わたし</rt></ruby>」は<ruby>今<rt>いま</rt></ruby>、<ruby>温泉<rt>おんせん</rt></ruby>についてどう<ruby>思<rt>おも</rt></ruby>っていますか。",
+           options: [
+               "<ruby>嫌<rt>いや</rt></ruby>なので もう<ruby>行<rt>い</rt></ruby>きたくないです。",
+               "お<ruby>金<rt>かね</rt></ruby>がかかるので<ruby>行<rt>い</rt></ruby>きません。",
+               "まだすこし<ruby>恥<rt>はず</rt></ruby>ずかしいです。",
+               "<ruby>大好<rt>だいす</rt></ruby>きなので<ruby>毎月<rt>まいつき</rt></ruby><ruby>行<rt>い</rt></ruby>っています。"
+           ],
+           answer: 3
+       },
+       {
+           passage: `
 <div style="font-size:14px; margin-bottom:10px;">
-  問題 ８<br>
-  次の文章を読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
+問題 ８<br>
+次（つぎ）の文章（ぶんしょう）を読（よ）んで、問題（もんだい）に答（こた）えてください。<br>
+答（こた）えは１・２・３・４の中（なか）から一番（いちばん）いいものを１つ選（えら）んでください。
 </div>
-<div style="border:2px solid #333; border-radius:10px; padding:20px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    コンビニでのアルバイト
-  </div>
-  <p>
-    私は、<ruby>半年<rt>はんとし</rt></ruby>前からコンビニでアルバイトをしています。日本に来てすぐのころは、日本語があまり上手に話せなかったので、お客様と話すのがとても<ruby>怖<rt>こわ</rt></ruby>かったです。
-  </p>
-  <p>
-    アルバイトを始めたばかりのとき、お客様に「お<ruby>弁当<rt>べんとう</rt></ruby>を温めますか」と聞くのを忘れて、<ruby>怒<rt>おこ</rt></ruby>られたことがありました。その時はとても<ruby>悲<rt>かな</rt></ruby>しかったです。
-  </p>
-  <p>
-    でも、<ruby>店長<rt>てんちょう</rt></ruby>が「<ruby>失敗<rt>しっぱい</rt></ruby>しても大丈夫だよ。<ruby>笑顔<rt>えがお</rt></ruby>で挨拶することが一番大切だ」と教えてくれました。それから、私はいつも<ruby>笑顔<rt>えがお</rt></ruby>で「いらっしゃいませ」と言うようにしました。
-  </p>
-  <p>
-    今では、よく来るお客様が「今日も頑張ってるね」と声をかけてくれるようになりました。コンビニの仕事は<ruby>忙<rt>いそが</rt></ruby>しいですが、今はとても楽しいです。
-  </p>
+<div style="border:2px solid #333; border-radius:10px; padding:20px; background:#fff; line-height:2; font-size:15px; text-align:left;">
+<ruby>最近<rt>さいきん</rt></ruby>、アパートのベランダでトマトを<ruby>育<rt>そだ</rt></ruby>て<ruby>始<rt>はじ</rt></ruby>めました。スーパーで<ruby>買<rt>か</rt></ruby>うより、<ruby>自分<rt>じぶん</rt></ruby>で<ruby>育<rt>そだ</rt></ruby>てたほうが<ruby>美味<rt>おい</rt></ruby>しいと<ruby>友達<rt>ともだち</rt></ruby>から<ruby>聞<rt>き</rt></ruby>いたからです。<ruby>毎朝<rt>まいあさ</rt></ruby>、<ruby>早<rt>はや</rt></ruby>く<ruby>起<rt>お</rt></ruby>きて<ruby>水<rt>みず</rt></ruby>をやるのは、すこし<ruby>大変<rt>たいへん</rt></ruby>ですがとても<ruby>楽<rt>たの</rt></ruby>しいです。<ruby>小<rt>ちい</rt></ruby>さな<ruby>緑色<rt>みどりいろ</rt></ruby>の<ruby>実<rt>み</rt></ruby>ができたときはとてもうれしかったです。<br>
+しかし、<ruby>最初<rt>さいしょ</rt></ruby>は<ruby>葉<rt>は</rt></ruby>っぱに<ruby>虫<rt>むし</rt></ruby>がたくさん<ruby>来<rt>き</rt></ruby>てしまって、とても<ruby>困<rt>こま</rt></ruby>りました。そこで、インターネットでたくさん<ruby>調<rt>しら</rt></ruby>べて、<ruby>野菜<rt>やさい</rt></ruby>の<ruby>育<rt>そだ</rt></ruby>て<ruby>方<rt>かた</rt></ruby>のブログを<ruby>読<rt>よ</rt></ruby>みました。ブログでおすすめされていた、<ruby>体<rt>からだ</rt></ruby>に<ruby>安全<rt>あんぜん</rt></ruby>な<ruby>薬<rt>くすり</rt></ruby>を<ruby>見<rt>み</rt></ruby>つけてホームセンターで<ruby>買<rt>か</rt></ruby>いました。<br>
+それを<ruby>使<rt>つか</rt></ruby>うと、<ruby>虫<rt>むし</rt></ruby>はすっかりいなくなりました。<ruby>太陽<rt>たいよう</rt></ruby>の<ruby>光<rt>ひかり</rt></ruby>をたくさん浴びて、<ruby>昨日<rt>きのう</rt></ruby>、ついに<ruby>赤<rt>あか</rt></ruby>くて<ruby>美味<rt>おい</rt></ruby>しそうなトマトが10<ruby>個<rt>こ</rt></ruby>もとれました。<ruby>夜<rt>よる</rt></ruby>ごはんに、<ruby>家族<rt>かぞく</rt></ruby>とサラダにして<ruby>食<rt>た</rt></ruby>べましたが、とても<ruby>甘<rt>あま</rt></ruby>くて<ruby>最高<rt>さいこう</rt></ruby>でした。<ruby>来年<rt>らいねん</rt></ruby>はきゅうりも<ruby>育<rt>そだ</rt></ruby>ててみたいです。
 </div>
 `,
-            text: "43. 「私」がアルバイトを始めたばかりのとき、どうして<ruby>怒<rt>おこ</rt></ruby>られましたか。",
-            options: [
-                "遅刻したからです。",
-                "お弁当を温めるかどうか聞くのを忘れたからです。",
-                "日本語が分からなかったからです。",
-                "お金の計算を間違えたからです。"
-            ],
-            answer: 1
-        },
-        {
-            text: "44. 「私」がアルバイトをしていて一番大切にしていることは何ですか。",
-            options: [
-                "早く仕事を終わらせること",
-                "大きな声で話すこと",
-                "笑顔で挨拶をすること",
-                "日本語の勉強をすること"
-            ],
-            answer: 2
-        },
-        {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  問題 ９<br>
-  次の文章を読んで、問題に答えてください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
-</div>
-<div style="border:2px solid #333; border-radius:10px; padding:20px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    外国語の勉強
-  </div>
-  <p>
-    外国語を勉強するのは、時間がかかって大変です。単語をたくさん覚えたり、文法を勉強したりしなければなりません。でも、私は外国語の勉強が好きです。
-  </p>
-  <p>
-    私が英語や日本語を勉強するとき、教科書だけで勉強するのではなく、その国の映画を見たり、音楽を聞いたりするようにしています。そうすると、生きた言葉を楽しく覚えることができます。
-  </p>
-  <p>
-    また、間違えることを<ruby>恥<rt>は</rt></ruby>ずかしいと思わないことが大切だと考えています。間違えてもいいので、どんどん外国人と話すチャンスを作ったほうが、早く上手に話せるようになります。
-  </p>
-  <p>
-    外国語ができると、世界中のいろいろな人と友達になることができます。これからも、楽しみながら勉強を続けていきたいです。
-  </p>
-</div>
-`,
-            text: "45. 「私」は、どうやって外国語を勉強するのがいいと言っていますか。",
-            options: [
-                "教科書だけを何回も読むこと",
-                "映画を見たり音楽を聞いたりして楽しく勉強すること",
-                "外国語の学校に毎日通うこと",
-                "辞書を読んで単語を全部覚えること"
-            ],
-            answer: 1
-        },
-        {
-            text: "46. 早く上手に話せるようになるためには、どうすればいいと言っていますか。",
-            options: [
-                "間違えるのを恥ずかしいと思うこと",
-                "文法を完璧に覚えること",
-                "間違えてもいいから、たくさん外国人と話すこと",
-                "一人で毎日練習すること"
-            ],
-            answer: 2
-        },
-        /* =====================================================
-        PART 3 : 漢字問題
-        ===================================================== */
-        {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  3 漢字問題<br>
-  漢字問題 Ａ<br>
-  ひらがなで書かれた言葉の漢字を選んでください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
-</div>
-`,
-            text: "47. このかばんは<u>くろい</u>です。",
-            options: ["赤い", "白い", "黒い", "青い"],
-            answer: 2
-        },
-        {
-            text: "48. 冷たい<u>みず</u>を飲みます。",
-            options: ["氷", "水", "木", "火"],
-            answer: 1
-        },
-        {
-            text: "49. 父の<u>くるま</u>は新しいです。",
-            options: ["車", "電車", "自転車", "飛行機"],
-            answer: 0
-        },
-        {
-            text: "50. あの<u>みせ</u>でパンを買いましょう。",
-            options: ["駅", "家", "店", "町"],
-            answer: 2
-        },
-        {
-            text: "51. 明日、<u>びょういん</u>へ行きます。",
-            options: ["学校", "会社", "公園", "病院"],
-            answer: 3
-        },
-        {
-            text: "52. 日曜日は<u>やすみ</u>です。",
-            options: ["仕事", "休み", "体", "働み"],
-            answer: 1
-        },
-        {
-            text: "53. 母と<u>かいもの</u>に行きます。",
-            options: ["散歩", "買い物", "食事", "読書"],
-            answer: 1
-        },
-        {
-            text: "54. ここに<u>なまえ</u>を書いてください。",
-            options: ["住所", "名前", "電話", "番号"],
-            answer: 1
-        },
-        {
-            text: "55. あの犬はとても<u>おおきい</u>です。",
-            options: ["小さい", "太い", "細い", "大きい"],
-            answer: 3
-        },
-        {
-            text: "56. あそこにいる<u>ひと</u>は誰ですか。",
-            options: ["男", "女", "人", "子"],
-            answer: 2
-        },
-        {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  漢字問題 Ｂ<br>
-  次の漢字の読み方を選んでください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
-</div>
-<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    漢字の読み方
-  </div>
-  下線の漢字の読み方を選んでください。
-</div>
-`,
-            text: "57. 毎日、<u>電車</u>で学校に行きます。",
-            options: ["でんしゃ", "てんしゃ", "でんじゃ", "じどうしゃ"],
-            answer: 0
-        },
-        {
-            text: "58. あの人は日本語の<u>先生</u>です。",
-            options: ["せんせ", "せいせん", "せんせい", "がくせい"],
-            answer: 2
-        },
-        {
-            text: "59. 日本の<u>春</u>はきれいです。",
-            options: ["なつ", "あき", "ふゆ", "はる"],
-            answer: 3
-        },
-        {
-            text: "60. 私は<u>音楽</u>を聞くのが好きです。",
-            options: ["おんかく", "おんがく", "いんがく", "おんが"],
-            answer: 1
-        },
-        {
-            text: "61. 私の家は<u>南</u>にあります。",
-            options: ["きた", "ひがし", "にし", "みなみ"],
-            answer: 3
-        },
-        {
-            text: "62. <u>新</u>しいくつを買いました。",
-            options: ["ふる", "あたら", "ほし", "うれ"],
-            answer: 1
-        },
-        {
-            text: "63. この<u>時計</u>は高いです。",
-            options: ["じけい", "とけい", "じかん", "とけ"],
-            answer: 1
-        },
-        {
-            text: "64. お金を<u>銀行</u>に入れます。",
-            options: ["ぎんこう", "きんこう", "ぎんごう", "かいしゃ"],
-            answer: 0
-        },
-        {
-            text: "65. 駅まで<u>歩</u>いて行きます。",
-            options: ["はし", "ある", "い", "の"],
-            answer: 1
-        },
-        {
-            text: "66. <u>毎日</u>、日本語を勉強します。",
-            options: ["まいとし", "まいつき", "まいしゅう", "まいにち"],
-            answer: 3
-        },
-        /* =====================================================
-        PART 4 : 記述問題
-        ===================================================== */
-        {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  ４ 記述問題 Ａ<br>
-  次の会話や文を読んで、（Ａ）と（Ｂ）に入る最も適当な言葉の組み合わせを選んでください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
-</div>
-<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    言葉を選びましょう
-  </div>
-  （Ａ）と（Ｂ）に入る言葉の組み合わせを選んでください。
-</div>
-`,
-            text: "67. Ａ：今日の（Ａ）はどうですか。 Ｂ：とてもいい天気ですよ。（Ｂ）は降りません。",
-            options: ["（Ａ）天気 （Ｂ）雨", "（Ａ）気候 （Ｂ）雪", "（Ａ）空 （Ｂ）風", "（Ａ）時間 （Ｂ）雷"],
-            answer: 0
-        },
-        {
-            text: "68. Ａ：どんな（Ａ）が好きですか。 Ｂ：私は、アクション（Ｂ）が好きです。",
-            options: ["（Ａ）スポーツ （Ｂ）ゲーム", "（Ａ）映画 （Ｂ）映画", "（Ａ）音楽 （Ｂ）歌", "（Ａ）本 （Ｂ）雑誌"],
-            answer: 1
-        },
-        {
-            text: "69. Ａ：（Ａ）があるので、今日は会社を（Ｂ）ください。 Ｂ：わかりました。お大事に。",
-            options: ["（Ａ）用事 （Ｂ）休んで", "（Ａ）熱 （Ｂ）休ませて", "（Ａ）病気 （Ｂ）帰って", "（Ａ）風邪 （Ｂ）行って"],
-            answer: 1
-        },
-        {
-            text: "70. 会議は（Ａ）から始まるか、知っていますか。はい、午後２時からの（Ｂ）です。",
-            options: ["（Ａ）いつ （Ｂ）予定", "（Ａ）どこ （Ｂ）時間", "（Ａ）だれ （Ｂ）約束", "（Ａ）何時 （Ｂ）予定"],
-            answer: 3
-        },
-        {
-            passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  ４ 記述問題 Ｂ<br>
-  次の会話や文章を読んでください。<br>
-  【 】の中の言葉を１→２→３の順に使った正しい文を選んでください。<br>
-  答えは１・２・３・４の中から一番いいものを１つ選んでください。
-</div>
-<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
-  <div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:15px; border-bottom:1px solid #ccc; padding-bottom:8px;">
-    文を作りましょう
-  </div>
-  １ → ２ → ３ の順に言葉を使った文を選んでください。
-</div>
-`,
-            text: "71. 部屋を出るときは、【１．電気 → ２．消して → ３．ください】。",
-            options: ["電気を消してください。", "消して電気をください。", "電気をください消して。", "消してください電気を。"],
-            answer: 0
-        },
-        {
-            text: "72. 家族に【１．手紙 → ２．書いて → ３．から】、寝ます。",
-            options: ["手紙を書いてから、寝ます。", "書いてから手紙を、寝ます。", "手紙から書いて、寝ます。", "書いて手紙から、寝ます。"],
-            answer: 0
-        },
-        {
-            text: "73. 明日は【１．テスト → ２．ある → ３．ので】、勉強しなければなりません。",
-            options: ["あるのでテストが、勉強しなければなりません。", "テストがあるので、勉強しなければなりません。", "テストでありますから、勉強しなければなりません。", "あるテストなので、勉強しなければなりません。"],
-            answer: 1
-        },
-        {
-            text: "74. 探していた辞書は、【１．かばん → ２．中 → ３．ありました】。",
-            options: ["かばんの中にありました。", "中にかばんがありました。", "かばんのありました中です。", "中にありましたかばんです。"],
-            answer: 0
-        }
-    ];   
-
+           text: "45. トマトを<ruby>育<rt>そだ</rt></ruby>てるとき、<ruby>最初<rt>さいしょ</rt></ruby>にどんなことで<ruby>困<rt>こま</rt></ruby>りましたか。",
+           options: [
+               "<ruby>虫<rt>むし</rt></ruby>が<ruby>来<rt>き</rt></ruby>たことです。",
+               "<ruby>水<rt>みず</rt></ruby>をやるのを<ruby>忘<rt>わす</rt></ruby>れたことです。",
+               "トマトが<ruby>赤<rt>あか</rt></ruby>くならなかったことです。",
+               "<ruby>薬<rt>くすり</rt></ruby>が<ruby>高<rt>たか</rt></ruby>かったことです。"
+           ],
+           answer: 0
+       },
+       {
+           text: "46. この文章の<ruby>内容<rt>ないよう</rt></ruby>と<ruby>合<rt>あ</rt></ruby>っているのは、どれですか。",
+           options: [
+               "まだトマトはとれていません。",
+               "<ruby>虫<rt>むし</rt></ruby>がたくさんいるので、トマトを<ruby>捨<rt>す</rt></ruby>てました。",
+               "<ruby>昨日<rt>きのう</rt></ruby>トマトが10<ruby>個<rt>こ</rt></ruby>とれて、<ruby>家族<rt>かぞく</rt></ruby>と<ruby>食<rt>た</rt></ruby>べました。",
+               "トマトが<ruby>美味<rt>おい</rt></ruby>しくなかったので、<ruby>残<rt>のこ</rt></ruby>しました。"
+           ],
+           answer: 2
+       }
+    ];    
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
