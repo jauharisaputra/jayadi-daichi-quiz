@@ -1642,16 +1642,14 @@ padding-bottom:8px;
             }, 1000);
         }
 
-        function finishExam(timeUp = false) {
+       // 1. Tambahkan 'async' di depan function
+        async function finishExam(timeUp = false) {
             if (examFinished) return;
             examFinished = true;
             clearInterval(timer);
 
             // OFFICIAL J.TEST F-G SCORING
-            let tataBahasa = 0,
-                dokkai = 0,
-                kanji = 0,
-                kijutsu = 0;
+            let tataBahasa = 0, dokkai = 0, kanji = 0, kijutsu = 0;
             let score = 0;
 
             answers.forEach((a, i) => {
@@ -1670,9 +1668,7 @@ padding-bottom:8px;
             let nilaiKanji = Math.round((kanji / 10) * 100);
             let nilaiKijutsu = Math.round((kijutsu / 5) * 100);
 
-            // ===============================
             // SISTEM SKOR 175 POIN
-            // ===============================
             let pointTata = tataBahasa * 3; // 25 × 3 = 75
             let pointDokkai = dokkai * 5; // 10 × 5 = 50
             let pointKanji = kanji * 3; // 10 × 3 = 30
@@ -1680,108 +1676,116 @@ padding-bottom:8px;
 
             let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
             let nilaiTotal = Math.round((totalPoint / 175) * 100);
+
             // Simpan hasil TO tertulis
-            localStorage.setItem(
-                "to_n5_v1_score",
-                totalPoint
-            );
+            localStorage.setItem("to_n5_v1_score", totalPoint);
+            localStorage.setItem("to_n5_v1_percent", nilaiTotal);
+            localStorage.setItem("student_name", studentName);
 
-            localStorage.setItem(
-                "to_n5_v1_percent",
-                nilaiTotal
-            );
-
-            localStorage.setItem(
-                "student_name",
-                studentName
-            );
-
-            // Kirim ke Google Sheet
-            fetch("https://script.google.com/macros/s/AKfycbyqxFiAIOIJdrG31whWXfhqI60GWYlyrbs6xZEWBJFqFX1JmyPeferMcYLGejv0Lva3Mw/exec", {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify({
-                    nama: studentName,
-                    attempt,
-                    tataBahasa,
-                    dokkai,
-                    kanji,
-                    kijutsu,
-                    total: score,
-                    nilai_tata: nilaiTata,
-                    nilai_dokkai: nilaiDokkai,
-                    nilai_kanji: nilaiKanji,
-                    nilai_kijutsu: nilaiKijutsu,
-                    nilai_total: nilaiTotal,
-                    point_tata: pointTata,
-                    point_dokkai: pointDokkai,
-                    point_kanji: pointKanji,
-                    point_kijutsu: pointKijutsu,
-                    total_point: totalPoint
-                })
-            });
-
-            // Lock UI
+            // Lock UI agar siswa tidak klik 2 kali
             document.querySelectorAll("button").forEach(btn => {
                 btn.disabled = true;
                 btn.style.opacity = "0.6";
                 btn.style.cursor = "not-allowed";
             });
 
-            // Tampilkan hasil
-            document.getElementById("result").innerHTML = `
-<div style="text-align:center;padding:25px;background:#e8f5e8;border-radius:15px;">
-    <h2>✅ Bagian Tertulis Selesai</h2>
+            // 2. TAMPILKAN STATUS LOADING
+            let resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
+        <div style="text-align:center;padding:25px;background:#fff3cd;border-radius:15px;color:#856404;">
+            <h2>⏳ Sedang Menyimpan Data...</h2>
+            <p>Mohon jangan tutup atau refresh halaman ini!</p>
+        </div>
+    `;
+            resultDiv.style.display = "block";
+            document.querySelector('.container').scrollTo(0, resultDiv.offsetTop);
 
-    <p style="font-size:18px">
-        Skor sementara: <b>${totalPoint}/175</b>
-    </p>
+            try {
+                // 3. GUNAKAN AWAIT UNTUK MENUNGGU FETCH SELESAI
+                await fetch("https://script.google.com/macros/s/AKfycbyqxFiAIOIJdrG31whWXfhqI60GWYlyrbs6xZEWBJFqFX1JmyPeferMcYLGejv0Lva3Mw/exec", {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        nama: studentName,
+                        attempt,
+                        tataBahasa,
+                        dokkai,
+                        kanji,
+                        kijutsu,
+                        total: score,
+                        nilai_tata: nilaiTata,
+                        nilai_dokkai: nilaiDokkai,
+                        nilai_kanji: nilaiKanji,
+                        nilai_kijutsu: nilaiKijutsu,
+                        nilai_total: nilaiTotal,
+                        point_tata: pointTata,
+                        point_dokkai: pointDokkai,
+                        point_kanji: pointKanji,
+                        point_kijutsu: pointKijutsu,
+                        total_point: totalPoint
+                    })
+                });
 
-    <p style="font-size:20px;color:#8e44ad">
-        🎧 Choukai akan dimulai dalam 5 detik...
-    </p>
-</div>
-`;
-            document.getElementById("result").style.display = "block";
-            setTimeout(() => {
+                // 4. SETELAH BERHASIL, BARU TAMPILKAN HASIL DAN MULAI COUNTDOWN
+                resultDiv.innerHTML = `
+            <div style="text-align:center;padding:25px;background:#e8f5e8;border-radius:15px;">
+                <h2>✅ Data Tersimpan & Bagian Tertulis Selesai</h2>
+                <p style="font-size:18px">Skor sementara: <b>${totalPoint}/175</b></p>
+                <p style="font-size:20px;color:#8e44ad">🎧 Choukai akan dimulai dalam 5 detik...</p>
+            </div>
+        `;
 
-                window.location.href = "choukain5v5.html";
-
-            }, 5000);
-            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
-
-            setTimeout(() => {
-
-                // let statusText = nilaiTotal >= 70 ? "✅ LULUS TO J.TEST F-G" : "📚 REMEDIAL";
+                // Mengaktifkan kembali variabel statusText yang sebelumnya di-comment
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS TO J.TEST F-G" : "📚 REMEDIAL";
 
                 let message = `
-           ==============================
-           HASIL UJIAN J.TEST F-G
-           ==============================
-
-           👤 Nama : ${studentName}
-           🔄 Attempt : ${attempt}
-
-           📝 Tata Bahasa : ${tataBahasa}/25 (${nilaiTata}%)
-           📖 Dokkai : ${dokkai}/10 (${nilaiDokkai}%)
-           漢字 Kanji : ${kanji}/10 (${nilaiKanji}%)
-           ✍️ Kijutsu : ${kijutsu}/5 (${nilaiKijutsu}%)
-
-           --------------------------------
-           📊 TOTAL POINT : ${totalPoint}/175
-           🎯 NILAI AKHIR : ${nilaiTotal}%
-           --------------------------------
-
-           ${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-          ${statusText}
 ==============================
-`;
+HASIL UJIAN J.TEST F-G
+==============================
+👤 Nama : ${studentName}
+🔄 Attempt : ${attempt}
 
-                alert(message);
+📝 Tata Bahasa : ${tataBahasa}/25 (${nilaiTata}%)
+📖 Dokkai : ${dokkai}/10 (${nilaiDokkai}%)
+漢字 Kanji : ${kanji}/10 (${nilaiKanji}%)
+✍️ Kijutsu : ${kijutsu}/5 (${nilaiKijutsu}%)
+--------------------------------
+📊 TOTAL POINT : ${totalPoint}/175
+🎯 NILAI AKHIR : ${nilaiTotal}%
+--------------------------------
+${timeUp ? "⏰ WAKTU HABIS\n" : ""}
+${statusText}
+==============================`;
 
-            }, 300);
+                setTimeout(() => {
+                    alert(message);
+                }, 300);
+
+                // Redirect 5 detik dihitung SETELAH pengiriman data sukses
+                setTimeout(() => {
+                    window.location.href = "choukain5v5.html";
+                }, 5000);
+
+            } catch (error) {
+                // 5. JIKA KONEKSI INTERNET SISWA PUTUS SAAT SUBMIT
+                examFinished = false; // Buka status ujian agar bisa coba disubmit lagi
+
+                // Buka kembali lock tombol UI
+                document.querySelectorAll("button").forEach(btn => {
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                    btn.style.cursor = "pointer";
+                });
+
+                resultDiv.innerHTML = `
+            <div style="text-align:center;padding:25px;background:#f8d7da;border-radius:15px;color:#721c24;">
+                <h2>❌ Gagal Menyimpan Data</h2>
+                <p>Koneksi internet Anda terputus atau tidak stabil. Silakan periksa jaringan dan <b>klik tombol SELESAI lagi</b>.</p>
+            </div>
+        `;
+                alert("Gagal mengirim data! Mohon periksa koneksi internet Anda lalu coba submit kembali.");
+            }
         }
-
 
         // ==============================
         // ?? ANTI AI / ANTI CHEAT ADVANCED
