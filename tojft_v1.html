@@ -1247,209 +1247,148 @@
             }, 1000);
         }
 
-        function finishExam(timeUp = false) {
+       function finishExam(timeUp = false) {
             if (examFinished) return;
             examFinished = true;
             clearInterval(timer);
 
-            // OFFICIAL JFT BASIC SCORING
-            let tataBahasa = 0,
-                dokkai = 0,
-                kanji = 0,
-                kijutsu = 0;
-            let score = 0;
+            // ==========================================
+            // SISTEM SKOR JFT BASIC A2
+            // ==========================================
+            let mojiGoi = 0;    // 文字・語彙
+            let kaiwa = 0;      // 会話・表現
+            let choukai = 0;    // 聴解
+            let dokkai = 0;     // 読解
+            let totalBenar = 0;
 
+            let totalMojiGoi = 0;
+            let totalKaiwa = 0;
+            let totalChoukai = 0;
+            let totalDokkai = 0;
+
+            // Evaluasi setiap jawaban
             answers.forEach((a, i) => {
-                if (a === questions[i].answer) {
-                    score++;
-                    if (i < 30) tataBahasa++; // 1-30: 30 soal = 150 pt
-                    else if (i < 46) dokkai++; // 31-46: 16 soal = 80 pt
-                    else if (i < 66) kanji++; // 47-66: 20 soal = 80 pt
-                    else kijutsu++; // 67-74: 8 soal = 40 pt
+                // a adalah index array (0, 1, atau 2). Kita ubah jadi teks untuk dicocokkan dengan kunci jawaban
+                let userAnswerText = a !== null ? questions[i].options[a] : null;
+                let isCorrect = (userAnswerText === questions[i].answer);
+
+                let section = questions[i].section;
+
+                // Klasifikasi dan hitung berdasarkan bagian (section)
+                if (section.includes("文字") || section.includes("Huruf")) {
+                    totalMojiGoi++;
+                    if (isCorrect) mojiGoi++;
                 }
+                else if (section.includes("会話") || section.includes("Percakapan")) {
+                    totalKaiwa++;
+                    if (isCorrect) kaiwa++;
+                }
+                else if (section.includes("聴解") || section.includes("Mendengarkan")) {
+                    totalChoukai++;
+                    if (isCorrect) choukai++;
+                }
+                else if (section.includes("読解") || section.includes("Membaca")) {
+                    totalDokkai++;
+                    if (isCorrect) dokkai++;
+                }
+
+                if (isCorrect) totalBenar++;
             });
 
-            // Konversi nilai per kompetensi (0-100%)
-            let nilaiTata = Math.round((tataBahasa / 30) * 100);
-            let nilaiDokkai = Math.round((dokkai / 16) * 100);
-            let nilaiKanji = Math.round((kanji / 20) * 100);
-            let nilaiKijutsu = Math.round((kijutsu / 8) * 100);
+            let totalSoal = questions.length;
 
-            // ===============================
-            // SISTEM SKOR 350 POIN
-            // ===============================
-            let pointTata = tataBahasa * 5; // 30 × 5 = 150
-            let pointDokkai = dokkai * 5; // 16 × 5 = 80
-            let pointKanji = kanji * 4; // 20 × 4 = 80
-            let pointKijutsu = kijutsu * 5; // 8 × 5 = 40
+            // Konversi nilai per kompetensi (Skala 0-100%)
+            let nilaiMojiGoi = totalMojiGoi > 0 ? Math.round((mojiGoi / totalMojiGoi) * 100) : 0;
+            let nilaiKaiwa = totalKaiwa > 0 ? Math.round((kaiwa / totalKaiwa) * 100) : 0;
+            let nilaiChoukai = totalChoukai > 0 ? Math.round((choukai / totalChoukai) * 100) : 0;
+            let nilaiDokkai = totalDokkai > 0 ? Math.round((dokkai / totalDokkai) * 100) : 0;
 
-            let totalPoint = pointTata + pointDokkai + pointKanji + pointKijutsu;
-            let nilaiTotal = Math.round((totalPoint / 350) * 100);
+            // Konversi Total Skor ke Standar JFT (Maksimal 250 Poin)
+            let skorJFT = Math.round((totalBenar / totalSoal) * 250);
 
-            // Kirim ke Google Sheet
-            fetch("https://script.google.com/macros/s/AKfycbxqRPorFRr1IfjElLrXguzkYXq6q0axIvviKhewdGZww4em31SHvmk3UIENMcI6Wtw1/exec", {
+            // Syarat lulus JFT Basic adalah 200 poin
+            let statusLulus = skorJFT >= 200 ? "LULUS" : "TIDAK LULUS";
+            let warnaStatus = skorJFT >= 200 ? "#27ae60" : "#e74c3c"; // Hijau jika lulus, merah jika tidak
+
+            // Kirim Data ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbyrreO-TlQKt9rdfh4sTlRfdBV6Pay7krNGQl7Ku0rQtNafTgCbmn1pkOaPhWE91Bbv/exec", {
                 method: "POST",
                 mode: "no-cors",
                 body: JSON.stringify({
                     nama: studentName,
-                    attempt,
-                    tataBahasa,
-                    dokkai,
-                    kanji,
-                    kijutsu,
-                    total: score,
-                    nilai_tata: nilaiTata,
+                    kelas: typeof studentClass !== 'undefined' ? studentClass : "-", // Menangkap kelas jika ada
+                    attempt: attempt,
+                    // Data Jumlah Benar
+                    benar_mojigoi: mojiGoi,
+                    benar_kaiwa: kaiwa,
+                    benar_choukai: choukai,
+                    benar_dokkai: dokkai,
+                    total_benar: totalBenar,
+                    // Data Nilai Konversi (0-100)
+                    nilai_mojigoi: nilaiMojiGoi,
+                    nilai_kaiwa: nilaiKaiwa,
+                    nilai_choukai: nilaiChoukai,
                     nilai_dokkai: nilaiDokkai,
-                    nilai_kanji: nilaiKanji,
-                    nilai_kijutsu: nilaiKijutsu,
-                    nilai_total: nilaiTotal,
-                    point_tata: pointTata,
-                    point_dokkai: pointDokkai,
-                    point_kanji: pointKanji,
-                    point_kijutsu: pointKijutsu,
-                    total_point: totalPoint
+                    // Skor Akhir JFT
+                    skor_jft: skorJFT,
+                    status_lulus: statusLulus
                 })
             });
 
-            // Lock UI
-            document.querySelectorAll("button").forEach(btn => {
+            // Kunci tombol UI agar tidak bisa dijawab lagi
+            document.querySelectorAll(".options button").forEach(btn => {
                 btn.disabled = true;
                 btn.style.opacity = "0.6";
                 btn.style.cursor = "not-allowed";
             });
 
-            // Tampilkan hasil sementara
+            // Tampilkan Hasil JFT ke Layar Siswa
             document.getElementById("result").innerHTML = `
-<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-    <h2 style="color:#27ae60;">✅ Tes Tertulis Selesai</h2>
+        <div style="text-align:center; padding: 25px; background:#f4f7fb; border: 2px solid #3498db; border-radius:15px;">
+            <h2 style="color:#2c3e50;">📊 Hasil Try Out JFT Basic A2</h2>
+            
+            <div style="font-size:18px; margin:15px 0;">
+                <b>Nama:</b> ${studentName} <br>
+                ${typeof studentClass !== 'undefined' && studentClass !== "" ? `<b>Kelas:</b> ${studentClass} <br>` : ''}
+                <b>Attempt:</b> ${attempt}
+            </div>
 
-    <div style="font-size:18px; margin:15px 0;">
+            <hr style="border: 1px solid #ddd; margin: 15px 0;">
 
-        <b>👤 Nama:</b> ${studentName}
-        &nbsp; | &nbsp;
-        <b>🔄 Attempt:</b> ${attempt}
+            <div style="text-align:left; display:inline-block; font-size:16px;">
+                <b>📝 Huruf & Kosakata (文字・語彙):</b> ${mojiGoi}/${totalMojiGoi} benar (${nilaiMojiGoi}%)<br>
+                <b>💬 Percakapan (会話・表現):</b> ${kaiwa}/${totalKaiwa} benar (${nilaiKaiwa}%)<br>
+                <b>🎧 Mendengarkan (聴解):</b> ${choukai}/${totalChoukai} benar (${nilaiChoukai}%)<br>
+                <b>📖 Membaca (読解):</b> ${dokkai}/${totalDokkai} benar (${nilaiDokkai}%)<br>
+            </div>
 
-        <br><br>
-
-        📝 <b>Tata Bahasa:</b> ${pointTata}/150 pt<br>
-        📖 <b>Dokkai:</b> ${pointDokkai}/80 pt<br>
-        漢字 <b>Kanji:</b> ${pointKanji}/80 pt<br>
-        ✍️ <b>Kijutsu:</b> ${pointKijutsu}/40 pt
-
-        <div style="font-size:30px;font-weight:bold;color:#2c3e50;margin:25px 0;">
-            📊 Skor Tertulis: ${totalPoint}/350
+            <div style="margin-top:25px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <div style="font-size:16px; color:#7f8c8d;">Total Poin JFT</div>
+                <div style="font-size:45px; font-weight:900; color:#3498db; margin: 5px 0;">
+                    ${skorJFT} <span style="font-size:20px;">/ 250</span>
+                </div>
+                <div style="font-size:22px; font-weight:bold; color:${warnaStatus}; margin-top: 10px;">
+                    ${statusLulus}
+                </div>
+                <div style="font-size:14px; color:#95a5a6; margin-top: 5px;">
+                    *Batas kelulusan minimum adalah 200 poin
+                </div>
+            </div>
+            
+            ${timeUp ? `<p style="color:#e74c3c; font-weight:bold; margin-top:15px;">WAKTU HABIS</p>` : ""}
         </div>
-
-        <p style="font-size:16px;color:#666;">
-            Nilai akhir akan dihitung setelah tes Choukai selesai.
-        </p>
-
-        <p style="font-size:20px;color:#8e44ad;margin-top:20px;">
-            🎧 Choukai akan dimulai dalam 5 detik...
-        </p>
-
-    </div>
-</div>
-`;
+    `;
 
             document.getElementById("result").style.display = "block";
-            document.querySelector('.container').scrollTo(
-                0,
-                document.querySelector('#result').offsetTop
-            );
+            document.getElementById("finishBtn").style.display = "none"; // Sembunyikan tombol selesai
 
-            // Pindah ke Choukai setelah 5 detik
+            // Scroll otomatis ke hasil
             setTimeout(() => {
-                window.location.href = "choukain4v4.html";   // sesuaikan dengan nama file Anda
-            }, 5000);
-
-            // Alert hasil sementara
-            setTimeout(() => {
-
-                let message = `
-==============================
-HASIL TES TERTULIS
-JFT BASIC VERSI 1
-==============================
-
-👤 Nama : ${studentName}
-🔄 Attempt : ${attempt}
-
-📝 Tata Bahasa : ${tataBahasa}/30 (${nilaiTata}%)
-📖 Dokkai : ${dokkai}/16 (${nilaiDokkai}%)
-漢字 Kanji : ${kanji}/20 (${nilaiKanji}%)
-✍️ Kijutsu : ${kijutsu}/8 (${nilaiKijutsu}%)
-
---------------------------------
-📊 SKOR TERTULIS : ${totalPoint}/350
---------------------------------
-
-${timeUp ? "⏰ WAKTU HABIS\n" : ""}
-
-Nilai akhir akan dihitung setelah tes Choukai selesai.
-
-==============================
-`;
-
-                alert(message);
-
-            }, 300);
-
-            // ==============================
-            // ?? ANTI AI / ANTI CHEAT ADVANCED
-            // ==============================
-
-            // ?? Disable selection paksa
-            document.addEventListener("selectionchange", () => {
-                if (window.getSelection().toString().length > 0) {
-                    window.getSelection().removeAllRanges();
-                }
-            });
-
-            // ?? Detect pindah tab
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden && !examFinished) {
-                    document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
-                }
-            });
-
-            // ?? Detect keluar window
-            window.addEventListener("blur", () => {
-                if (!examFinished) {
-                    alert("?? Keluar dari halaman terdeteksi!");
-                    finishExam(true);
-                }
-            });
-
-            // ?? Detect DevTools / Sidebar AI
-            setInterval(() => {
-                if (window.outerWidth - window.innerWidth > 200) {
-                    alert("?? DevTools / AI terdeteksi!");
-                    finishExam(true);
-                }
-            }, 1000);
-
-
-            // ?? DETEKSI AI SIDEBAR (Edge, Sider, dll)
-            setInterval(() => {
-                let suspicious = window.outerWidth - window.innerWidth;
-
-                if (suspicious > 160 && !examFinished) {
-                    document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? AI / Sidebar terdeteksi</h1>";
-                }
-            }, 1000);
-
-
-            // ?? Auto detect popup translate
-            setInterval(() => {
-                let bodyText = document.body.innerText;
-
-                if (bodyText.includes("Translate") || bodyText.includes("Translation")) {
-                    document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
-                }
-            }, 1500);
+                document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            }, 100);
         }
-    </script>
+   
+   </script>
 </body>
 
 </html>
