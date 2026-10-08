@@ -260,6 +260,8 @@
 
         </div>
         <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <input type="text" id="className" placeholder="Masukkan Nama Kelas Anda (misalnya: Wakayama)">
+        <input type="password" id="accessCode" placeholder="Masukkan Kode Akses dari Sensei">
         <br><br>
         <button onclick="startExam()">🚀 Mulai Ujian</button>
     </div>
@@ -313,6 +315,7 @@
         let examFinished = false;
         let current = 0;
         let studentName = "";
+        let studentClass = "";
         let attempt = 1;
 
 
@@ -1066,41 +1069,57 @@
         });
 
         function startExam() {
+    if (!document.getElementById("agreeRule").checked) {
+        alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+        return;
+    }
 
-            if (!document.getElementById("agreeRule").checked) {
-                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
-                return;
-            }
-            const name = document.getElementById("studentName").value.trim();
-            if (!name) {
-                alert("❌ Masukkan nama terlebih dahulu!");
-                return;
-            }
+    const name = document.getElementById("studentName").value.trim();
+    const kelas = document.getElementById("className").value.trim();
+    const code = document.getElementById("accessCode").value.trim();
 
-            studentName = name;
-            let savedAttempt = localStorage.getItem("attempt_" + name);
-            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
-            localStorage.setItem("attempt_" + name, attempt);
-            localStorage.removeItem('quiz_answers_' + name);
+    // Cek apakah ada kolom yang kosong
+    if (!name || !kelas || !code) {
+        alert("❌ Harap isi Nama, Kelas, dan Kode Akses terlebih dahulu!");
+        return;
+    }
 
-            document.getElementById("loginBox").style.display = "none";
-            document.getElementById("examContainer").style.display = "block";
-            openFullscreen();
+    // Tentukan password/kode akses yang benar di sini (Bisa Anda ganti)
+    const PASSWORD_BENAR = "SENSEI123"; 
 
-            // RESET
-            current = 0;
-            answers = new Array(questions.length).fill(null);
-            timeLeft = QUIZ_TIME;
-            examFinished = false;
+    // Cek apakah password salah
+    if (code !== PASSWORD_BENAR) {
+        alert("❌ Kode Akses salah! Silakan hubungi Sensei.");
+        return;
+    }
 
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+    // Jika benar, simpan nama dan kelas
+    studentName = name;
+    studentClass = kelas;
 
-            generateNav();
-            loadQuestion();
-            startTimer();
-        }
+    let savedAttempt = localStorage.getItem("attempt_" + name);
+    attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+    localStorage.setItem("attempt_" + name, attempt);
+    localStorage.removeItem('quiz_answers_' + name);
 
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("examContainer").style.display = "block";
+    
+    openFullscreen(); // Atau sesuaikan dengan nama fungsi fullscreen Anda
+    
+    // RESET
+    current = 0;
+    answers = new Array(questions.length).fill(null);
+    timeLeft = QUIZ_TIME;
+    examFinished = false;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    
+    generateNav();
+    loadQuestion();
+    startTimer();
+}
+       
         function loadQuestion() {
             if (examFinished) return;
 
