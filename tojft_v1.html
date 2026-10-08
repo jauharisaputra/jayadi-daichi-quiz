@@ -1118,11 +1118,20 @@
             }
 
          /* =========================
-   TAMPILKAN PASSAGE DAN GAMBAR
+   TAMPILKAN PASSAGE, AUDIO DAN GAMBAR
    ========================= */
             const passageBox = document.getElementById("passageBox");
             passageBox.innerHTML = ""; // Bersihkan isi sebelumnya
             let contentHtml = "";
+            // Jika ada audio, tambahkan tag audio
+            if (q.audio) {
+                contentHtml += `<div style="text-align: center; margin-bottom: 15px;">
+                     <audio controls>
+                         <source src="${q.audio}" type="audio/mp3">
+                         Your browser does not support the audio element.
+                     </audio>
+                  </div>`;
+            }
 
             // Jika ada gambar, tambahkan tag img
             if (q.image) {
