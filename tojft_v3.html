@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html translate="no" class="notranslate" lang="ja" translate="no">
+
+<head>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <meta name="translate" content="no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY OUT JFT BASIC VERSI 3</title>
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="ja">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f4f7fb;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover {
+            background: #217dbb;
+        }
+
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3498db;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .question {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .options button.selected {
+            background: #3498db;
+            color: white;
+        }
+
+        .options button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-top: 20px;
+        }
+
+        .nav-grid button {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-grid button.answered {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .nav-grid button.current {
+            background: #3498db;
+            color: white;
+        }
+
+        .nav-grid button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 18px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #ecf9f1;
+            display: none;
+        }
+
+        .home-bottom {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #loginBox {
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #loginBox input {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #loginBox button {
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        u {
+            text-decoration-thickness: 2px;
+            /* garis lebih tebal */
+            text-underline-offset: 4px;
+            /* jarak garis dari huruf */
+            text-decoration-color: #000;
+            /* warna garis */
+        }
+
+        .blank-star {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+        }
+
+        .blank-star::after {
+            content: "＿＿";
+            display: block;
+            font-size: 18px;
+        }
+
+        .blank-star span {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        html,
+        body {
+            translate: no;
+        }
+
+        * {
+            user-select: none !important;
+        }
+
+        .question,
+        .options {
+            filter: blur(0.3px);
+            text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body oncontextmenu='return false' ondragstart='return false'>
+    <div id="loginBox">
+
+        <h2>🎓 Login Ujian</h2>
+
+        <div
+            style="background:#fff3cd;border:1px solid #ffc107;padding:15px;border-radius:10px;margin-bottom:15px;text-align:left;font-size:14px;line-height:1.6;">
+            <b>⚠️ PERINGATAN PENTING SEBELUM MEMULAI UJIAN</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Pastikan koneksi internet stabil sebelum memulai ujian.</li>
+                <li>Jangan menekan tombol <b>Back</b>, <b>Refresh</b>, atau menutup browser.</li>
+                <li>Jangan membuka tab baru atau aplikasi lain selama ujian berlangsung.</li>
+                <li>Jika keluar dari <b>Fullscreen</b>, ujian akan otomatis diselesaikan.</li>
+                <li>Jangan mencoba <b>copy, screenshot, inspect element, atau developer tools</b>.</li>
+                <li>Jawaban akan tersimpan hanya selama ujian berlangsung.</li>
+            </ul>
+
+            <b>📱 Jika menggunakan HP:</b>
+
+            <ul style="padding-left:22px;margin-top:8px;">
+                <li>Atur waktu layar agar tidak cepat mati.</li>
+                <li>Buka <b>Pengaturan → Tampilan → Screen Timeout</b>.</li>
+                <li>Set minimal <b>10 menit atau lebih</b>.</li>
+            </ul>
+
+            <!-- CHECKBOX DILETAKKAN DI SINI -->
+            <div style="margin-top:12px;padding-left:22px;">
+                <label style="display:grid;grid-template-columns:18px 1fr;column-gap:8px;align-items:start;">
+                    <input type="checkbox" id="agreeRule" style="margin-top:3px;">
+                    <span>Saya sudah membaca dan memahami semua peringatan di atas.</span>
+                </label>
+            </div>
+
+        </div>
+        <input type="text" id="studentName" placeholder="Masukkan Nama Lengkap Anda">
+        <input type="text" id="className" placeholder="Masukkan Nama Kelas Anda (misalnya: Wakayama)">
+        <input type="password" id="accessCode" placeholder="Masukkan Kode Akses dari Sensei">
+        <br><br>
+        <button onclick="startExam()">🚀 Mulai Ujian</button>
+    </div>
+
+    <div class="container" id="examContainer" style="display:none;">
+        <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
+        <h1>📚 TRY OUT JFT BASIC VERSI 3</h1>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div id="counter" style="font-size:18px; font-weight:bold;"></div>
+            <div id="timer">60:00</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        <div id="passageBox"></div>
+        <div id="kanjiInstruction" style="display:none; 
+            background:#f8f9fa; 
+            padding:15px; 
+            border-radius:10px; 
+            margin-bottom:15px; 
+            font-size:14px; 
+            line-height:1.6;">
+
+            <strong>【漢字 読み方問題】</strong><br><br>
+
+            ・ひらがなは、きれいに書いてください。<br>
+            ・漢字の読み方だけ書いてください。<br><br>
+
+            <span style="color:#1d0b0b;">
+                （例） はやく<strong><u>書</u></strong>いてください。 → れい 答え: か
+            </span>
+
+        </div>
+        <div class="question notranslate" id="questionText"> </div>
+        <div class="options" id="options"></div>
+        <div class="nav-grid" id="navGrid"></div>
+        <button onclick="finishExam()" id="finishBtn"
+            style="margin-top:20px; padding:12px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-size:16px; cursor:pointer;">
+            ⏹️ Selesai Ujian
+        </button>
+        <div id="result"></div>
+        <div class="home-bottom">
+            <a href="index.html" class="home-btn">🏠 Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <script>
+        const QUIZ_TIME = 3600; // 60 menit
+        let timeLeft = QUIZ_TIME;
+        let timer;
+        let examFinished = false;
+        let current = 0;
+        let studentName = "";
+        let studentClass = "";
+        let attempt = 1;
+    const questions = [
+        // =========================================================
+        // BAGIAN 1: 文字・語彙 (Huruf dan Kosakata) - VERSI 3
+        // Target: 12 Soal
+        // =========================================================
+
+        // Soal 1-4: Kosakata Visual (Gambar)
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "jftv3/soal_paspor.jpg", // Saran gambar: Paspor
+            audio: "",
+            text: "<ruby>右<rt>みぎ</rt></ruby>のイラスト➡<br><ruby>外国<rt>がいこく</rt></ruby>へ <ruby>行<rt>い</rt></ruby>くとき、＿＿＿が いります。",
+            options: ["パスポート", "チケット", "カード"],
+            answer: "パスポート"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "jftv3/soal_cuci_tangan.jpg", // Saran gambar: Orang sedang mencuci tangan
+            audio: "",
+            text: "<ruby>右<rt>みぎ</rt></ruby>のイラスト➡<br>ご<ruby>飯<rt>はん</rt></ruby>の <ruby>前<rt>まえ</rt></ruby>に ＿＿＿を あらいます。",
+            options: ["かお", "て", "あし"],
+            answer: "て"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "jftv3/soal_smartphone.jpg", // Saran gambar: HP / Smartphone
+            audio: "",
+            text: "<ruby>右<rt>みぎ</rt></ruby>のイラスト➡<br>＿＿＿で <ruby>写真<rt>しゃしん</rt></ruby>を <ruby>撮<rt>と</rt></ruby>ります。",
+            options: ["パソコン", "テレビ", "スマホ"],
+            answer: "スマホ"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "jftv3/soal_masker.jpg", // Saran gambar: Orang memakai masker medis
+            audio: "",
+            text: "<ruby>右<rt>みぎ</rt></ruby>のイラスト➡<br><ruby>風邪<rt>かぜ</rt></ruby>を ひいたので、＿＿＿を します。",
+            options: ["マスク", "マフラー", "メガネ"],
+            answer: "マスク"
+        },
+
+        // Soal 5-8: Penggunaan Kosakata dalam Konteks Kalimat
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "<ruby>朝<rt>あさ</rt></ruby> <ruby>早<rt>はや</rt></ruby>く ＿＿＿ので、とても <ruby>眠<rt>ねむ</rt></ruby>いです。",
+            options: ["おきた", "ねた", "やすんだ"],
+            answer: "おきた"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "<ruby>部屋<rt>へや</rt></ruby>が <ruby>暗<rt>くら</rt></ruby>いですね。＿＿＿を つけて ください。",
+            options: ["ドア", "エアコン", "でんき"],
+            answer: "でんき"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "あそこの ＿＿＿で お<ruby>金<rt>かね</rt></ruby>を おろします。",
+            options: ["ぎんこう", "きっさてん", "としょかん"],
+            answer: "ぎんこう"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "この カレーは <ruby>少<rt>すこ</rt></ruby>し ＿＿＿ですが、おいしいです。",
+            options: ["からい", "あまい", "にがい"],
+            answer: "からい"
+        },
+
+        // Soal 9-12: Cara Baca Kanji (Kanji yang diuji tidak menggunakan tag ruby)
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿の ことばは ひらがなで どう 書きますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "この <u>料理</u>は とても おいしいです。",
+            options: ["りょり", "りょうり", "りょーり"],
+            answer: "りょうり"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿の ことばは ひらがなで どう 書きますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "<ruby>仕事<rt>しごと</rt></ruby>が <u>終わって</u> から、うちへ <ruby>帰<rt>かえ</rt></ruby>ります。",
+            options: ["おわって", "まわって", "かわって"],
+            answer: "おわって"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿の ことばは ひらがなで どう 書きますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "あの <u>黒い</u> かばんを とって ください。",
+            options: ["あおい", "しろい", "くろい"],
+            answer: "くろい"
+        },
+        {
+            section: "文字・語彙 (Huruf dan Kosakata)",
+            intro: "＿＿の ことばは ひらがなで どう 書きますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "",
+            text: "この <u>意味</u>が わかりません。",
+            options: ["いみ", "ゆめ", "しゅみ"],
+            answer: "いみ"
+        },
+        // =========================================================
+        // BAGIAN 2: 会話・表現 (Percakapan dan Ekspresi) - VERSI 3
+        // Target: 12 Soal (Menguji tata bahasa dan respons percakapan)
+        // =========================================================
+
+        // Soal 13-16: Merespons Percakapan Singkat (Tawaran, Izin, Undangan)
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>暑<rt>あつ</rt></ruby>いですね。<ruby>窓<rt>まど</rt></ruby>を ＿＿＿＿＿。」<br>B: 「ええ、お<ruby>願<rt>ねが</rt></ruby>いします。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "あけましょうか",
+                "あけてください",
+                "あけますよ"
+            ],
+            answer: "あけましょうか"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「これ、<ruby>京都<rt>きょうと</rt></ruby>の お<ruby>土産<rt>みやげ</rt></ruby>です。どうぞ。」<br>B: 「ありがとうございます。＿＿＿＿＿。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "いただきます",
+                "ごちそうさまでした",
+                "おじゃまします"
+            ],
+            answer: "いただきます"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>一緒<rt>いっしょ</rt></ruby>に お<ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を ＿＿＿＿＿ 。」<br>B: 「いいですね、<ruby>行<rt>い</rt></ruby>きましょう。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "<ruby>食<rt>た</rt></ruby>べませんか",
+                "<ruby>食<rt>た</rt></ruby>べましょうか",
+                "<ruby>食<rt>た</rt></ruby>べますか"
+            ],
+            answer: "<ruby>食<rt>た</rt></ruby>べませんか"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「すみません、この <ruby>電車<rt>でんしゃ</rt></ruby>は <ruby>新宿<rt>しんじゅく</rt></ruby>に ＿＿＿＿＿ か。」<br>B: 「いいえ、<ruby>次<rt>つぎ</rt></ruby>の <ruby>電車<rt>でんしゃ</rt></ruby>ですよ。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "<ruby>行<rt>い</rt></ruby>きます",
+                "<ruby>行<rt>い</rt></ruby>って",
+                "<ruby>行<rt>い</rt></ruby>きました"
+            ],
+            answer: "<ruby>行<rt>い</rt></ruby>きます"
+        },
+
+        // Soal 17-20: Tata Bahasa (Bentuk Noun Modifier, Saran, Alasan)
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>山田<rt>やまだ</rt></ruby>さん、この <ruby>機械<rt>きかい</rt></ruby>の ＿＿＿＿＿ を <ruby>教<rt>おし</rt></ruby>えて くれませんか。」<br>B: 「いいですよ。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>",
+                "<ruby>使<rt>つか</rt></ruby>う こと",
+                "<ruby>使<rt>つか</rt></ruby>って"
+            ],
+            answer: "<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>頭<rt>あたま</rt></ruby>が <ruby>痛<rt>いた</rt></ruby>いんです。」<br>B: 「<ruby>薬<rt>くすり</rt></ruby>を <ruby>飲<rt>の</rt></ruby>んで、<ruby>早<rt>はや</rt></ruby>く ＿＿＿＿＿ ほうが いいですよ。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "<ruby>休<rt>やす</rt></ruby>んだ",
+                "<ruby>休<rt>やす</rt></ruby>む",
+                "<ruby>休<rt>やす</rt></ruby>み"
+            ],
+            answer: "<ruby>休<rt>やす</rt></ruby>んだ"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「どうして <ruby>傘<rt>かさ</rt></ruby>を <ruby>持<rt>も</rt></ruby>って <ruby>行<rt>い</rt></ruby>くんですか。」<br>B: 「<ruby>午後<rt>ごご</rt></ruby>から <ruby>雨<rt>あめ</rt></ruby>が ＿＿＿＿＿ からです。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "<ruby>降<rt>ふ</rt></ruby>る",
+                "<ruby>降<rt>ふ</rt></ruby>り",
+                "<ruby>降<rt>ふ</rt></ruby>って"
+            ],
+            answer: "<ruby>降<rt>ふ</rt></ruby>る"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>遅<rt>おく</rt></ruby>れて すみません。<ruby>電車<rt>でんしゃ</rt></ruby>が ＿＿＿＿＿ んです。」<br>B: 「<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですよ。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "<ruby>遅<rt>おく</rt></ruby>れた",
+                "<ruby>遅<rt>おく</rt></ruby>れる",
+                "<ruby>遅<rt>おく</rt></ruby>れます"
+            ],
+            answer: "<ruby>遅<rt>おく</rt></ruby>れた"
+        },
+
+        // Soal 21-24: Pola Kalimat dan Kondisi (Larangan, Kondisional, Rencana, Keadaan)
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「すみません、ここで <ruby>写真<rt>しゃしん</rt></ruby>を <ruby>撮<rt>と</rt></ruby>っても いいですか。」<br>B: 「ごめんなさい、ここでは ＿＿＿＿＿ いけないんです。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "<ruby>撮<rt>と</rt></ruby>っては",
+                "<ruby>撮<rt>と</rt></ruby>らなくては",
+                "<ruby>撮<rt>と</rt></ruby>っても"
+            ],
+            answer: "<ruby>撮<rt>と</rt></ruby>っては"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>駅<rt>えき</rt></ruby>に ＿＿＿＿＿ 、<ruby>電話<rt>でんわ</rt></ruby>を くださいね。」<br>B: 「はい、わかりました。」",
+            image: "",
+            audio: "",
+            text: "Aさんは 何と 言いますか。",
+            options: [
+                "<ruby>着<rt>つ</rt></ruby>いたら",
+                "<ruby>着<rt>つ</rt></ruby>くと",
+                "<ruby>着<rt>つ</rt></ruby>けば"
+            ],
+            answer: "<ruby>着<rt>つ</rt></ruby>いたら"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>週末<rt>しゅうまつ</rt></ruby>は どう しますか。」<br>B: 「<ruby>家<rt>いえ</rt></ruby>で <ruby>映画<rt>えいが</rt></ruby>を ＿＿＿＿＿ と <ruby>思<rt>おも</rt></ruby>っています。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "<ruby>見<rt>み</rt></ruby>よう",
+                "<ruby>見<rt>み</rt></ruby>る",
+                "<ruby>見<rt>み</rt></ruby>ます"
+            ],
+            answer: "<ruby>見<rt>み</rt></ruby>よう"
+        },
+        {
+            section: "会話・表現 (Percakapan dan Ekspresi)",
+            intro: "＿＿に 何を 入れますか。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "A: 「<ruby>田中<rt>たなか</rt></ruby>さんは どこですか。」<br>B: 「<ruby>会議室<rt>かいぎしつ</rt></ruby>で <ruby>電話<rt>でんわ</rt></ruby>を ＿＿＿＿＿ よ。」",
+            image: "",
+            audio: "",
+            text: "Bさんは 何と 言いますか。",
+            options: [
+                "しています",
+                "します",
+                "して あります"
+            ],
+            answer: "しています"
+        },
+        // =========================================================
+        // BAGIAN 3: 聴解 (Mendengarkan) - VERSI 3
+        // Target: 12 Soal (Soal Baru Setara N4-N3 / JFT Basic A2)
+        // Catatan: Naskah audio disediakan dalam komentar.
+        // =========================================================
+
+        // Soal 25-28: Mendengarkan Waktu, Harga, Hari, dan Lokasi
+        /* Naskah Audio 25:
+           男：すみません、次の電車は何時ですか。
+           女：今は午後１時ですね。次は１時半です。
+           男：わかりました。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_25.mp3",
+            text: "<ruby>次<rt>つぎ</rt></ruby>の <ruby>電車<rt>でんしゃ</rt></ruby>は <ruby>何時<rt>なんじ</rt></ruby>ですか。",
+            options: [
+                "１<ruby>時<rt>じ</rt></ruby>",
+                "１<ruby>時半<rt>じはん</rt></ruby>",
+                "２<ruby>時<rt>じ</rt></ruby>"
+            ],
+            answer: "１<ruby>時半<rt>じはん</rt></ruby>"
+        },
+        /* Naskah Audio 26:
+           男：このケーキを２つと、コーヒーを１つください。
+           女：はい。ケーキが２つで600円、コーヒーが300円です。
+           男：じゃあ、全部で900円ですね。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_26.mp3",
+            text: "<ruby>男<rt>おとこ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>は <ruby>全部<rt>ぜんぶ</rt></ruby>で いくら <ruby>払<rt>はら</rt></ruby>いますか。",
+            options: [
+                "300<ruby>円<rt>えん</rt></ruby>",
+                "600<ruby>円<rt>えん</rt></ruby>",
+                "900<ruby>円<rt>えん</rt></ruby>"
+            ],
+            answer: "900<ruby>円<rt>えん</rt></ruby>"
+        },
+        /* Naskah Audio 27:
+           女：山田さん、来週の会議は火曜日でしたね。
+           男：いいえ、水曜日に変わりましたよ。
+           女：あ、そうなんですね。わかりました。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_27.mp3",
+            text: "<ruby>来週<rt>らいしゅう</rt></ruby>の <ruby>会議<rt>かいぎ</rt></ruby>は <ruby>何曜日<rt>なんようび</rt></ruby>ですか。",
+            options: [
+                "<ruby>月曜日<rt>げつようび</rt></ruby>",
+                "<ruby>火曜日<rt>かようび</rt></ruby>",
+                "<ruby>水曜日<rt>すいようび</rt></ruby>"
+            ],
+            answer: "<ruby>水曜日<rt>すいようび</rt></ruby>"
+        },
+        /* Naskah Audio 28:
+           男：すみません、エレベーターはどこですか。
+           女：エレベーターですね。まっすぐ行って、左に曲がってください。そこにあります。
+           男：まっすぐ行って、左ですね。ありがとうございます。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_28.mp3",
+            text: "エレベーターは どこに ありますか。",
+            options: [
+                "まっすぐ <ruby>行<rt>い</rt></ruby>って、<ruby>右<rt>みぎ</rt></ruby>",
+                "まっすぐ <ruby>行<rt>い</rt></ruby>って、<ruby>左<rt>ひだり</rt></ruby>",
+                "すぐ そこ"
+            ],
+            answer: "まっすぐ <ruby>行<rt>い</rt></ruby>って、<ruby>左<rt>ひだり</rt></ruby>"
+        },
+
+        // Soal 29-32: Percakapan Sehari-hari & Rencana
+        /* Naskah Audio 29:
+           女：これからスーパーへ買い物に行きます。何か要りますか。
+           男：じゃあ、牛乳と卵をお願いします。パンはまだありますから。
+           女：わかりました。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_29.mp3",
+            text: "<ruby>女<rt>おんな</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>は <ruby>何<rt>なに</rt></ruby>を <ruby>買<rt>か</rt></ruby>いますか。",
+            options: [
+                "パンと <ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>",
+                "<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>と <ruby>卵<rt>たまご</rt></ruby>",
+                "パンと <ruby>卵<rt>たまご</rt></ruby>"
+            ],
+            answer: "<ruby>牛乳<rt>ぎゅうにゅう</rt></ruby>と <ruby>卵<rt>たまご</rt></ruby>"
+        },
+        /* Naskah Audio 30:
+           男：今週末、海へ行きませんか。
+           女：天気予報で、週末は雨が降ると言っていましたよ。
+           男：じゃあ、来週にしましょう。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_30.mp3",
+            text: "<ruby>週末<rt>しゅうまつ</rt></ruby>の <ruby>天気<rt>てんき</rt></ruby>は どう なりますか。",
+            options: [
+                "<ruby>晴<rt>は</rt></ruby>れ",
+                "<ruby>曇<rt>くも</rt></ruby>り",
+                "<ruby>雨<rt>あめ</rt></ruby>"
+            ],
+            answer: "<ruby>雨<rt>あめ</rt></ruby>"
+        },
+        /* Naskah Audio 31:
+           女：田中さん、いつも会社まで自転車で来ていますか。
+           男：いいえ、天気がいい日は自転車ですが、雨の日はバスで来ます。今日は雨ですから。
+           女：そうですか。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_31.mp3",
+            text: "<ruby>田中<rt>たなか</rt></ruby>さんは <ruby>今日<rt>きょう</rt></ruby>、どうやって <ruby>会社<rt>かいしゃ</rt></ruby>へ <ruby>来<rt>き</rt></ruby>ましたか。",
+            options: [
+                "<ruby>歩<rt>ある</rt></ruby>いて",
+                "<ruby>自転車<rt>じてんしゃ</rt></ruby>で",
+                "バスで"
+            ],
+            answer: "バスで"
+        },
+        /* Naskah Audio 32:
+           男：いらっしゃいませ。ご注文はお決まりですか。
+           女：はい。カレーとラーメンで迷っています。
+           男：今日のカレーはとても辛いですよ。
+           女：辛いのは苦手ですから、ラーメンにします。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_32.mp3",
+            text: "<ruby>女<rt>おんな</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>は <ruby>何<rt>なに</rt></ruby>を <ruby>注文<rt>ちゅうもん</rt></ruby>しますか。",
+            options: [
+                "カレー",
+                "ラーメン",
+                "カレーと ラーメン"
+            ],
+            answer: "ラーメン"
+        },
+
+        // Soal 33-36: Mendengarkan Pengumuman dan Instruksi
+        /* Naskah Audio 33:
+           女：もしもし、レストラン「さくら」です。
+           男：今日の夜、６時から予約したいんですが。
+           女：申し訳ありません。今日は夜８時まで満席なんです。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_33.mp3",
+            text: "<ruby>男<rt>おとこ</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>は ６<ruby>時<rt>じ</rt></ruby>に レストランへ <ruby>行<rt>い</rt></ruby>くことが できますか。",
+            options: [
+                "<ruby>行<rt>い</rt></ruby>くことが できる",
+                "<ruby>行<rt>い</rt></ruby>くことが できない",
+                "まだ わからない"
+            ],
+            answer: "<ruby>行<rt>い</rt></ruby>くことが できない"
+        },
+        /* Naskah Audio 34:
+           アナウンス：お客様にお知らせいたします。大雨のため、現在、東京行きの新幹線は止まっています。運転を始めるまで、もうしばらくお待ちください。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_34.mp3",
+            text: "<ruby>新幹線<rt>しんかんせん</rt></ruby>は どうして <ruby>止<rt>と</rt></ruby>まって いますか。",
+            options: [
+                "<ruby>大雪<rt>おおゆき</rt></ruby>の ため",
+                "<ruby>大雨<rt>おおあめ</rt></ruby>の ため",
+                "<ruby>事故<rt>じこ</rt></ruby>の ため"
+            ],
+            answer: "<ruby>大雨<rt>おおあめ</rt></ruby>の ため"
+        },
+        /* Naskah Audio 35:
+           医者：風邪ですね。薬を出しておきます。今日はゆっくり休んで、明日はお風呂に入らないでください。
+           患者：はい、わかりました。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_35.mp3",
+            text: "<ruby>医者<rt>いしゃ</rt></ruby>は <ruby>患者<rt>かんじゃ</rt></ruby>に <ruby>何<rt>なに</rt></ruby>を しない ように <ruby>言<rt>い</rt></ruby>いましたか。",
+            options: [
+                "ゆっくり <ruby>休<rt>やす</rt></ruby>む こと",
+                "<ruby>薬<rt>くすり</rt></ruby>を <ruby>飲<rt>の</rt></ruby>む こと",
+                "お<ruby>風呂<rt>ふろ</rt></ruby>に <ruby>入<rt>はい</rt></ruby>る こと"
+            ],
+            answer: "お<ruby>風呂<rt>ふろ</rt></ruby>に <ruby>入<rt>はい</rt></ruby>る こと"
+        },
+        /* Naskah Audio 36:
+           アナウンス：ただいま、１階スーパーにて、新鮮な野菜と果物が大変お安くなっております。本日夕方５時までのタイムサービスです。
+        */
+        {
+            section: "聴解 (Mendengarkan)",
+            intro: "音声を聞いて、質問に答えてください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "",
+            image: "",
+            audio: "jftv3/soal_36.mp3",
+            text: "<ruby>安<rt>やす</rt></ruby>く なって いるのは <ruby>何<rt>なに</rt></ruby>ですか。",
+            options: [
+                "<ruby>肉<rt>にく</rt></ruby>と <ruby>魚<rt>さかな</rt></ruby>",
+                "<ruby>野菜<rt>やさい</rt></ruby>と <ruby>果物<rt>くだもの</rt></ruby>",
+                "パンと <ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>"
+            ],
+            answer: "<ruby>野菜<rt>やさい</rt></ruby>と <ruby>果物<rt>くだもの</rt></ruby>"
+        },
+        // =========================================================
+        // BAGIAN 4: 読解 (Membaca) - VERSI 3
+        // Target: 12 Soal (Soal Baru Setara N4-N3 / JFT Basic A2)
+        // =========================================================
+
+        // Soal 37-39: Membaca Pesan/Email Pendek (Perubahan Jadwal Shift)
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:1px solid #ccc; padding:15px; margin-bottom:15px; background:#f9f9f9;'><p><strong>To: アリさん</strong></p><p>アリさん、お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。<br><ruby>明日<rt>あした</rt></ruby>の アルバイトは １７<ruby>時<rt>じ</rt></ruby>から ２１<ruby>時<rt>じ</rt></ruby>ですね。<br>でも、<ruby>明日<rt>あした</rt></ruby>は お<ruby>客<rt>きゃく</rt></ruby>さんが <ruby>多<rt>おお</rt></ruby>いですから、１６<ruby>時<rt>じ</rt></ruby>に <ruby>来<rt>き</rt></ruby>て くれませんか。<br><ruby>帰<rt>かえ</rt></ruby>る <ruby>時間<rt>じかん</rt></ruby>は おなじ ２１<ruby>時<rt>じ</rt></ruby>です。<br>よろしく お<ruby>願<rt>ねが</rt></ruby>いします。<br><ruby>店長<rt>てんちょう</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "アリさんは <ruby>明日<rt>あした</rt></ruby> <ruby>何時<rt>なんじ</rt></ruby>に アルバイトへ <ruby>行<rt>い</rt></ruby>きますか。",
+            options: [
+                "１６<ruby>時<rt>じ</rt></ruby>",
+                "１７<ruby>時<rt>じ</rt></ruby>",
+                "２１<ruby>時<rt>じ</rt></ruby>"
+            ],
+            answer: "１６<ruby>時<rt>じ</rt></ruby>"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:1px solid #ccc; padding:15px; margin-bottom:15px; background:#f9f9f9;'><p><strong>To: アリさん</strong></p><p>アリさん、お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。<br><ruby>明日<rt>あした</rt></ruby>の アルバイトは １７<ruby>時<rt>じ</rt></ruby>から ２１<ruby>時<rt>じ</rt></ruby>ですね。<br>でも、<ruby>明日<rt>あした</rt></ruby>は お<ruby>客<rt>きゃく</rt></ruby>さんが <ruby>多<rt>おお</rt></ruby>いですから、１６<ruby>時<rt>じ</rt></ruby>に <ruby>来<rt>き</rt></ruby>て くれませんか。<br><ruby>帰<rt>かえ</rt></ruby>る <ruby>時間<rt>じかん</rt></ruby>は おなじ ２１<ruby>時<rt>じ</rt></ruby>です。<br>よろしく お<ruby>願<rt>ねが</rt></ruby>いします。<br><ruby>店長<rt>てんちょう</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "どうして アルバイトの <ruby>時間<rt>じかん</rt></ruby>が <ruby>変<rt>か</rt></ruby>わりましたか。",
+            options: [
+                "<ruby>店長<rt>てんちょう</rt></ruby>が <ruby>休<rt>やす</rt></ruby>む から",
+                "お<ruby>客<rt>きゃく</rt></ruby>さんが <ruby>多<rt>おお</rt></ruby>い から",
+                "アリさんの <ruby>仕事<rt>しごと</rt></ruby>が <ruby>遅<rt>おそ</rt></ruby>い から"
+            ],
+            answer: "お<ruby>客<rt>きゃく</rt></ruby>さんが <ruby>多<rt>おお</rt></ruby>い から"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:1px solid #ccc; padding:15px; margin-bottom:15px; background:#f9f9f9;'><p><strong>To: アリさん</strong></p><p>アリさん、お<ruby>疲<rt>つか</rt></ruby>れ<ruby>様<rt>さま</rt></ruby>です。<br><ruby>明日<rt>あした</rt></ruby>の アルバイトは １７<ruby>時<rt>じ</rt></ruby>から ２１<ruby>時<rt>じ</rt></ruby>ですね。<br>でも、<ruby>明日<rt>あした</rt></ruby>は お<ruby>客<rt>きゃく</rt></ruby>さんが <ruby>多<rt>おお</rt></ruby>いですから、１６<ruby>時<rt>じ</rt></ruby>に <ruby>来<rt>き</rt></ruby>て くれませんか。<br><ruby>帰<rt>かえ</rt></ruby>る <ruby>時間<rt>じかん</rt></ruby>は おなじ ２１<ruby>時<rt>じ</rt></ruby>です。<br>よろしく お<ruby>願<rt>ねが</rt></ruby>いします。<br><ruby>店長<rt>てんちょう</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "アリさんは <ruby>明日<rt>あした</rt></ruby> <ruby>何時間<rt>なんじかん</rt></ruby> <ruby>働<rt>はたら</rt></ruby>きますか。",
+            options: [
+                "４<ruby>時間<rt>じかん</rt></ruby>",
+                "５<ruby>時間<rt>じかん</rt></ruby>",
+                "６<ruby>時間<rt>じかん</rt></ruby>"
+            ],
+            answer: "５<ruby>時間<rt>じかん</rt></ruby>"
+        },
+
+        // Soal 40-42: Membaca Pengumuman Aturan (Tempat Gym)
+        {
+            section: "読解 (Membaca)",
+            intro: "次の お知らせを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:2px dashed #3498db; padding:15px; margin-bottom:15px; text-align:center;'><strong>【さくらスポーツクラブの ご<ruby>案内<rt>あんない</rt></ruby>】</strong><br><br><ruby>月曜日<rt>げつようび</rt></ruby>： <ruby>休<rt>やす</rt></ruby>み<br><ruby>火<rt>か</rt></ruby>〜<ruby>金曜日<rt>きんようび</rt></ruby>： 10:00 - 22:00<br><ruby>土<rt>ど</rt></ruby>・<ruby>日曜日<rt>にちようび</rt></ruby>： 10:00 - 20:00<br><br>※クラブの <ruby>中<rt>なか</rt></ruby>では、スポーツの <ruby>靴<rt>くつ</rt></ruby>を <ruby>履<rt>は</rt></ruby>いて ください。</div>",
+            image: "",
+            audio: "",
+            text: "<ruby>水曜日<rt>すいようび</rt></ruby>の <ruby>夜<rt>よる</rt></ruby> ９<ruby>時<rt>じ</rt></ruby>に クラブで <ruby>運動<rt>うんどう</rt></ruby>する ことが できますか。",
+            options: [
+                "はい、できます",
+                "いいえ、できません",
+                "わかりません"
+            ],
+            answer: "はい、できます"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の お知らせを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:2px dashed #3498db; padding:15px; margin-bottom:15px; text-align:center;'><strong>【さくらスポーツクラブの ご<ruby>案内<rt>あんない</rt></ruby>】</strong><br><br><ruby>月曜日<rt>げつようび</rt></ruby>： <ruby>休<rt>やす</rt></ruby>み<br><ruby>火<rt>か</rt></ruby>〜<ruby>金曜日<rt>きんようび</rt></ruby>： 10:00 - 22:00<br><ruby>土<rt>ど</rt></ruby>・<ruby>日曜日<rt>にちようび</rt></ruby>： 10:00 - 20:00<br><br>※クラブの <ruby>中<rt>なか</rt></ruby>では、スポーツの <ruby>靴<rt>くつ</rt></ruby>を <ruby>履<rt>は</rt></ruby>いて ください。</div>",
+            image: "",
+            audio: "",
+            text: "<ruby>日曜日<rt>にちようび</rt></ruby>は <ruby>何時<rt>なんじ</rt></ruby>まで ですか。",
+            options: [
+                "２２<ruby>時<rt>じ</rt></ruby>",
+                "２０<ruby>時<rt>じ</rt></ruby>",
+                "１０<ruby>時<rt>じ</rt></ruby>"
+            ],
+            answer: "２０<ruby>時<rt>じ</rt></ruby>"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の お知らせを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border:2px dashed #3498db; padding:15px; margin-bottom:15px; text-align:center;'><strong>【さくらスポーツクラブの ご<ruby>案内<rt>あんない</rt></ruby>】</strong><br><br><ruby>月曜日<rt>げつようび</rt></ruby>： <ruby>休<rt>やす</rt></ruby>み<br><ruby>火<rt>か</rt></ruby>〜<ruby>金曜日<rt>きんようび</rt></ruby>： 10:00 - 22:00<br><ruby>土<rt>ど</rt></ruby>・<ruby>日曜日<rt>にちようび</rt></ruby>： 10:00 - 20:00<br><br>※クラブの <ruby>中<rt>なか</rt></ruby>では、スポーツの <ruby>靴<rt>くつ</rt></ruby>を <ruby>履<rt>は</rt></ruby>いて ください。</div>",
+            image: "",
+            audio: "",
+            text: "クラブへ <ruby>行<rt>い</rt></ruby>く とき、<ruby>何<rt>なに</rt></ruby>を <ruby>持<rt>も</rt></ruby>って <ruby>行<rt>い</rt></ruby>かなければ なりませんか。",
+            options: [
+                "<ruby>帽子<rt>ぼうし</rt></ruby>",
+                "<ruby>靴<rt>くつ</rt></ruby>",
+                "お<ruby>金<rt>かね</rt></ruby>"
+            ],
+            answer: "<ruby>靴<rt>くつ</rt></ruby>"
+        },
+
+        // Soal 43-45: Wacana Pendek (Buku Harian: Pengalaman Melihat Salju)
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='padding:10px; line-height:1.8;'><p> <ruby>昨日<rt>きのう</rt></ruby>、わたしの <ruby>町<rt>まち</rt></ruby>に <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>りました。わたしは インドネシアから <ruby>来<rt>き</rt></ruby>ましたから、はじめて <ruby>雪<rt>ゆき</rt></ruby>を <ruby>見<rt>み</rt></ruby>ました。<br> とても <ruby>寒<rt>さむ</rt></ruby>かったですが、<ruby>白<rt>しろ</rt></ruby>くて きれいでした。<ruby>午後<rt>ごご</rt></ruby>、<ruby>公園<rt>こうえん</rt></ruby>で <ruby>友達<rt>ともだち</rt></ruby>と <ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>りました。<br> <ruby>天気予報<rt>てんきよほう</rt></ruby>に よると、<ruby>明日<rt>あした</rt></ruby>も <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>るそうです。とても <ruby>楽<rt>たの</rt></ruby>しみです。</p></div>",
+            image: "",
+            audio: "",
+            text: "この <ruby>人<rt>ひと</rt></ruby>は どうして はじめて <ruby>雪<rt>ゆき</rt></ruby>を <ruby>見<rt>み</rt></ruby>ましたか。",
+            options: [
+                "インドネシアから <ruby>来<rt>き</rt></ruby>た から",
+                "<ruby>日本<rt>にほん</rt></ruby>が <ruby>寒<rt>さむ</rt></ruby>い から",
+                "<ruby>公園<rt>こうえん</rt></ruby>に <ruby>行<rt>い</rt></ruby>った から"
+            ],
+            answer: "インドネシアから <ruby>来<rt>き</rt></ruby>た から"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='padding:10px; line-height:1.8;'><p> <ruby>昨日<rt>きのう</rt></ruby>、わたしの <ruby>町<rt>まち</rt></ruby>に <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>りました。わたしは インドネシアから <ruby>来<rt>き</rt></ruby>ましたから、はじめて <ruby>雪<rt>ゆき</rt></ruby>を <ruby>見<rt>み</rt></ruby>ました。<br> とても <ruby>寒<rt>さむ</rt></ruby>かったですが、<ruby>白<rt>しろ</rt></ruby>くて きれいでした。<ruby>午後<rt>ごご</rt></ruby>、<ruby>公園<rt>こうえん</rt></ruby>で <ruby>友達<rt>ともだち</rt></ruby>と <ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>りました。<br> <ruby>天気予報<rt>てんきよほう</rt></ruby>に よると、<ruby>明日<rt>あした</rt></ruby>も <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>るそうです。とても <ruby>楽<rt>たの</rt></ruby>しみです。</p></div>",
+            image: "",
+            audio: "",
+            text: "この <ruby>人<rt>ひと</rt></ruby>は <ruby>昨日<rt>きのう</rt></ruby>の <ruby>午後<rt>ごご</rt></ruby> <ruby>何<rt>なに</rt></ruby>を しましたか。",
+            options: [
+                "<ruby>友達<rt>ともだち</rt></ruby>と インドネシアへ <ruby>帰<rt>かえ</rt></ruby>りました",
+                "<ruby>天気予報<rt>てんきよほう</rt></ruby>を <ruby>見<rt>み</rt></ruby>ました",
+                "<ruby>友達<rt>ともだち</rt></ruby>と <ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>りました"
+            ],
+            answer: "<ruby>友達<rt>ともだち</rt></ruby>と <ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>りました"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の 文章（ぶんしょう）を 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='padding:10px; line-height:1.8;'><p> <ruby>昨日<rt>きのう</rt></ruby>、わたしの <ruby>町<rt>まち</rt></ruby>に <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>りました。わたしは インドネシアから <ruby>来<rt>き</rt></ruby>ましたから、はじめて <ruby>雪<rt>ゆき</rt></ruby>を <ruby>見<rt>み</rt></ruby>ました。<br> とても <ruby>寒<rt>さむ</rt></ruby>かったですが、<ruby>白<rt>しろ</rt></ruby>くて きれいでした。<ruby>午後<rt>ごご</rt></ruby>、<ruby>公園<rt>こうえん</rt></ruby>で <ruby>友達<rt>ともだち</rt></ruby>と <ruby>雪<rt>ゆき</rt></ruby>だるまを <ruby>作<rt>つく</rt></ruby>りました。<br> <ruby>天気予報<rt>てんきよほう</rt></ruby>に よると、<ruby>明日<rt>あした</rt></ruby>も <ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>るそうです。とても <ruby>楽<rt>たの</rt></ruby>しみです。</p></div>",
+            image: "",
+            audio: "",
+            text: "<ruby>明日<rt>あした</rt></ruby>の <ruby>天気<rt>てんき</rt></ruby>は どう なりますか。",
+            options: [
+                "<ruby>晴<rt>は</rt></ruby>れます",
+                "<ruby>雨<rt>あめ</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>ります",
+                "<ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>ります"
+            ],
+            answer: "<ruby>雪<rt>ゆき</rt></ruby>が <ruby>降<rt>ふ</rt></ruby>ります"
+        },
+
+        // Soal 46-48: Membaca Poster / Brosur Kelas Memasak
+        {
+            section: "読解 (Membaca)",
+            intro: "次の ポスターを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border: 2px solid #e67e22; padding:20px; font-family:sans-serif;'><h3 style='color:#e67e22; text-align:center;'><ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>りましょう！</h3><p><strong><ruby>日<rt>ひ</rt></ruby>ち：</strong> 11<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>（<ruby>日<rt>にち</rt></ruby>） 10:00 ～ 13:00</p><p><strong><ruby>場所<rt>ばしょ</rt></ruby>：</strong> さくらセンター ２<ruby>階<rt>かい</rt></ruby></p><p><strong>メニュー：</strong> すし、みそ<ruby>汁<rt>しる</rt></ruby></p><p><strong>お<ruby>金<rt>かね</rt></ruby>：</strong> 500<ruby>円<rt>えん</rt></ruby></p><p><strong><ruby>持<rt>も</rt></ruby>って くるもの：</strong> エプロン、500<ruby>円<rt>えん</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "<ruby>料理<rt>りょうり</rt></ruby><ruby>教室<rt>きょうしつ</rt></ruby>は いつ ありますか。",
+            options: [
+                "10<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>",
+                "11<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>",
+                "12<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>"
+            ],
+            answer: "11<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の ポスターを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border: 2px solid #e67e22; padding:20px; font-family:sans-serif;'><h3 style='color:#e67e22; text-align:center;'><ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>りましょう！</h3><p><strong><ruby>日<rt>ひ</rt></ruby>ち：</strong> 11<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>（<ruby>日<rt>にち</rt></ruby>） 10:00 ～ 13:00</p><p><strong><ruby>場所<rt>ばしょ</rt></ruby>：</strong> さくらセンター ２<ruby>階<rt>かい</rt></ruby></p><p><strong>メニュー：</strong> すし、みそ<ruby>汁<rt>しる</rt></ruby></p><p><strong>お<ruby>金<rt>かね</rt></ruby>：</strong> 500<ruby>円<rt>えん</rt></ruby></p><p><strong><ruby>持<rt>も</rt></ruby>って くるもの：</strong> エプロン、500<ruby>円<rt>えん</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "この <ruby>教室<rt>きょうしつ</rt></ruby>で <ruby>何<rt>なに</rt></ruby>を <ruby>作<rt>つく</rt></ruby>りますか。",
+            options: [
+                "すしと ラーメン",
+                "すしと みそ<ruby>汁<rt>しる</rt></ruby>",
+                "カレーと みそ<ruby>汁<rt>しる</rt></ruby>"
+            ],
+            answer: "すしと みそ<ruby>汁<rt>しる</rt></ruby>"
+        },
+        {
+            section: "読解 (Membaca)",
+            intro: "次の ポスターを 読んで 答えて ください。最も よいものを a・b・c から １つ えらんでください。",
+            passage: "<div style='border: 2px solid #e67e22; padding:20px; font-family:sans-serif;'><h3 style='color:#e67e22; text-align:center;'><ruby>日本<rt>にほん</rt></ruby>の <ruby>料理<rt>りょうり</rt></ruby>を <ruby>作<rt>つく</rt></ruby>りましょう！</h3><p><strong><ruby>日<rt>ひ</rt></ruby>ち：</strong> 11<ruby>月<rt>がつ</rt></ruby>15<ruby>日<rt>にち</rt></ruby>（<ruby>日<rt>にち</rt></ruby>） 10:00 ～ 13:00</p><p><strong><ruby>場所<rt>ばしょ</rt></ruby>：</strong> さくらセンター ２<ruby>階<rt>かい</rt></ruby></p><p><strong>メニュー：</strong> すし、みそ<ruby>汁<rt>しる</rt></ruby></p><p><strong>お<ruby>金<rt>かね</rt></ruby>：</strong> 500<ruby>円<rt>えん</rt></ruby></p><p><strong><ruby>持<rt>も</rt></ruby>って くるもの：</strong> エプロン、500<ruby>円<rt>えん</rt></ruby></p></div>",
+            image: "",
+            audio: "",
+            text: "<ruby>参加<rt>さんか</rt></ruby>する <ruby>人<rt>ひと</rt></ruby>は、<ruby>何<rt>なに</rt></ruby>を <ruby>持<rt>も</rt></ruby>って <ruby>行<rt>い</rt></ruby>かなければ なりませんか。",
+            options: [
+                "エプロンと 500<ruby>円<rt>えん</rt></ruby>",
+                "お<ruby>弁当<rt>べんとう</rt></ruby>と 500<ruby>円<rt>えん</rt></ruby>",
+                "すしと エプロン"
+            ],
+            answer: "エプロンと 500<ruby>円<rt>えん</rt></ruby>"
+        }
+    ];
+    
+
+        // ==============================
+        // ?? ANTI AI / ANTI CHEAT ADVANCED
+        // ==============================
+        function decode(str) { return atob(str); }
+
+    
+        // ANTI-CHEAT
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.addEventListener("keydown", e => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                (e.ctrlKey && e.key === "u") || (e.ctrlKey && e.key === "s") ||
+                (e.ctrlKey && e.key === "a")) {
+                e.preventDefault();
+            }
+        });
+        document.addEventListener("copy", e => e.preventDefault());
+
+        // FULLSCREEN DETECTION
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        }
+
+        document.addEventListener("fullscreenchange", function () {
+            if (!document.fullscreenElement && !examFinished) {
+                alert("⚠️ Anda keluar dari mode fullscreen!\nUjian akan diselesaikan otomatis.");
+                finishExam(true);
+            }
+        });
+
+        function startExam() {
+    if (!document.getElementById("agreeRule").checked) {
+        alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+        return;
+    }
+
+    const name = document.getElementById("studentName").value.trim();
+    const kelas = document.getElementById("className").value.trim();
+    const code = document.getElementById("accessCode").value.trim();
+
+    // Cek apakah ada kolom yang kosong
+    if (!name || !kelas || !code) {
+        alert("❌ Harap isi Nama, Kelas, dan Kode Akses terlebih dahulu!");
+        return;
+    }
+
+    // Tentukan password/kode akses yang benar di sini (Bisa Anda ganti)
+    const PASSWORD_BENAR = "SENSEI123"; 
+
+    // Cek apakah password salah
+    if (code !== PASSWORD_BENAR) {
+        alert("❌ Kode Akses salah! Silakan hubungi Sensei.");
+        return;
+    }
+
+    // Jika benar, simpan nama dan kelas
+    studentName = name;
+    studentClass = kelas;
+
+    let savedAttempt = localStorage.getItem("attempt_" + name);
+    attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+    localStorage.setItem("attempt_" + name, attempt);
+    localStorage.removeItem('quiz_answers_' + name);
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("examContainer").style.display = "block";
+    
+    openFullscreen(); // Atau sesuaikan dengan nama fungsi fullscreen Anda
+    
+    // RESET
+    current = 0;
+    answers = new Array(questions.length).fill(null);
+    timeLeft = QUIZ_TIME;
+    examFinished = false;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    
+    generateNav();
+    loadQuestion();
+    startTimer();
+}
+       
+        function loadQuestion() {
+            if (examFinished) return;
+
+            const q = questions[current];
+            // ======================
+            // ======================
+            // TAMPILKAN INSTRUKSI SEBELUM NO 57
+            // ======================
+            const kanjiBox = document.getElementById("kanjiInstruction");
+
+            if (current === 56) { // soal nomor 57
+                kanjiBox.style.display = "block";
+            } else {
+                kanjiBox.style.display = "none";
+            }
+
+         /* =========================
+   TAMPILKAN PASSAGE, AUDIO DAN GAMBAR
+   ========================= */
+            const passageBox = document.getElementById("passageBox");
+            passageBox.innerHTML = ""; // Bersihkan isi sebelumnya
+            let contentHtml = "";
+            // Jika ada audio, tambahkan tag audio
+            if (q.audio) {
+                contentHtml += `<div style="text-align: center; margin-bottom: 15px;">
+                     <audio controls>
+                         <source src="${q.audio}" type="audio/mp3">
+                         Your browser does not support the audio element.
+                     </audio>
+                  </div>`;
+            }
+
+            // Jika ada gambar, tambahkan tag img
+            if (q.image) {
+                // Tambahkan CSS langsung atau gunakan class untuk styling gambar
+                contentHtml += `<div style="text-align: center; margin-bottom: 15px;">
+                     <img src="${q.image}" alt="Soal Gambar" style="max-width: 100%; max-height: 250px; border-radius: 8px;">
+                  </div>`;
+            }
+
+            // Jika ada passage, tambahkan teks
+            if (q.passage) {
+                contentHtml += `<div class="passage">${q.passage}</div>`;
+            }
+
+            // Tampilkan kotak jika ada gambar atau passage, sembunyikan jika kosong
+            if (contentHtml !== "") {
+                passageBox.innerHTML = contentHtml;
+                passageBox.style.display = "block";
+            } else {
+                passageBox.style.display = "none";
+            }
+
+            /* ======================
+            TAMPILKAN SOAL
+            ====================== */
+            document.getElementById("questionText").innerHTML = q.text;
+            document.getElementById("counter").innerText =
+                `Soal ${current + 1} / ${questions.length}`;
+
+            document.getElementById("progress").style.width =
+                ((current + 1) / questions.length * 100) + "%";
+
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement("button");
+                btn.innerHTML = (i + 1) + ". " + opt;
+
+                if (answers[current] === i)
+                    btn.classList.add("selected");
+
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    answers[current] = i;
+                    loadQuestion();
+                    updateNav();
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function generateNav() {
+            const nav = document.getElementById("navGrid");
+            nav.innerHTML = "";
+            for (let i = 0; i < questions.length; i++) {
+                const btn = document.createElement("button");
+                btn.innerText = i + 1;
+                btn.onclick = () => {
+                    if (examFinished) return;
+                    current = i;
+                    loadQuestion();
+                };
+                nav.appendChild(btn);
+            }
+        }
+
+        function updateNav() {
+            const buttons = document.querySelectorAll(".nav-grid button");
+            buttons.forEach((btn, i) => {
+                btn.classList.remove("answered", "current");
+                if (answers[i] !== null) btn.classList.add("answered");
+                if (i === current) btn.classList.add("current");
+                if (examFinished) btn.disabled = true;
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (examFinished) {
+                    clearInterval(timer);
+                    return;
+                }
+                timeLeft--;
+                const min = Math.floor(timeLeft / 60);
+                const sec = timeLeft % 60;
+                document.getElementById("timer").innerText =
+                    `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+                if (timeLeft <= 0) {
+                    finishExam(true);
+                }
+            }, 1000);
+        }
+
+       function finishExam(timeUp = false) {
+            if (examFinished) return;
+            examFinished = true;
+            clearInterval(timer);
+
+            // ==========================================
+            // SISTEM SKOR JFT BASIC A2
+            // ==========================================
+            let mojiGoi = 0;    // 文字・語彙
+            let kaiwa = 0;      // 会話・表現
+            let choukai = 0;    // 聴解
+            let dokkai = 0;     // 読解
+            let totalBenar = 0;
+
+            let totalMojiGoi = 0;
+            let totalKaiwa = 0;
+            let totalChoukai = 0;
+            let totalDokkai = 0;
+
+            // Evaluasi setiap jawaban
+            answers.forEach((a, i) => {
+                // a adalah index array (0, 1, atau 2). Kita ubah jadi teks untuk dicocokkan dengan kunci jawaban
+                let userAnswerText = a !== null ? questions[i].options[a] : null;
+                let isCorrect = (userAnswerText === questions[i].answer);
+
+                let section = questions[i].section;
+
+                // Klasifikasi dan hitung berdasarkan bagian (section)
+                if (section.includes("文字") || section.includes("Huruf")) {
+                    totalMojiGoi++;
+                    if (isCorrect) mojiGoi++;
+                }
+                else if (section.includes("会話") || section.includes("Percakapan")) {
+                    totalKaiwa++;
+                    if (isCorrect) kaiwa++;
+                }
+                else if (section.includes("聴解") || section.includes("Mendengarkan")) {
+                    totalChoukai++;
+                    if (isCorrect) choukai++;
+                }
+                else if (section.includes("読解") || section.includes("Membaca")) {
+                    totalDokkai++;
+                    if (isCorrect) dokkai++;
+                }
+
+                if (isCorrect) totalBenar++;
+            });
+
+            let totalSoal = questions.length;
+
+            // Konversi nilai per kompetensi (Skala 0-100%)
+            let nilaiMojiGoi = totalMojiGoi > 0 ? Math.round((mojiGoi / totalMojiGoi) * 100) : 0;
+            let nilaiKaiwa = totalKaiwa > 0 ? Math.round((kaiwa / totalKaiwa) * 100) : 0;
+            let nilaiChoukai = totalChoukai > 0 ? Math.round((choukai / totalChoukai) * 100) : 0;
+            let nilaiDokkai = totalDokkai > 0 ? Math.round((dokkai / totalDokkai) * 100) : 0;
+
+            // Konversi Total Skor ke Standar JFT (Maksimal 250 Poin)
+            let skorJFT = Math.round((totalBenar / totalSoal) * 250);
+
+            // Syarat lulus JFT Basic adalah 200 poin
+            let statusLulus = skorJFT >= 200 ? "LULUS" : "TIDAK LULUS";
+            let warnaStatus = skorJFT >= 200 ? "#27ae60" : "#e74c3c"; // Hijau jika lulus, merah jika tidak
+
+            // Kirim Data ke Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbyrreO-TlQKt9rdfh4sTlRfdBV6Pay7krNGQl7Ku0rQtNafTgCbmn1pkOaPhWE91Bbv/exec", {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    nama: studentName,
+                    kelas: typeof studentClass !== 'undefined' ? studentClass : "-", // Menangkap kelas jika ada
+                    attempt: attempt,
+                    // Data Jumlah Benar
+                    benar_mojigoi: mojiGoi,
+                    benar_kaiwa: kaiwa,
+                    benar_choukai: choukai,
+                    benar_dokkai: dokkai,
+                    total_benar: totalBenar,
+                    // Data Nilai Konversi (0-100)
+                    nilai_mojigoi: nilaiMojiGoi,
+                    nilai_kaiwa: nilaiKaiwa,
+                    nilai_choukai: nilaiChoukai,
+                    nilai_dokkai: nilaiDokkai,
+                    // Skor Akhir JFT
+                    skor_jft: skorJFT,
+                    status_lulus: statusLulus
+                })
+            });
+
+            // Kunci tombol UI agar tidak bisa dijawab lagi
+            document.querySelectorAll(".options button").forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = "0.6";
+                btn.style.cursor = "not-allowed";
+            });
+
+            // Tampilkan Hasil JFT ke Layar Siswa
+            document.getElementById("result").innerHTML = `
+        <div style="text-align:center; padding: 25px; background:#f4f7fb; border: 2px solid #3498db; border-radius:15px;">
+            <h2 style="color:#2c3e50;">📊 Hasil Try Out JFT Basic A2</h2>
+            
+            <div style="font-size:18px; margin:15px 0;">
+                <b>Nama:</b> ${studentName} <br>
+                ${typeof studentClass !== 'undefined' && studentClass !== "" ? `<b>Kelas:</b> ${studentClass} <br>` : ''}
+                <b>Attempt:</b> ${attempt}
+            </div>
+
+            <hr style="border: 1px solid #ddd; margin: 15px 0;">
+
+            <div style="text-align:left; display:inline-block; font-size:16px;">
+                <b>📝 Huruf & Kosakata (文字・語彙):</b> ${mojiGoi}/${totalMojiGoi} benar (${nilaiMojiGoi}%)<br>
+                <b>💬 Percakapan (会話・表現):</b> ${kaiwa}/${totalKaiwa} benar (${nilaiKaiwa}%)<br>
+                <b>🎧 Mendengarkan (聴解):</b> ${choukai}/${totalChoukai} benar (${nilaiChoukai}%)<br>
+                <b>📖 Membaca (読解):</b> ${dokkai}/${totalDokkai} benar (${nilaiDokkai}%)<br>
+            </div>
+
+            <div style="margin-top:25px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <div style="font-size:16px; color:#7f8c8d;">Total Poin JFT</div>
+                <div style="font-size:45px; font-weight:900; color:#3498db; margin: 5px 0;">
+                    ${skorJFT} <span style="font-size:20px;">/ 250</span>
+                </div>
+                <div style="font-size:22px; font-weight:bold; color:${warnaStatus}; margin-top: 10px;">
+                    ${statusLulus}
+                </div>
+                <div style="font-size:14px; color:#95a5a6; margin-top: 5px;">
+                    *Batas kelulusan minimum adalah 200 poin
+                </div>
+            </div>
+            
+            ${timeUp ? `<p style="color:#e74c3c; font-weight:bold; margin-top:15px;">WAKTU HABIS</p>` : ""}
+        </div>
+    `;
+
+            document.getElementById("result").style.display = "block";
+            document.getElementById("finishBtn").style.display = "none"; // Sembunyikan tombol selesai
+
+            // Scroll otomatis ke hasil
+            setTimeout(() => {
+                document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
+            }, 100);
+        }
+   
+   </script>
+</body>
+
+</html>
