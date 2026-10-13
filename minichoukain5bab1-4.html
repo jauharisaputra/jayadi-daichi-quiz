@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聴解練習 - 第1〜4課</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #fdfbf7;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            color: #4a4a4a;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .radio-custom:checked+div,
+        .checkbox-custom:checked+div {
+            background-color: #fce7f3;
+            border-color: #f472b6;
+            color: #db2777;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto glass-panel rounded-2xl p-6 md:p-10">
+        <!-- Header -->
+        <header class="text-center mb-10 border-b pb-6">
+            <h1 class="text-3xl font-bold text-pink-600 mb-2">聴解練習 (Latihan Choukai)</h1>
+            <p class="text-gray-500">第1課〜第4課 (Bab 1 - 4)</p>
+        </header>
+
+        <!-- Form Data Siswa -->
+        <section class="mb-10 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">学生情報 (Data Siswa)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">名前 (Nama)</label>
+                    <input type="text" id="studentName" placeholder="Masukkan nama Anda"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-300 focus:outline-none transition"
+                        required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">クラス (Kelas)</label>
+                    <input type="text" id="studentClass" placeholder="Contoh: XII Bahasa"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-300 focus:outline-none transition"
+                        required>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audio Player -->
+        <section class="mb-10 bg-pink-50 p-6 rounded-xl border border-pink-100 flex flex-col items-center">
+            <h2 class="text-lg font-medium mb-3 text-pink-800">オーディオを聴いてください (Dengarkan Audio)</h2>
+            <audio controls class="w-full max-w-md rounded-full shadow-sm">
+                <source src="mini_choukai/Audio 1-4.mp3" type="audio/mpeg">
+                Browser Anda tidak mendukung elemen audio.
+            </audio>
+        </section>
+
+        <!-- Form Soal -->
+        <form id="quizForm">
+            <div id="questionsContainer" class="space-y-6">
+                <!-- Soal dirender lewat JS -->
+            </div>
+
+            <!-- Tombol Kumpul -->
+            <div class="mt-12 text-center">
+                <button type="submit" id="submitBtn"
+                    class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-10 rounded-full shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl w-full md:w-auto text-lg">
+                    提出する (Kumpulkan)
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading -->
+        <div id="loadingIndicator" class="hidden mt-6 text-center text-pink-600 font-medium">
+            データを送信しています... (Sedang mengirim data...)
+        </div>
+    </div>
+
+    <!-- Modal Hasil -->
+    <div id="resultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 text-center transform transition-all scale-95 opacity-0"
+            id="modalContent">
+            <div class="text-6xl mb-4">🌸</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">お疲れ様でした！</h3>
+            <p class="text-gray-600 whitespace-pre-line mb-6" id="scoreText"></p>
+            <button onclick="closeModal()"
+                class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full w-full transition">
+                閉じる (Tutup)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data Soal Lengkap
+        const questionsData = [
+            // BAGIAN 1
+            { isSection: true, title: "１。名前(なまえ)は a ですか、bですか。", example: "例(れい)：a まつだ ○b ますだ" },
+            { type: "single", question: "1.", options: ["a さの", "b さろ"], correctAnswer: 0 },
+            { type: "single", question: "2.", options: ["a つづき", "b すずき"], correctAnswer: 1 },
+            { type: "single", question: "3.", options: ["a こどう", "b ごとう"], correctAnswer: 1 },
+
+            // BAGIAN 2
+            { isSection: true, title: "２。国(くに)はaですか、bですか。", example: "例(れい)：ワン（○a 中国 b 韓国）" },
+            { type: "single", question: "1. セン", options: ["a インド", "b インドネシア"], correctAnswer: 0 },
+            { type: "single", question: "2. ジャン", options: ["a ブラジル", "b フランス"], correctAnswer: 1 },
+            { type: "single", question: "3. コール", options: ["a インド", "b ドイツ"], correctAnswer: 1 },
+
+            // BAGIAN 3
+            {
+                isSection: true,
+                title: "３。これは何ですか、それは何ですか、あれは何ですか。",
+                exampleImage: "mini_choukai/bab1-4/contoh_bagian3.png"
+            },
+            { type: "image-single", question: "1番", options: ["mini_choukai/bab1-4/img3_1a.png", "mini_choukai/bab1-4/img3_1b.png", "mini_choukai/bab1-4/img3_1c.png"], correctAnswer: 1 },
+            { type: "image-single", question: "2番", options: ["mini_choukai/bab1-4/img3_2a.png", "mini_choukai/bab1-4/img3_2b.png", "mini_choukai/bab1-4/img3_2c.png"], correctAnswer: 1 },
+            { type: "image-single", question: "3番", options: ["mini_choukai/bab1-4/img3_3a.png", "mini_choukai/bab1-4/img3_3b.png", "mini_choukai/bab1-4/img3_3c.png"], correctAnswer: 2 },
+
+            // BAGIAN 4
+            {
+                isSection: true,
+                title: "４。誰(だれ)のですか。",
+                exampleImage: "mini_choukai/bab1-4/contoh_bagian4.png"
+            },
+            { type: "single", question: "1. 手帳", options: ["a) エド", "b) リン", "c) ジャン", "d) タワポン", "e) 先生"], correctAnswer: 2 },
+            { type: "single", question: "2. カバン", options: ["a) エド", "b) リン", "c) ジャン", "d) タワポン", "e) 先生"], correctAnswer: 0 },
+            { type: "single", question: "3. 辞書", options: ["a) エド", "b) リン", "c) ジャン", "d) タワポン", "e) 先生"], correctAnswer: 3 },
+            { type: "single", question: "4. 傘", options: ["a) エド", "b) リン", "c) ジャン", "d) タワポン", "e) 先生"], correctAnswer: 4 },
+
+            // BAGIAN 5
+            {
+                isSection: true,
+                title: "５。木村(きむら)さんの１日です。木村さんは何をしますか。",
+                exampleImage: "mini_choukai/bab1-4/contoh_bagian5.png"
+            },
+            {
+                type: "single-image-multiple",
+                question: "1番",
+                image: "mini_choukai/bab1-4/img5_1.png",
+                options: ["a", "b", "c", "d"],
+                correctAnswer: [0, 3]
+            },
+            {
+                type: "single-image-multiple",
+                question: "2番",
+                image: "mini_choukai/bab1-4/img5_2.png",
+                options: ["a", "b", "c", "d"],
+                correctAnswer: [1, 2]
+            },
+            {
+                type: "single-image-multiple",
+                question: "3番",
+                image: "mini_choukai/bab1-4/img5_3.png",
+                options: ["a", "b", "c", "d"],
+                correctAnswer: [0, 3]
+            },
+
+            // BAGIAN 6
+            { isSection: true, title: "６。ミゲルさんはどこでしますか。", example: "例：（ デパート ） で コーヒーを a 飲みます ○b 買います" },
+            {
+                type: "two-part",
+                qPrefix: "1.（", qSuffix: "）で サッカー を",
+                options: ["a 見ます", "b します"],
+                correctText: ["がっこう", "学校", "gakkou"],
+                correctRadio: 1
+            },
+            {
+                type: "two-part",
+                qPrefix: "2.（", qSuffix: "）で レポート を",
+                options: ["a 書きます", "b 読みます"],
+                correctText: ["としょかん", "図書館", "toshokan"],
+                correctRadio: 0
+            },
+            {
+                type: "two-part",
+                qPrefix: "3.（", qSuffix: "）で ビデオ を",
+                options: ["a 買います", "b 見ます"],
+                correctText: ["うち", "家", "uchi"],
+                correctRadio: 1
+            }
+        ];
+
+        // Pastikan URL di bawah ini URL script asli Anda
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_SCRIPT_ANDA/exec';
+
+        // Logika Render UI
+        const container = document.getElementById('questionsContainer');
+        let questionIndex = 0;
+        let totalScorableItems = 0;
+
+        questionsData.forEach((item) => {
+            if (item.isSection) {
+                container.innerHTML += `
+                    <div class="mt-10 mb-4 border-b-2 border-pink-200 pb-3">
+                        <h3 class="text-xl font-bold text-pink-700">${item.title}</h3>
+                        ${item.example ? `<p class="text-gray-700 mt-3 bg-pink-50 p-4 rounded-lg font-medium tracking-wide shadow-inner">${item.example}</p>` : ''}
+                        ${item.exampleImage ? `
+                            <div class="mt-4 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+                                <p class="text-gray-600 font-bold mb-3 text-sm">例 (Contoh):</p>
+                                <img src="${item.exampleImage}" alt="Contoh Bagian" class="max-w-full h-auto rounded border border-gray-300" onerror="this.outerHTML='<div class=\\'p-4 bg-gray-50 text-gray-400 text-sm border-dashed border-2 text-center\\'>Gambar contoh <b>${item.exampleImage}</b> tidak ditemukan. Pastikan nama dan lokasi file sudah benar.</div>'">
+                            </div>` : ''}
+                    </div>
+                `;
+            } else if (item.type === "single") {
+                const gridCols = item.options.length > 3 ? 'md:grid-cols-5' : 'md:grid-cols-2';
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <p class="font-bold text-gray-800 mb-4 text-lg">${item.question}</p>
+                        <div class="grid grid-cols-2 ${gridCols} gap-3">
+                            ${item.options.map((opt, i) => `
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
+                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-gray-700 hover:bg-gray-50 transition font-medium text-center">
+                                        ${opt}
+                                    </div>
+                                </label>`).join('')}
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems++;
+            } else if (item.type === "image-single") {
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <p class="font-bold text-gray-800 mb-4 text-lg">${item.question}</p>
+                        <div class="grid grid-cols-3 gap-4">
+                            ${item.options.map((src, i) => `
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
+                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-center transition">
+                                        <img src="${src}" alt="Pilihan ${i + 1}" class="mx-auto rounded" onerror="this.outerHTML='<div class=\\'bg-gray-100 p-6 text-sm text-gray-400 rounded border-dashed border-2\\'>画像<br>${src}</div>'">
+                                    </div>
+                                </label>`).join('')}
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems++;
+            } else if (item.type === "single-image-multiple") {
+                // Logika render untuk Bagian 5 ada di sini
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <p class="font-bold text-gray-800 mb-3 text-lg">${item.question}</p>
+                        <div class="mb-5 text-center">
+                            <img src="${item.image}" alt="Soal ${item.question}" class="max-w-full h-auto mx-auto rounded border border-gray-300 shadow-sm" onerror="this.outerHTML='<div class=\\'p-6 bg-gray-50 text-gray-400 text-sm border-dashed border-2 text-center\\'>Gambar soal <b>${item.image}</b> tidak ditemukan.</div>'">
+                        </div>
+                        <p class="text-sm text-pink-500 mb-3 font-bold text-center">※ 2つ選んでください (Pilih 2 jawaban)</p>
+                        <div class="grid grid-cols-4 gap-3 max-w-sm mx-auto">
+                            ${item.options.map((opt, i) => `
+                                <label class="cursor-pointer relative">
+                                    <input type="checkbox" name="q${questionIndex}" value="${i}" class="checkbox-custom sr-only">
+                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-center text-lg font-bold text-gray-700 hover:bg-gray-50 transition">
+                                        ${opt}
+                                    </div>
+                                </label>`).join('')}
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems++;
+            } else if (item.type === "two-part") {
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <div class="flex flex-wrap items-center gap-2 font-bold text-gray-800 mb-4 text-lg">
+                            <span>${item.qPrefix}</span>
+                            <input type="text" name="text_q${questionIndex}" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-32 text-pink-600 bg-gray-50 rounded" required placeholder="tempat">
+                            <span>${item.qSuffix}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 max-w-sm mt-3">
+                            ${item.options.map((opt, i) => `
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="radio_q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
+                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-gray-700 hover:bg-gray-50 transition font-medium text-center">
+                                        ${opt}
+                                    </div>
+                                </label>`).join('')}
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems += 2;
+            }
+        });
+
+        // Logika Submit Skor
+        document.getElementById('quizForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const studentName = document.getElementById('studentName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const formData = new FormData(this);
+            let correctAnswersCount = 0;
+            let qIdx = 0;
+
+            questionsData.forEach((item) => {
+                if (item.type === "single" || item.type === "image-single") {
+                    const answer = formData.get(`q${qIdx}`);
+                    if (answer && parseInt(answer) === item.correctAnswer) {
+                        correctAnswersCount++;
+                    }
+                    qIdx++;
+                } else if (item.type === "single-image-multiple") {
+                    const answers = formData.getAll(`q${qIdx}`).map(Number);
+                    const isCorrect = answers.length === item.correctAnswer.length &&
+                        answers.every(val => item.correctAnswer.includes(val));
+                    if (isCorrect) correctAnswersCount++;
+                    qIdx++;
+                } else if (item.type === "two-part") {
+                    const textAnswer = formData.get(`text_q${qIdx}`).trim();
+                    if (item.correctText.some(correct => correct === textAnswer)) {
+                        correctAnswersCount++;
+                    }
+                    const radioAnswer = formData.get(`radio_q${qIdx}`);
+                    if (radioAnswer && parseInt(radioAnswer) === item.correctRadio) {
+                        correctAnswersCount++;
+                    }
+                    qIdx++;
+                }
+            });
+
+            const finalScore = Math.round((correctAnswersCount / totalScorableItems) * 100);
+
+            const dataToSend = new FormData();
+            dataToSend.append('Nama', studentName);
+            dataToSend.append('Kelas', studentClass);
+            dataToSend.append('Bab', 'Bab 1-4');
+            dataToSend.append('Skor', finalScore);
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingInd = document.getElementById('loadingIndicator');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50');
+            loadingInd.classList.remove('hidden');
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: dataToSend
+            })
+                .then(response => response.json())
+                .then(data => {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50');
+                    loadingInd.classList.add('hidden');
+
+                    showModal(finalScore);
+                    document.getElementById('quizForm').reset();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan. Pastikan URL Google Script sudah benar.');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50');
+                    loadingInd.classList.add('hidden');
+                });
+        });
+
+        // Animasi Modal
+        function showModal(score) {
+            const modal = document.getElementById('resultModal');
+            const modalContent = document.getElementById('modalContent');
+            document.getElementById('scoreText').innerText =
+                `名前 (Nama): ${document.getElementById('studentName').value}\nクラス (Kelas): ${document.getElementById('studentClass').value}\n\nスコア (Skor): ${score} / 100`;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('resultModal');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+    </script>
+</body>
+
+</html>
