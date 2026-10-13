@@ -328,34 +328,28 @@
             submitBtn.classList.add('opacity-50');
             loadingInd.classList.remove('hidden');
 
-          // Kirim data ke Google Sheets
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Tambahkan baris ini untuk mencegah error CORS di HP
                 body: dataToSend
             })
-                .then(() => {
-                    // Hapus response.json() karena mode no-cors memblokir pembacaan balasan
-
-                    // Sembunyikan loading
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-50');
-                    loadingInd.classList.add('hidden');
-
-                    // Tampilkan Modal Hasil
-                    showModal(finalScore);
-
-                    // Reset form
-                    document.getElementById('quizForm').reset();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                })
-                .catch(error => {
-                    alert('Terjadi kesalahan. Pastikan koneksi internet Anda stabil.');
-                    console.error('Error!', error.message);
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-50');
-                    loadingInd.classList.add('hidden');
-                });
+            .then(response => response.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+                loadingInd.classList.add('hidden');
+                
+                showModal(finalScore);
+                document.getElementById('quizForm').reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan. Pastikan koneksi internet Anda stabil.');
+                console.error(error);
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+                loadingInd.classList.add('hidden');
+            });
+        });
 
         // Animasi Modal
         function showModal(score) {
