@@ -274,6 +274,9 @@
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
         </div>
+        <!-- Tambahkan ini di dalam examContainer -->
+        <video id="cameraFeed" autoplay playsinline
+            style="display:none; width: 150px; height: auto; position: fixed; bottom: 20px; right: 20px; border: 3px solid #3498db; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; transform: scaleX(-1);"></video>
         <div id="passageBox"></div>
         <div id="kanjiInstruction" style="display:none; 
             background:#f8f9fa; 
@@ -671,42 +674,52 @@ let answers = new Array(questions.length).fill(null);
             }
         });
 
-        function startExam() {
-
+       function startExam() {
             if (!document.getElementById("agreeRule").checked) {
-                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                alert("Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
                 return;
             }
+
             const name = document.getElementById("studentName").value.trim();
             if (!name) {
-                alert("❌ Masukkan nama terlebih dahulu!");
+                alert("Masukkan nama terlebih dahulu!");
                 return;
             }
-
             studentName = name;
-            let savedAttempt = localStorage.getItem("attempt_" + name);
-            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
-            localStorage.setItem("attempt_" + name, attempt);
-            localStorage.removeItem('quiz_answers_' + name);
 
-            document.getElementById("loginBox").style.display = "none";
-            document.getElementById("examContainer").style.display = "block";
-            openFullscreen();
+            // Meminta akses kamera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    const videoElement = document.getElementById("cameraFeed");
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = "block"; // Tampilkan kamera
 
-            // RESET
-            current = 0;
-            answers = new Array(questions.length).fill(null);
-            timeLeft = QUIZ_TIME;
-            examFinished = false;
+                    // Lanjutkan inisiasi ujian jika kamera diizinkan
+                    let savedAttempt = localStorage.getItem("attempt_" + name);
+                    attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+                    localStorage.setItem("attempt_" + name, attempt);
+                    localStorage.removeItem('quiz_answers_' + name);
 
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+                    document.getElementById("loginBox").style.display = "none";
+                    document.getElementById("examContainer").style.display = "block";
+                    openFullscreen();
 
-            generateNav();
-            loadQuestion();
-            startTimer();
+                    // RESET
+                    current = 0;
+                    answers = new Array(questions.length).fill(null);
+                    timeLeft = QUIZ_TIME;
+                    examFinished = false;
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+
+                    generateNav();
+                    loadQuestion();
+                    startTimer();
+                })
+                .catch(function (err) {
+                    alert("Akses kamera ditolak! Kamera wajib diaktifkan untuk mengikuti ujian ini.");
+                });
         }
-
         function loadQuestion() {
             if (examFinished) return;
 
