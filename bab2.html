@@ -320,246 +320,203 @@
             return atob(str);
         }
         const questions = [
-                /* =====================================================
-                   １ 文法・語彙問題 (Tata Bahasa & Kosakata)
-                   問題 (1)～(24)
-                   Fokus: Bab 2 (これ, それ, あれ, この/その/あの, どの, わたしの本 / だれの)
-                   ===================================================== */
+                // ==========================================
+                // BAGIAN 1: 文字・語彙 (KOSAKATA & HURUF)
+                // ==========================================
                 {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
-  <b>１ <ruby>文法<rt>ぶんぽう</rt></ruby>・<ruby>語彙問題<rt>ごいもんだい</rt></ruby></b><br>
-  <ruby>問題<rt>もんだい</rt></ruby> （1）～（24）<br><br>
-  <b>Ａ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
-</div>
-`,
-                    text: "（1）（ ）は ノートです。",
-                    options: ["これ", "この", "ここ", "こちら"],
-                    answer: 0
+                    passage: "【文字・語彙】 Kata yang bergaris bawah dibaca bagaimana?",
+                    text: "<u>何</u>ですか。",
+                    options: ["だれ", "なん", "なに", "どれ"],
+                    answer: 1 // なん
                 },
                 {
-                    text: "（2）A：これは （ ）ですか。<br>B：ボールペンです。",
-                    options: ["だれ", "なん", "どこ", "どの"],
-                    answer: 1
+                    passage: "【文字・語彙】 Kata yang bergaris bawah dibaca bagaimana?",
+                    text: "それは <u>車</u>の ざっしです。",
+                    options: ["ほん", "じてんしゃ", "くるま", "とけい"],
+                    answer: 2 // くるま
                 },
                 {
-                    text: "（3）A：これは （ ）の カタログですか。<br>B：コンピューターの カタログです。",
-                    options: ["だれ", "どこ", "なん", "どの"],
-                    answer: 2
+                    passage: "【文字・語彙】 Kata yang bergaris bawah dibaca bagaimana?",
+                    text: "わたしの <u>辞書</u>は どれですか。",
+                    options: ["じどうしゃ", "ざっし", "てちょう", "じしょ"],
+                    answer: 3 // じしょ
                 },
                 {
-                    text: "（4）（ ） くるまは にほんせいです。",
-                    options: ["これ", "それ", "あれ", "この"],
-                    answer: 3
+                    passage: "【文字・語彙】 Pilih kata yang tepat untuk mengisi kurung.",
+                    text: "これは カメラの（   ）です。",
+                    options: ["ざっし", "つくえ", "いす", "えんぴつ"],
+                    answer: 0 // ざっし
                 },
                 {
-                    text: "（5）A：あの ひと（ ） だれですか。<br>B：リンさんです。",
-                    options: ["は", "の", "が", "を"],
-                    answer: 0
-                },
-                {
-                    text: "（6）それは わたし（ ） ほんです。",
-                    options: ["は", "の", "に", "を"],
-                    answer: 1
-                },
-                {
-                    text: "（7）A：それは （ ）の ほん ですか。<br>B：わたしの ほんです。",
-                    options: ["なん", "だれ", "だれの", "どれ"],
-                    answer: 2
-                },
-                {
-                    text: "（8）A：これは さとうですか、しおですか。<br>B：さとう（ ）。",
-                    options: ["ですか", "しおです", "どちらです", "です"],
-                    answer: 3
-                },
-                {
-                    text: "（9）A：（ ）かばんは あなたのですか。<br>B：はい、そうです。",
-                    options: ["どの", "これ", "それ", "どれ"],
-                    answer: 0
-                },
-                {
-                    text: "（10）A：それは （ ）の かばんですか。<br>B：ミラーさんの かばんです。",
-                    options: ["だれ", "だれの", "なん", "どの"],
-                    answer: 1
-                },
-                {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
-  <b>Ｂ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（ ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
-</div>
-`,
-                    text: "（11）これは わたしの（ ）です。",
-                    options: ["つくえ", "ほん", "じしょ", "つうはん"],
-                    answer: 2 // Wait, let's distribute properly. Let's make answer: 2.
-                },
-                {
-                    text: "（12）あの（ ）は テープです。",
-                    options: ["しんぶん", "じしょ", "かばん", "もの"],
-                    answer: 3
-                },
-                {
-                    text: "（13）これは にほんの（ ）です。",
-                    options: ["くるま", "ひと", "ほん", "じしょ"],
-                    answer: 0
-                },
-                {
-                    text: "（14）A：それは （ ）ですか。<br>B：しけいです。",
-                    options: ["なん", "なんじ", "なんばん", "だれ"],
-                    answer: 1
-                },
-                {
-                    text: "（15）これは わたしのだいじな（ ）です。",
-                    options: ["ペン", "ほん", "てちょう", "かみ"],
-                    answer: 2
-                },
-                {
-                    text: "（16）あの（ ）は だれのですか。",
-                    options: ["これ", "それ", "あれ", "かばん"],
-                    answer: 3
-                },
-                {
-                    text: "（17）これは どこの（ ）ですか。<br>B：イタリアのです。",
-                    options: ["ワイン", "ほん", "じしょ", "つくえ"],
-                    answer: 0
-                },
-                {
-                    text: "（18）A：その かばんは （ ）ですか。<br>B：5,000えんです。",
-                    options: ["いくら", "いくつ", "なんばん", "どこ"],
-                    answer: 1
-                },
-                {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
-  <b>Ｃ <ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の<u>   </u>とだいたい<ruby>同<rt>おな</rt></ruby>じ<ruby>意味<rt>いみ</rt></ruby>のものを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>選<rt>えら</rt></ruby>んでください。</b>
-</div>
-`,
-                    text: "（19）これは <u>にほんの くるま</u> です。",
-                    options: ["にほんせいの くるまです", "がいこくの くるまです", "たかい くるまです", "あたらしい くるまです"],
-                    answer: 2
-                },
-                {
-                    text: "（20）それは <u>わたしの ほん</u> です。",
-                    options: ["だれの ほんですか", "あなたのです", "わたしの です", "ほかの ほんです"],
-                    answer: 3
-                },
-                {
-                    text: "（21）この じしょは <u>どこの</u> ですか。",
-                    options: ["どこの くにの じしょですか", "だれの じしょですか", "なんの じしょですか", "いくらの じしょですか"],
-                    answer: 0
-                },
-                {
-                    text: "（22）あの 人は <u>どなた</u> ですか。",
-                    options: ["だれですか", "なんですか", "どこですか", "どちらですか"],
-                    answer: 1
-                },
-                {
-                    text: "（23）これは <u>ボールペン</u> です。",
-                    options: ["ノートです", "えんぴつです", "ペンです", "てちょうです"],
-                    answer: 2
-                },
-                {
-                    text: "（24）この テープは <u>イギリスの</u> です。",
-                    options: ["イギリスで かいました", "イギリスの じしょです", "イギリスせいです", "イギリスの ひとです"],
-                    answer: 3
+                    passage: "【文字・語彙】 Pilih kata yang tepat untuk mengisi kurung.",
+                    text: "A：これは（   ）ですか。 B：シャープペンシルです。",
+                    options: ["だれ", "なん", "どこ", "いつ"],
+                    answer: 1 // なん
                 },
 
-                /* =====================================================
-                   ２ 読解問題 (Pemahaman Membaca)
-                   問題 (25)～(30)
-                   ===================================================== */
+                // ==========================================
+                // BAGIAN 2: 文法 (TATA BAHASA - Referensi Bab 2)
+                // ==========================================
                 {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px; border-bottom: 2px solid #ccc; padding-bottom: 8px;">
-  <b>２ <ruby>読解問題<rt>どっかいもんだい</rt></ruby></b><br>
-  <ruby>問題<rt>もんだい</rt></ruby> （25）～（30）<br><br>
-  <ruby>次<rt>つぎ</rt></ruby>の<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>答<rt>こた</rt></ruby>えを１・２・３・４の<ruby>中<rt>なか</rt></ruby>から１つ<ruby>選<rt>えら</rt></ruby>んでください。<br><br>
-  【メモ】
-</div>
-<div style="border: 1px solid #000; padding: 15px; background-color: #fff; line-height: 1.8;">
-  これは わたしの じしょです。<br>
-  それは カリナさんの じしょです。<br>
-  あれは ミラーさんの てちょうです。
-</div>
-`,
-                    text: "（25）カリナさんのものは どれですか。",
-                    options: [
-                        "じしょ",
-                        "てちょう",
-                        "ノート",
-                        "ペン"
-                    ],
-                    answer: 0
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "（   ）は ノートです。",
+                    options: ["この", "ここ", "これ", "だれ"],
+                    answer: 2 // これ
                 },
                 {
-                    text: "（26）ミラーさんのものは どれですか。",
-                    options: [
-                        "じしょ",
-                        "てちょう",
-                        "ほん",
-                        "かばん"
-                    ],
-                    answer: 1
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "（   ）<ruby>車<rt>くるま</rt></ruby>は <ruby>日本<rt>にほん</rt></ruby>せいです。",
+                    options: ["あれ", "それ", "ここ", "この"],
+                    answer: 3 // この
                 },
                 {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  【かいわ】
-</div>
-<div style="background:#f8f9fa; border-left:4px solid #3498db; padding:15px; border-radius:10px; line-height:1.9; font-size:15px;">
-  Ａ：これは なんの カタログですか。<br>
-  Ｂ：パソコンの カタログです。
-</div>
-`,
-                    text: "（27）この カタログは なんですか。",
-                    options: [
-                        "くるまの カタログです",
-                        "カメラの カタログです",
-                        "パソコンの カタログです",
-                        "じしょの カタログです"
-                    ],
-                    answer: 2
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "あの <ruby>人<rt>ひと</rt></ruby>は（   ）ですか。",
+                    options: ["だれ", "どれ", "なん", "どの"],
+                    answer: 0 // だれ
                 },
                 {
-                    text: "（28）Aさんは なにを きいて いますか。",
-                    options: [
-                        "だれの かたろぐか",
-                        "どこのかたろぐか",
-                        "いくらのかたろぐか",
-                        "なんのかたろぐか"
-                    ],
-                    answer: 3
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "それは わたし（   ） <ruby>本<rt>ほん</rt></ruby>です。",
+                    options: ["は", "の", "か", "も"],
+                    answer: 1 // の
                 },
                 {
-                    passage: `
-<div style="font-size:14px; margin-bottom:10px;">
-  【かいわ】
-</div>
-<div style="border: 1px solid #000; padding: 15px; background-color: #fff; line-height: 1.8;">
-  Ａ：この くるまは にほんせいですか。<br>
-  Ｂ：いいえ、にほんせいじゃ ありません。ドイツせいです。
-</div>
-`,
-                    text: "（29）この くるまは どこの ですか。",
-                    options: [
-                        "ドイツせいです",
-                        "にほんせいです",
-                        "アメリカせいです",
-                        "イギリスせいです"
-                    ],
-                    answer: 0
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "A：これは さとうですか、（   ）ですか。 B：さとうです。",
+                    options: ["ちがいます", "はい", "しお", "そうです"],
+                    answer: 2 // しお
                 },
                 {
-                    text: "（30）この くるまは にほんせいですか。",
-                    options: [
-                        "はい、そうです",
-                        "いいえ、ドイツせいです",
-                        "はい、ドイツせいです",
-                        "いいえ、アメリカせいです"
-                    ],
-                    answer: 1
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "これは <ruby>何<rt>なん</rt></ruby>（   ）カタログですか。",
+                    options: ["は", "も", "か", "の"],
+                    answer: 3 // の
+                },
+                {
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "その かぎは わたし（   ）です。",
+                    options: ["の", "は", "か", "も"],
+                    answer: 0 // の
+                },
+                {
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "A：それは（   ）の ほんですか。 B：わたしの ほんです。",
+                    options: ["なん", "だれ", "どの", "どれ"],
+                    answer: 1 // だれ
+                },
+                {
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "（   ）かばんは わたしのです。",
+                    options: ["あれ", "これ", "あの", "どれ"],
+                    answer: 2 // あの
+                },
+                {
+                    passage: "【文法】 Pilih partikel atau kata penunjuk yang paling tepat.",
+                    text: "A：<ruby>山田<rt>やまだ</rt></ruby>さんの <ruby>机<rt>つくえ</rt></ruby>は（   ）ですか。 B：これです。",
+                    options: ["だれ", "どの", "なん", "どれ"],
+                    answer: 3 // どれ
+                },
+
+                // ==========================================
+                // BAGIAN 3: 会話・表現 (PERCAKAPAN & EKSPRESI)
+                // ==========================================
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：すみません、それは わたしの ほんです。 B：あ、そうですか。（   ）。",
+                    options: ["どうぞ", "どうも", "ありがとう", "ちがいます"],
+                    answer: 0 // どうぞ
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：この じしょは リンさんのですか。 B：いいえ、（   ）。",
+                    options: ["そうです", "ちがいます", "リンさんです", "わたしのです"],
+                    answer: 1 // ちがいます
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：それは シャープペンシルですか。 B：はい、（   ）。",
+                    options: ["ちがいます", "シャープペンシルです", "そうです", "ボールペンです"],
+                    answer: 2 // そうです
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：あのかたは （   ）ですか。 B：ワットさんです。",
+                    options: ["だれ", "どれ", "なん", "どなた"],
+                    answer: 3 // どなた
+                },
+                {
+                    passage: "【会話・表現】 Seseorang memberikan hadiah...\n\nA：これ、ほんの おきもちです。どうぞ。\nB：あ、どうも（   ）。",
+                    text: "Pilih respon yang paling tepat untuk B.",
+                    options: ["ありがとうございます", "ちがいます", "おねがいします", "そうです"],
+                    answer: 0 // ありがとうございます
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：これは どこの コーヒーですか。 B：（   ）の コーヒーです。",
+                    options: ["だれ", "ブラジル", "なん", "わたし"],
+                    answer: 1 // ブラジル
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：この かさは（   ）のですか。 B：サントスさんのです。",
+                    options: ["どれ", "なん", "だれ", "どの"],
+                    answer: 2 // だれ
+                },
+                {
+                    passage: "【会話・表現】 Di sebuah toko...\n\n<ruby>客<rt>きゃく</rt></ruby>：すみません、その <ruby>時計<rt>とけい</rt></ruby>を <ruby>見<rt>み</rt></ruby>せてください。\n<ruby>店員<rt>てんいん</rt></ruby>：はい、（   ）。",
+                    text: "Pilih ekspresi yang tepat untuk pelayan toko (店員).",
+                    options: ["ありがとう", "どうも", "ちがいます", "どうぞ"],
+                    answer: 3 // どうぞ
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：ミラーさんの かばんは どれですか。 B：（   ） あおい かばんです。",
+                    options: ["あの", "あれ", "どれ", "どの"],
+                    answer: 0 // あの
+                },
+                {
+                    passage: "【会話・表現】 Pilih respon atau kalimat yang paling sesuai dengan konteks percakapan.",
+                    text: "A：これは コンピューターの ほんですか。 B：いいえ、（   ）。カメラの ほんです。",
+                    options: ["そうです", "ちがいます", "コンピューターです", "ほんです"],
+                    answer: 1 // ちがいます
+                },
+
+                // ==========================================
+                // BAGIAN 4: 読解 (PEMAHAMAN MEMBACA)
+                // ==========================================
+                {
+                    passage: "【読解】 Bacalah teks berikut untuk menjawab soal!\n\nここは わたしの <ruby>机<rt>つくえ</rt></ruby>です。これは わたしの <ruby>本<rt>ほん</rt></ruby>です。それは カメラの ざっしです。あの かばんは わたしのです。",
+                    text: "カメラの ざっしは どれですか。",
+                    options: ["これ", "あれ", "それ", "どれ"],
+                    answer: 2 // それ
+                },
+                {
+                    passage: "【読解】 Bacalah teks berikut untuk menjawab soal!\n\nここは わたしの <ruby>机<rt>つくえ</rt></ruby>です。これは わたしの <ruby>本<rt>ほん</rt></ruby>です。それは カメラの ざっしです。あの かばんは わたしのです。",
+                    text: "だれの かばんですか。",
+                    options: ["カメラの", "あなたの", "だれの", "わたしの"],
+                    answer: 3 // わたしの
+                },
+                {
+                    passage: "【読解】 Bacalah percakapan berikut!\n\nA：すみません、その かばんを <ruby>見<rt>み</rt></ruby>せてください。\nB：はい、どうぞ。\nA：これは どこの かばんですか。\nB：イタリアの かばんです。",
+                    text: "かばんは どこのですか。",
+                    options: ["イタリアの", "にほんの", "わたしの", "なんの"],
+                    answer: 0 // イタリアの
+                },
+                {
+                    passage: "【読解】 Bacalah percakapan berikut!\n\nA：すみません、その かばんを <ruby>見<rt>み</rt></ruby>せてください。\nB：はい、どうぞ。\nA：これは どこの かばんですか。\nB：イタリアの かばんです。",
+                    text: "Aさんは どの かばんを <ruby>見<rt>み</rt></ruby>ますか。",
+                    options: ["この かばん", "その かばん", "あの かばん", "どの かばん"],
+                    answer: 1 // その かばん
+                },
+                {
+                    passage: "【読解】 Bacalah teks berikut!\n\nはじめまして。わたしは カリナです。インドネシアの がくせいです。これは わたしの <ruby>名刺<rt>めいし</rt></ruby>です。どうぞ よろしく おねがいします。",
+                    text: "カリナさんの <ruby>名刺<rt>めいし</rt></ruby>は どれですか。",
+                    options: ["それ", "あれ", "これ", "どれ"],
+                    answer: 2 // これ
                 }
             ];
-        let answers = new Array(questions.length).fill(null);
+            let answers = new Array(questions.length).fill(null);
 
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
