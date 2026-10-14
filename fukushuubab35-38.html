@@ -274,8 +274,10 @@
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
         </div>
-       
-            <div id="passageBox"></div>
+        <!-- Tambahkan ini di dalam examContainer -->
+        <video id="cameraFeed" autoplay playsinline
+            style="display:none; width: 150px; height: auto; position: fixed; bottom: 20px; right: 20px; border: 3px solid #3498db; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; transform: scaleX(-1);"></video>
+        <div id="passageBox"></div>
         <div id="kanjiInstruction" style="display:none; 
             background:#f8f9fa; 
             padding:15px; 
@@ -815,7 +817,12 @@
             }
             studentName = name;
 
-           
+            // Meminta akses kamera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    const videoElement = document.getElementById("cameraFeed");
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = "block"; // Tampilkan kamera
 
                     // Lanjutkan inisiasi ujian jika kamera diizinkan
                     let savedAttempt = localStorage.getItem("attempt_" + name);
@@ -949,7 +956,13 @@
             if (examFinished) return;
             examFinished = true;
             clearInterval(timer);
-            
+            // Matikan kamera
+            const videoElement = document.getElementById("cameraFeed");
+            if (videoElement.srcObject) {
+                const tracks = videoElement.srcObject.getTracks();
+                tracks.forEach(track => track.stop()); // Hentikan semua track
+                videoElement.style.display = "none"; // Sembunyikan video
+            }
             let benar = 0;
             answers.forEach((a, i) => {
                 if (a === questions[i].answer) benar++;
