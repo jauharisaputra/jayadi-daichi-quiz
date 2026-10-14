@@ -62,8 +62,8 @@
         <section class="mb-10 bg-pink-50 p-6 rounded-xl border border-pink-100 flex flex-col items-center">
             <h2 class="text-lg font-medium mb-3 text-pink-800">オーディオを聴いてください (Dengarkan Audio)</h2>
             <audio controls class="w-full max-w-md rounded-full shadow-sm">
-                <!-- Ganti path berikut dengan file audio Bab 5-8 Anda -->
-                <source src="mini_choukai/Audio 5-8.mp3" type="audio/mpeg">
+                <!-- Pastikan nama file audio Bab 5-8 Anda benar di bawah ini -->
+                <source src="Audio 5-8.mp3" type="audio/mpeg">
                 Browser Anda tidak mendukung elemen audio.
             </audio>
         </section>
@@ -104,26 +104,25 @@
     </div>
 
     <script>
-        // Data Soal Bab 5-8 (Dibuat berdasarkan transkrip audio)
+        // DATA SOAL (SILAKAN MASUKKAN DATA BAGIAN 7-10 DI BAWAH JIKA ADA)
         const questionsData = [
             // BAGIAN 1: Waktu
-            { isSection: true, title: "１。今、何時ですか。" , exampleImage: "mini_choukai/bab5-8/contoh_bag1.png" }, // Masukkan potongan gambar contoh jika ada
+            { isSection: true, title: "１。今、何時ですか。" },
             { type: "single", question: "1. 北京 (Beijing)", options: ["a) 2時半", "b) 1時半"], correctAnswer: 1 },
             { type: "single", question: "2. ロンドン (London)", options: ["a) 午前7時15分", "b) 午後1時15分"], correctAnswer: 0 },
-            { type: "single", question: "3. ", options: ["a) 12.50", "b) 1.50"], correctAnswer: 1 },
 
-            // BAGIAN 2
+            // BAGIAN 2: Hari Libur
             {
                 isSection: true,
                 title: "２。何時から何時までですか。休みは何曜日ですか。",
-                exampleImage: "mini_choukai/bab5-8/contoh_bag2.png" // Masukkan potongan gambar contoh jika ada
+                exampleImage: "image_4d6eda.png"
             },
             {
                 type: "schedule-single",
                 question: "1) なにわ図書館",
                 correctAnswers: [
-                    ["9", "9:00", "09:00", "９"], // Start
-                    ["6", "6:00", "06:00", "６"], // End
+                    ["9", "9:00", "09:00", "９", "9.00"], // Start
+                    ["6", "6:00", "06:00", "６", "6.00"], // End
                     ["火", "火曜日"] // Day
                 ]
             },
@@ -131,61 +130,88 @@
                 type: "schedule-double",
                 question: "2) げんき病院",
                 correctAnswers: [
-                    ["9", "9:00", "09:00", "９"], // AM Start
-                    ["12", "12:00", "１２"], // AM End
+                    ["9", "9:00", "09:00", "９", "9.00"], // AM Start
+                    ["12", "12:00", "１２", "12.00"], // AM End
                     ["4:30", "4.30", "４：３０"], // PM Start
                     ["7:30", "7.30", "７：３０"], // PM End
                     ["日", "日曜日"] // Day
                 ]
             },
-            // BAGIAN 3: Pergi ke mana (Gunakan file gambar pilihan ganda)
+
+            // BAGIAN 3: Pergi ke mana
             {
                 isSection: true,
                 title: "３。どこへ行きましたか。",
-                exampleImage: "contoh_bab58_bag3.png"
+                exampleImage: "image_593c86.png"
             },
-            { type: "image-single", question: "1. エドさん (Edo)", options: ["img_bag3_1a.jpg", "img_bag3_1b.jpg", "img_bag3_1c.jpg"], correctAnswer: 0 },
-            { type: "image-single", question: "2. リーさん (Lee)", options: ["img_bag3_2a.jpg", "img_bag3_2b.jpg", "img_bag3_2c.jpg"], correctAnswer: 2 },
-            { type: "image-single", question: "3. 先生 (Sensei)", options: ["img_bag3_3a.jpg", "img_bag3_3b.jpg", "img_bag3_3c.jpg"], correctAnswer: 1 },
+            { type: "single", question: "1. エドさん", options: ["a", "b", "c", "d", "e"], correctAnswer: 4 },
+            { type: "single", question: "2. リンさん", options: ["a", "b", "c", "d", "e"], correctAnswer: 1 },
+            { type: "single", question: "3. 先生", options: ["a", "b", "c", "d", "e"], correctAnswer: 3 },
 
-            // BAGIAN 4: Nomor Telepon
-            { isSection: true, title: "４。電話番号は何番ですか。" },
-            { type: "single", question: "1. 木村さん", options: ["a) 090-985-3178", "b) 090-985-3187"], correctAnswer: 0 },
-            { type: "single", question: "2. パワー電気", options: ["a) 336-8010", "b) 336-8080"], correctAnswer: 1 },
-
-            // BAGIAN 5: Posisi / Tempat
+            // BAGIAN 4: Hari Kerja
             {
                 isSection: true,
-                title: "５。どこにありますか / いますか。",
-                exampleImage: "contoh_bab58_bag5.png"
+                title: "４。林さんは何曜日に働きましたか。",
+                exampleImage: "image_59a1a3.png",
+                example: "働きました……〇  働きませんでした……✕"
             },
-            {
-                type: "single-image-multiple",
-                question: "1. カラオケの店 と 白い犬 は どこに ありますか / いますか。",
-                image: "img_bag5_1.jpg",
-                options: ["a", "b", "c", "d"],
-                correctAnswer: [0, 2] // Sesuaikan index dengan gambar opsi yang benar
-            },
+            { type: "single", question: "月曜日 (Senin)", options: ["〇", "✕"], correctAnswer: 0 },
+            { type: "single", question: "火曜日 (Selasa)", options: ["〇", "✕"], correctAnswer: 0 },
+            { type: "single", question: "水曜日 (Rabu)", options: ["〇", "✕"], correctAnswer: 1 },
+            { type: "single", question: "木曜日 (Kamis)", options: ["〇", "✕"], correctAnswer: 0 },
+            { type: "single", question: "金曜日 (Jumat)", options: ["〇", "✕"], correctAnswer: 1 },
+            { type: "single", question: "土曜日 (Sabtu)", options: ["〇", "✕"], correctAnswer: 1 },
+            { type: "single", question: "日曜日 (Minggu)", options: ["〇", "✕"], correctAnswer: 1 },
 
-            // BAGIAN 6: Isian & Pilihan
-            { isSection: true, title: "６。どうですか。", example: "例：（ アグラ ）は a 大きいですが、賑やかな町です。 ○b 大きくないですが、賑やかな町です。" },
+            // BAGIAN 5: Nomor Telepon
             {
-                type: "two-part",
-                qPrefix: "1.（", qSuffix: "）は",
-                options: ["a 有名じゃありませんが、いいです。", "b 有名ですが、よくないです。"],
-                correctText: ["かいしゃ", "会社", "kaisha", "imc"],
-                correctRadio: 0
+                isSection: true,
+                title: "５。何番ですか。",
+                example: "例(れい)：03-3292-6521"
+            },
+            { type: "text-single", question: "1)", correctAnswers: ["090-985-3178", "0909853178", "090 985 3178"] },
+            { type: "text-single", question: "2)", correctAnswers: ["078-4211-3168", "07842113168", "078 4211 3168"] },
+            { type: "text-single", question: "3)", correctAnswers: ["336-8080", "3368080", "336 8080"] },
+
+            // BAGIAN 6: Kapan dan Ke Mana
+            {
+                isSection: true,
+                title: "６。いつ行きますか。",
+                exampleImage: "image_5a7e9e.png",
+                example: "例(れい)： 10日 ( 火 ) 曜日 どこへ： a. 京都"
             },
             {
-                type: "two-part",
-                qPrefix: "2.（", qSuffix: "）は",
-                options: ["a 新しいですが、綺麗じゃありません。", "b 古いです。そして綺麗じゃありません。"],
-                correctText: ["うち", "家", "uchi", "いえ"],
-                correctRadio: 1
+                type: "date-day-place",
+                question: "1)",
+                options: ["a. 京都", "b. 図書館", "c. 病院", "d. 美術館"],
+                correctTextDate: ["6", "６", "6日", "６日"],
+                correctTextDay: ["金", "金曜日", "きんようび", "kin", "jumat"],
+                correctRadio: 1 // b. 図書館
+            },
+            {
+                type: "date-day-place",
+                question: "2)",
+                options: ["a. 京都", "b. 図書館", "c. 病院", "d. 美術館"],
+                correctTextDate: ["14", "１４", "14日", "１４日"],
+                correctTextDay: ["土", "土曜日", "どようび", "do", "sabtu"],
+                correctRadio: 2 // c. 病院
+            },
+            {
+                type: "date-day-place",
+                question: "3)",
+                options: ["a. 京都", "b. 図書館", "c. 病院", "d. 美術館"],
+                correctTextDate: ["26", "２６", "26日", "２６日"],
+                correctTextDay: ["木", "木曜日", "もくようび", "moku", "kamis"],
+                correctRadio: 3 // d. 美術館
             }
+
+            // ==========================================
+            // PASTE SOAL BAGIAN 7, 8, 9, 10 ANDA DI SINI
+            // ==========================================
+
         ];
 
-        // URL dari hasil deploy Apps Script Anda
+        // URL GOOGLE APPS SCRIPT ANDA
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo5pqQP4AnB2uZLQ1I0rLodD69UEu5yVNvXj5L8hCi4WE--MLW6SHSm9NDP6OctNHn/exec';
 
         // Logika Render UI
@@ -223,65 +249,8 @@
                     </div>
                 `;
                 questionIndex++; totalScorableItems++;
-            } else if (item.type === "image-single") {
+            } else if (item.type === "schedule-single") {
                 container.innerHTML += `
-                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
-                        <p class="font-bold text-gray-800 mb-4 text-lg">${item.question}</p>
-                        <div class="grid grid-cols-3 gap-4">
-                            ${item.options.map((src, i) => `
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
-                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-center transition">
-                                        <img src="${src}" alt="Pilihan ${i + 1}" class="mx-auto rounded" onerror="this.outerHTML='<div class=\\'bg-gray-100 p-6 text-sm text-gray-400 rounded border-dashed border-2\\'>画像<br>${src}</div>'">
-                                    </div>
-                                </label>`).join('')}
-                        </div>
-                    </div>
-                `;
-                questionIndex++; totalScorableItems++;
-            } else if (item.type === "single-image-multiple") {
-                container.innerHTML += `
-                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
-                        <p class="font-bold text-gray-800 mb-3 text-lg">${item.question}</p>
-                        <div class="mb-5 text-center">
-                            <img src="${item.image}" alt="Soal ${item.question}" class="max-w-full h-auto mx-auto rounded border border-gray-300 shadow-sm" onerror="this.outerHTML='<div class=\\'p-6 bg-gray-50 text-gray-400 text-sm border-dashed border-2 text-center\\'>Gambar soal <b>${item.image}</b> tidak ditemukan.</div>'">
-                        </div>
-                        <p class="text-sm text-pink-500 mb-3 font-bold text-center">※ 2つ選んでください (Pilih 2 jawaban)</p>
-                        <div class="grid grid-cols-4 gap-3 max-w-sm mx-auto">
-                            ${item.options.map((opt, i) => `
-                                <label class="cursor-pointer relative">
-                                    <input type="checkbox" name="q${questionIndex}" value="${i}" class="checkbox-custom sr-only">
-                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-center text-lg font-bold text-gray-700 hover:bg-gray-50 transition">
-                                        ${opt}
-                                    </div>
-                                </label>`).join('')}
-                        </div>
-                    </div>
-                `;
-                questionIndex++; totalScorableItems++;
-            } else if (item.type === "two-part") {
-                container.innerHTML += `
-                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
-                        <div class="flex flex-wrap items-center gap-2 font-bold text-gray-800 mb-4 text-lg">
-                            <span>${item.qPrefix}</span>
-                            <input type="text" name="text_q${questionIndex}" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-32 text-pink-600 bg-gray-50 rounded" required autocomplete="off">
-                            <span>${item.qSuffix}</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 max-w-sm mt-3">
-                            ${item.options.map((opt, i) => `
-                                <label class="cursor-pointer relative">
-                                    <input type="radio" name="radio_q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
-                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-gray-700 hover:bg-gray-50 transition font-medium text-center">
-                                        ${opt}
-                                    </div>
-                                </label>`).join('')}
-                        </div>
-                    </div>
-                `;
-                questionIndex++; totalScorableItems += 2;
-            }
-         else if (item.type === "schedule-single") {
-            container.innerHTML += `
                     <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
                         <p class="font-bold text-gray-800 mb-4 text-lg">${item.question}</p>
                         <div class="flex flex-col gap-3 font-medium text-gray-700 text-lg">
@@ -294,15 +263,15 @@
                             </div>
                             <div class="flex items-center gap-2 mt-2">
                                 <span>(</span>
-                                <input type="text" name="q${questionIndex}_2" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-20 text-pink-600 bg-gray-50 rounded" required placeholder="火">
+                                <input type="text" name="q${questionIndex}_2" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-20 text-pink-600 bg-gray-50 rounded" required placeholder="...">
                                 <span>) 曜日</span>
                             </div>
                         </div>
                     </div>
                 `;
-            questionIndex++; totalScorableItems += 3;
-        } else if (item.type === "schedule-double") {
-            container.innerHTML += `
+                questionIndex++; totalScorableItems += 3;
+            } else if (item.type === "schedule-double") {
+                container.innerHTML += `
                     <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
                         <p class="font-bold text-gray-800 mb-4 text-lg">${item.question}</p>
                         <div class="flex flex-col gap-3 font-medium text-gray-700 text-lg">
@@ -324,17 +293,48 @@
                             </div>
                             <div class="flex items-center gap-2 mt-2 ml-12">
                                 <span>(</span>
-                                <input type="text" name="q${questionIndex}_4" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-20 text-pink-600 bg-gray-50 rounded" required placeholder="日">
+                                <input type="text" name="q${questionIndex}_4" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-20 text-pink-600 bg-gray-50 rounded" required placeholder="...">
                                 <span>) 曜日</span>
                             </div>
                         </div>
                     </div>
                 `;
-            questionIndex++; totalScorableItems += 5;
-        
-        }
+                questionIndex++; totalScorableItems += 5;
+            } else if (item.type === "text-single") {
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <div class="flex items-center gap-4 font-bold text-gray-800 text-lg">
+                            <span>${item.question}</span>
+                            <input type="text" name="text_single_q${questionIndex}" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-4 py-2 flex-1 text-pink-600 bg-gray-50 rounded text-xl tracking-wider" required placeholder="...">
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems++;
+            } else if (item.type === "date-day-place") {
+                // LOGIKA RENDER BAGIAN 6
+                container.innerHTML += `
+                    <div class="bg-white p-5 md:p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition ml-0 md:ml-4">
+                        <div class="flex flex-wrap items-center gap-3 font-bold text-gray-800 text-lg mb-4">
+                            <span>${item.question}</span>
+                            <input type="text" name="date_q${questionIndex}" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-16 text-pink-600 bg-gray-50 rounded" required placeholder="..."> <span>日</span>
+                            <span>(</span>
+                            <input type="text" name="day_q${questionIndex}" class="border-b-2 border-pink-300 focus:border-pink-500 outline-none px-2 py-1 text-center w-20 text-pink-600 bg-gray-50 rounded" required placeholder="...">
+                            <span>) 曜日</span>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                            ${item.options.map((opt, i) => `
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" name="radio_q${questionIndex}" value="${i}" class="radio-custom sr-only" required>
+                                    <div class="w-full border-2 border-gray-200 rounded-lg p-3 text-gray-700 hover:bg-gray-50 transition font-medium text-center">
+                                        ${opt}
+                                    </div>
+                                </label>`).join('')}
+                        </div>
+                    </div>
+                `;
+                questionIndex++; totalScorableItems += 3;
+            }
         });
-
 
         // Logika Submit Skor
         document.getElementById('quizForm').addEventListener('submit', function (e) {
@@ -353,32 +353,42 @@
                         correctAnswersCount++;
                     }
                     qIdx++;
-                } else if (item.type === "single-image-multiple") {
-                    const answers = formData.getAll(`q${qIdx}`).map(Number);
-                    const isCorrect = answers.length === item.correctAnswer.length &&
-                        answers.every(val => item.correctAnswer.includes(val));
-                    if (isCorrect) correctAnswersCount++;
+                } else if (item.type === "schedule-single" || item.type === "schedule-double") {
+                    item.correctAnswers.forEach((correctArr, idx) => {
+                        const val = formData.get(`q${qIdx}_${idx}`);
+                        const answer = val ? val.trim().toLowerCase() : "";
+                        if (correctArr.some(correct => correct.toLowerCase() === answer)) {
+                            correctAnswersCount++;
+                        }
+                    });
                     qIdx++;
-                } else if (item.type === "two-part") {
-                    const textAnswer = formData.get(`text_q${qIdx}`).trim().toLowerCase();
-                    if (item.correctText.some(correct => correct === textAnswer)) {
+                } else if (item.type === "text-single") {
+                    const val = formData.get(`text_single_q${qIdx}`);
+                    const textAnswer = val ? val.trim().toLowerCase() : "";
+                    if (item.correctAnswers.some(correct => correct.toLowerCase() === textAnswer)) {
                         correctAnswersCount++;
                     }
+                    qIdx++;
+                } else if (item.type === "date-day-place") {
+                    // LOGIKA PENILAIAN BAGIAN 6
+                    const dVal = formData.get(`date_q${qIdx}`);
+                    const dateAnswer = dVal ? dVal.trim().toLowerCase() : "";
+                    if (item.correctTextDate.some(correct => correct.toLowerCase() === dateAnswer)) {
+                        correctAnswersCount++;
+                    }
+
+                    const dayVal = formData.get(`day_q${qIdx}`);
+                    const dayAnswer = dayVal ? dayVal.trim().toLowerCase() : "";
+                    if (item.correctTextDay.some(correct => correct.toLowerCase() === dayAnswer)) {
+                        correctAnswersCount++;
+                    }
+
                     const radioAnswer = formData.get(`radio_q${qIdx}`);
                     if (radioAnswer && parseInt(radioAnswer) === item.correctRadio) {
                         correctAnswersCount++;
                     }
                     qIdx++;
                 }
-                 else if (item.type === "schedule-single" || item.type === "schedule-double") {
-                item.correctAnswers.forEach((correctArr, idx) => {
-                    const answer = formData.get(`q${qIdx}_${idx}`).trim().toLowerCase();
-                    if (correctArr.some(correct => correct === answer)) {
-                        correctAnswersCount++;
-                    }
-                });
-                qIdx++;
-            }
             });
 
             const finalScore = Math.round((correctAnswersCount / totalScorableItems) * 100);
@@ -386,7 +396,7 @@
             const dataToSend = new FormData();
             dataToSend.append('Nama', studentName);
             dataToSend.append('Kelas', studentClass);
-            dataToSend.append('Bab', 'Bab 5-8'); // Otomatis tercatat "Bab 5-8" di Google Sheet
+            dataToSend.append('Bab', 'Bab 5-8'); // Pencatatan sebagai Bab 5-8
             dataToSend.append('Skor', finalScore);
 
             const submitBtn = document.getElementById('submitBtn');
@@ -395,7 +405,6 @@
             submitBtn.classList.add('opacity-50');
             loadingInd.classList.remove('hidden');
 
-            // Pengiriman data menggunakan mode: 'no-cors' agar kompatibel dengan HP
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
