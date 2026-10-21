@@ -221,6 +221,23 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
+        #cameraFeed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 150px; /* Sesuaikan ukuran kamera */
+  z-index: 9999;
+  cursor: grab;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  background: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  touch-action: none; /* Penting agar tidak scroll saat digeser di HP */
+}
+
+#cameraFeed:active {
+  cursor: grabbing;
+}
     </style>
 </head>
 
@@ -1665,22 +1682,22 @@ padding-bottom:8px;
             }
         });
 
-        // ?? Detect pindah tab
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden && !examFinished) {
-                document.body.innerHTML =
-                    "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
-            }
-        });
+       // ?? Detect pindah tab
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && !examFinished) {
+    captureCameraSnapshot("Pindah Tab / Minimize Browser"); // Potret saat pindah tab
+    document.body.innerHTML = "<h1 style='text-align:center;margin-top:50px;'>? Ujian dihentikan (tab berpindah)</h1>";
+  }
+});
 
-        // ?? Detect keluar window
-        window.addEventListener("blur", () => {
-            if (!examFinished) {
-                alert("?? Keluar dari halaman terdeteksi!");
-                finishExam(true);
-            }
-        });
-
+// ?? Detect keluar window
+window.addEventListener("blur", () => {
+  if (!examFinished) {
+    captureCameraSnapshot("Klik di luar area ujian / Buka aplikasi lain"); // Potret saat klik di luar
+    alert("?? Keluar dari halaman terdeteksi!");
+    finishExam(true);
+  }
+});
         // ?? Detect DevTools / Sidebar AI
         setInterval(() => {
             if (window.outerWidth - window.innerWidth > 200) {
@@ -1709,6 +1726,134 @@ padding-bottom:8px;
                 document.body.innerHTML = "<h1 style='text-align:center;'>? Translation terdeteksi</h1>";
             }
         }, 1500);
+       // --- KODE JAVASCRIPT KAMERA DRAG & DROP (FIXED) ---
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+        let activeCamera = null;
+
+        // -- Event untuk Mouse (Komputer/Laptop) --
+        document.addEventListener("mousedown", (e) => {
+            // Hanya aktif jika yang diklik adalah kamera atau elemen di dalam kamera
+            if (e.target.id === "cameraFeed" || e.target.closest("#cameraFeed")) {
+                e.preventDefault(); // Mencegah sensor blur (keluar halaman) bawaan browser
+                activeCamera = document.getElementById("cameraFeed");
+                isDragging = true;
+
+                const rect = activeCamera.getBoundingClientRect();
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+            }
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging || !activeCamera) return;
+
+            let newX = e.clientX - offsetX;
+            let newY = e.clientY - offsetY;
+
+            // Memastikan kamera tidak keluar dari batas layar
+            const maxX = window.innerWidth - activeCamera.offsetWidth;
+            const maxY = window.innerHeight - activeCamera.offsetHeight;
+
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
+
+            activeCamera.style.left = newX + "px";
+            activeCamera.style.top = newY + "px";
+            activeCamera.style.bottom = "auto";
+            activeCamera.style.right = "auto";
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            activeCamera = null;
+        });
+
+        // -- Event untuk Touch (Smartphone/Tablet) --
+        document.addEventListener("touchstart", (e) => {
+            if (e.target.id === "cameraFeed" || e.target.closest("#cameraFeed")) {
+                activeCamera = document.getElementById("cameraFeed");
+                isDragging = true;
+
+                const touch = e.touches[0];
+                const rect = activeCamera.getBoundingClientRect();
+                offsetX = touch.clientX - rect.left;
+                offsetY = touch.clientY - rect.top;
+            }
+        }, { passive: false });
+
+        document.addEventListener("touchmove", (e) => {
+            if (!isDragging || !activeCamera) return;
+            if (e.cancelable) e.preventDefault(); // Mencegah layar perangkat sentuh ikut terscroll
+
+            const touch = e.touches[0];
+            let newX = touch.clientX - offsetX;
+            let newY = touch.clientY - offsetY;
+
+            const maxX = window.innerWidth - activeCamera.offsetWidth;
+            const maxY = window.innerHeight - activeCamera.offsetHeight;
+
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
+
+            activeCamera.style.left = newX + "px";
+            activeCamera.style.top = newY + "px";
+            activeCamera.style.bottom = "auto";
+            activeCamera.style.right = "auto";
+        }, { passive: false });
+
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+            activeCamera = null;
+        });
+// --- FITUR AUTO SNAPSHOT & KIRIM KE GOOGLE SHEET ---
+const hiddenCanvas = document.createElement("canvas");
+const hiddenCtx = hiddenCanvas.getContext("2d");
+
+// GANTI DENGAN URL WEB APP DARI LANGKAH 2 (Google Apps Script)
+const SCRIPT_URL_KECURANGAN = "https://script.google.com/macros/s/AKfycbxO8Ec8ieJ0yKHbNoKQjWKGQmaXF8qx_13oaHo7AGq4clvHCmPYbu-uP1loa4zwXXkw/exec";
+
+function captureCameraSnapshot(reason) {
+  const video = document.getElementById("cameraFeed");
+  if (!video || !video.srcObject || video.videoWidth === 0) return;
+
+  // Samakan ukuran kanvas dengan video
+  hiddenCanvas.width = video.videoWidth;
+  hiddenCanvas.height = video.videoHeight;
+  hiddenCtx.drawImage(video, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
+  
+  // Kompres gambar menjadi format JPEG dengan kualitas 50% agar pengiriman cepat & tidak memberatkan jaringan
+  const imageDataBase64 = hiddenCanvas.toDataURL("image/jpeg", 0.5);
+  
+  // Kirim secara diam-diam (background process) ke Google Script
+  fetch(SCRIPT_URL_KECURANGAN, {
+    method: "POST",
+    // Jangan gunakan mode 'no-cors' jika ingin menangkap response sukses/gagal secara spesifik, 
+    // namun jika server sekolah ketat, ubah ke 'no-cors'. Default kita gunakan cors normal.
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify({
+      nama: typeof studentName !== 'undefined' ? studentName : "Siswa Tidak Diketahui",
+      alasan: reason,
+      image: imageDataBase64
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Bukti berhasil dikirim:", data);
+  })
+  .catch(error => {
+    console.error("Gagal mengirim bukti:", error);
+  });
+}
+            // Ambil foto otomatis secara acak setiap 2 - 5 menit
+setInterval(() => {
+  if (!examFinished) {
+    captureCameraSnapshot("Pengecekan Rutin Sistem");
+  }
+}, Math.floor(Math.random() * (300000 - 120000 + 1)) + 120000);
     </script>
 </body>
 
