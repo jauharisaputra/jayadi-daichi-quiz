@@ -7,7 +7,7 @@
     <meta name="translate" content="no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fukuushuu 1-4</title>
+    <title>Fukushuu Bab 1-4</title>
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Language" content="ja">
     <style>
@@ -221,16 +221,6 @@
             filter: blur(0.3px);
             text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
         }
-
-        #result {
-            margin-top: 30px;
-            font-size: 18px;
-            padding: 20px;
-            border-radius: 12px;
-            background: #ffffff;
-            display: none;
-            border: 2px solid #27ae60;
-        }
     </style>
 </head>
 
@@ -276,14 +266,17 @@
 
     <div class="container" id="examContainer" style="display:none;">
         <a href="index.html" class="home-btn">⬅ Kembali ke Beranda</a>
-        <h1>📚 Fukuushuu 1-4</h1>
+        <h1>📚 Fukushuu Bab 1-4</h1>
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div id="counter" style="font-size:18px; font-weight:bold;"></div>
-            <div id="timer">30:00</div>
+            <div id="timer">60:00</div>
         </div>
         <div class="progress-container">
             <div class="progress-bar" id="progress"></div>
         </div>
+        <!-- Tambahkan ini di dalam examContainer -->
+        <video id="cameraFeed" autoplay playsinline
+            style="display:none; width: 150px; height: auto; position: fixed; bottom: 20px; right: 20px; border: 3px solid #3498db; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; transform: scaleX(-1);"></video>
         <div id="passageBox"></div>
         <div id="kanjiInstruction" style="display:none; 
             background:#f8f9fa; 
@@ -304,7 +297,6 @@
 
         </div>
         <div class="question notranslate" id="questionText"> </div>
-        <div id="questionImageBox" style="text-align:center; margin:15px 0;"></div>
         <div class="options" id="options"></div>
         <div class="nav-grid" id="navGrid"></div>
         <button onclick="finishExam()" id="finishBtn"
@@ -318,7 +310,7 @@
     </div>
 
     <script>
-        const QUIZ_TIME = 1800; // 30 menit
+        const QUIZ_TIME = 3600; // 60 menit
         let timeLeft = QUIZ_TIME;
         let timer;
         let examFinished = false;
@@ -330,242 +322,356 @@
         function decode(str) {
             return atob(str);
         }
+
        const questions = [
-
-            // ======================================================
-            // BAB 1 — は・も・の
-            // LEVEL: MUDAH
-            // ======================================================
-
+            // ===============================
+            // １ 文法・語彙問題 (Bagian 1 - Tata Bahasa & Kosakata)
+            // ===============================
             {
-                text: "1. わたし（　）学生です。",
-                options: ["は", "も", "の", "を"],
+                passage: `
+<div style="border:2px solid #333; border-radius:10px; padding:16px; background:#fff; line-height:2; font-size:14px; text-align:left;">
+<div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom:10px; border-bottom:1px solid #ccc; padding-bottom:8px;">Ａ</div>
+<b><ruby>次<rt>つぎ</rt></ruby>の<ruby>文<rt>ぶん</rt></ruby>の（   ）に１・２・３・４の<ruby>中<rt>なか</rt></ruby>から<ruby>一番<rt>いちばん</rt></ruby>いい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。</b>
+</div>
+`,
+                text: "1. わたしは リン・タイ（   ）。",
+                options: ["です", "か", "じゃ", "の"],
                 answer: 0
             },
-
             {
-                text: "2. たなかさん（　）学生です。",
-                options: ["に", "も", "で", "を"],
+                text: "2. ポンさんは がくせい（   ）。",
+                options: ["です", "ですか", "の", "も"],
                 answer: 1
             },
-
             {
-                text: "3. これは わたし（　）ほんです。",
-                
-                options: ["は", "を", "の", "も"],
+                text: "3. アンさんは がくせい（   ）ありません。",
+                options: ["です", "か", "じゃ", "も"],
                 answer: 2
             },
-
             {
-                text: "4. 「わたしも せんせいです。」の いみ は？",
-                options: [
-                    "Saya seorang guru",
-                    "Saya juga seorang guru",
-                    "Dia seorang guru",
-                    "Ini guru saya"
-                ],
+                text: "4. キムさん（   ）がくせいです。",
+                options: ["は", "も", "か", "の"],
                 answer: 1
             },
-
             {
-                text: "5. 「の」 は なにを あらわしますか。",
-                options: [
-                    "Tempat",
-                    "Kepemilikan",
-                    "Waktu",
-                    "Arah"
-                ],
+                text: "5. リンさんは にほんごがっこう（   ）がくせいです。",
+                options: ["の", "か", "は", "も"],
+                answer: 0
+            },
+            {
+                text: "6. ここ（   ）しょくどうです。",
+                options: ["の", "は", "か", "も"],
                 answer: 1
             },
-
-            // ======================================================
-            // BAB 2 — これ・それ・あれ・どれ
-            // LEVEL: MUDAH → SEDANG
-            // ======================================================
-
             {
-                text: "6. これは なんですか。",
-                image: "images/fukushuu/bab1-4/q6.png",
-                options: ["ほん", "かばん", "いす", "くつ"],
+                text: "7. コピーきは（   ）ですか。",
+                options: ["どこ", "だれ", "なん", "いくら"],
+                answer: 0
+            },
+            {
+                text: "8. このパソコンは（   ）ですか。",
+                options: ["どこ", "だれ", "なん", "いくら"],
+                answer: 3
+            },
+            {
+                text: "9. それは どこ（   ）くるまですか。",
+                options: ["の", "は", "か", "も"],
+                answer: 0
+            },
+            {
+                text: "10. （   ）は ノートです。",
+                options: ["これ", "この", "ここ", "だれ"],
+                answer: 0
+            },
+            {
+                text: "11. これは（   ）の カタログですか。",
+                options: ["なん", "だれ", "どこ", "いくら"],
+                answer: 0
+            },
+            {
+                text: "12. （   ）くるまは にほんせいです。",
+                options: ["これ", "この", "ここ", "だれ"],
+                answer: 1
+            },
+            {
+                text: "13. あのひとは（   ）ですか。",
+                options: ["だれ", "なん", "どこ", "いくら"],
+                answer: 0
+            },
+            {
+                text: "14. それは（   ）の ほんですか。",
+                options: ["だれ", "なん", "どこ", "いくら"],
+                answer: 0
+            },
+            {
+                text: "15. これは さとうですか、（   ）しおですか。",
+                options: ["は", "か", "の", "も"],
+                answer: 1
+            },
+            {
+                text: "16. アンさんは パン（   ）たべます。",
+                options: ["は", "を", "の", "に"],
+                answer: 1
+            },
+            {
+                text: "17. コーヒーを のみ（   ）。",
+                options: ["ます", "です", "か", "を"],
+                answer: 0
+            },
+            {
+                text: "18. わたしは 何（   ）たべません。",
+                options: ["を", "も", "は", "の"],
+                answer: 1
+            },
+            {
+                text: "19. どこ（   ）パンを かいますか。",
+                options: ["で", "に", "を", "は"],
+                answer: 0
+            },
+            {
+                text: "20. パン（   ）やさいを たべます。",
+                options: ["と", "で", "を", "は"],
                 answer: 0
             },
 
+            // ===============================
+            // ２ 読解問題 (Bagian 2 - Dokkai)
+            // ===============================
             {
-                text: "7. A: それは なんですか。 B: これは （　）です。",
-                image: "images/fukushuu/bab1-4/q7.png",
-                options: ["ほん", "かばん", "さいふ", "ペン"],
+                passage: `
+<div style="font-size:14px; margin-bottom:10px;">
+  <b>２ <ruby>読解<rt>どっかい</rt></ruby><ruby>問題<rt>もんだい</rt></ruby></b><br><br>
+  <b><ruby>問題<rt>もんだい</rt></ruby>１</b><br>
+  <ruby>次<rt>つぎ</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>を<ruby>読<rt>よ</rt></ruby>んで、<ruby>問題<rt>もんだい</rt></ruby>に<ruby>答<rt>こた</rt></ruby>えなさい。<br>
+</div>
+<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
+  わたしは リンです。タイじんです。にほんごがっこうの がくせいです。わたしの ほんは これです。
+</div>
+    `,
+                text: "21. リンさんは だれですか。",
+                options: [
+                    "にほんじんです。",
+                    "がくせいです。",
+                    "せんせいです。",
+                    "アメリカじんです。"
+                ],
+                answer: 1
+            },
+            {
+                text: "22. リンさんの ほんは どれですか。",
+                options: [
+                    "これです。",
+                    "それです。",
+                    "あれです。",
+                    "どれですか。"
+                ],
+                answer: 0
+            },
+            {
+                passage: `
+<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
+  ここは しょくどうです。あそこは トイレです。この パソコンは 89,000えんです。アメリカの パソコンです。
+</div>
+    `,
+                text: "23. トイレは どこですか。",
+                options: [
+                    "ここです。",
+                    "そこです。",
+                    "あそこです。",
+                    "どこですか。"
+                ],
+                answer: 2
+            },
+            {
+                text: "24. パソコンは いくらですか。",
+                options: [
+                    "89,000えんです。",
+                    "123,000えんです。",
+                    "98,000えんです。",
+                    "わかりません。"
+                ],
+                answer: 0
+            },
+            {
+                text: "25. どこの パソコンですか。",
+                options: [
+                    "にほんの パソコンです。",
+                    "アメリカの パソコンです。",
+                    "タイの パソコンです。",
+                    "ちゅうごくの パソコンです。"
+                ],
+                answer: 1
+            },
+            {
+                passage: `
+<div style="border:2px solid #333; border-radius:10px; padding:18px; background:#fff; line-height:2; font-size:14px; text-align:left;">
+  わたしは スーパーで さかなと やさいを かいます。それから、うちで たべます。コーヒーは のみません。
+</div>
+    `,
+                text: "26. どこで さかなを かいますか。",
+                options: [
+                    "コンビニで かいます。",
+                    "スーパーで かいます。",
+                    "うちで かいます。",
+                    "しょくどうで かいます。"
+                ],
+                answer: 1
+            },
+            {
+                text: "27. なにを かいますか。",
+                options: [
+                    "パンと やさいを かいます。",
+                    "さかなと やさいを かいます。",
+                    "コーヒーと さかなを かいます。",
+                    "なにも かいません。"
+                ],
+                answer: 1
+            },
+            {
+                text: "28. コーヒーを のみますか。",
+                options: [
+                    "はい、のみます。",
+                    "いいえ、のみません。",
+                    "はい、のみました。",
+                    "いいえ、なにも のみません。"
+                ],
+                answer: 1
+            },
+            {
+                text: "29. どこで たべますか。",
+                options: [
+                    "スーパーで たべます。",
+                    "うちで たべます。",
+                    "しょくどうで たべます。",
+                    "コンビニで たべます。"
+                ],
+                answer: 1
+            },
+            {
+                text: "30. この ひとは だれと たべますか。",
+                options: [
+                    "ともだちと たべます。",
+                    "ひとりで たべます。",
+                    "かぞくと たべます。",
+                    "かいていません（Tidak ditulis）。"
+                ],
                 answer: 3
             },
 
-            {
-                text: "8. あれ は なんですか。",
-                image: "images/fukushuu/bab1-4/q8.png",
-                options: ["テレビ", "つくえ", "とけい", "ほん"],
-                answer: 2
-            },
-
-            {
-                text: "9. ペン は （　）ですか。",
-                
-                options: ["これ", "それ", "どれ", "あれ"],
-                answer: 2
-            },
-
-            {
-                text: "10. （　）ほん は わたしのです。",
-                
-                options: ["この", "それ", "あれ", "どれ"],
-                answer: 0
-            },
-
-            {
-                text: "11. 「どなた」 の いみ は？",
-                options: [
-                    "Apa",
-                    "Siapa (sopan)",
-                    "Di mana",
-                    "Yang mana"
-                ],
-                answer: 1
-            },
-
-            {
-                text: "12. A: あの人は（　）ですか。",
-                
-                options: ["なに", "どこ", "だれ", "どれ"],
-                answer: 2
-            },
-
-            // ======================================================
-            // BAB 3 — ここ・そこ・あそこ・どこ・いくら
-            // LEVEL: SEDANG
-            // ======================================================
-
-            {
-                text: "13. ここ は どこ ですか。",
-                image: "images/fukushuu/bab1-4/q13.png",
-                options: ["としょしつ", "えき", "びょういん", "スーパー"],
-                answer: 0
-            },
-
-            {
-                text: "14. ぎんこう は （　）ですか。",
-                options: ["どれ", "どこ", "だれ", "なに"],
-                answer: 1
-            },
-
-            {
-                text: "15. それは は （　）です。",
-                image: "images/fukushuu/bab1-4/q15.png",
-                options: ["スーパー", "ぎんこう", "としょしつ", "えき"],
-                answer: 0
-            },
-
-            {
-                text: "16. この かばん は いくらですか。",
-                image: "images/fukushuu/bab1-4/q16.png",
-                options: [
-                    "ごひゃくえん",
-                    "いちまんえん",
-                    "さんぜんえん",
-                    "ななひゃくえん"
-                ],
-                answer: 0
-            },
-
-            {
-                text: "17. A: これは ペンですか。B: はい、（　）。",
-                options: [
-                    "そうです",
-                    "ちがいます",
-                    "どこです",
-                    "だれです"
-                ],
-                answer: 0
-            },
-
-            {
-                text: "18. A: それは ほんですか。B: いいえ、（　）。",
-                options: [
-                    "そうです",
-                    "ちがいます",
-                    "ほんです",
-                    "どれです"
-                ],
-                answer: 1
-            },
-
-            // ======================================================
-            // BAB 4 — は・で・を・何も・と・それから
-            // LEVEL: SEDANG → SULIT
-            // ======================================================
-
-            {
-                text: "19. わたし は がっこう（　）べんきょうします。",
-                
-                options: ["で", "を", "の", "も"],
-                answer: 0
-            },
-
-            {
-                text: "20. パン（　）たべます。",
-                
-                options: ["で", "を", "は", "の"],
-                answer: 1
-            },
-
-            {
-                text: "21. きょう は 何も（　）。",
-                options: [
-                    "たべます",
-                    "たべません",
-                    "のみます",
-                    "いきます"
-                ],
-                answer: 1
-            },
-
-            {
-                text: "22. わたし（　）ともだち は ゲームをします。",
-                options: ["を", "で", "と", "の"],
-                answer: 2
-            },
-
-            {
-                text: "23. あさごはん を たべます。（　）コーヒーをのみます。",
-                options: [
-                    "それから",
-                    "でも",
-                    "そして",
-                    "だから"
-                ],
-                answer: 0
-            },
-
-            // ======================================================
-            // DOKKAI
-            // LEVEL: SULIT
-            // ======================================================
-
+            // ===============================
+            // ３ 漢字問題 (Bagian 3 - Kanji)
+            // ===============================
             {
                 passage: `
-【２４】<br><br>
-わたし は まいにち がっこうで にほんごを べんきょうします。<br>
-それから、ともだちと としょしつへ いきます。
-`,
-                text: "24. わたし は だれ と としょしつへ いきますか。",
+<div style="font-size:14px; margin-bottom:10px;">
+  <b>３ <ruby>漢字<rt>かんじ</rt></ruby><ruby>問題<rt>もんだい</rt></ruby></b><br><br>
+  <b>Ａ</b> <ruby>次<rt>つぎ</rt></ruby>のひらがなの<ruby>漢字<rt>かんじ</rt></ruby>を、<ruby>選<rt>えら</rt></ruby>んでください。
+</div>
+    `,
+                text: "31. わたしは <u>がくせい</u> です。",
+                options: ["学生", "先生", "学校", "会社"],
+                answer: 0
+            },
+            {
+                text: "32. あしたは <u>にちようび</u> です。",
+                options: ["月曜日", "火曜日", "水曜日", "日曜日"],
+                answer: 3
+            },
+            {
+                text: "33. それは <u>なに</u> ですか。",
+                options: ["何", "誰", "何処", "彼"],
+                answer: 0
+            },
+            {
+                passage: `
+<div style="font-size:14px; line-height:1.8;">
+  <b>Ｂ</b> 次の漢字の読み方を、選んでください。
+</div>
+    `,
+                text: "34. わたしは <u>本</u> を かいます。",
+                options: ["ほん", "はん", "ぽん", "ぼん"],
+                answer: 0
+            },
+            {
+                text: "35. これは <u>百</u>円 です。",
+                options: ["ひゃく", "ひやく", "びゃく", "ぴゃく"],
+                answer: 0
+            },
+
+            // ===============================
+            // ４ 短文作成問題 (Bagian 4 - Kijutsu / Menyusun Kalimat)
+            // ===============================
+            {
+                passage: `
+<div style="font-size:14px; line-height:1.8;">
+  <b>４ <ruby>短文<rt>たんぶん</rt></ruby><ruby>作成<rt>さくせい</rt></ruby><ruby>問題<rt>もんだい</rt></ruby></b><br><br>
+  ３つの<ruby>言葉<rt>ことば</rt></ruby>をならべて、ただしい<ruby>文<rt>ぶん</rt></ruby>を<ruby>作<rt>つく</rt></ruby>ってください。
+</div>
+    `,
+                text: "36. わたしは【 １．です  ２．リン・タイ  ３．タイじん 】。",
                 options: [
-                    "せんせい",
-                    "ともだち",
-                    "かぞく",
-                    "たなかさん"
+                    "１→２→３",
+                    "２→３→１", // リン・タイ(2) タイじん(3) です(1)
+                    "３→１→２",
+                    "２→１→３"
+                ],
+                answer: 1
+            },
+            {
+                text: "37. この【 １．いくら  ２．パソコンは  ３．ですか 】。",
+                options: [
+                    "１→２→３",
+                    "２→１→３", // パソコンは(2) いくら(1) ですか(3)
+                    "３→１→２",
+                    "２→３→１"
+                ],
+                answer: 1
+            },
+            {
+                text: "38. それは【 １．の  ２．だれ  ３．ほんですか 】。",
+                options: [
+                    "１→２→３",
+                    "２→１→３", // だれ(2) の(1) ほんですか(3)
+                    "３→１→２",
+                    "２→３→１"
+                ],
+                answer: 1
+            },
+            {
+                text: "39. スーパーで【 １．パンを  ２．かいます  ３．やさいと 】。",
+                options: [
+                    "１→３→２",
+                    "３→１→２", // やさいと(3) パンを(1) かいます(2)
+                    "２→１→３",
+                    "２→３→１"
+                ],
+                answer: 1
+            },
+            {
+                text: "40. わたしは【 １．なにも  ２．コーヒーを  ３．のみません 】。",
+                options: [
+                    "１→２→３",
+                    "２→１→３",
+                    "２→３→１",
+                    "１→３→２" // Wait, 'watashi wa nani mo nomimasen' OR 'watashi wa koohii o nomimasen'. If the words are 'nanimo', 'koohii o', 'nomimasen'. Usually it's one or the other. Let's adjust options: watashi wa koohii o nomimasen. But 'nanimo' is there. Let's say: "1. わたしは 2. なにも 3. たべません".
                 ],
                 answer: 1
             }
-
         ];
+        // Untuk soal 40: わたしは【 １．たべません  ２．なにも  ３．きょう 】。
+        questions[39] = {
+            text: "40. わたしは【 １．たべません  ２．なにも  ３．きょう 】。",
+            options: [
+                "１→２→３",
+                "３→２→１", // きょう(3) なにも(2) たべません(1)
+                "２→１→３",
+                "２→３→１"
+            ],
+            answer: 1
+        };
 
         let answers = new Array(questions.length).fill(null);
+
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
         document.addEventListener("keydown", e => {
@@ -593,42 +699,51 @@
         });
 
         function startExam() {
-
             if (!document.getElementById("agreeRule").checked) {
-                alert("⚠️ Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
+                alert("Anda harus membaca dan menyetujui peringatan sebelum memulai ujian.");
                 return;
             }
+
             const name = document.getElementById("studentName").value.trim();
             if (!name) {
-                alert("❌ Masukkan nama terlebih dahulu!");
+                alert("Masukkan nama terlebih dahulu!");
                 return;
             }
-
             studentName = name;
-            let savedAttempt = localStorage.getItem("attempt_" + name);
-            attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
-            localStorage.setItem("attempt_" + name, attempt);
-            localStorage.removeItem('quiz_answers_' + name);
 
-            document.getElementById("loginBox").style.display = "none";
-            document.getElementById("examContainer").style.display = "block";
-            openFullscreen();
+            // Meminta akses kamera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    const videoElement = document.getElementById("cameraFeed");
+                    videoElement.srcObject = stream;
+                    videoElement.style.display = "block"; // Tampilkan kamera
 
-            // RESET
-            current = 0;
-            answers = new Array(questions.length).fill(null);
-            timeLeft = QUIZ_TIME;
-            examFinished = false;
+                    // Lanjutkan inisiasi ujian jika kamera diizinkan
+                    let savedAttempt = localStorage.getItem("attempt_" + name);
+                    attempt = savedAttempt ? parseInt(savedAttempt) + 1 : 1;
+                    localStorage.setItem("attempt_" + name, attempt);
+                    localStorage.removeItem('quiz_answers_' + name);
 
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+                    document.getElementById("loginBox").style.display = "none";
+                    document.getElementById("examContainer").style.display = "block";
+                    openFullscreen();
 
-            generateNav();
-            loadQuestion();
-            updateNav();
-            startTimer();
+                    // RESET
+                    current = 0;
+                    answers = new Array(questions.length).fill(null);
+                    timeLeft = QUIZ_TIME;
+                    examFinished = false;
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+
+                    generateNav();
+                    loadQuestion();
+                    startTimer();
+                })
+                .catch(function (err) {
+                    alert("Akses kamera ditolak! Kamera wajib diaktifkan untuk mengikuti ujian ini.");
+                });
         }
-
         function loadQuestion() {
             if (examFinished) return;
 
@@ -672,7 +787,7 @@
 
             q.options.forEach((opt, i) => {
                 const btn = document.createElement("button");
-                btn.innerText = (i + 1) + ". " + opt;
+                btn.innerHTML = (i + 1) + ". " + opt;
 
                 if (answers[current] === i)
                     btn.classList.add("selected");
@@ -683,29 +798,6 @@
                     loadQuestion();
                     updateNav();
                 };
-                /* ======================
-TAMPILKAN GAMBAR
-====================== */
-                const imageBox = document.getElementById("questionImageBox");
-
-                if (q.image) {
-
-                    imageBox.innerHTML = `
-        <img src="${q.image}"
-             alt="Question Image"
-             style="
-                max-width:100%;
-                border-radius:12px;
-                box-shadow:0 4px 12px rgba(0,0,0,0.15);
-             ">
-    `;
-
-                    imageBox.style.display = "block";
-
-                } else {
-
-                    imageBox.style.display = "none";
-                }
 
                 optionsDiv.appendChild(btn);
             });
@@ -758,80 +850,16 @@ TAMPILKAN GAMBAR
             if (examFinished) return;
             examFinished = true;
             clearInterval(timer);
-
+            // Matikan kamera
+            const videoElement = document.getElementById("cameraFeed");
+            if (videoElement.srcObject) {
+                const tracks = videoElement.srcObject.getTracks();
+                tracks.forEach(track => track.stop()); // Hentikan semua track
+                videoElement.style.display = "none"; // Sembunyikan video
+            }
             let benar = 0;
-            let salahList = "";
-
             answers.forEach((a, i) => {
-
-                // soal pilihan ganda biasa
-                if (typeof questions[i].answer === "number") {
-
-                    if (a === questions[i].answer) {
-                        benar++;
-                    } else {
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        let jawabanBenar =
-                            questions[i].options[questions[i].answer];
-
-                        salahList += `
-            <div style="
-                background:#fff3f3;
-                border-left:5px solid #e74c3c;
-                padding:12px;
-                margin:10px 0;
-                border-radius:8px;
-                text-align:left;
-            ">
-                <b>❌ Soal ${i + 1}</b><br>
-                ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-                📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-            </div>
-            `;
-                    }
-
-                }
-                // soal model array / susun kata
-                else if (Array.isArray(questions[i].answer)) {
-
-                    const jawabanBenarIndex = questions[i].answer[0];
-
-                    if (a === jawabanBenarIndex) {
-
-                        benar++;
-
-                    } else {
-
-                        let jawabanBenar =
-                            questions[i].options[jawabanBenarIndex];
-
-                        let jawabanSiswa =
-                            a !== null
-                                ? questions[i].options[a]
-                                : "(Tidak dijawab)";
-
-                        salahList += `
-        <div style="
-            background:#fff3f3;
-            border-left:5px solid #e74c3c;
-            padding:12px;
-            margin:10px 0;
-            border-radius:8px;
-            text-align:left;
-        ">
-            <b>❌ Soal ${i + 1}</b><br>
-            ✅ Jawaban Benar: <b>${jawabanBenar}</b><br>
-            📝 Jawaban Anda: <b>${jawabanSiswa}</b>
-        </div>
-        `;
-                    }
-                }
-
+                if (a === questions[i].answer) benar++;
             });
             let nilaiTotal = Math.round((benar / questions.length) * 100);
 
@@ -845,7 +873,7 @@ TAMPILKAN GAMBAR
                     total_soal: questions.length,
                     nilai: nilaiTotal,
                     total_point: nilaiTotal,
-                    bab: "Fukuushuu 1-4",
+                    bab: "Fukushuu Bab 1-4",
                     status: nilaiTotal >= 70 ? "LULUS" : "REMEDIAL"
                 })
             });
@@ -859,57 +887,33 @@ TAMPILKAN GAMBAR
 
             // Tampilkan hasil
             document.getElementById("result").innerHTML = `
-<div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
-    <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
+          <div style="text-align:center; padding:25px; background:#e8f5e8; border-radius:15px;">
+              <h2 style="color:#27ae60;">🎉 UJIAN SELESAI</h2>
 
-    <div style="font-size:18px; margin:15px 0;">
-        <b>👤 Nama:</b> ${studentName} <br>
-        <b>🔄 Attempt:</b> ${attempt} <br><br>
+              <div style="font-size:18px; margin:15px 0;">
+                  <b>👤 Nama:</b> ${studentName} <br>
+                  <b>🔄 Attempt:</b> ${attempt} <br><br>
 
-        ✅ Benar: ${benar} / ${questions.length} <br>
-        📊 Nilai: <b>${nilaiTotal}%</b>
-    </div>
+                  ✅ Benar: ${benar} / ${questions.length} <br>
+                  📊 Nilai: <b>${nilaiTotal}%</b>
+              </div>
 
-    <div style="font-size:22px; padding:15px; border-radius:12px;
-    ${nilaiTotal >= 70
-                    ? 'background:#d4edda; color:#155724;'
-                    : 'background:#f8d7da; color:#721c24;'}">
-        ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
-    </div>
-</div>
-
-<div style="margin-top:25px;">
-    <h3>📌 Nomor Soal yang Salah</h3>
-
-    ${salahList
-                    ? salahList
-                    : `
-            <div style="
-                background:#d4edda;
-                color:#155724;
-                padding:15px;
-                border-radius:10px;
-            ">
-                🎉 Semua jawaban benar!
-            </div>
-            `
-                }
-</div>
-`;
+              <div style="font-size:22px; padding:15px; border-radius:12px;
+            ${nilaiTotal >= 70 ? 'background:#d4edda; color:#155724;' : 'background:#f8d7da; color:#721c24;'}">
+                  ${nilaiTotal >= 70 ? "✅ LULUS" : "📚 REMEDIAL"}
+              </div>
+          </div>
+          `;
             document.getElementById("result").style.display = "block";
-            console.log(salahList);
-
-            document.getElementById("result").scrollIntoView({
-                behavior: "smooth"
-            });
+            document.querySelector('.container').scrollTo(0, document.querySelector('#result').offsetTop);
 
             setTimeout(() => {
 
-                let statusText = nilaiTotal >= 70 ? "✅ LULUS FUKUSHUU 1-4" : "📚 REMEDIAL";
+                let statusText = nilaiTotal >= 70 ? "✅ LULUS BAB 1-4" : "📚 REMEDIAL";
 
                 let message = `
        ==============================
-       HASIL FUKUSHUU 1-4
+       HASIL FUKUSHUU BAB 1-4
        ==============================
 
        👤 Nama : ${studentName}
