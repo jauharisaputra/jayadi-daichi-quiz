@@ -1814,41 +1814,35 @@ const hiddenCtx = hiddenCanvas.getContext("2d");
 // GANTI DENGAN URL WEB APP DARI LANGKAH 2 (Google Apps Script)
 const SCRIPT_URL_KECURANGAN = "https://script.google.com/macros/s/AKfycbxO8Ec8ieJ0yKHbNoKQjWKGQmaXF8qx_13oaHo7AGq4clvHCmPYbu-uP1loa4zwXXkw/exec";
 
-function captureCameraSnapshot(reason) {
-  const video = document.getElementById("cameraFeed");
-  if (!video || !video.srcObject || video.videoWidth === 0) return;
+    
 
-  // Samakan ukuran kanvas dengan video
-  hiddenCanvas.width = video.videoWidth;
-  hiddenCanvas.height = video.videoHeight;
-  hiddenCtx.drawImage(video, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
-  
-  // Kompres gambar menjadi format JPEG dengan kualitas 50% agar pengiriman cepat & tidak memberatkan jaringan
-  const imageDataBase64 = hiddenCanvas.toDataURL("image/jpeg", 0.5);
-  
-  // Kirim secara diam-diam (background process) ke Google Script
-  fetch(SCRIPT_URL_KECURANGAN, {
-    method: "POST",
-    // Jangan gunakan mode 'no-cors' jika ingin menangkap response sukses/gagal secara spesifik, 
-    // namun jika server sekolah ketat, ubah ke 'no-cors'. Default kita gunakan cors normal.
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8",
-    },
-    body: JSON.stringify({
-      nama: typeof studentName !== 'undefined' ? studentName : "Siswa Tidak Diketahui",
-      alasan: reason,
-      image: imageDataBase64
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log("Bukti berhasil dikirim:", data);
-  })
-  .catch(error => {
-    console.error("Gagal mengirim bukti:", error);
-  });
-}
-            // Ambil foto otomatis secara acak setiap 2 - 5 menit
+    function captureCameraSnapshot(reason) {
+        const video = document.getElementById("cameraFeed");
+        if (!video || !video.srcObject || video.videoWidth === 0) return;
+
+        hiddenCanvas.width = video.videoWidth;
+        hiddenCanvas.height = video.videoHeight;
+        hiddenCtx.drawImage(video, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
+
+        const imageDataBase64 = hiddenCanvas.toDataURL("image/jpeg", 0.5);
+
+        // Menggunakan Form Data agar lolos dari blokir CORS
+        const formData = new URLSearchParams();
+        formData.append("nama", typeof studentName !== 'undefined' ? studentName : "Siswa Tidak Diketahui");
+        formData.append("alasan", reason);
+        formData.append("image", imageDataBase64);
+
+        // Kirim data
+        fetch(SCRIPT_URL_KECURANGAN, {
+            method: "POST",
+            body: formData
+            // HAPUS mode: "no-cors" dan HAPUS headers "Content-Type"
+        })
+            .then(response => response.text())
+            .then(data => console.log("Status kirim:", data))
+            .catch(error => console.error("Gagal kirim:", error));
+    }           
+// Ambil foto otomatis secara acak setiap 2 - 5 menit
 setInterval(() => {
   if (!examFinished) {
     captureCameraSnapshot("Pengecekan Rutin Sistem");
