@@ -330,238 +330,402 @@
         function decode(str) {
             return atob(str);
         }
-    const questions = [
-
-        // ===============================
-        // 1–30: BUNPOU + GOI (REVIEW BAB 5–8)
-        // ===============================
+   const questions = [
+        // =========================
+        // BAB 5 TEMPAT, WAKTU, TRANSPORTASI
+        // =========================
         {
-            text: "1. ８：１５ は（　）です。",
-            options: ["はちじじゅうごふん", "はちじごふん", "はちじじゅうぷん", "はちじごじゅうふん"],
-            answer: 0
-        },
-        {
-            text: "2. １０：３０ は（　）です。",
-            options: ["じゅうじさんじゅっぷん", "じゅうじはん", "じゅうじさんぷん", "じゅうじよんじゅうぷん"],
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "Pilih jawaban yang paling tepat.",
+            passage: "",
+            image: "",
+            text: "わたしはまいにちバス ( ) <ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。",
+            options: ["に", "で", "を", "へ"],
             answer: 1
         },
         {
-            text: "3. きょうのつぎの<ruby>日<rt>ひ</rt></ruby>は（　）です。",
-            options: ["きのう", "あした", "らいしゅう", "せんしゅう"],
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "あなたは<ruby>何時<rt>なんじ</rt></ruby> ( ) <ruby>起<rt>お</rt></ruby>きますか。",
+            options: ["を", "に", "で", "へ"],
             answer: 1
         },
         {
-            text: "4. せんしゅうのつぎは（　）です。",
-            options: ["らいしゅう", "こんしゅう", "きょう", "きのう"],
-            answer: 1
-        },
-        {
-            text: "5. らいげつのまえは（　）です。",
-            options: ["こんげつ", "せんげつ", "らいねん", "ことし"],
-            answer: 0
-        },
-
-        {
-            text: "6. わたしは<ruby>毎朝<rt>まいあさ</rt></ruby>パン（　）<ruby>食べます<rt>たべます</rt></ruby>。",
-            options: ["を", "に", "で", "が"],
-            answer: 0
-        },
-        {
-            text: "7. きのう<ruby>映画館<rt>えいがかん</rt></ruby>（　）<ruby>映画<rt>えいが</rt></ruby>を見ました。",
-            options: ["に", "を", "が", "で"],
-            answer: 3
-        },
-        {
-            text: "8. <ruby>スーパー<rt>すーぱー</rt></ruby>（　）<ruby>肉<rt>にく</rt></ruby>と<ruby>野菜<rt>やさい</rt></ruby>を買いました。",
-            options: ["で", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "9. わたしはバス（　）<ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行きます<rt>いきます</rt></ruby>。",
-            options: ["に", "を", "が", "で"],
-            answer: 3
-        },
-        {
-            text: "10. <ruby>月曜日<rt>げつようび</rt></ruby>（　）<ruby>働きます<rt>はたきます</rt></ruby>。",
-            options: ["で", "を","に","が"],
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "わたしはきのう <ruby>友達<rt>ともだち</rt></ruby> ( ) <ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。",
+            options: ["で", "を", "と", "に"],
             answer: 2
         },
-
         {
-            text: "11. <ruby>３月４日<rt>さんがつよんにち</rt></ruby>は（　）<ruby>曜日<rt>ようび</rt></ruby>です。",
-            options: ["ど", "げつ", "か", "すい"],
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「いつ <ruby>日本<rt>にほん</rt></ruby>へ<ruby>来<rt>き</rt></ruby>ましたか。」―「<ruby>去年<rt>きょねん</rt></ruby>( )<ruby>来<rt>き</rt></ruby>ました。」",
+            options: ["に", "で", "を", "から"],
             answer: 0
         },
         {
-            text: "12. これは<ruby>３月３日<rt>さんがつさんか</rt></ruby>です。（　）</span>",
-            options: ["さんがつみっか", "さんがつさんにち", "さんがつみつか", "さんがつさんか"],
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>日曜日<rt>にちようび</rt></ruby>、どこへ<ruby>行<rt>い</rt></ruby>きますか。",
+            options: [
+                "バスで<ruby>行<rt>い</rt></ruby>きます。",
+                "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>行<rt>い</rt></ruby>きます。",
+                "スーパーへ<ruby>行<rt>い</rt></ruby>きます。",
+                "7<ruby>時<rt>じ</rt></ruby>に<ruby>行<rt>い</rt></ruby>きます。"
+            ],
+            answer: 2
+        },
+        {
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「<ruby>何<rt>なん</rt></ruby>で<ruby>会社<rt>かいしゃ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きますか。」―「<ruby>電車<rt>でんしゃ</rt></ruby>( )<ruby>行<rt>い</rt></ruby>きます。」",
+            options: ["と", "に", "で", "を"],
+            answer: 2
+        },
+        {
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「だれと<ruby>映画館<rt>えいがかん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きますか。」―「<ruby>妹<rt>いもうと</rt></ruby>( )<ruby>行<rt>い</rt></ruby>きます。」",
+            options: ["で", "と", "に", "を"],
+            answer: 1
+        },
+        {
+            section: "Bab 5 - Tempat dan Tujuan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「きのうどこへ<ruby>行<rt>い</rt></ruby>きましたか。」―「どこ ( ) <ruby>行<rt>い</rt></ruby>きませんでした。」",
+            options: ["も", "で", "へ", "に"],
+            answer: 0
+        },
+        // =========================
+        // BAB 6- AKTIVITAS DAN AJAKAN
+        // =========================
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "わたしはまいあさパン ( ) <ruby>食<rt>た</rt></ruby>べます。",
+            options: ["に", "で", "を", "へ"],
+            answer: 2
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>毎晩<rt>まいばん</rt></ruby>、うち ( ) <ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>します。",
+            options: ["で", "を", "へ", "と"],
             answer: 0
         },
         {
-            text: "13. あしたスーパーへ（　）",
-            options: ["行きます", "行きました", "行きませんでした", "行きません"],
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「<ruby>何<rt>なに</rt></ruby>をしますか。」―「テニス( )します。」",
+            options: ["が", "を", "に", "で"],
+            answer: 1
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "いっしょに<ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べ( )か。",
+            options: ["ます", "ません", "ました", "ませんでした"],
+            answer: 1
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "A: いっしょに<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ませんか。\nB:ええ、( )。",
+            options: [
+                "すみません",
+                "いいですね",
+                "わかりません",
+                "そうですか"
+            ],
+            answer: 1
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "A: いっしょにテニスをしませんか。\nB: すみません。ちょっと( )。",
+            options: [
+                "いいですね",
+                "そうですね",
+                "むずかしいです",
+                "ちがいます"
+            ],
+            answer: 2
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「きのう<ruby>何<rt>なに</rt></ruby>をしましたか。」―「<ruby>日本語<rt>にほんご</rt></ruby>を( )。」",
+            options: [
+                "<ruby>勉強<rt>べんきょう</rt></ruby>します",
+                "<ruby>勉強<rt>べんきょう</rt></ruby>しません",
+                "<ruby>勉強<rt>べんきょう</rt></ruby>しました",
+                "<ruby>勉強<rt>べんきょう</rt></ruby>しませんか"
+            ],
+            answer: 2
+        },
+        {
+            section: "Bab 6 - Aktivitas",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「いっしょに<ruby>行<rt>い</rt></ruby>きませんか。」への<ruby>返事<rt>へんじ</rt></ruby>として、<ruby>誘<rt>さそ</rt></ruby>いを<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>断<rt>ことわ</rt></ruby>る<ruby>表現<rt>ひょうげん</rt></ruby>はどれですか。",
+            options: [
+                "ええ、いいですね。",
+                "すみません。ちょっと......。",
+                "はい、<ruby>行<rt>い</rt></ruby>きました。",
+                "どこへ<ruby>行<rt>い</rt></ruby>きますか。"
+            ],
+            answer: 1
+        },
+        // =========================
+        // BAB 7 KATA SIFAT DAN DESKRIPSI
+        // =========================
+        {
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "このパソコンは( ) です。<ruby>新<rt>あたら</rt></ruby>しくて、<ruby>使<rt>つか</rt></ruby>いやすいです。",
+            options: ["べんり", "べんりな", "べんりの", "べんりく"],
             answer: 0
         },
         {
-            text: "14. きのうどこへ（　）",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "このへやはあまり( )。",
+            options: [
+                "<ruby>広<rt>ひろ</rt></ruby>いです",
+                "<ruby>広<rt>ひろ</rt></ruby>くないです",
+                "<ruby>広<rt>ひろ</rt></ruby>いじゃありません",
+                "<ruby>広<rt>ひろ</rt></ruby>くありませんです"
+            ],
+            answer: 1
+        },
+        {
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>富士山<rt>ふじさん</rt></ruby>は( )<ruby>山<rt>やま</rt></ruby>ですか。―<ruby>高<rt>たか</rt></ruby>い<ruby>山<rt>やま</rt></ruby>です。",
+            options: ["どれ", "どう", "どんな", "どこ"],
+            answer: 2
+        },
+        {
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "この<ruby>町<rt>まち</rt></ruby>はしずか ( ) <ruby>町<rt>まち</rt></ruby>です。",
+            options: ["の", "な", "に", "で"],
+            answer: 1
+        },
+        {
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「このアパートはどうですか。」―「<ruby>広<rt>ひろ</rt></ruby>くて、( )です。」",
+            options: ["きれい", "きれいな", "きれいに", "きれいく"],
             answer: 0
         },
         {
-            text: "15. おととい<ruby>美術館<rt>びじゅつかん</rt></ruby>へ（　）",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
-            answer: 0
-        },
-
-        {
-            text: "16. <ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>先生<rt>せんせい</rt></ruby>が（　）。",
-            options: ["います", "あります", "行きます", "来ます"],
-            answer: 0
-        },
-        {
-            text: "17. <ruby>机の上<rt>つくのうえ</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>が（　）。",
-            options: ["あります", "います", "来ます", "行きます"],
-            answer: 0
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「リンさんの かばんはどれですか。」 「( )です。」",
+            options: [
+                "<ruby>大<rt>おお</rt></ruby>きいかばん",
+                "そのかばん",
+                "それ",
+                "どんなかばん"
+            ],
+            answer: 1
         },
         {
-            text: "18. <ruby>公園<rt>こうえん</rt></ruby>に<ruby>犬<rt>いぬ</rt></ruby>が（　）。",
-            options: ["います", "あります", "行きます", "来ます"],
-            answer: 0
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「いいです」の<ruby>否定形<rt>ひていけい</rt></ruby>はどれですか。",
+            options: [
+                "いいくないです",
+                "いくないです",
+                "よくないです",
+                "いいじゃありません"
+            ],
+            answer: 2
         },
         {
-            text: "19. この<ruby>近く<rt>ちかく</rt></ruby>に<ruby>銀行<rt>ぎんこう</rt></ruby>が（　）か。",
-            options: ["あります", "います", "行きます", "<ruby>来<rt>きます</rt></ruby>"],
-            answer: 0
+            section: "Bab 7 - Kata Sifat",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>漢字<rt>かんじ</rt></ruby>は( ) <ruby>難<rt>むずか</rt></ruby>しくないです。",
+            options: ["とても", "あまり", "いちばん", "たくさん"],
+            answer: 1
         },
+        // =========================
+        // BAB 8- KEBERADAAN DAN LOKASI
+        // =========================
         {
-            text: "20. 冷蔵庫にミルクが（　）。",
-            options: ["あります", "います", "行きます", "来ます"],
-            answer: 0
-        },
-
-        {
-            text: "21. わたしの<ruby>家族<rt>かぞく</rt></ruby>は<ruby>４人<rt>よんにん</rt></ruby>（　）。",
-            options: ["です", "います", "あります", "します"],
-            answer: 0
-        },
-        {
-            text: "22. 両親と弟が２人（　）。",
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "あそこにスーパーが( )。",
             options: ["います", "あります", "です", "します"],
-            answer: 0
-        },
-        {
-            text: "23. <ruby>駅の前<rt>えきのまえ</rt></ruby>（　）<ruby>コンビニ<rt>こんびに</rt></ruby>があります。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "24. <ruby>本屋<rt>ほんや</rt></ruby>は<ruby>図書館<rt>としょかん</rt></ruby>と<ruby>喫茶店<rt>きっさてん</rt></ruby>の間（　）あります。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "25. <ruby>木の下<rt>きのした</rt></ruby>（　）<ruby>猫<rt>ねこ</rt></ruby>がいます。",
-            options: ["に", "で", "を", "が"],
-            answer: 0
-        },
-
-        {
-            text: "26. <ruby>先月<rt>せんげつ</rt></ruby><ruby>日本<rt>にほん</rt></ruby>へ（　）。",
-            options: ["行きました", "行きます", "行きません", "行きませんでした"],
-            answer: 0
-        },
-        {
-            text: "27. <ruby>来年<rt>らいねん</rt></ruby><ruby>国<rt>くに</rt></ruby>へ（　）。",
-            options: ["<ruby>帰ります<rt>かえります</rt></ruby>", "帰りました", "帰りません", "帰りませんでした"],
-            answer: 0
-        },
-        {
-            text: "28. <ruby>電車<rt>でんしゃ</rt></ruby>（　）<ruby>学校<rt>がっこう</rt></ruby>へ行きます。",
-            options: ["で", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "29. あしたどこ（　）行きますか。",
-            options: ["へ", "に", "を", "が"],
-            answer: 0
-        },
-        {
-            text: "30. きのうはどこ（　）行きませんでした。",
-            options: ["も", "に", "へ", "を"],
-            answer: 0
-        },
-
-        // ===============================
-        // 31–36: DOKKAI
-        // ===============================
-        {
-            passage: `【３１－３２】<br><br>
-        きのう スーパーへ 行きました。
-        肉と 野菜を 買いました。`,
-            text: "31. どこへ 行きましたか。",
-            options: ["学校", "スーパー", "駅", "<ruby>病院<rt>びょういん</rt></ruby>"],
             answer: 1
         },
         {
-            text: "32. 何を 買いましたか。",
-            options: ["パン", "肉と野菜", "本", "ペン"],
-            answer: 1
-        },
-
-        {
-            passage: `【３３－３４】<br><br>
-        わたしの<ruby>家族<rt>かぞく</rt></ruby>は４人です。
-        父と母と弟がいます。`,
-            text: "33. <ruby>家族<rt>かぞく</rt></ruby>は何人ですか。",
-            options: ["３人", "４人", "５人", "２人"],
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>公園<rt>こうえん</rt></ruby>に<ruby>子<rt>こ</rt></ruby>どもが3<ruby>人<rt>にん</rt></ruby>( )。",
+            options: ["あります", "います", "です", "します"],
             answer: 1
         },
         {
-            text: "34. だれがいますか。",
-            options: ["<ruby>父と母と弟<rt>ちとぼとおとう</rt></ruby>", "<ruby>友達<rt>ともだち</rt></ruby>", "<ruby>先生<rt>せんせい</rt></ruby>", "犬"],
-            answer: 0
-        },
-
-        {
-            passage: `【３５－３６】<br><br>
-        <ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>に<ruby>ミルク<rt>みるく</rt></ruby>があります。
-        <ruby>テーブル<rt>てーぶる</rt></ruby>の上に<ruby>本<rt>ほん</rt></ruby>があります。`,
-            text: "35. <ruby>ミルク<rt>みるく</rt></ruby>はどこですか。",
-            options: ["<ruby>テーブル<rt>てーぶる</rt></ruby>", "<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>", "かばん", "<ruby>机<rt>つく</rt></ruby>"],
-            answer: 1
-        },
-        {
-            text: "36. <ruby>本<rt>ほん</rt></ruby>はどこですか。",
-            options: ["<ruby>冷蔵庫<rt>れいぞうこ</rt></ruby>", "<ruby>テーブル<rt>てーぶる</rt></ruby>", "かばん", "<ruby>いす<rt>いす</rt></ruby>"],
-            answer: 1
-        },
-
-        // ===============================
-        // 37-40 Susun kata acak, jawaban ditandai bintang
-        // ===============================
-       {
-            text: "37. Susun kata berikut menjadi kalimat yang benar: <br><br> います / 先生 / 教室 に",
-            options: ["<ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>先生<rt>せんせい</rt></ruby>がいます", "先生が教室 に います", "います 教室 がに 先生", "教室 がいます 先生 に"],
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>駅<rt>えき</rt></ruby>の( )に<ruby>銀行<rt>ぎんこう</rt></ruby>があります。",
+            options: ["<ruby>前<rt>まえ</rt></ruby>", "<ruby>人<rt>ひと</rt></ruby>", "<ruby>何<rt>なに</rt></ruby>", "だれ"],
             answer: 0
         },
         {
-            text: "38. Susun kata berikut menjadi kalimat yang benar: <br><br> <ruby>本<rt>ほん</rt></ruby> / <ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に",
-            options: ["<ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に <ruby>本<rt>ほん</rt></ruby>があります。", "ありますが<ruby>本<rt>ほん</rt></ruby> <ruby>テーブル<rt>てーぶる</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に", "があります<ruby>テーブル<rt>てーぶる</rt></ruby> <ruby>本<rt>ほん</rt></ruby> の <ruby>上<rt>うえ</rt></ruby> に", "の <ruby>上<rt>うえ</rt></ruby> に <ruby>テーブル<rt>てーぶる</rt></ruby> <ruby>本<rt>ほん</rt></ruby>"],
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「リンさんはどこにいますか。」 「( )にいます。」",
+            options: ["ロビー", "いぬ", "つくえ", "ちず"],
             answer: 0
         },
         {
-            text: "39. Susun kata berikut menjadi kalimat yang benar: <br><br> スーパー で<ruby>肉<rt>にく</rt></ruby> と <ruby>野菜<rt>やさい</rt></ruby> を <ruby>買いました<rt>かいました</rt></ruby>",
-            options: ["肉 と 野菜 を スーパー で 買いました", "スーパー で 肉 と 野菜 を 買いました", "買いました スーパー で 肉 と 野菜 を", "スーパー 肉 と 野菜 を 買いました で"],
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「あそこに<ruby>学生<rt>がくせい</rt></ruby>が<ruby>何人<rt>なんにん</rt></ruby>いますか。」 「( )います。」",
+            options: ["4<ruby>人<rt>にん</rt></ruby>", "4<ruby>本<rt>ほん</rt></ruby>", "4<ruby>台<rt>だい</rt></ruby>", "4<ruby>枚<rt>まい</rt></ruby>"],
+            answer: 0
+        },
+        {
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>花屋<rt>はなや</rt></ruby>の( )に<ruby>教会<rt>きょうかい</rt></ruby>があります。<ruby>花屋<rt>はなや</rt></ruby>のとなりです。",
+            options: ["<ruby>上<rt>うえ</rt></ruby>", "<ruby>中<rt>なか</rt></ruby>", "<ruby>隣<rt>となり</rt></ruby>", "<ruby>下<rt>した</rt></ruby>"],
+            answer: 2
+        },
+        {
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "「つくえの<ruby>上<rt>うえ</rt></ruby>に<ruby>何<rt>なに</rt></ruby>がありますか。」―「<ruby>電話<rt>でんわ</rt></ruby>( )あります。」",
+            options: ["を", "が", "に", "と"],
             answer: 1
         },
         {
-            text: "40. Susun kata berikut menjadi kalimat yang benar: <br><br> あした <ruby>学校<rt>がっこう</rt></ruby>へ <ruby>行きます<rt>いきます</rt></ruby>",
-            options: ["<ruby>学校<rt>がっこう</rt></ruby>へ あした 行きます", "あした <ruby>学校<rt>がっこう</rt></ruby>へ 行きます", "行きます あした <ruby>学校<rt>がっこう</rt></ruby>へ", "<ruby>学校<rt>がっこう</rt></ruby>へ 行きます あした"],
+            section: "Bab 8 - Keberadaan",
+            intro: "",
+            passage: "",
+            image: "",
+            text: "<ruby>町<rt>まち</rt></ruby>に<ruby>古<rt>ふる</rt></ruby>い<ruby>教会<rt>きょうかい</rt></ruby> ( ) きれいな<ruby>公園<rt>こうえん</rt></ruby>があります。",
+            options: ["や", "を", "に", "で"],
+            answer: 0
+        },
+        // =========================
+        // FUKUSHUU GABUNGAN BAB 5-8
+        // =========================
+        {
+            section: "Fukushuu Bab 5-8 - Pemahaman Dialog",
+            intro: "Bacalah dialog berikut, kemudian pilih jawaban yang tepat.",
+            passage: "A: <ruby>週末<rt>しゅうまつ</rt></ruby>、どこへ<ruby>行<rt>い</rt></ruby>きますか。\nB: <ruby>友達<rt>ともだち</rt></ruby>と<ruby>動物園<rt>どうぶつえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。\nA: <ruby>何<rt>なん</rt></ruby>で<ruby>行<rt>い</rt></ruby>きますか。\nB: バスで<ruby>行<rt>い</rt></ruby>きます。",
+            image: "",
+            text: "Bさんはだれと<ruby>動物園<rt>どうぶつえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きますか。",
+            options: [
+                "<ruby>家族<rt>かぞく</rt></ruby>と",
+                "<ruby>先生<rt>せんせい</rt></ruby>と",
+                "<ruby>友達<rt>ともだち</rt></ruby>と",
+                "<ruby>一人<rt>ひとり</rt></ruby>で"
+            ],
+            answer: 2
+        },
+        {
+            section: "Fukushuu Bab 5-8 - Pemahaman Dialog",
+            intro: "Bacalah teks berikut.",
+            passage: "わたしのアパートは<ruby>駅<rt>えき</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くにあります。アパートの<ruby>前<rt>まえ</rt></ruby>にスーパーがあります。<ruby>部屋<rt>へや</rt></ruby>はあまり<ruby>広<rt>ひろ</rt></ruby>くないですが、とてもきれいです。",
+            image: "",
+            text: "スーパーはどこにありますか。",
+            options: [
+                "<ruby>駅<rt>えき</rt></ruby>の<ruby>中<rt>なか</rt></ruby>です。",
+                "アパートの<ruby>前<rt>まえ</rt></ruby>です。",
+      "アパートの<ruby>後<rt>うし</rt></ruby>ろです。",
+                "<ruby>部屋<rt>へや</rt></ruby>の<ruby>中<rt>なか</rt></ruby>です。"
+            ],
             answer: 1
-       }
-
+        },
+        {
+            section: "Fukushuu Bab 5-8 - Pemahaman Dialog",
+            intro: "Bacalah teks berikut.",
+            passage: "きのう、<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>友達<rt>ともだち</rt></ruby>とレストランへ<ruby>行<rt>い</rt></ruby>きました。レストランで<ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べました。それから、<ruby>二人<rt>ふたり</rt></ruby>は<ruby>公園<rt>こうえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。",
+            image: "",
+            text: "<ruby>田中<rt>たなか</rt></ruby>さんはきのう<ruby>何<rt>なに</rt></ruby>をしましたか。",
+            options: [
+                "<ruby>一人<rt>ひとり</rt></ruby>で<ruby>公園<rt>こうえん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。",
+                "<ruby>友達<rt>ともだち</rt></ruby>とレストランへ<ruby>行<rt>い</rt></ruby>きました。",
+                "<ruby>家<rt>いえ</rt></ruby>で<ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べました。",
+                "バスで<ruby>日本<rt>にほん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きました。"
+            ],
+            answer: 1
+        },
+        {
+            section: "Fukushuu Bab 5-8 - Pemahaman Dialog",
+            intro: "Bacalah teks berikut.",
+            passage: "わたしの<ruby>町<rt>まち</rt></ruby>はにぎやかです。<ruby>駅<rt>えき</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>にデパートがあります。デパートのとなりにきれいな<ruby>公園<rt>こうえん</rt></ruby>があります。<ruby>公園<rt>こうえん</rt></ruby>には<ruby>子<rt>こ</rt></ruby>どもが5<ruby>人<rt>にん</rt></ruby>います。",
+            image: "",
+            text: "<ruby>公園<rt>こうえん</rt></ruby>には<ruby>子<rt>こ</rt></ruby>どもが<ruby>何人<rt>なんにん</rt></ruby>いますか。",
+            options: ["3<ruby>人<rt>にん</rt></ruby>", "4<ruby>人<rt>にん</rt></ruby>", "5<ruby>人<rt>にん</rt></ruby>", "6<ruby>人<rt>にん</rt></ruby>"],
+            answer: 2
+        }
     ];
-
         let answers = new Array(questions.length).fill(null);
         // ANTI-CHEAT
         document.addEventListener("contextmenu", e => e.preventDefault());
