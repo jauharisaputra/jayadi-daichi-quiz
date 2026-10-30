@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laporan & Analisis Data Siswa Terintegrasi</title>
+
+    <!-- Bootstrap CSS for layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS for neat table -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+    <!-- PapaParse for reading Google Sheet CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <!-- Chart.js for analysis visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2pdf for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- jQuery & DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --bg: #f4f7f6;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #report-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+
+        .summary-card {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-card h5 {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .summary-card h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .btn-export {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-export:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+
+        .sheet-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4 mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+            <h2>Dashboard Laporan Otomatis</h2>
+            <a href="index.html" class="btn btn-secondary">⬅ Kembali ke Menu Utama</a>
+        </div>
+
+        <!-- Selection Section -->
+        <div class="sheet-selector no-print">
+            <h5 class="mb-3">Pilih Sumber Data yang Ingin Ditampilkan:</h5>
+            <div class="row align-items-end">
+                <div class="col-md-8">
+                    <select id="sheetSelector" class="form-select form-select-lg">
+                        <option value="" selected disabled>-- Pilih Data Hasil Belajar --</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1swdb62IDZ7dQUbIrrZagczKhqWY3PGTQZgVDWyfKamY/export?format=csv&gid=0">
+                            Latihan Bab (Bab 1–42)</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1ilhdLY2J6klydl7wxEM2mRuF2DgO7oulyjeVmIXBfMI/export?format=csv&gid=0">
+                            HIRAGANA & KATAKANA</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1swdb62IDZ7dQUbIrrZagczKhqWY3PGTQZgVDWyfKamY/export?format=csv&gid=0">
+                            Fukushuu</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1kocP7VrPjkXlOEFBDQl5YzPEmtu-khC5-o--1VxuM-M/export?format=csv&gid=0">
+                            Mini Choukai Bab 1-4</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1swdb62IDZ7dQUbIrrZagczKhqWY3PGTQZgVDWyfKamY/export?format=csv&gid=0">
+                            Mini Choukai Bab 5-8</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1-Wpbkdao8MJ5tlu7WHnNpw7Pzbk2SaQ4pZZFYtfnscs/export?format=csv&gid=0">
+                            Choukai J.TEST F-G (N5)</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1irkTx1DtOwjnFL1Cs0hsoO8dDE8T_ib1XwXAy75tC9g/export?format=csv&gid=0">
+                            Choukai J.TEST D-E (N4)</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1PkhYtONe63gf2T0V-v1hMLM7icbUKsqBy7Zmx__IsoI/export?format=csv&gid=0">
+                            Try Out JFT Basic A2</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/14HggRM34c7iZL24cXSkJv6nfRSVnIeCooHdyAcKshSs/export?format=csv&gid=0">
+                            Try Out J.TEST F-G</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1oFDrIx-Pvyhm7sv4BaxTPmeZjLqqximN_AF0VqAMo6M/export?format=csv&gid=0">
+                            Try Out J.TEST D-E</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/1tocnBnTnjsLbd2M5A0phcDxT_E1FoXHAr7nmD2kdp1A/export?format=csv&gid=0">
+                            Absensi</option>
+                        <option
+                            value="https://docs.google.com/spreadsheets/d/125EpXiukrnbkNVeOZLmXo078wJQyb96_RBgSY1c-dZk/export?format=csv&gid=774980990">
+                            Rapor</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-lg w-100" onclick="loadSelectedData()">Tampilkan Data</button>
+                </div>
+            </div>
+            <div class="alert alert-info mt-3 mb-0" role="alert" style="font-size: 0.9rem;">
+                <strong>Informasi:</strong> Data diambil langsung dari Google Sheets. Pastikan akses file Google Sheet
+                (pada menu <i>Share / Bagikan</i>) diatur ke <strong>"Siapa saja yang memiliki tautan" (Anyone with the
+                    link)</strong> agar sistem dapat membacanya.
+            </div>
+        </div>
+
+        <div class="text-end mb-3 no-print" id="exportBtnContainer" style="display: none;">
+            <button class="btn btn-export" onclick="exportPDF()">📄 Ekspor ke PDF</button>
+        </div>
+
+        <!-- Report Container (This area will be exported to PDF) -->
+        <div id="report-container" style="display: none;">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold" style="color: #2c5aa0;" id="report-title">Laporan Analisis Hasil Belajar</h3>
+                <p class="text-muted" id="report-date"></p>
+                <hr>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-4">
+                    <div class="summary-card">
+                        <h5>Total Baris Data</h5>
+                        <h2 id="total-data">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="summary-card" style="background: #16a085;">
+                        <h5>Kolom Dianalisis</h5>
+                        <h2 id="total-columns">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <h5 class="mb-3 fw-bold text-center">Grafik Analisis Data (20 Data Pertama)</h5>
+                    <canvas id="analysisChart" height="100"></canvas>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="row">
+                <div class="col-md-12">
+                    <h5 class="mb-3 fw-bold">Rincian Data Sheet</h5>
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-striped table-bordered w-100">
+                            <thead id="table-head" class="table-dark"></thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myChart = null;
+
+        function loadSelectedData() {
+            const select = document.getElementById('sheetSelector');
+            const url = select.value;
+            const reportTitleName = select.options[select.selectedIndex].text;
+
+            if (!url) {
+                alert('Silakan pilih salah satu data dari menu dropdown terlebih dahulu!');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('report-container').style.display = 'block';
+            document.getElementById('report-title').innerText = 'Laporan Analisis: ' + reportTitleName;
+            $('#table-head').html('<tr><td>Memuat data...</td></tr>');
+            $('#table-body').empty();
+
+            Papa.parse(url, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function (results) {
+                    if (results.data && results.data.length > 0) {
+                        displayData(results.data);
+                        document.getElementById('exportBtnContainer').style.display = 'block';
+                    } else {
+                        alert('Data kosong atau format Google Sheet tidak terbaca.');
+                    }
+                },
+                error: function (err) {
+                    alert('Gagal memuat data. Pastikan file Google Sheet Anda sudah di-share (dibagikan) ke publik (Anyone with the link).');
+                }
+            });
+        }
+
+        function displayData(data) {
+            if ($.fn.DataTable.isDataTable('#dataTable')) {
+                $('#dataTable').DataTable().destroy();
+            }
+            $('#table-head').empty();
+            $('#table-body').empty();
+
+            const headers = Object.keys(data[0]);
+
+            let trHead = '<tr>';
+            headers.forEach(h => { trHead += `<th>${h}</th>`; });
+            trHead += '</tr>';
+            $('#table-head').append(trHead);
+
+            data.forEach(row => {
+                let trBody = '<tr>';
+                headers.forEach(h => { trBody += `<td>${row[h] || '-'}</td>`; });
+                trBody += '</tr>';
+                $('#table-body').append(trBody);
+            });
+
+            $('#dataTable').DataTable({
+                pageLength: 10,
+                language: {
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    paginate: {
+                        first: "Awal",
+                        last: "Akhir",
+                        next: "Selanjutnya",
+                        previous: "Sebelumnya"
+                    }
+                }
+            });
+
+            $('#total-data').text(data.length);
+            $('#total-columns').text(headers.length);
+
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            $('#report-date').text('Dicetak pada: ' + new Date().toLocaleDateString('id-ID', dateOptions));
+
+            generateChart(data, headers);
+        }
+
+        function generateChart(data, headers) {
+            let labelCol = headers.find(h => h.toLowerCase().includes('nama')) || headers[0];
+            let dataCol = headers.find(h => h.toLowerCase().includes('nilai') || h.toLowerCase().includes('skor') || h.toLowerCase().includes('total')) || headers[1];
+
+            if (labelCol && dataCol) {
+                const chartData = data.slice(0, 20);
+                const labels = chartData.map(d => d[labelCol] || 'Unknown');
+
+                const values = chartData.map(d => {
+                    let val = String(d[dataCol]).replace(/[^0-9.-]+/g, "");
+                    return parseFloat(val) || 0;
+                });
+
+                if (myChart) myChart.destroy();
+                const ctx = document.getElementById('analysisChart').getContext('2d');
+                myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: `Grafik ${dataCol} berdasarkan ${labelCol}`,
+                            data: values,
+                            backgroundColor: 'rgba(44, 90, 160, 0.7)',
+                            borderColor: 'rgba(44, 90, 160, 1)',
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        }
+
+        function exportPDF() {
+            const element = document.getElementById('report-container');
+
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'Laporan_Analisis.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const btn = document.querySelector('.btn-export');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Menyiapkan PDF...';
+            btn.disabled = true;
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
