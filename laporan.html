@@ -15,8 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <!-- Chart.js for analysis visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- html2pdf for PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- MENGGUNAKAN VERSI HTML2PDF YANG LEBIH STABIL UNTUK TABEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
     <!-- jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -148,56 +148,60 @@
             </div>
             <div class="alert alert-info mt-3 mb-0" role="alert" style="font-size: 0.9rem;">
                 <strong>Informasi:</strong> Data diambil langsung dari Google Sheets. Pastikan akses file Google Sheet
-                (pada menu <i>Share / Bagikan</i>) diatur ke <strong>"Siapa saja yang memiliki tautan" (Anyone with the
-                    link)</strong> agar sistem dapat membacanya.
+                diatur ke <strong>"Siapa saja yang memiliki tautan"</strong>.
             </div>
         </div>
 
         <div class="text-end mb-3 no-print" id="exportBtnContainer" style="display: none;">
-            <button class="btn btn-export" onclick="exportPDF()">📄 Ekspor ke PDF</button>
+            <!-- FUNGSI EXPORTPDF KINI MENGHAPUS DISABLE SEMENTARA PADA DATATABLES AGAR TIDAK CRASH -->
+            <button class="btn btn-export" id="btnExportPdf" onclick="exportPDF()">📄 Ekspor ke PDF</button>
         </div>
 
         <!-- Report Container (This area will be exported to PDF) -->
-        <div id="report-container" style="display: none;">
-            <div class="text-center mb-5">
-                <h3 class="fw-bold" style="color: #2c5aa0;" id="report-title">Laporan Analisis Hasil Belajar</h3>
-                <p class="text-muted" id="report-date"></p>
-                <hr>
-            </div>
+        <!-- DITAMBAHKAN ID BUNGKUSAN KUSUS UNTUK CETAK AGAR STABIL -->
+        <div id="print-area">
+            <div id="report-container" style="display: none;">
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold" style="color: #2c5aa0;" id="report-title">Laporan Analisis Hasil Belajar</h3>
+                    <p class="text-muted" id="report-date"></p>
+                    <hr>
+                </div>
 
-            <!-- Summary Cards -->
-            <div class="row mb-5 justify-content-center">
-                <div class="col-md-4">
-                    <div class="summary-card">
-                        <h5>Total Baris Data</h5>
-                        <h2 id="total-data">0</h2>
+                <!-- Summary Cards -->
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="summary-card">
+                            <h5>Total Baris Data</h5>
+                            <h2 id="total-data">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="summary-card" style="background: #16a085;">
+                            <h5>Kolom Dianalisis</h5>
+                            <h2 id="total-columns">0</h2>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="summary-card" style="background: #16a085;">
-                        <h5>Kolom Dianalisis</h5>
-                        <h2 id="total-columns">0</h2>
+
+                <!-- Chart Section -->
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <h5 class="mb-3 fw-bold text-center">Grafik Analisis Data (20 Data Pertama)</h5>
+                        <!-- ChartJS di-disable animasinya saat dirender ke PDF agar tidak kosong atau hang -->
+                        <canvas id="analysisChart" height="100"></canvas>
                     </div>
                 </div>
-            </div>
 
-            <!-- Chart Section -->
-            <div class="row mb-5">
-                <div class="col-md-12">
-                    <h5 class="mb-3 fw-bold text-center">Grafik Analisis Data (20 Data Pertama)</h5>
-                    <canvas id="analysisChart" height="100"></canvas>
-                </div>
-            </div>
-
-            <!-- Data Table Section -->
-            <div class="row">
-                <div class="col-md-12">
-                    <h5 class="mb-3 fw-bold">Rincian Data Sheet</h5>
-                    <div class="table-responsive">
-                        <table id="dataTable" class="table table-striped table-bordered w-100">
-                            <thead id="table-head" class="table-dark"></thead>
-                            <tbody id="table-body"></tbody>
-                        </table>
+                <!-- Data Table Section -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="mb-3 fw-bold">Rincian Data Sheet</h5>
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-striped table-bordered w-100">
+                                <thead id="table-head" class="table-dark"></thead>
+                                <tbody id="table-body"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -222,6 +226,7 @@
             document.getElementById('report-title').innerText = 'Laporan Analisis: ' + reportTitleName;
             $('#table-head').html('<tr><td>Memuat data...</td></tr>');
             $('#table-body').empty();
+            document.getElementById('exportBtnContainer').style.display = 'none';
 
             Papa.parse(url, {
                 download: true,
@@ -316,6 +321,7 @@
                     },
                     options: {
                         responsive: true,
+                        animation: false, // Dimatikan agar tidak menyebabkan error saat render canvas PDF
                         scales: { y: { beginAtZero: true } }
                     }
                 });
@@ -323,25 +329,44 @@
         }
 
         function exportPDF() {
-            const element = document.getElementById('report-container');
-
-            const opt = {
-                margin: [10, 10, 10, 10],
-                filename: 'Laporan_Analisis.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            const btn = document.querySelector('.btn-export');
+            // Gunakan elemen wrapper luar untuk meminimalisir error render border
+            const element = document.getElementById('print-area');
+            const btn = document.getElementById('btnExportPdf');
             const originalText = btn.innerHTML;
+
+            // Disable tombol agar tidak diklik berkali-kali
             btn.innerHTML = '⏳ Menyiapkan PDF...';
             btn.disabled = true;
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
+            // Opsi konfigurasi yang lebih stabil
+            const opt = {
+                margin: 10,
+                filename: 'Laporan_Analisis_Siswa.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: true // Membantu melacak proses jika ada masalah di console
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Eksekusi pembuatan PDF
+            setTimeout(() => {
+                html2pdf().set(opt).from(element).save()
+                    .then(() => {
+                        // Berhasil
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    })
+                    .catch(err => {
+                        // Gagal
+                        console.error('Error html2pdf:', err);
+                        alert('Maaf, PDF gagal dibuat. Pastikan data tidak terlalu besar atau coba refresh halaman.');
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
+            }, 500); // Jeda kecil untuk memastikan DOM siap
         }
     </script>
 
