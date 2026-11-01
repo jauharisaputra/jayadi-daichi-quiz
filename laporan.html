@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <!-- Chart.js for analysis visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- MENGGUNAKAN VERSI HTML2PDF YANG LEBIH STABIL UNTUK TABEL -->
+    <!-- html2pdf for PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
     <!-- jQuery & DataTables JS -->
@@ -79,6 +79,27 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
+        }
+
+        /* PENGATURAN KHUSUS SAAT MODE PDF AKTIF */
+        .pdf-export-mode #dataTable_wrapper .dataTables_length,
+        .pdf-export-mode #dataTable_wrapper .dataTables_filter,
+        .pdf-export-mode #dataTable_wrapper .dataTables_info,
+        .pdf-export-mode #dataTable_wrapper .dataTables_paginate {
+            display: none !important;
+            /* Sembunyikan elemen pencarian dan halaman saat cetak */
+        }
+
+        .pdf-export-mode table {
+            font-size: 11px;
+            /* Perkecil font agar muat ke samping */
+            width: 100% !important;
+        }
+
+        .pdf-export-mode td,
+        .pdf-export-mode th {
+            padding: 5px !important;
+            word-wrap: break-word;
         }
 
         @media print {
@@ -147,18 +168,16 @@
                 </div>
             </div>
             <div class="alert alert-info mt-3 mb-0" role="alert" style="font-size: 0.9rem;">
-                <strong>Informasi:</strong> Data diambil langsung dari Google Sheets. Pastikan akses file Google Sheet
-                diatur ke <strong>"Siapa saja yang memiliki tautan"</strong>.
+                <strong>Informasi:</strong> Data diambil langsung dari Google Sheets. Pastikan akses file diatur ke
+                <strong>"Siapa saja yang memiliki tautan"</strong>.
             </div>
         </div>
 
+        <!-- Tombol Ekspor Dipisahkan di Luar Kontainer Laporan -->
         <div class="text-end mb-3 no-print" id="exportBtnContainer" style="display: none;">
-            <!-- FUNGSI EXPORTPDF KINI MENGHAPUS DISABLE SEMENTARA PADA DATATABLES AGAR TIDAK CRASH -->
-            <button class="btn btn-export" id="btnExportPdf" onclick="exportPDF()">📄 Ekspor ke PDF</button>
+            <button class="btn btn-export" id="btnExportPdf" onclick="exportPDF()">📄 Ekspor Halaman Ini ke PDF</button>
         </div>
 
-        <!-- Report Container (This area will be exported to PDF) -->
-        <!-- DITAMBAHKAN ID BUNGKUSAN KUSUS UNTUK CETAK AGAR STABIL -->
         <div id="print-area">
             <div id="report-container" style="display: none;">
                 <div class="text-center mb-5">
@@ -187,7 +206,6 @@
                 <div class="row mb-5">
                     <div class="col-md-12">
                         <h5 class="mb-3 fw-bold text-center">Grafik Analisis Data (20 Data Pertama)</h5>
-                        <!-- ChartJS di-disable animasinya saat dirender ke PDF agar tidak kosong atau hang -->
                         <canvas id="analysisChart" height="100"></canvas>
                     </div>
                 </div>
@@ -196,7 +214,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h5 class="mb-3 fw-bold">Rincian Data Sheet</h5>
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="table-wrapper">
                             <table id="dataTable" class="table table-striped table-bordered w-100">
                                 <thead id="table-head" class="table-dark"></thead>
                                 <tbody id="table-body"></tbody>
@@ -210,6 +228,9 @@
 
     <script>
         let myChart = null;
+        let currentDataTable = null;
+        let currentData = null;
+        let currentHeaders = null;
 
         function loadSelectedData() {
             const select = document.getElementById('sheetSelector');
@@ -221,39 +242,57 @@
                 return;
             }
 
-            // Show loading state
+            // Tampilkan report container dan ubah teks status
             document.getElementById('report-container').style.display = 'block';
             document.getElementById('report-title').innerText = 'Laporan Analisis: ' + reportTitleName;
+
+            // Hancurkan DataTable yang lama JIKA ADA agar format kolom tidak bertabrakan
+            if ($.fn.DataTable.isDataTable('#dataTable')) {
+                $('#dataTable').DataTable().destroy();
+            }
+
             $('#table-head').html('<tr><td>Memuat data...</td></tr>');
             $('#table-body').empty();
+
+            // Sembunyikan tombol ekspor saat proses memuat
             document.getElementById('exportBtnContainer').style.display = 'none';
 
-            Papa.parse(url, {
+            // Jika chart sudah ada, hancurkan agar tidak menimpa data lama
+            if (myChart) {
+                myChart.destroy();
+                myChart = null;
+            }
+
+            // TAMBAHKAN CACHE BUSTER AGAR TIDAK LOAD TERLALU LAMA (MEMAKSA FETCH BARU DARI GOOGLE)
+            const noCacheUrl = url + '&t=' + new Date().getTime();
+
+            Papa.parse(noCacheUrl, {
                 download: true,
                 header: true,
                 skipEmptyLines: true,
                 complete: function (results) {
                     if (results.data && results.data.length > 0) {
-                        displayData(results.data);
+                        currentData = results.data;
+                        currentHeaders = Object.keys(results.data[0]);
+                        displayData(currentData, currentHeaders);
+
+                        // Tampilkan KEMBALI tombol ekspor setelah data berhasil termuat
                         document.getElementById('exportBtnContainer').style.display = 'block';
                     } else {
+                        $('#table-head').html('<tr><td>Data kosong atau format tidak sesuai.</td></tr>');
                         alert('Data kosong atau format Google Sheet tidak terbaca.');
                     }
                 },
                 error: function (err) {
-                    alert('Gagal memuat data. Pastikan file Google Sheet Anda sudah di-share (dibagikan) ke publik (Anyone with the link).');
+                    $('#table-head').html('<tr><td>Gagal memuat data.</td></tr>');
+                    alert('Gagal memuat data. Pastikan file Google Sheet Anda sudah di-share (dibagikan) ke publik.');
                 }
             });
         }
 
-        function displayData(data) {
-            if ($.fn.DataTable.isDataTable('#dataTable')) {
-                $('#dataTable').DataTable().destroy();
-            }
+        function displayData(data, headers) {
             $('#table-head').empty();
             $('#table-body').empty();
-
-            const headers = Object.keys(data[0]);
 
             let trHead = '<tr>';
             headers.forEach(h => { trHead += `<th>${h}</th>`; });
@@ -267,7 +306,7 @@
                 $('#table-body').append(trBody);
             });
 
-            $('#dataTable').DataTable({
+            const dataTableConfig = {
                 pageLength: 10,
                 language: {
                     search: "Cari:",
@@ -280,7 +319,10 @@
                         previous: "Sebelumnya"
                     }
                 }
-            });
+            };
+
+            // Inisiasi DataTable baru
+            currentDataTable = $('#dataTable').DataTable(dataTableConfig);
 
             $('#total-data').text(data.length);
             $('#total-columns').text(headers.length);
@@ -304,7 +346,6 @@
                     return parseFloat(val) || 0;
                 });
 
-                if (myChart) myChart.destroy();
                 const ctx = document.getElementById('analysisChart').getContext('2d');
                 myChart = new Chart(ctx, {
                     type: 'bar',
@@ -321,7 +362,7 @@
                     },
                     options: {
                         responsive: true,
-                        animation: false, // Dimatikan agar tidak menyebabkan error saat render canvas PDF
+                        animation: false,
                         scales: { y: { beginAtZero: true } }
                     }
                 });
@@ -329,44 +370,44 @@
         }
 
         function exportPDF() {
-            // Gunakan elemen wrapper luar untuk meminimalisir error render border
             const element = document.getElementById('print-area');
             const btn = document.getElementById('btnExportPdf');
             const originalText = btn.innerHTML;
 
-            // Disable tombol agar tidak diklik berkali-kali
-            btn.innerHTML = '⏳ Menyiapkan PDF...';
+            btn.innerHTML = '⏳ Sedang Menyusun PDF...';
             btn.disabled = true;
 
-            // Opsi konfigurasi yang lebih stabil
+            document.getElementById('print-area').classList.add('pdf-export-mode');
+
             const opt = {
-                margin: 10,
-                filename: 'Laporan_Analisis_Siswa.pdf',
+                margin: [10, 10, 10, 10],
+                filename: 'Laporan_Halaman_Tampil.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
-                    logging: true // Membantu melacak proses jika ada masalah di console
+                    windowWidth: element.scrollWidth
                 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a3',
+                    orientation: 'landscape'
+                }
             };
 
-            // Eksekusi pembuatan PDF
-            setTimeout(() => {
-                html2pdf().set(opt).from(element).save()
-                    .then(() => {
-                        // Berhasil
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    })
-                    .catch(err => {
-                        // Gagal
-                        console.error('Error html2pdf:', err);
-                        alert('Maaf, PDF gagal dibuat. Pastikan data tidak terlalu besar atau coba refresh halaman.');
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    });
-            }, 500); // Jeda kecil untuk memastikan DOM siap
+            html2pdf().set(opt).from(element).save()
+                .then(() => {
+                    document.getElementById('print-area').classList.remove('pdf-export-mode');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                })
+                .catch(err => {
+                    console.error('Error html2pdf:', err);
+                    alert('Maaf, PDF gagal dibuat.');
+                    document.getElementById('print-area').classList.remove('pdf-export-mode');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
         }
     </script>
 
