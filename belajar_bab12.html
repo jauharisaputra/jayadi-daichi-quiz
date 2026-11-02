@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembelajaran Bab 12</title>
-
+    <title>Pembelajaran & Latihan Bab 12</title>
     <style>
         :root {
             --bg-main: #f1f5f9;
@@ -16,6 +15,7 @@
             --primary-hover: #1d4ed8;
             --border-color: #e2e8f0;
             --success-color: #10b981;
+            --danger-color: #ef4444;
         }
 
         body {
@@ -25,31 +25,43 @@
             color: var(--text-dark);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* CARD CONTAINER */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             padding: 40px;
             border-radius: 16px;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
         }
 
-        /* TYPOGRAPHY */
         h1 {
             font-size: 2rem;
             margin-top: 0;
             margin-bottom: 8px;
-            color: var(--text-dark);
             font-weight: 700;
             letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-top: 20px;
         }
 
         p.description {
@@ -65,35 +77,29 @@
             padding: 12px 16px;
             border-left: 4px solid var(--primary-color);
             border-radius: 4px 8px 8px 4px;
-            font-size: 0.95rem;
             margin-bottom: 24px;
         }
 
-        /* VIDEO & PROGRESS BAR */
+        /* VIDEO PROGRESS BAR */
         .video-section {
             position: relative;
             width: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
         video {
             width: 100%;
             display: block;
-            border-radius: 12px 12px 0 0;
         }
 
-        /* CUSTOM PROGRESS BAR DIPERTEBAL */
         .progress-container {
             width: 100%;
             height: 28px;
             background-color: #cbd5e1;
             position: relative;
-            border-radius: 0 0 12px 12px;
-            overflow: hidden;
         }
 
         .progress-bar {
@@ -103,7 +109,6 @@
             transition: width 0.2s linear;
         }
 
-        /* TEKS PERSENTASE */
         .progress-text {
             position: absolute;
             top: 0;
@@ -116,32 +121,306 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-            pointer-events: none;
             z-index: 10;
+        }
+
+        /* AKORDION MATERI */
+        .accordion {
+            background-color: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .accordion.active:after {
+            content: "\2212";
+        }
+
+        .accordion:hover,
+        .accordion.active {
+            background-color: #e2e8f0;
+        }
+
+        .panel {
+            padding: 0 16px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 3px solid var(--primary-color);
+            margin-bottom: 16px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .panel-content {
+            padding: 16px 0;
+        }
+
+        /* STEP-BY-STEP REVEAL CONTAINER */
+        .step-container {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+            user-select: none;
+        }
+
+        .step-container:hover {
+            border-color: var(--primary-color);
+        }
+
+        .step-container::after {
+            content: '👆 Klik area ini untuk menampilkan materi berikutnya';
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            opacity: 0.7;
+        }
+
+        .step-container.completed::after {
+            display: none;
+        }
+
+        /* ANIMASI KONTEN BERTAHAP */
+        .step-content {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .step-content.revealed {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .block-step {
+            display: block;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .block-step:last-child {
+            border-bottom: none;
+        }
+
+        .cell-step {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 20px;
+        }
+
+        /* TABEL MATERI KOTOBA & BUDAYA */
+        .table-container {
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid var(--border-color);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        th.kotoba-header {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        /* LATIHAN INTERAKTIF */
+        .exercise-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .exercise-row span {
+            flex: 1;
+        }
+
+        input.blank-input,
+        select.select-input {
+            padding: 8px 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 200px;
+        }
+
+        input.blank-input:focus,
+        select.select-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        button.check-btn {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button.check-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .feedback {
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 30px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .correct {
+            color: var(--success-color);
+        }
+
+        .incorrect {
+            color: var(--danger-color);
+        }
+
+        /* KOTOBA FLIP CARDS */
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 90px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .flip-card-front {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .flip-card-back {
+            background-color: #0369a1;
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 0.85rem;
         }
 
         /* BUTTON KUIS */
         .btn-wrapper {
             display: flex;
             justify-content: flex-end;
-            min-height: 50px;
+            margin-top: 30px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
             padding: 14px 28px;
             background-color: var(--primary-color);
             color: white;
-            border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
             text-decoration: none;
-            cursor: pointer;
             transition: all 0.3s ease;
             opacity: 0.5;
             pointer-events: none;
@@ -151,26 +430,6 @@
             opacity: 1;
             pointer-events: auto;
             background-color: var(--success-color);
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn.unlocked:hover {
-            background-color: #059669;
-            transform: translateY(-2px);
-        }
-
-        @media(max-width: 600px) {
-            .card {
-                padding: 24px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .btn {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -178,81 +437,535 @@
 <body>
 
     <div class="card">
-        <!-- Judul H1 juga akan otomatis menyesuaikan nomor Bab -->
-        <h1>第12課：Materi Pembelajaran Bab 12</h1>
-        <p class="description">
-            Selamat datang di pembelajaran Bab 12! Di bab ini, kita akan mempelajari beberapa ekspresi penting dalam bahasa Jepang. Pastikan untuk menonton video pembelajaran dengan seksama untuk memahami konsep-konsep ini sebelum melanjutkan ke kuis.
-        </p>
+        <h1>第 12課：Materi & Latihan Interaktif Bab 12</h1>
+        <p class="description">Gunakan interaksi presentasi: <b>Klik pada area bergaris putus-putus</b> untuk
+            memunculkan penjelasan, rumus, isi tabel per sel (kiri ke kanan, atas ke bawah), dan contoh kalimat secara
+            berurutan. Tersedia 30 kartu flash dan jawaban fleksibel (Kanji/Hiragana).</p>
 
         <div class="alert-info" id="statusMessage">
-            ℹ️ Tonton video minimal 80% tanpa dipercepat untuk membuka kuis.
+            Tonton video minimal 80% tanpa dipercepat untuk membuka Kuis Akhir.
         </div>
 
         <div class="video-section">
             <video id="learningVideo" controls controlsList="nodownload">
-                <!-- Source Video akan menyesuaikan nomor Bab -->
                 <source src="video_pembelajaran/Menguasai_Bab_12.mp4" type="video/mp4">
-                Maaf, browser Anda tidak mendukung pemutaran video.
+                Browser Anda tidak mendukung pemutaran video.
             </video>
-
             <div class="progress-container">
                 <div class="progress-bar" id="customProgressBar"></div>
                 <div class="progress-text" id="progressText">0%</div>
             </div>
         </div>
 
+        <!-- BAGIAN 1: KATA SIFAT I -->
+        <button class="accordion">1. Kata Sifat い (Bentuk Lampau)</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Pola Kata Sifat い</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1"><b>Pola Positif:</b> Ganti い terakhir menjadi <b
+                            style="color:var(--primary-color);">かったです</b>[cite: 2].</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola Negatif:</b> Hilangkan い, tambah <b
+                            style="color:var(--danger-color);">くなかったです</b>[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="3">
+                        <b>Tabel Perubahan Kata Sifat い:</b><br>
+                        <small><i>(Isi sel akan muncul dari kiri ke kanan, atas ke bawah)</i></small>
+                        <table>
+                            <tr>
+                                <th>Sekarang</th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="4">Lampau Positif</div>
+                                </th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="5">Lampau Negatif</div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>いそがしいです</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="6">いそがしかったです</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="7">いそがしくなかったです</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>たかいです</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="8">たかかったです</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="9">たかくなかったです</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>いいです <i>(Kecuali)</i></td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="10"><b>よかったです</b></div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="11"><b>よくなかったです</b></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="step-content block-step" data-step="12"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            1:</b> ナルコさんは いそがしかったです。</div>
+                    <div class="step-content block-step" data-step="13" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Naruko dulu sibuk[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="14"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            2:</b> 昨日は暑かったです。</div>
+                    <div class="step-content block-step" data-step="15" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Kemarin panas[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="16"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            3:</b> 旅行は楽しかったです。</div>
+                    <div class="step-content block-step" data-step="17"
+                        style="padding-left:15px; font-style:italic; border-bottom:none;"><b>Arti:</b> Perjalanannya
+                        menyenangkan[cite: 2].</div>
+                </div>
+
+                <h3>Latihan 1: Isian Singkat (10 Soal)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">*Anda bisa menjawab menggunakan Hiragana maupun
+                    Kanji.</p>
+                <div id="exercise1"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 2: KATA SIFAT NA & KATA BENDA -->
+        <button class="accordion">2. Kata Sifat な & Kata Benda (Bentuk Lampau)</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Pola Kata Sifat な & Kata Benda</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1">Pola perubahannya <b>sama</b> untuk な-adjective
+                        dan Kata Benda[cite: 2].</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola Positif:</b> Tambahkan <b
+                            style="color:var(--primary-color);">でした</b>[cite: 2].</div>
+                    <div class="step-content block-step" data-step="3"><b>Pola Negatif:</b> Tambahkan <b
+                            style="color:var(--danger-color);">じゃありませんでした</b>[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="4">
+                        <b>Tabel Perubahan:</b>
+                        <table>
+                            <tr>
+                                <th>Kata Dasar</th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="5">Lampau Positif</div>
+                                </th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="6">Lampau Negatif</div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>げんきです (Na-Adj)</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="7">げんきでした</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="8">げんきじゃありませんでした</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>会社員です (KB)</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="9">会社員でした</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="10">会社員じゃありませんでした</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="step-content block-step" data-step="11"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            1:</b> ナルコさんはげんきでした。</div>
+                    <div class="step-content block-step" data-step="12" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Naruko dulu sehat/bersemangat[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="13"
+                        style="background:#fef2f2; padding:10px; border-left:4px solid var(--danger-color);"><b>Contoh
+                            2:</b> キムさんはげんきじゃありませんでした。</div>
+                    <div class="step-content block-step" data-step="14" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Kim dulu tidak sehat/bersemangat[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="15"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            3:</b> ホテルは静かでした。</div>
+                    <div class="step-content block-step" data-step="16" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Hotelnya tenang[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="17"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            4:</b> 去年は学生でした。</div>
+                    <div class="step-content block-step" data-step="18"
+                        style="padding-left:15px; font-style:italic; border-bottom:none;"><b>Arti:</b> Tahun lalu saya
+                        adalah siswa/mahasiswa[cite: 2].</div>
+                </div>
+
+                <h3>Latihan 2: Validasi Cepat (10 Soal)</h3>
+                <div id="exercise2"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 3: DURASI WAKTU -->
+        <button class="accordion">3. Durasi Waktu (どのぐらい)</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Durasi Waktu</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1"><b>どのぐらい</b> digunakan untuk menanyakan lamanya
+                        waktu/durasi kegiatan[cite: 2].</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola:</b> Orang + は + どのぐらい + Kata Kerja
+                        Lampau + か。</div>
+
+                    <div class="step-content block-step" data-step="3"
+                        style="background:#eff6ff; padding:10px; border-left:4px solid var(--primary-color);"><b>Q:</b>
+                        ホセさんは どのぐらい 日本語を 勉強しましたか。</div>
+                    <div class="step-content block-step" data-step="4" style="padding-left:15px; font-style:italic;">
+                        <b>Arti Q:</b> Jose belajar bahasa Jepang selama berapa lama?[cite: 2]</div>
+
+                    <div class="step-content block-step" data-step="5"><b>～ぐらい</b> diletakkan setelah jumlah durasi
+                        untuk menyatakan "kira-kira" atau "sekitar"[cite: 2].</div>
+                    <div class="step-content block-step" data-step="6"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>A:</b>
+                        2週間 ぐらい 勉強しました。</div>
+                    <div class="step-content block-step" data-step="7" style="padding-left:15px; font-style:italic;">
+                        <b>Arti A:</b> Belajar selama kira-kira dua minggu[cite: 2].</div>
+
+                    <div class="step-content block-step" data-step="8"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            Tambahan:</b> 勉強は大変でしたが、おもしろかったです。</div>
+                    <div class="step-content block-step" data-step="9"
+                        style="padding-left:15px; font-style:italic; border-bottom:none;"><b>Arti:</b> Belajarnya
+                        sulit/berat, tetapi menarik[cite: 2].</div>
+                </div>
+
+                <h3>Latihan 3: Pilihan Ganda (10 Soal)</h3>
+                <div id="exercise3"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 4: KOTOBA -->
+        <button class="accordion">4. Daftar Kotoba & Kebudayaan Bab 12</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Tabel Kosakata Bab 12 (Sel demi Sel)</h3>
+                <p>Klik area ini untuk memunculkan tabel. Sel Kanji dan Arti akan muncul berurutan dari kiri ke kanan,
+                    lalu baris selanjutnya.</p>
+
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="table-container">
+                        <table id="kotobaTable">
+                            <tr>
+                                <th class="kotoba-header" style="width: 5%;">No.</th>
+                                <th class="kotoba-header" style="width: 25%;">Kotoba</th>
+                                <th class="kotoba-header" style="width: 20%;">Kanji</th>
+                                <th class="kotoba-header" style="width: 50%;">Arti</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <h3>Tabel Kosakata Budaya (Sel demi Sel)</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="table-container" style="margin-bottom:0;">
+                        <table id="cultureTable">
+                            <tr>
+                                <th class="kotoba-header" style="width: 5%;">No.</th>
+                                <th class="kotoba-header" style="width: 25%;">Kotoba</th>
+                                <th class="kotoba-header" style="width: 20%;">Kanji</th>
+                                <th class="kotoba-header" style="width: 50%;">Arti</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 5: LATIHAN KOTOBA -->
+        <button class="accordion">5. Latihan Interaktif: Kotoba (30 Flashcards)</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Kartu Flash Interaktif</h3>
+                <p>Berikut adalah 30 kosakata inti pilihan dari Bab 12. Siswa dapat digilir untuk menebak artinya
+                    sebelum kartu diklik.</p>
+                <div class="flip-grid" id="exercise4">
+                    <!-- Dihasilkan melalui JavaScript -->
+                </div>
+            </div>
+        </div>
+
         <div class="btn-wrapper">
-            <!-- Link Kuis akan menyesuaikan nomor Bab -->
-            <a href="bab12.html" class="btn" id="quizBtn">
-                🔒 Kuis Terkunci
-            </a>
+            <a href="bab12.html" class="btn" id="quizBtn">Kuis Terkunci</a>
         </div>
     </div>
 
     <script>
+        // --- FUNGSI REVEAL BERTAHAP (AUTO-INCREMENT TERKECIL) ---
+        window.revealNextStep = function (container) {
+            let allHidden = container.querySelectorAll('.step-content:not(.revealed)');
+            if (allHidden.length > 0) {
+                let minStep = 999999;
+                allHidden.forEach(el => {
+                    let s = parseInt(el.getAttribute('data-step'));
+                    if (s < minStep) minStep = s;
+                });
+
+                let targets = container.querySelectorAll('.step-content[data-step="' + minStep + '"]');
+                targets.forEach(t => t.classList.add('revealed'));
+                container.setAttribute('data-current-step', minStep);
+
+                const panel = container.closest('.panel');
+                if (panel && panel.style.maxHeight) {
+                    panel.style.maxHeight = panel.scrollHeight + 300 + "px";
+                }
+            }
+
+            if (container.querySelectorAll('.step-content:not(.revealed)').length === 0) {
+                container.classList.add('completed');
+            }
+        };
+
+        // --- DATA KOTOBA LENGKAP (45 ITEM) ---
+        const fullKotoba = [
+            ["1", "はっぴょうする", "発表する", "Mempresentasikan"], ["2", "のぼる", "登る", "Mendaki"], ["3", "とまる", "泊まる", "Menginap"],
+            ["4", "きる", "着る", "Memakai (baju)"], ["5", "ぬぐ", "脱ぐ", "Melepas (pakaian)"], ["6", "かかる", "", "Memakan waktu/biaya"],
+            ["7", "とる", "撮る", "Mengambil (foto)"], ["8", "やすみ", "休み", "Istirahat, liburan"], ["9", "ひるやすみ", "昼休み", "Istirahat siang"],
+            ["10", "ホテル", "", "Hotel"], ["11", "おにぎり", "", "Nasi kepal"], ["12", "きもの", "着物", "Kimono"],
+            ["13", "フェリー", "", "Kapal feri"], ["14", "はなみ", "花見", "Melihat sakura"], ["15", "くうこう", "空港", "Bandara"],
+            ["16", "はし", "橋", "Jembatan"], ["17", "しま", "島", "Pulau"], ["18", "ふん・ぷん", "分", "Menit"],
+            ["19", "じ", "時", "Jam"], ["20", "にち", "日", "Hari"], ["21", "しゅう", "週", "Minggu"],
+            ["22", "じゅんび", "準備", "Pesiapan"], ["23", "げつ", "月", "Bulan"], ["24", "わたしたち", "", "Kami"],
+            ["25", "あか", "赤", "Merah"], ["26", "きいろ", "黄色", "Kuning"], ["27", "けしき", "景色", "Pemandangan"],
+            ["28", "じゅぎょう", "授業", "Kelas, Kegiatan belajar"], ["29", "きびしい", "厳しい", "Ketat, berat"], ["30", "こわい", "怖い", "Menakutkan"],
+            ["31", "おもい", "重い", "Berat"], ["32", "かるい", "軽い", "Ringan"], ["33", "つめたい", "冷たい", "Dingin (disentuh)"],
+            ["34", "なんぷん", "何分", "Berapa menit"], ["35", "なんじかん", "何時間", "Berapa jam"], ["36", "なんにち", "何日", "Berapa hari"],
+            ["37", "なんしゅうかん", "何週間", "Berapa minggu"], ["38", "なんかげつ", "何か月", "Berapa bulan"], ["39", "なんねん", "何年", "Berapa tahun"],
+            ["40", "はんとし", "半年", "Setengah tahun"], ["41", "あ", "", "Ah"], ["42", "ちょっと", "", "Sedikit"],
+            ["43", "～ぐらい", "", "Kira-kira, sekitar"], ["44", "どうぞ", "", "Silakan"], ["45", "ありがとう", "", "Terima kasih"]
+        ];
+
+        // --- DATA KEBUDAYAAN LENGKAP (14 ITEM) ---
+        const fullCulture = [
+            ["1", "ぎょうじ", "行事", "Acara; event"], ["2", "はつもうで", "初詣", "Mengunjungi kuil"], ["3", "つまめまき", "豆まき", "Melempar kacang"],
+            ["4", "つひなまつり", "ひな祭り", "Festival boneka"], ["5", "そつぎょうしき", "卒業式", "Upacara kelulusan"], ["6", "はなみ", "花見", "Piknik melihat sakura"],
+            ["7", "にゅうがくしき", "入学式", "Upacara masuk"], ["8", "こどものひ", "子供の日", "Hari anak"], ["9", "たなばた", "七夕", "Festival bintang"],
+            ["10", "ぼんおどり", "盆踊り", "Festival tari Bon"], ["11", "つきみ", "月見", "Melihat bulan"], ["12", "うんどうかい", "運動会", "Pertandingan olahraga"],
+            ["13", "しちごさん", "七五三", "Perayaan anak 3, 5, 7 tahun"], ["14", "おおみそか", "大晦日", "Malam tahun baru"]
+        ];
+
+        const kotobaTbody = document.getElementById("kotobaTable");
+        fullKotoba.forEach((row, idx) => {
+            let stepKanji = (idx * 2) + 1;
+            let stepArti = (idx * 2) + 2;
+            kotobaTbody.innerHTML += `
+      <tr>
+        <td>${row[0]}</td>
+        <td>${row[1]}</td>
+        <td><div class="step-content cell-step" data-step="${stepKanji}">${row[2]}</div></td>
+        <td><div class="step-content cell-step" data-step="${stepArti}">${row[3]}</div></td>
+      </tr>`;
+        });
+
+        const cultureTbody = document.getElementById("cultureTable");
+        fullCulture.forEach((row, idx) => {
+            let stepKanji = (idx * 2) + 1;
+            let stepArti = (idx * 2) + 2;
+            cultureTbody.innerHTML += `
+      <tr>
+        <td>${row[0]}</td>
+        <td>${row[1]}</td>
+        <td><div class="step-content cell-step" data-step="${stepKanji}">${row[2]}</div></td>
+        <td><div class="step-content cell-step" data-step="${stepArti}">${row[3]}</div></td>
+      </tr>`;
+        });
+
+        // --- DATA LATIHAN (DIDUKUNG HIRAGANA & KANJI) ---
+        const ex1Data = [
+            { q: "1. いそがしいです → Lampau Positif", a: ["いそがしかったです", "忙しかったです"] },
+            { q: "2. たかいです → Lampau Positif", a: ["たかかったです", "高かったです"] },
+            { q: "3. おいしいです → Lampau Positif", a: ["おいしかったです", "美味しかったです"] },
+            { q: "4. いいです → Lampau Positif", a: ["よかったです", "良かったです"] },
+            { q: "5. さむいです → Lampau Positif", a: ["さむかったです", "寒かったです"] },
+            { q: "6. いそがしくないです → Lampau Negatif", a: ["いそがしくなかったです", "忙しくなかったです"] },
+            { q: "7. たかくないです → Lampau Negatif", a: ["たかくなかったです", "高くなかったです"] },
+            { q: "8. おもしろくないです → Lampau Negatif", a: ["おもしろくなかったです", "面白くなかったです"] },
+            { q: "9. よくないです → Lampau Negatif", a: ["よくなかったです", "良くなかったです"] },
+            { q: "10. あつくないです → Lampau Negatif", a: ["あつくなかったです", "暑くなかったです", "熱くなかったです"] }
+        ];
+
+        const ex2Data = [
+            { q: "1. げんきです → Lampau Positif", a: ["げんきでした", "元気でした"] },
+            { q: "2. ひまです → Lampau Negatif", a: ["ひまじゃありませんでした", "暇じゃありませんでした"] },
+            { q: "3. しずかじゃありません → Lampau Negatif", a: ["しずかじゃありませんでした", "静かじゃありませんでした"] },
+            { q: "4. 会社員です → Lampau Positif", a: ["かいしゃいんでした", "会社員でした"] },
+            { q: "5. 学生じゃありません → Lampau Negatif", a: ["がくせいじゃありませんでした", "学生じゃありませんでした"] },
+            { q: "6. しずかです → Lampau Positif", a: ["しずかでした", "静かでした"] },
+            { q: "7. 学生です → Lampau Positif", a: ["がくせいでした", "学生でした"] },
+            { q: "8. ゆうめいです → Lampau Negatif", a: ["ゆうめいじゃありませんでした", "有名じゃありませんでした"] },
+            { q: "9. 先生じゃありません → Lampau Negatif", a: ["せんせいじゃありませんでした", "先生じゃありませんでした"] },
+            { q: "10. ひまです → Lampau Positif", a: ["ひまでした", "暇でした"] }
+        ];
+
+        const ex3Options = ["-- Pilih --", "どのぐらい", "ぐらい", "はんとし", "なんぷん", "なんじかん", "なんにち", "なんしゅうかん", "なんかげつ", "なんねん", "かかります"];
+        const ex3Data = [
+            { q: "1. Kata tanya untuk 'berapa lama':", a: "どのぐらい" },
+            { q: "2. Kata untuk menyatakan 'kira-kira/sekitar':", a: "ぐらい" },
+            { q: "3. Bahasa Jepang untuk 'Setengah tahun':", a: "はんとし" },
+            { q: "4. Kata tanya 'Berapa menit':", a: "なんぷん" },
+            { q: "5. Kata tanya 'Berapa jam':", a: "なんじかん" },
+            { q: "6. Kata tanya 'Berapa hari':", a: "なんにち" },
+            { q: "7. Kata tanya 'Berapa minggu':", a: "なんしゅうかん" },
+            { q: "8. Kata tanya 'Berapa bulan':", a: "なんかげつ" },
+            { q: "9. Kata tanya 'Berapa tahun':", a: "なんねん" },
+            { q: "10. Kata kerja 'Memakan waktu':", a: "かかります" }
+        ];
+
+        // --- 30 KARTU FLASH ---
+        const ex4Data = [
+            { jp: "発表する", id: "Mempresentasikan" }, { jp: "登る", id: "Mendaki" }, { jp: "泊まる", id: "Menginap" },
+            { jp: "休み", id: "Istirahat / Liburan" }, { jp: "空港", id: "Bandara" }, { jp: "準備", id: "Persiapan" },
+            { jp: "景色", id: "Pemandangan" }, { jp: "授業", id: "Kelas / KBM" }, { jp: "厳しい", id: "Ketat / Berat" },
+            { jp: "怖い", id: "Menakutkan" }, { jp: "冷たい", id: "Dingin" }, { jp: "半年", id: "Setengah tahun" },
+            { jp: "着物", id: "Kimono" }, { jp: "フェリー", id: "Kapal feri" }, { jp: "初詣", id: "Kuil awal tahun" },
+            { jp: "着る", id: "Memakai baju" }, { jp: "脱ぐ", id: "Melepas pakaian" }, { jp: "撮る", id: "Mengambil foto" },
+            { jp: "ホテル", id: "Hotel" }, { jp: "おにぎり", id: "Nasi kepal" }, { jp: "花見", id: "Melihat sakura" },
+            { jp: "橋", id: "Jembatan" }, { jp: "島", id: "Pulau" }, { jp: "赤", id: "Merah" },
+            { jp: "黄色", id: "Kuning" }, { jp: "重い", id: "Berat" }, { jp: "軽い", id: "Ringan" },
+            { jp: "豆まき", id: "Lempar kacang" }, { jp: "盆踊り", id: "Tari Bon" }, { jp: "大晦日", id: "Malam tahun baru" }
+        ];
+
+        function renderTextInputExercise(containerId, data, prefix) {
+            const container = document.getElementById(containerId);
+            data.forEach((item, index) => {
+                const id = `${prefix}_${index}`;
+                container.innerHTML += `
+        <div class="exercise-row">
+          <span>${item.q}</span>
+          <div>
+            <input type="text" id="input_${id}" class="blank-input" placeholder="Jawaban (Hiragana/Kanji)">
+            <button class="check-btn" onclick="checkTextAnswer('input_${id}', '${id}', ${JSON.stringify(item.a).replace(/"/g, '&quot;')})">Cek</button>
+            <span id="fb_${id}" class="feedback"></span>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        function renderDropdownExercise() {
+            const container = document.getElementById("exercise3");
+            let optionsHtml = ex3Options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+            ex3Data.forEach((item, index) => {
+                const id = `ex3_${index}`;
+                container.innerHTML += `
+        <div class="exercise-row">
+          <span>${item.q}</span>
+          <div>
+            <select id="select_${id}" class="select-input">${optionsHtml}</select>
+            <button class="check-btn" onclick="checkSelectAnswer('select_${id}', '${id}', '${item.a}')">Cek</button>
+            <span id="fb_${id}" class="feedback"></span>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        function renderFlashcards() {
+            const container = document.getElementById("exercise4");
+            ex4Data.forEach(item => {
+                container.innerHTML += `
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">${item.jp}</div>
+            <div class="flip-card-back">${item.id}</div>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        window.checkTextAnswer = function (inputId, fbId, correctArray) {
+            const val = document.getElementById(inputId).value.trim();
+            const fb = document.getElementById("fb_" + fbId);
+            if (correctArray.includes(val)) {
+                fb.innerHTML = "✔"; fb.className = "feedback correct";
+                document.getElementById(inputId).style.borderColor = "var(--success-color)";
+            } else {
+                fb.innerHTML = "✘"; fb.className = "feedback incorrect";
+                document.getElementById(inputId).style.borderColor = "var(--danger-color)";
+            }
+        };
+
+        window.checkSelectAnswer = function (selectId, fbId, correctVal) {
+            const val = document.getElementById(selectId).value;
+            const fb = document.getElementById("fb_" + fbId);
+            if (val === correctVal) {
+                fb.innerHTML = "✔"; fb.className = "feedback correct";
+                document.getElementById(selectId).style.borderColor = "var(--success-color)";
+            } else {
+                fb.innerHTML = "✘"; fb.className = "feedback incorrect";
+                document.getElementById(selectId).style.borderColor = "var(--danger-color)";
+            }
+        };
+
+        renderTextInputExercise("exercise1", ex1Data, "ex1");
+        renderTextInputExercise("exercise2", ex2Data, "ex2");
+        renderDropdownExercise();
+        renderFlashcards();
+
+        const accordions = document.getElementsByClassName("accordion");
+        for (let i = 0; i < accordions.length; i++) {
+            accordions[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 1500 + "px";
+                }
+            });
+        }
+
         const video = document.getElementById('learningVideo');
         const progressBar = document.getElementById('customProgressBar');
         const progressText = document.getElementById('progressText');
         const quizBtn = document.getElementById('quizBtn');
         const statusMessage = document.getElementById('statusMessage');
-
         let maxPlayedTime = 0;
         let isQuizUnlocked = false;
 
         video.addEventListener('timeupdate', () => {
             if (!video.duration) return;
-
-            if (!video.seeking) {
-                if (video.currentTime > maxPlayedTime) {
-                    maxPlayedTime = video.currentTime;
-                }
+            if (!video.seeking && video.currentTime > maxPlayedTime) {
+                maxPlayedTime = video.currentTime;
             }
-
             const percentage = (video.currentTime / video.duration) * 100;
-
             progressBar.style.width = percentage + '%';
             progressText.innerText = Math.floor(percentage) + '%';
 
-            if (percentage >= 80 && !isQuizUnlocked) {
-                unlockQuiz();
-            }
+            if (percentage >= 80 && !isQuizUnlocked) unlockQuiz();
         });
 
         video.addEventListener('seeking', () => {
-            if (video.currentTime > maxPlayedTime + 1) {
-                video.currentTime = maxPlayedTime; 
-            }
+            if (video.currentTime > maxPlayedTime + 1) video.currentTime = maxPlayedTime;
         });
 
         function unlockQuiz() {
             isQuizUnlocked = true;
             quizBtn.classList.add('unlocked');
-            quizBtn.innerHTML = '🚀 Mulai Kuis Bab 12';
-
+            quizBtn.innerHTML = 'Mulai Kuis Akhir Bab 12';
             statusMessage.style.backgroundColor = '#ecfdf5';
             statusMessage.style.color = '#047857';
             statusMessage.style.borderLeftColor = '#10b981';
-            statusMessage.innerHTML = '✅ Kuis telah terbuka! Anda bisa melanjutkan kapan saja.';
+            statusMessage.innerHTML = 'Kuis telah terbuka! Anda bisa melanjutkan ke sesi evaluasi.';
         }
     </script>
 </body>
