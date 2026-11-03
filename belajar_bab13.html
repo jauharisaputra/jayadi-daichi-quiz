@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembelajaran Bab 13</title>
-
     <style>
         :root {
             --bg-main: #f1f5f9;
@@ -16,6 +15,7 @@
             --primary-hover: #1d4ed8;
             --border-color: #e2e8f0;
             --success-color: #10b981;
+            --danger-color: #ef4444;
         }
 
         body {
@@ -25,31 +25,43 @@
             color: var(--text-dark);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
         }
 
-        /* CARD CONTAINER */
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             padding: 40px;
             border-radius: 16px;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
         }
 
-        /* TYPOGRAPHY */
         h1 {
             font-size: 2rem;
             margin-top: 0;
             margin-bottom: 8px;
-            color: var(--text-dark);
             font-weight: 700;
             letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-top: 20px;
         }
 
         p.description {
@@ -65,35 +77,29 @@
             padding: 12px 16px;
             border-left: 4px solid var(--primary-color);
             border-radius: 4px 8px 8px 4px;
-            font-size: 0.95rem;
             margin-bottom: 24px;
         }
 
-        /* VIDEO & PROGRESS BAR */
+        /* VIDEO PROGRESS BAR */
         .video-section {
             position: relative;
             width: 100%;
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
         video {
             width: 100%;
             display: block;
-            border-radius: 12px 12px 0 0;
         }
 
-        /* CUSTOM PROGRESS BAR DIPERTEBAL */
         .progress-container {
             width: 100%;
             height: 28px;
             background-color: #cbd5e1;
             position: relative;
-            border-radius: 0 0 12px 12px;
-            overflow: hidden;
         }
 
         .progress-bar {
@@ -103,7 +109,6 @@
             transition: width 0.2s linear;
         }
 
-        /* TEKS PERSENTASE */
         .progress-text {
             position: absolute;
             top: 0;
@@ -116,32 +121,306 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-            pointer-events: none;
             z-index: 10;
+        }
+
+        /* AKORDION MATERI */
+        .accordion {
+            background-color: #f8fafc;
+            color: #0f172a;
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .accordion.active:after {
+            content: "\2212";
+        }
+
+        .accordion:hover,
+        .accordion.active {
+            background-color: #e2e8f0;
+        }
+
+        .panel {
+            padding: 0 16px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 3px solid var(--primary-color);
+            margin-bottom: 16px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .panel-content {
+            padding: 16px 0;
+        }
+
+        /* STEP-BY-STEP REVEAL CONTAINER */
+        .step-container {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+            user-select: none;
+        }
+
+        .step-container:hover {
+            border-color: var(--primary-color);
+        }
+
+        .step-container::after {
+            content: '👆 Klik area ini untuk menampilkan materi berikutnya';
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            opacity: 0.7;
+        }
+
+        .step-container.completed::after {
+            display: none;
+        }
+
+        /* ANIMASI KONTEN BERTAHAP */
+        .step-content {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .step-content.revealed {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .block-step {
+            display: block;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .block-step:last-child {
+            border-bottom: none;
+        }
+
+        .cell-step {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 20px;
+        }
+
+        /* TABEL MATERI KOTOBA & BUDAYA */
+        .table-container {
+            overflow-x: auto;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid var(--border-color);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        th.kotoba-header {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        /* LATIHAN INTERAKTIF */
+        .exercise-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .exercise-row span {
+            flex: 1;
+        }
+
+        input.blank-input,
+        select.select-input {
+            padding: 8px 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            width: 200px;
+        }
+
+        input.blank-input:focus,
+        select.select-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        button.check-btn {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button.check-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .feedback {
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 30px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .correct {
+            color: var(--success-color);
+        }
+
+        .incorrect {
+            color: var(--danger-color);
+        }
+
+        /* KOTOBA FLIP CARDS */
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 90px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            padding: 8px;
+            box-sizing: border-box;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .flip-card-front {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .flip-card-back {
+            background-color: #0369a1;
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 0.85rem;
         }
 
         /* BUTTON KUIS */
         .btn-wrapper {
             display: flex;
             justify-content: flex-end;
-            min-height: 50px;
+            margin-top: 30px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
             padding: 14px 28px;
             background-color: var(--primary-color);
             color: white;
-            border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1rem;
             text-decoration: none;
-            cursor: pointer;
             transition: all 0.3s ease;
             opacity: 0.5;
             pointer-events: none;
@@ -178,81 +457,433 @@
 <body>
 
     <div class="card">
-        <!-- Judul H1 juga akan otomatis menyesuaikan nomor Bab -->
-        <h1>第13課：Materi Pembelajaran Bab 13</h1>
-        <p class="description">
-            Selamat datang di pembelajaran Bab 13! Di bab ini, kita akan mempelajari beberapa ekspresi penting dalam bahasa Jepang. Pastikan untuk menonton video pembelajaran dengan seksama untuk memahami konsep-konsep ini sebelum melanjutkan ke kuis.
-        </p>
+        <h1>第 13 課：Materi Pembelajaran Bab 13</h1>
+        <p class="description">Gunakan interaksi presentasi: <b>Klik pada area bergaris putus-putus</b> untuk
+            memunculkan penjelasan, rumus, isi tabel per sel (kiri ke kanan, atas ke bawah), dan contoh kalimat secara
+            berurutan. Tersedia 30 kartu flash dan jawaban fleksibel (Kanji/Hiragana).</p>
 
         <div class="alert-info" id="statusMessage">
-            ℹ️ Tonton video minimal 80% tanpa dipercepat untuk membuka kuis.
+            Tonton video minimal 80% tanpa dipercepat untuk membuka Kuis Akhir.
         </div>
 
         <div class="video-section">
             <video id="learningVideo" controls controlsList="nodownload">
-                <!-- Source Video akan menyesuaikan nomor Bab -->
                 <source src="video_pembelajaran/Menguasai_Bab_13.mp4" type="video/mp4">
-                Maaf, browser Anda tidak mendukung pemutaran video.
+                Browser Anda tidak mendukung pemutaran video.
             </video>
-
             <div class="progress-container">
                 <div class="progress-bar" id="customProgressBar"></div>
                 <div class="progress-text" id="progressText">0%</div>
             </div>
         </div>
 
+        <!-- BAGIAN 1: KATA BENDA YANG DIINGINKAN (ほしい) -->
+        <button class="accordion">1. Menyatakan Keinginan (Benda): ほしいです</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Pola ほしいです</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1">Pola ini digunakan untuk menyatakan keinginan
+                        pembicara terhadap suatu benda.</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola Positif:</b> [Kata Benda] + <b
+                            style="color:var(--primary-color);">が ほしいです</b>.</div>
+                    <div class="step-content block-step" data-step="3"><b>Pola Negatif:</b> [Kata Benda] + <b
+                            style="color:var(--danger-color);">が ほしくないです</b>.</div>
+
+                    <div class="step-content block-step" data-step="4"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            1:</b> わたしは くるま が ほしいです。</div>
+                    <div class="step-content block-step" data-step="5" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Saya ingin mobil.</div>
+
+                    <div class="step-content block-step" data-step="6"
+                        style="background:#fef2f2; padding:10px; border-left:4px solid var(--danger-color);"><b>Contoh
+                            2:</b> パソコン が ほしくないです。</div>
+                    <div class="step-content block-step" data-step="7" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Saya tidak ingin komputer.</div>
+
+                    <div class="step-content block-step" data-step="8"
+                        style="background:#eff6ff; padding:10px; border-left:4px solid var(--primary-color);"><b>Bentuk
+                            Tanya:</b> いま なに が いちばん ほしいですか。</div>
+                    <div class="step-content block-step" data-step="9"
+                        style="padding-left:15px; font-style:italic; border-bottom:none;"><b>Arti:</b> Sekarang paling
+                        ingin apa?</div>
+                </div>
+
+                <h3>Latihan 1: Isian Singkat (10 Soal)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">*Ubah menjadi bentuk yang tepat (Gunakan
+                    Hiragana/Kanji).</p>
+                <div id="exercise1"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 2: KATA KERJA YANG INGIN DILAKUKAN (～たい) -->
+        <button class="accordion">2. Menyatakan Keinginan (Aktivitas): ～たいです</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Pola ～たいです</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1">Digunakan untuk menyatakan keinginan melakukan
+                        suatu aktivitas (Kata Kerja).</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola:</b> Kata Kerja (Bentuk Masu) dihilangkan
+                        'masu'-nya, ditambah <b style="color:var(--primary-color);">～たいです</b>.</div>
+
+                    <div class="step-content block-step" data-step="3">
+                        <b>Tabel Perubahan Kata Kerja:</b>
+                        <table>
+                            <tr>
+                                <th>Bentuk Masu</th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="4">Bentuk Ingin (~tai)</div>
+                                </th>
+                                <th>
+                                    <div class="step-content cell-step" data-step="5">Bentuk Tidak Ingin</div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>たべます (Makan)</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="6">たべたいです</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="7">たべたくないです</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>いきます (Pergi)</td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="8">いきたいです</div>
+                                </td>
+                                <td>
+                                    <div class="step-content cell-step" data-step="9">いきたくないです</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="step-content block-step" data-step="10"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            1:</b> 寿司（すし） を たべたいです。</div>
+                    <div class="step-content block-step" data-step="11" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Saya ingin makan sushi.</div>
+
+                    <div class="step-content block-step" data-step="12"
+                        style="background:#fef2f2; padding:10px; border-left:4px solid var(--danger-color);"><b>Contoh
+                            2:</b> なにも したくないです。</div>
+                    <div class="step-content block-step" data-step="13"
+                        style="padding-left:15px; font-style:italic; border-bottom:none;"><b>Arti:</b> Saya tidak ingin
+                        melakukan apa-apa.</div>
+                </div>
+
+                <h3>Latihan 2: Validasi Cepat (10 Soal)</h3>
+                <div id="exercise2"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 3: TUJUAN PERGI (～に行きます) -->
+        <button class="accordion">3. Menyatakan Tujuan: ～へ ～に行きます</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Presentasi Bertahap: Pola Tujuan Pergi/Datang</h3>
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="step-content block-step" data-step="1">Digunakan untuk menyatakan tujuan pergi, datang,
+                        atau pulang ke suatu tempat.</div>
+                    <div class="step-content block-step" data-step="2"><b>Pola:</b> Tempat <b
+                            style="color:var(--primary-color);">へ</b> Tujuan (Kata Kerja Masu / Kata Benda) <b
+                            style="color:var(--primary-color);">に 行きます/来ます/帰ります</b>.</div>
+
+                    <div class="step-content block-step" data-step="3"
+                        style="background:#eff6ff; padding:10px; border-left:4px solid var(--primary-color);"><b>Contoh
+                            1 (Kata Kerja):</b> 日本 へ 日本語を 勉強し に 行きます。</div>
+                    <div class="step-content block-step" data-step="4" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Pergi ke Jepang untuk belajar bahasa Jepang.</div>
+
+                    <div class="step-content block-step" data-step="5"
+                        style="background:#f0fdf4; padding:10px; border-left:4px solid var(--success-color);"><b>Contoh
+                            2 (Kata Benda):</b> デパート へ 買い物 に 行きます。</div>
+                    <div class="step-content block-step" data-step="6" style="padding-left:15px; font-style:italic;">
+                        <b>Arti:</b> Pergi ke departement store untuk berbelanja.</div>
+                </div>
+
+                <h3>Latihan 3: Pilihan Ganda / Partikel (10 Soal)</h3>
+                <div id="exercise3"></div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 4: KOTOBA -->
+        <button class="accordion">4. Daftar Kotoba Bab 13</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Tabel Kosakata Bab 13 (Sel demi Sel)</h3>
+                <p>Klik area ini untuk memunculkan tabel. Sel Kanji dan Arti akan muncul berurutan dari kiri ke kanan,
+                    lalu baris selanjutnya.</p>
+
+                <div class="step-container" data-current-step="0" onclick="revealNextStep(this)">
+                    <div class="table-container">
+                        <table id="kotobaTable">
+                            <tr>
+                                <th class="kotoba-header" style="width: 5%;">No.</th>
+                                <th class="kotoba-header" style="width: 25%;">Kotoba</th>
+                                <th class="kotoba-header" style="width: 20%;">Kanji</th>
+                                <th class="kotoba-header" style="width: 50%;">Arti</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAGIAN 5: LATIHAN KOTOBA -->
+        <button class="accordion">5. Latihan Interaktif: Kotoba (30 Flashcards)</button>
+        <div class="panel">
+            <div class="panel-content">
+                <h3>Kartu Flash Interaktif</h3>
+                <p>Berikut adalah 30 kosakata inti pilihan dari Bab 13. Siswa dapat digilir untuk menebak artinya
+                    sebelum kartu diklik.</p>
+                <div class="flip-grid" id="exercise4">
+                    <!-- Dihasilkan melalui JavaScript -->
+                </div>
+            </div>
+        </div>
+
         <div class="btn-wrapper">
-            <!-- Link Kuis akan menyesuaikan nomor Bab -->
-            <a href="bab13.html" class="btn" id="quizBtn">
-                🔒 Kuis Terkunci
-            </a>
+            <a href="bab13.html" class="btn" id="quizBtn">Kuis Terkunci</a>
         </div>
     </div>
 
     <script>
+        // --- FUNGSI REVEAL BERTAHAP ---
+        window.revealNextStep = function (container) {
+            let allHidden = container.querySelectorAll('.step-content:not(.revealed)');
+            if (allHidden.length > 0) {
+                let minStep = 999999;
+                allHidden.forEach(el => {
+                    let s = parseInt(el.getAttribute('data-step'));
+                    if (s < minStep) minStep = s;
+                });
+
+                let targets = container.querySelectorAll('.step-content[data-step="' + minStep + '"]');
+                targets.forEach(t => t.classList.add('revealed'));
+                container.setAttribute('data-current-step', minStep);
+
+                const panel = container.closest('.panel');
+                if (panel && panel.style.maxHeight) {
+                    panel.style.maxHeight = panel.scrollHeight + 300 + "px";
+                }
+            }
+
+            if (container.querySelectorAll('.step-content:not(.revealed)').length === 0) {
+                container.classList.add('completed');
+            }
+        };
+
+        // --- DATA KOTOBA BAB 13 ---
+        const fullKotoba = [
+            ["1", "あそびます", "遊びます", "Bermain"], ["2", "およぎます", "泳ぎます", "Berenang"], ["3", "むかえます", "迎えます", "Menjemput"],
+            ["4", "つかれます", "疲れます", "Lelah"], ["5", "だします", "出します", "Mengirim (surat)"], ["6", "はいります", "入ります", "Masuk (ke kedai kopi)"],
+            ["7", "でます", "出ます", "Keluar (dari kedai kopi)"], ["8", "けっこんします", "結婚します", "Menikah"], ["9", "かいものします", "買い物します", "Berbelanja"],
+            ["10", "しょくじします", "食事します", "Makan"], ["11", "さんぽします", "散歩します", "Berjalan-jalan (di taman)"], ["12", "たいへん[な]", "大変[な]", "Berat, susah"],
+            ["13", "ほしい", "欲しい", "Ingin, mau (benda)"], ["14", "さびしい", "寂しい", "Sepi, kesepian"], ["15", "ひろい", "広い", "Luas, lebar"],
+            ["16", "せまい", "狭い", "Sempit, kecil"], ["17", "しやくしょ", "市役所", "Kantor walikota"], ["18", "プール", "", "Kolam renang"],
+            ["19", "かわ", "川", "Sungai"], ["20", "けいざい", "経済", "Ekonomi"], ["21", "びじゅつ", "美術", "Kesenian (seni rupa)"],
+            ["22", "つり", "釣り", "Memancing"], ["23", "スキー", "", "Ski"], ["24", "かいぎ", "会議", "Rapat"],
+            ["25", "とうろく", "登録", "Pendaftaran"], ["26", "しゅうまつ", "週末", "Akhir pekan"], ["27", "～ごろ", "", "Kira-kira (waktu)"],
+            ["28", "なにか", "何か", "Sesuatu"], ["29", "どこか", "", "Suatu tempat"], ["30", "おなかがすきました", "", "Lapar"],
+            ["31", "おなかがいっぱいです", "", "Kenyang"], ["32", "のどがかわきました", "", "Haus"], ["33", "そうですね", "", "Ya, setuju (pemikiran yang sama)"],
+            ["34", "そうしましょう", "", "Mari kita lakukan itu"], ["35", "ごちゅうもん", "ご注文", "Pesanan"], ["36", "ていしょく", "定食", "Set menu"],
+            ["37", "ぎゅうどん", "牛どん", "Nasi dengan sapi"], ["38", "しょうしょうおまちください", "少々お待ちください", "Tolong tunggu sebentar"]
+        ];
+
+        const kotobaTbody = document.getElementById("kotobaTable");
+        fullKotoba.forEach((row, idx) => {
+            let stepKanji = (idx * 2) + 1;
+            let stepArti = (idx * 2) + 2;
+            kotobaTbody.innerHTML += `
+      <tr>
+        <td>${row[0]}</td>
+        <td>${row[1]}</td>
+        <td><div class="step-content cell-step" data-step="${stepKanji}">${row[2]}</div></td>
+        <td><div class="step-content cell-step" data-step="${stepArti}">${row[3]}</div></td>
+      </tr>`;
+        });
+
+        // --- DATA LATIHAN BAB 13 ---
+        const ex1Data = [
+            { q: "1. くるま (Ingin)", a: ["くるまがほしいです", "車が欲しいです"] },
+            { q: "2. おかね (Ingin)", a: ["おかねがほしいです", "お金が欲しいです"] },
+            { q: "3. かばん (Tidak ingin)", a: ["かばんがほしくないです"] },
+            { q: "4. パソコン (Ingin)", a: ["パソコンがほしいです"] },
+            { q: "5. こいびと (Ingin)", a: ["こいびとがほしいです", "恋人が欲しいです"] },
+            { q: "6. なに (Paling ingin - Tanya)", a: ["なにがほしいですか", "何が欲しいですか"] },
+            { q: "7. じかん (Tidak ingin)", a: ["じかんがほしくないです", "時間が欲しくないです"] },
+            { q: "8. ともだち (Ingin)", a: ["ともだちがほしいです", "友達が欲しいです"] },
+            { q: "9. うち (Tidak ingin)", a: ["うちがほしくないです", "家が欲しくないです"] },
+            { q: "10. じてんしゃ (Ingin)", a: ["じてんしゃがほしいです", "自転車が欲しいです"] }
+        ];
+
+        const ex2Data = [
+            { q: "1. たべます → Ingin", a: ["たべたいです", "食べたいです"] },
+            { q: "2. のみます → Ingin", a: ["のみたいです", "飲みたいです"] },
+            { q: "3. かいます → Tidak ingin", a: ["かいたくないです", "買いたくないです"] },
+            { q: "4. いきます → Ingin", a: ["いきたいです", "行きたいです"] },
+            { q: "5. みます → Tidak ingin", a: ["みたくないです", "見たくないです"] },
+            { q: "6. します → Ingin", a: ["したいです"] },
+            { q: "7. べんきょうします → Tidak ingin", a: ["べんきょうしたくないです", "勉強したくないです"] },
+            { q: "8. かえります → Ingin", a: ["かえりたいです", "帰りたいです"] },
+            { q: "9. ねます → Ingin", a: ["ねたいです", "寝たいです"] },
+            { q: "10. あそびます → Tidak ingin", a: ["あそびたくないです", "遊びたくないです"] }
+        ];
+
+        const ex3Options = ["-- Pilih Partikel/Kata --", "に", "へ", "を", "が", "で", "いきます", "きます", "かえります"];
+        const ex3Data = [
+            { q: "1. 京都( __ ) 行きます", a: "へ" },
+            { q: "2. 買い物( __ ) 行きます", a: "に" },
+            { q: "3. 日本へ 勉強し( __ ) 来ました", a: "に" },
+            { q: "4. どこ( __ ) 行きたいですか", a: "へ" },
+            { q: "5. 映画を 見( __ ) 行きます", a: "に" },
+            { q: "6. 友達が うちへ 遊び( __ ) きます", a: "に" },
+            { q: "7. プールへ 泳ぎに( __ )", a: "いきます" },
+            { q: "8. ごはんを 食べ( __ ) 行きます", a: "に" },
+            { q: "9. うちへ( __ )", a: "かえります" },
+            { q: "10. 美術館へ 美術( __ ) 勉強しに 行きます", a: "を" }
+        ];
+
+        const ex4Data = [
+            { jp: "遊びます", id: "Bermain" }, { jp: "泳ぎます", id: "Berenang" }, { jp: "迎えます", id: "Menjemput" },
+            { jp: "疲れます", id: "Lelah" }, { jp: "結婚します", id: "Menikah" }, { jp: "買い物します", id: "Berbelanja" },
+            { jp: "食事します", id: "Makan" }, { jp: "散歩します", id: "Berjalan-jalan" }, { jp: "大変", id: "Berat/Susah" },
+            { jp: "欲しい", id: "Ingin (benda)" }, { jp: "寂しい", id: "Kesepian" }, { jp: "広い", id: "Luas" },
+            { jp: "狭い", id: "Sempit" }, { jp: "市役所", id: "Kantor Walikota" }, { jp: "プール", id: "Kolam renang" },
+            { jp: "川", id: "Sungai" }, { jp: "経済", id: "Ekonomi" }, { jp: "美術", id: "Kesenian (seni rupa)" },
+            { jp: "釣り", id: "Memancing" }, { jp: "スキー", id: "Ski" }, { jp: "会議", id: "Rapat" },
+            { jp: "登録", id: "Pendaftaran" }, { jp: "週末", id: "Akhir pekan" }, { jp: "何か", id: "Sesuatu" },
+            { jp: "どこか", id: "Suatu tempat" }, { jp: "おなかがすきました", id: "Lapar" }, { jp: "のどがかわきました", id: "Haus" },
+            { jp: "定食", id: "Set menu" }, { jp: "牛どん", id: "Nasi sapi" }, { jp: "出します", id: "Mengirim (surat)" }
+        ];
+
+        function renderTextInputExercise(containerId, data, prefix) {
+            const container = document.getElementById(containerId);
+            data.forEach((item, index) => {
+                const id = `${prefix}_${index}`;
+                container.innerHTML += `
+        <div class="exercise-row">
+          <span>${item.q}</span>
+          <div>
+            <input type="text" id="input_${id}" class="blank-input" placeholder="Jawaban (Hiragana/Kanji)">
+            <button class="check-btn" onclick="checkTextAnswer('input_${id}', '${id}', ${JSON.stringify(item.a).replace(/"/g, '&quot;')})">Cek</button>
+            <span id="fb_${id}" class="feedback"></span>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        function renderDropdownExercise() {
+            const container = document.getElementById("exercise3");
+            let optionsHtml = ex3Options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+            ex3Data.forEach((item, index) => {
+                const id = `ex3_${index}`;
+                container.innerHTML += `
+        <div class="exercise-row">
+          <span>${item.q}</span>
+          <div>
+            <select id="select_${id}" class="select-input">${optionsHtml}</select>
+            <button class="check-btn" onclick="checkSelectAnswer('select_${id}', '${id}', '${item.a}')">Cek</button>
+            <span id="fb_${id}" class="feedback"></span>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        function renderFlashcards() {
+            const container = document.getElementById("exercise4");
+            ex4Data.forEach(item => {
+                container.innerHTML += `
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">${item.jp}</div>
+            <div class="flip-card-back">${item.id}</div>
+          </div>
+        </div>
+      `;
+            });
+        }
+
+        window.checkTextAnswer = function (inputId, fbId, correctArray) {
+            const val = document.getElementById(inputId).value.trim();
+            const fb = document.getElementById("fb_" + fbId);
+            if (correctArray.includes(val)) {
+                fb.innerHTML = "✔"; fb.className = "feedback correct";
+                document.getElementById(inputId).style.borderColor = "var(--success-color)";
+            } else {
+                fb.innerHTML = "✘"; fb.className = "feedback incorrect";
+                document.getElementById(inputId).style.borderColor = "var(--danger-color)";
+            }
+        };
+
+        window.checkSelectAnswer = function (selectId, fbId, correctVal) {
+            const val = document.getElementById(selectId).value;
+            const fb = document.getElementById("fb_" + fbId);
+            if (val === correctVal) {
+                fb.innerHTML = "✔"; fb.className = "feedback correct";
+                document.getElementById(selectId).style.borderColor = "var(--success-color)";
+            } else {
+                fb.innerHTML = "✘"; fb.className = "feedback incorrect";
+                document.getElementById(selectId).style.borderColor = "var(--danger-color)";
+            }
+        };
+
+        renderTextInputExercise("exercise1", ex1Data, "ex1");
+        renderTextInputExercise("exercise2", ex2Data, "ex2");
+        renderDropdownExercise();
+        renderFlashcards();
+
+        const accordions = document.getElementsByClassName("accordion");
+        for (let i = 0; i < accordions.length; i++) {
+            accordions[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 1500 + "px";
+                }
+            });
+        }
+
         const video = document.getElementById('learningVideo');
         const progressBar = document.getElementById('customProgressBar');
         const progressText = document.getElementById('progressText');
         const quizBtn = document.getElementById('quizBtn');
         const statusMessage = document.getElementById('statusMessage');
-
         let maxPlayedTime = 0;
         let isQuizUnlocked = false;
 
         video.addEventListener('timeupdate', () => {
             if (!video.duration) return;
-
-            if (!video.seeking) {
-                if (video.currentTime > maxPlayedTime) {
-                    maxPlayedTime = video.currentTime;
-                }
+            if (!video.seeking && video.currentTime > maxPlayedTime) {
+                maxPlayedTime = video.currentTime;
             }
-
             const percentage = (video.currentTime / video.duration) * 100;
-
             progressBar.style.width = percentage + '%';
             progressText.innerText = Math.floor(percentage) + '%';
 
-            if (percentage >= 80 && !isQuizUnlocked) {
-                unlockQuiz();
-            }
+            if (percentage >= 80 && !isQuizUnlocked) unlockQuiz();
         });
 
         video.addEventListener('seeking', () => {
-            if (video.currentTime > maxPlayedTime + 1) {
-                video.currentTime = maxPlayedTime; 
-            }
+            if (video.currentTime > maxPlayedTime + 1) video.currentTime = maxPlayedTime;
         });
 
         function unlockQuiz() {
             isQuizUnlocked = true;
             quizBtn.classList.add('unlocked');
-            quizBtn.innerHTML = '🚀 Mulai Kuis Bab 13';
-
+            quizBtn.innerHTML = 'Mulai Kuis Akhir Bab 13';
             statusMessage.style.backgroundColor = '#ecfdf5';
             statusMessage.style.color = '#047857';
             statusMessage.style.borderLeftColor = '#10b981';
-            statusMessage.innerHTML = '✅ Kuis telah terbuka! Anda bisa melanjutkan kapan saja.';
+            statusMessage.innerHTML = 'Kuis telah terbuka! Anda bisa melanjutkan ke sesi evaluasi.';
         }
     </script>
 </body>
