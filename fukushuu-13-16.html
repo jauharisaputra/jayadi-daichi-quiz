@@ -903,7 +903,7 @@
         }
 
 
-   // ==============================================================================
+    // ==============================================================================
     // 🚨 MODUL ANTI-CHEAT: CYBER ATTACK EDITION (ANTI-AI & SIDER FIX) 🚨
     // ==============================================================================
 
@@ -977,7 +977,7 @@
         if (oscillator) { oscillator.stop(); oscillator.disconnect(); clearInterval(alarmInterval); }
     }
 
-    // 4. LOGIKA PENYIKSAAN (PENALTI)
+    // 4. LOGIKA PENYIKSAAN (PENALTI) - REVISI TANPA AUTO SUBMIT
     let isAlerting = false;
     function triggerCyberPenalty(reason) {
         if (typeof isSubmitted !== 'undefined' && isSubmitted) return;
@@ -989,19 +989,21 @@
         document.getElementById('cyberAttackOverlay').scrollTop = 0;
         playHackerAlarm();
 
-        if (typeof timeLeft !== 'undefined') timeLeft -= 300;
-
-        document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-        document.querySelectorAll('textarea').forEach(t => t.value = "");
-
-        if (typeof timeLeft !== 'undefined' && timeLeft <= 0) {
-            timeLeft = 0;
-            setTimeout(() => {
-                dismissCyberAttack();
-                alert("⚠️ WAKTU HABIS KARENA PENALTI KECURANGAN! Sistem mensubmit jawaban kosong otomatis.");
-                if (typeof autoSubmit === "function") autoSubmit();
-            }, 3500);
+        // A. Pengurangan Waktu 5 Menit (300 Detik)
+        if (typeof timeLeft !== 'undefined') {
+            timeLeft -= 300;
+            if (timeLeft < 0) timeLeft = 0; // Mencegah waktu menjadi minus
+            // Catatan: Jika ada fungsi update UI timer di CBT, panggil di sini
+            // contoh: if (typeof updateTimerUI === 'function') updateTimerUI();
         }
+
+        // B. Reset Keseluruhan Jawaban (Siswa mulai dari 0 lagi)
+        document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => el.checked = false);
+        document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = "");
+        document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+
+        // Opsional: Jika CBT menyimpan state otomatis di localStorage, bersihkan juga di sini
+        // localStorage.removeItem('jawaban_siswa_sementara'); 
     }
 
     window.dismissCyberAttack = function () {
@@ -1036,46 +1038,34 @@
         triggerCyberPenalty("MEMBUKA APLIKASI LAIN TERDETEKSI");
     });
 
-  // ==============================================================================
+    // ==============================================================================
     // 6. DETEKTOR AUTO-TRANSLATE AI (SIDER / GOOGLE / DEEPL) - VISIBLE BAIT
     // ==============================================================================
 
-    // 1. Buat elemen teks umpan yang TERLIHAT oleh AI (menyamar sebagai teks footer biasa)
     const baitText = "Sistem Pengawasan Ujian Aktif";
     const aiBait = document.createElement('div');
     aiBait.id = 'aiTranslationBait';
 
-    // Teks dibuat samar, menyatu dengan background gelap agar tidak mencolok bagi siswa, 
-    // namun TERBACA JELAS oleh sistem pembaca layar / ekstensi AI Sider.
     aiBait.style.cssText = 'text-align: center; color: #005544; font-size: 11px; padding: 10px; margin-top: 30px; border-top: 1px dashed #005544;';
     aiBait.innerText = baitText;
-
-    // Sisipkan ke paling bawah halaman body
     document.body.appendChild(aiBait);
 
-    // 2. Eksekusi Pengecekan secara Real-Time (Setiap 1 Detik)
     setInterval(() => {
         if (typeof isSubmitted !== 'undefined' && isSubmitted) return;
         if (document.getElementById('cyberAttackOverlay').style.display !== 'none') return;
 
         const currentText = document.getElementById('aiTranslationBait').innerText.trim();
 
-        // Jika Sider AI menerjemahkan halaman, teks ini pasti akan berubah bahasa!
-        // Saat itulah sistem menangkap basah kecurangan tersebut.
         if (currentText !== baitText) {
             triggerCyberPenalty("AI AUTO-TRANSLATE TERDETEKSI");
-
-            // Kembalikan teks ke aslinya segera agar alarm tidak looping berulang-ulang
             document.getElementById('aiTranslationBait').innerText = baitText;
         }
     }, 1000);
 
-    // 3. Lapis Kedua: Deteksi Injeksi Komponen Ekstensi secara Paksa
     const translateObserver = new MutationObserver(() => {
         if (typeof isSubmitted !== 'undefined' && isSubmitted) return;
         if (document.getElementById('cyberAttackOverlay').style.display !== 'none') return;
 
-        // Mendeteksi tag spesifik yang sering disuntikkan oleh Sider, Google, atau DeepL
         const isTranslatedDOM = document.querySelector(
             'html.translated-ltr, html.translated-rtl, #goog-gt-tt, ' +
             'sider-app, #sider-app, sider-root, .sider-translate-popup'
